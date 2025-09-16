@@ -1140,7 +1140,9 @@
                 </div>
                 <div id="notesContent" class="tab-content hidden">
                     <!-- Notes content here -->
-                    <div class="w-full h-full light-bg-f5f5f5 light-bg-seo p-5 mb-5 rounded-md">
+                   <form action="{{ route('password.update') }}" method="post">
+                    @csrf
+                     <div class="w-full h-full light-bg-f5f5f5 light-bg-seo p-5 mb-5 rounded-md">
                         <h3 class="font-medium pb-6 text-2xl">Change Password</h3>
                         <div class="flex justify-start items-center gap-10">
 
@@ -1159,24 +1161,25 @@
 
                             </div>
                             <div class="grid-cols-2 grid gap-4 pb-5">
-                                <div>
-                                    <label class="block text-sm mb-1 light-text-black">New Password</label>
-                                    <div class="relative flex-grow">
-                                        <input type="password" name="password" placeholder="Enter your New Password"
-                                            class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="block text-sm mb-1 light-text-black">Confirm Password</label>
-                                    <div class="relative flex-grow">
-                                        <input type="password" name="password"
-                                            placeholder="Confirm your Current Password"
-                                            class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                                        <div class="absolute right-2 top-1/2 transform -translate-y-1/2 flex gap-2">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+    <div>
+        <label class="block text-sm mb-1 light-text-black">New Password</label>
+        <div class="relative flex-grow">
+            <input type="password" name="password" placeholder="Enter your New Password"
+                class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+        </div>
+    </div>
+    <div>
+        <label class="block text-sm mb-1 light-text-black">Confirm Password</label>
+        <div class="relative flex-grow">
+            <input type="password" name="password_confirmation"
+                placeholder="Confirm your New Password"
+                class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+            <div class="absolute right-2 top-1/2 transform -translate-y-1/2 flex gap-2">
+            </div>
+        </div>
+    </div>
+</div>
+                            
                             <div class="grid-cols-2 grid gap-4">
 
                                 <div class="text-gray-400">
@@ -1206,6 +1209,7 @@
 
                         </div>
                     </div>
+                   </form>
                     <div class="w-full h-full light-bg-f5f5f5 light-bg-seo mb-5 px-5 py-2 rounded-md">
                         <h3 class="font-medium pt-4 text-2xl">Two-steps verification</h3>
                         <div class="flex justify-start items-center gap-10">
