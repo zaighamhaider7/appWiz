@@ -831,6 +831,17 @@
 </head>
 
 <body>
+    @if (session('status') === 'password-updated')
+    <div 
+        x-data="{ show: true }"
+        x-init="setTimeout(() => show = false, 1000)"
+        x-show="show"
+        x-transition
+        class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
+    >
+    Password updated successfully!
+</div>
+@endif
     <div class="flex min-h-screen light-bg-white">
         <!-- Sidebar -->
         <aside
@@ -1142,6 +1153,7 @@
                     <!-- Notes content here -->
                    <form action="{{ route('password.update') }}" method="post">
                     @csrf
+                    @method('put')
                      <div class="w-full h-full light-bg-f5f5f5 light-bg-seo p-5 mb-5 rounded-md">
                         <h3 class="font-medium pb-6 text-2xl">Change Password</h3>
                         <div class="flex justify-start items-center gap-10">
@@ -1153,7 +1165,7 @@
                                 <div>
                                     <label class="block text-sm mb-1 light-text-black">Current Password</label>
                                     <div class="relative flex-grow">
-                                        <input type="password" name="password"
+                                        <input type="password" name="current_password"
                                             placeholder="Enter your Current Password"
                                             class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                                     </div>
@@ -1192,6 +1204,11 @@
                                 </div>
 
                             </div>
+                             <div class="flex items-center gap-4">
+
+
+
+        </div>
                             <!-- Buttons -->
                             <div class="flex justify-end items-center mt-5">
 
