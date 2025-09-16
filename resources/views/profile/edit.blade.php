@@ -1074,9 +1074,8 @@
                         <!-- Overview Cards -->
                         <!-- User's Projects List Table -->
                        {{-- filepath: resources/views/profile/edit.blade.php --}}
-<form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('profile.update') }}" method="post" enctype="multipart/form-data">
     @csrf
-    @method('PUT')
     <div class="w-full h-full light-bg-d9d9d9 p-5 rounded-md">
         <h3 class="font-medium pb-6 text-2xl">Profile Details</h3>
         <div class="flex justify-start items-center gap-10">
