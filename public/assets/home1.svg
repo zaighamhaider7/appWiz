@@ -1,0 +1,9 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="20" height="20">
+	<title>home-2-DARK</title>
+	<defs>
+		<image  width="18" height="18" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASAQMAAABsABwUAAAAAXNSR0IB2cksfwAAAAZQTFRFAAAAAAAApWe5zwAAAAJ0Uk5TAP9bkSK1AAAAM0lEQVR4nGNkvqvAyP6Rg1FO7gijxfWPjAXTKxkfKO5nPOBwABUzMGBioPh/hkbG+gZGAG/4F1PIunmlAAAAAElFTkSuQmCC"/>
+	</defs>
+	<style>
+	</style>
+	<use id="Layer 1" href="#img1" x="1" y="1"/>
+</svg>

@@ -15,10 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('project_name');
             $table->string('client_name');
-            $table->string('assign_to');
+            $table->string('membership');
+            $table->string('assign_to')->nullable();
             $table->decimal('price', 10, 2);
             $table->date('start_date');
             $table->date('end_date');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

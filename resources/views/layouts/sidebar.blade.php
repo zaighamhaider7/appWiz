@@ -15,7 +15,11 @@
                     <li class="mb-2">
                         <!-- Light Mode Version (hidden in dark mode) -->
                         <div class="light-mode-item">
+<<<<<<< HEAD
                             <a href="/" class="flex items-center p-3 rounded-lg bg-orange-500 text-white font-semibold shadow-md">
+=======
+                            <a href="{{ route('dashboard') }}" class="flex items-center p-3 rounded-lg bg-orange-500 text-white font-semibold shadow-md">
+>>>>>>> 45ce5d875e0f9a6b15842b348d8412f196ce41b5
                             <img src="{{ asset('assets/home-DARK.svg') }}" alt="icon" class="w-8 h-6 light-mode-icon">
                             Dashboard
                             </a>
@@ -24,7 +28,7 @@
                         <!-- Dark Mode Version (hidden in light mode) -->
                         <div class="dark-mode-item hidden">
                             <div class="w-fit rounded-md px-0.5 bg-orange-500 shadow-md">
-                            <a href="#" class="bg-[#2c1e17] rounded-md px-6 py-3 flex items-center gap-3">
+                            <a href="{{ route('dashboard') }}" class="bg-[#2c1e17] rounded-md px-6 py-3 flex items-center gap-3">
                                 <img src="{{ asset('assets/home-DARK.svg') }}" alt="icon" class="w-8 h-6 light-mode-icon">
                                 <span class="text-white font-semibold text-lg">Dashboard</span>
                             </a>
@@ -32,7 +36,7 @@
                         </div>
                         </li>
                     <li class="mb-2">
-                        <a href="/projects" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
+                        <a href="{{ route('project.create') }}" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
                             <img src="{{ asset('assets/task-square.svg') }}" alt="icon" class="w-8 h-6 light-mode-icon" data-dark-src="{{asset('assets/task-square-DARK.svg')}}">
                             Projects
                         </a>
