@@ -18,7 +18,7 @@ class ProjectController extends Controller
 
         $users = User::all();
 
-        $projects = Project::with('user')->get();
+        // $projects = Project::with('user')->get();
 
 
         return view('project', compact('projects', 'users', 'userId'));
