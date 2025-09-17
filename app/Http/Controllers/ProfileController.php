@@ -85,4 +85,10 @@ public function update(ProfileUpdateRequest $request): RedirectResponse
 
         return Redirect::to('/');
     }
+    public function delDevice(Request $request){
+        $deviceId = $request->id;
+        userDevices::destroy($deviceId);
+        return Redirect::route('profile.edit')->with('status', 'device-deleted');
+    }
 }
+

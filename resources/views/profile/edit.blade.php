@@ -1337,7 +1337,14 @@
                                 </thead>
                                 <tbody class="light-bg-white  light-bg-seo divide-y divide-gray-200">
                                     <!-- Row 1 -->
-                                   @foreach ($userDevices as $device)
+                                  @if ($userDevices->isEmpty())
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-center">
+                                            No authorized devices found.
+                                        </td>
+                                    </tr>
+                                @else
+                                 @foreach ($userDevices as $device)
                                         <tr>
                                         <td
                                             class="px-6 py-2 whitespace-nowrap text-sm font-medium light-text-gray-900">
@@ -1354,16 +1361,21 @@
                                             20:07</td>
                                         <td class="px-6 py-2 whitespace-nowrap text-right text-sm font-medium">
                                             <div class="flex justify-start gap-2">
-                                                <button
+                                                <form action="{{ route('profile.deleteDevice',$device->id) }}" method="post">
+                                                    @csrf
+                                                    <button
+                                                    type="submit"
                                                     class="light-text-black light-bg-d7d7d7 px-5 py-2 rounded-md light-hover-text-orange-700 "
-                                                    data-action="#">
+                                                    >
                                                     Remove
                                                 </button>
+                                                </form>
                                             </div>
 
                                         </td>
                                     </tr>
                                    @endforeach
+                                  @endif
                                     <!-- Row 2 -->
                                    
                                     <!-- Row 3 -->
