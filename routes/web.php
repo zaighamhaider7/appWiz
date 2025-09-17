@@ -14,7 +14,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/setting', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/setting', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/setting', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/setting', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 });
@@ -23,7 +23,16 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::get('/projects', [ProjectController::class, 'create'])->name('project.create');
+
 Route::post('/projects', [ProjectController::class, 'store'])->name('project.store');
+
+
+
+Route::post('/projects/milestone', [ProjectController::class, 'milestoneStore'])->name('milestone.store');
+
+
+
+
 
 
 

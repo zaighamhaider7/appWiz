@@ -2,6 +2,7 @@
  use App\Models\project;
  use App\Models\Document;
  use App\Models\User;
+ use App\models\Milestone;
  ?>
 
  <!DOCTYPE html>
@@ -10,6 +11,7 @@
  <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta name="csrf-token" content="{{ csrf_token() }}">
      <title>WIZSPEED Dashboard</title>
      <!-- Tailwind CSS CDN -->
      <script src="https://cdn.tailwindcss.com"></script>
@@ -997,19 +999,22 @@
                                                  <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
                                                      <div class="flex items-center gap-1">
                                                          {{-- <img class="w-20 h-10" src="{{asset('assets/Avatar Group.svg')}}" alt=""> --}}
-                                                         @foreach ($users as $user)
-                                                             <p>{{ $user->name }}</p>
-                                                         @endforeach
+                                                            @if ($project->user)
+                                                                {{-- <p>{{ $project->user->name }}</p> --}}
+                                                                    <img class=" w-12 h-12 light-text-gray-900 rounded-full  light-mode-icon" src="{{asset($project->user->image)}}" alt="">
+                                                            @else
+                                                                <p>No user assigned</p>
+                                                            @endif
                                                      </div>
                                                  </td>
                                                  <td class="px-6 py-4 whitespace-nowrap">
                                                      <div class="flex items-center">
                                                          <div class="w-52 bg-gray-200 rounded-full h-2.5">
                                                              <div class="bg-green-500 h-2.5 rounded-full"
-                                                                 style="width: 78%">
+                                                                 style="width: 0%">
                                                              </div>
                                                          </div>
-                                                         <span class="ml-2 text-sm light-text-gray-700">78%</span>
+                                                         <span class="ml-2 text-sm light-text-gray-700">0%</span>
                                                      </div>
                                                  </td>
                                                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400"><button
@@ -1057,6 +1062,85 @@
                                                      </button>
                                                  </td>
                                              </tr>
+
+                                            <!-- Expandable Row (Sub-Header + Sub-Row) -->
+                                            <tr id="expand-01" class="hidden light-text-black">
+                                                <td colspan="7" class="px-6 py-4 ">
+                                                    <!-- Sub-table Head -->
+                                                    <div
+                                                        class="grid grid-cols-6  font-semibold light-text-black border-b border-gray-300">
+                                                        <div class="w-1/2">#</div>
+                                                        <div class="flex items-center text-xs">
+                                                            AMOUNT
+                                                            <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24"
+                                                                fill="none" stroke="currentColor" stroke-width="1.5"
+                                                                stroke-linecap="round" stroke-linejoin="round">
+                                                                <path d="M7 8 L12 3 L17 8" />
+                                                                <path d="M7 16 L12 21 L17 16" />
+                                                            </svg>
+                                                        </div>
+                                                        <div class="flex items-center text-xs">
+                                                            LEAD SOURCE
+                                                            <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24"
+                                                                fill="none" stroke="currentColor" stroke-width="1.5"
+                                                                stroke-linecap="round" stroke-linejoin="round">
+                                                                <path d="M7 8 L12 3 L17 8" />
+                                                                <path d="M7 16 L12 21 L17 16" />
+                                                            </svg>
+                                                        </div>
+                                                        <div class="flex items-center text-xs">
+                                                            CURRENT PROJECT
+                                                            <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24"
+                                                                fill="none" stroke="currentColor" stroke-width="1.5"
+                                                                stroke-linecap="round" stroke-linejoin="round">
+                                                                <path d="M7 8 L12 3 L17 8" />
+                                                                <path d="M7 16 L12 21 L17 16" />
+                                                            </svg>
+                                                        </div>
+                                                        <div class="flex items-center text-xs">
+                                                            MEMBERSHIP
+                                                            <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24"
+                                                                fill="none" stroke="currentColor" stroke-width="1.5"
+                                                                stroke-linecap="round" stroke-linejoin="round">
+                                                                <path d="M7 8 L12 3 L17 8" />
+                                                                <path d="M7 16 L12 21 L17 16" />
+                                                            </svg>
+                                                        </div>
+                                                        <div class="flex items-center text-xs">ACTION</div>
+                                                    </div>
+
+
+                                                    <!-- Sub-table Row -->
+                                                    <div class="grid grid-cols-6 pt-2 mt-2 light-text-black">
+                                                        <div class="w-1/2"></div>
+                                                        <div>$10,000</div>
+                                                        <div>Email Marketing</div>
+                                                        <div>Wiz speed Dashboard</div>
+                                                        <div>
+                                                            <span
+                                                                class="light-bg-d7d7d7 px-2 py-1 rounded-md text-xs">Domain</span>
+                                                            <span
+                                                                class="light-bg-d7d7d7 px-2 py-1 rounded-md text-xs">Hosting</span>
+                                                            <span
+                                                                class="light-bg-d7d7d7 px-2 py-1 rounded-md text-xs">+3</span>
+                                                        </div>
+                                                        <div class="flex items-center gap-2">
+
+                                                            <img src="{{ asset('assets/document-download-DARK.svg') }}"
+                                                                id="openModalBtn" alt="Action 1"
+                                                                class="w-6 h-6 rounded-full p-1 bg-gray-500" />
+
+                                                            <img src="{{ asset('assets/edit.svg') }}" alt="Action 2"
+                                                                class="w-6 h-6  rounded-full p-1 bg-gray-500"
+                                                                data-action="view-project" />
+
+                                                            <img src="{{ asset('assets/trash.svg') }}" alt="Action 3"
+                                                                class="w-6 h-6 rounded-full p-1 bg-gray-500" />
+                                                        </div>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
                                          @endforeach
                                      @else
                                          <tr>
@@ -1067,84 +1151,6 @@
                                          </tr>
                                      @endif
 
-                                     <!-- Expandable Row (Sub-Header + Sub-Row) -->
-                                     <tr id="expand-01" class="hidden light-text-black">
-                                         <td colspan="7" class="px-6 py-4 ">
-                                             <!-- Sub-table Head -->
-                                             <div
-                                                 class="grid grid-cols-6  font-semibold light-text-black border-b border-gray-300">
-                                                 <div class="w-1/2">#</div>
-                                                 <div class="flex items-center text-xs">
-                                                     AMOUNT
-                                                     <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24"
-                                                         fill="none" stroke="currentColor" stroke-width="1.5"
-                                                         stroke-linecap="round" stroke-linejoin="round">
-                                                         <path d="M7 8 L12 3 L17 8" />
-                                                         <path d="M7 16 L12 21 L17 16" />
-                                                     </svg>
-                                                 </div>
-                                                 <div class="flex items-center text-xs">
-                                                     LEAD SOURCE
-                                                     <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24"
-                                                         fill="none" stroke="currentColor" stroke-width="1.5"
-                                                         stroke-linecap="round" stroke-linejoin="round">
-                                                         <path d="M7 8 L12 3 L17 8" />
-                                                         <path d="M7 16 L12 21 L17 16" />
-                                                     </svg>
-                                                 </div>
-                                                 <div class="flex items-center text-xs">
-                                                     CURRENT PROJECT
-                                                     <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24"
-                                                         fill="none" stroke="currentColor" stroke-width="1.5"
-                                                         stroke-linecap="round" stroke-linejoin="round">
-                                                         <path d="M7 8 L12 3 L17 8" />
-                                                         <path d="M7 16 L12 21 L17 16" />
-                                                     </svg>
-                                                 </div>
-                                                 <div class="flex items-center text-xs">
-                                                     MEMBERSHIP
-                                                     <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24"
-                                                         fill="none" stroke="currentColor" stroke-width="1.5"
-                                                         stroke-linecap="round" stroke-linejoin="round">
-                                                         <path d="M7 8 L12 3 L17 8" />
-                                                         <path d="M7 16 L12 21 L17 16" />
-                                                     </svg>
-                                                 </div>
-                                                 <div class="flex items-center text-xs">ACTION</div>
-                                             </div>
-
-
-                                             <!-- Sub-table Row -->
-                                             <div class="grid grid-cols-6 pt-2 mt-2 light-text-black">
-                                                 <div class="w-1/2"></div>
-                                                 <div>$10,000</div>
-                                                 <div>Email Marketing</div>
-                                                 <div>Wiz speed Dashboard</div>
-                                                 <div>
-                                                     <span
-                                                         class="light-bg-d7d7d7 px-2 py-1 rounded-md text-xs">Domain</span>
-                                                     <span
-                                                         class="light-bg-d7d7d7 px-2 py-1 rounded-md text-xs">Hosting</span>
-                                                     <span
-                                                         class="light-bg-d7d7d7 px-2 py-1 rounded-md text-xs">+3</span>
-                                                 </div>
-                                                 <div class="flex items-center gap-2">
-
-                                                     <img src="{{ asset('assets/document-download-DARK.svg') }}"
-                                                         id="openModalBtn" alt="Action 1"
-                                                         class="w-6 h-6 rounded-full p-1 bg-gray-500" />
-
-                                                     <img src="{{ asset('assets/edit.svg') }}" alt="Action 2"
-                                                         class="w-6 h-6  rounded-full p-1 bg-gray-500"
-                                                         data-action="view-project" />
-
-                                                     <img src="{{ asset('assets/trash.svg') }}" alt="Action 3"
-                                                         class="w-6 h-6 rounded-full p-1 bg-gray-500" />
-                                                 </div>
-                                             </div>
-
-                                         </td>
-                                     </tr>
 
                                  </tbody>
                              </table>
@@ -2593,11 +2599,12 @@
 
              <div id="taskTab1" class="task-tab-content px-6">
 
-                 <form id="ticketForm" class="space-y-4 mb-10 " method="POST"
+
+                 <form id="ticketForm"  class="space-y-4 mb-10 " method="POST"
                      action="{{ route('project.store') }}" enctype="multipart/form-data">
                      @csrf
                      <!-- Title, Project Name, Priority -->
-                     <input type="text" name="user_id" value="{{ $userId }}">
+                     <input type="hidden" name="user_id" value="{{ $userId }}">
 
                      <div class="grid grid-cols-1 gap-4">
                          <div class="grid grid-cols-1 gap-2">
@@ -2612,7 +2619,7 @@
                              <div class="grid grid-cols-3 gap-2">
                                  <div>
                                      <label class="block text-sm mb-1 light-text-black">Client Name</label>
-                                     <input type="text" name="client_name" placeholder="John Doe"
+                                     <input type="text"  name="client_name" placeholder="John Doe"
                                          class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black focus:outline-none">
                                  </div>
 
@@ -2630,7 +2637,7 @@
                                  <!-- State Selection -->
                                  <div>
                                      <label class="block text-sm mb-1 light-text-black">Assigned To</label>
-                                     <select name="assign_to"
+                                     <select name="assign_to" 
                                          class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black"
                                          {{ $users->isEmpty() ? 'disabled' : '' }}>
 
@@ -2659,14 +2666,14 @@
                              <!-- State Selection -->
                              <div>
                                  <label class="block text-sm mb-1 light-text-black">Start Date</label>
-                                 <input type="date" name="start_date" placeholder="05-7-2024"
+                                 <input type="date"  name="start_date" placeholder="05-7-2024"
                                      class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
                              </div>
 
                              <!-- City Selection -->
                              <div>
                                  <label class="block text-sm mb-1 light-text-black">Deadline</label>
-                                 <input type="date" name="end_date" placeholder="05-10-2024"
+                                 <input type="date"  name="end_date" placeholder="05-10-2024"
                                      class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
                              </div>
 
@@ -2698,6 +2705,8 @@
                                 class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                                 Cancel
                             </button> --}}
+                            <div id="message" style="display: none; color: green; font-weight: bold;">Default Message</div>
+
                              <button type="submit" class="px-4 py-2 bg-orange-500  rounded-lg hover:bg-orange-600">
                                  Add Project
                              </button>
@@ -2710,29 +2719,61 @@
 
              <div id="taskTab2" class="task-tab-content hidden">
                  <div class="px-5">
-                     <p class="text-lg font-bold mb-2">Milestone 1</p>
-                     <label class="block mb-2">Milestone Name</label>
-                     <input type="text" placeholder="Name here..."
-                         class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                     <p class="text-lg font-bold mb-2">Milestone</p>
+                     <form method="post" action="{{ route('milestone.store') }}">
+                        @csrf
 
-                     <div class="flex gap-4 mb-4">
-                         <div class="flex-1">
-                             <label class="block mb-2">Start Date</label>
-                             <input type="date"
-                                 class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                         </div>
-                         <div class="flex-1">
-                             <label class="block mb-2">Deadline</label>
-                             <input type="date"
-                                 class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                         </div>
-                     </div>
+                        <label class="block mb-2">Milestone Name</label>
+                            <input type="text" placeholder="Name here..." name="milestone_name"
+                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
 
-                     <label class="flex items-center mb-4">
-                         <input type="checkbox" class="mr-2"> Mark as High Priority
-                     </label>
-                 </div>
-                 <div class="px-5">
+                            <div class="flex gap-4 mb-4">
+                                <div class="flex-1">
+                                    <label class="block mb-2">Start Date</label>
+                                    <input type="date" name="start_date" 
+                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                                </div>
+                                <div class="flex-1">
+                                    <label class="block mb-2">Deadline</label>
+                                    <input type="date" name="deadline"
+                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                                </div>
+                            </div>
+
+                            <div>
+                                     {{-- <label class="block text-sm mb-1 light-text-black">Assigned To</label> --}}
+                                     <select name="project_id"
+                                         class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black"
+                                         {{ $projects->isEmpty() ? 'disabled' : '' }}>
+
+                                         @if ($users->isEmpty())
+                                             <option value="" hidden selected>No users available</option>
+                                         @else
+                                             <option value="" hidden selected>Select Project</option>
+                                             @foreach ($projects as $project)
+                                                 <option value="{{ $project->id }}">{{ $project->project_name }}</option>
+                                             @endforeach
+                                         @endif
+
+                                     </select>
+
+                                 </div>
+
+
+                            <label class="flex items-center mb-4">
+                                <input type="checkbox" class="mr-2"> Mark as High Priority
+                            </label>
+                        </div>
+
+                        <div class="flex justify-between p-5 mt-4">
+                            <button class="px-4 py-2 rounded bg-[#333] text-white">Add New Milestone</button>
+                            <div class="flex gap-2">
+                                {{-- <button class="bg-gray-600 px-4 py-2 rounded">Cancel</button> --}}
+                                <button class="bg-orange-500 text-white px-4 py-2 rounded " type="submit">Save</button>
+                            </div>
+                        </div>
+                     </form>
+                 {{-- <div class="px-5">
                      <p class="text-lg font-bold mb-2">Milestone 2</p>
                      <label class="block mb-2">Milestone Name</label>
                      <input type="text" placeholder="Name here..."
@@ -2754,15 +2795,9 @@
                      <label class="flex items-center mb-4">
                          <input type="checkbox" class="mr-2"> Mark as High Priority
                      </label>
-                 </div>
+                 </div> --}}
 
-                 <div class="flex justify-between p-5 mt-4">
-                     <button class="px-4 py-2 rounded bg-[#333] text-white">Add New Milestone</button>
-                     <div class="flex gap-2">
-                         <button class="bg-gray-600 px-4 py-2 rounded">Cancel</button>
-                         <button class="bg-orange-500 text-white px-4 py-2 rounded">Save</button>
-                     </div>
-                 </div>
+                 
 
              </div>
 
@@ -2877,267 +2912,61 @@
                              </tr>
                          </thead>
                          <tbody class="bg-transparent border  light-border-gray2">
-                             <tr class="border-2 light-border-gray2">
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">01</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
-                                     <div class="flex items-center gap-1">
-                                         <img class="w-8 h-8" src="Avatar.svg" alt="">
-                                         <div>
-                                             <p class="text-md">John Doe</p>
-                                             <p class="text-xs text-gray-400">Client</p>
-                                         </div>
-                                     </div>
-                                 </td>
-                                 <td
-                                     class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
-                                     <a href="#"
-                                         class="flex items-center bg-gray-200 rounded-md w-36
-                                p-2 light-text-gray-600 dark:text-gray-400 hover:underline">
-                                         Website SEO.pdf
-                                         <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                             <!-- Arrow down left side -->
-                                             <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                                 stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
-                                             <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                                 stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
 
-                                             <!-- Document outline -->
-                                             <path
-                                                 d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
-                                                 stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
+                             @foreach ($documents as $document)
+                                <tr class="border-2 light-border-gray2">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">01</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
+                                        <div class="flex items-center gap-1">
+                                            <img class="w-8 h-8" src="Avatar.svg" alt="">
+                                            <div>
+                                                <p class="text-md">John Doe</p>
+                                                <p class="text-xs text-gray-400">Client</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
+                                        <a href="#"
+                                            class="flex items-center bg-gray-200 rounded-md w-36
+                                    p-2 light-text-gray-600 dark:text-gray-400 hover:underline">
+                                            Website SEO.pdf
+                                            <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <!-- Arrow down left side -->
+                                                <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
+                                                    stroke-width="1.25" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
+                                                    stroke-width="1.25" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
 
-                                             <!-- Folded corner -->
-                                             <path
-                                                 d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
-                                                 stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
-                                         </svg>
-                                     </a>
-                                 </td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">10-5-2024</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                     <button
-                                         class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                         <div class="flex gap-2">
-                                             <img src="document-download.svg" alt="eye"
-                                                 class="bg-gray-200 p-1 open-project-modal rounded-full">
-                                         </div>
-                                     </button>
-                                 </td>
-                             </tr>
-                             <tr class="border-2 light-border-gray2">
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">01</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
-                                     <div class="flex items-center gap-1">
-                                         <img class="w-8 h-8" src="Avatar.svg" alt="">
-                                         <div>
-                                             <p class="text-md">John Doe</p>
-                                             <p class="text-xs text-gray-400">Client</p>
-                                         </div>
-                                     </div>
-                                 </td>
-                                 <td
-                                     class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
-                                     <a href="#"
-                                         class="flex items-center bg-gray-200 rounded-md w-36
-                                p-2 light-text-gray-600 dark:text-gray-400 hover:underline">
-                                         Website SEO.pdf
-                                         <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                             <!-- Arrow down left side -->
-                                             <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                                 stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
-                                             <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                                 stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
+                                                <!-- Document outline -->
+                                                <path
+                                                    d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
+                                                    stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
 
-                                             <!-- Document outline -->
-                                             <path
-                                                 d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
-                                                 stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
-
-                                             <!-- Folded corner -->
-                                             <path
-                                                 d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
-                                                 stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
-                                         </svg>
-                                     </a>
-                                 </td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">10-5-2024</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                     <button
-                                         class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                         <div class="flex gap-2">
-                                             <img src="document-download.svg" alt="eye"
-                                                 class="bg-gray-200 p-1  rounded-full">
-                                         </div>
-                                     </button>
-                                 </td>
-                             </tr>
-                             <tr class="border-2 light-border-gray2">
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">01</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
-                                     <div class="flex items-center gap-1">
-                                         <img class="w-8 h-8" src="Avatar.svg" alt="">
-                                         <div>
-                                             <p class="text-md">John Doe</p>
-                                             <p class="text-xs text-gray-400">Client</p>
-                                         </div>
-                                     </div>
-                                 </td>
-                                 <td
-                                     class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
-                                     <a href="#"
-                                         class="flex items-center bg-gray-200 rounded-md w-36
-                                p-2 light-text-gray-600 dark:text-gray-400 hover:underline">
-                                         Website SEO.pdf
-                                         <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                             <!-- Arrow down left side -->
-                                             <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                                 stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
-                                             <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                                 stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
-
-                                             <!-- Document outline -->
-                                             <path
-                                                 d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
-                                                 stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
-
-                                             <!-- Folded corner -->
-                                             <path
-                                                 d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
-                                                 stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
-                                         </svg>
-                                     </a>
-                                 </td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">10-5-2024</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                     <button
-                                         class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                         <div class="flex gap-2">
-                                             <img src="document-download.svg" alt="eye"
-                                                 class="bg-gray-200 p-1 rounded-full">
-                                         </div>
-                                     </button>
-                                 </td>
-                             </tr>
-                             <tr class="border-2 light-border-gray2">
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">01</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
-                                     <div class="flex items-center gap-1">
-                                         <img class="w-8 h-8" src="Avatar.svg" alt="">
-                                         <div>
-                                             <p class="text-md">John Doe</p>
-                                             <p class="text-xs text-gray-400">Client</p>
-                                         </div>
-                                     </div>
-                                 </td>
-                                 <td
-                                     class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
-                                     <a href="#"
-                                         class="flex items-center bg-gray-200 rounded-md w-36
-                                p-2 light-text-gray-600 dark:text-gray-400 hover:underline">
-                                         Website SEO.pdf
-                                         <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                             <!-- Arrow down left side -->
-                                             <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                                 stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
-                                             <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                                 stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
-
-                                             <!-- Document outline -->
-                                             <path
-                                                 d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
-                                                 stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
-
-                                             <!-- Folded corner -->
-                                             <path
-                                                 d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
-                                                 stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
-                                         </svg>
-                                     </a>
-                                 </td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">10-5-2024</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                     <button
-                                         class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                         <div class="flex gap-2">
-                                             <img src="document-download.svg" alt="eye"
-                                                 class="bg-gray-200 p-1 rounded-full">
-                                         </div>
-                                     </button>
-                                 </td>
-                             </tr>
-                             <tr class="border-2 light-border-gray2">
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">01</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
-                                     <div class="flex items-center gap-1">
-                                         <img class="w-8 h-8" src="Avatar.svg" alt="">
-                                         <div>
-                                             <p class="text-md">John Doe</p>
-                                             <p class="text-xs text-gray-400">Client</p>
-                                         </div>
-                                     </div>
-                                 </td>
-                                 <td
-                                     class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
-                                     <a href="#"
-                                         class="flex items-center bg-gray-200 rounded-md w-36
-                                p-2 light-text-gray-600 dark:text-gray-400 hover:underline">
-                                         Website SEO.pdf
-                                         <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                             <!-- Arrow down left side -->
-                                             <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                                 stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
-                                             <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                                 stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
-
-                                             <!-- Document outline -->
-                                             <path
-                                                 d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
-                                                 stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
-
-                                             <!-- Folded corner -->
-                                             <path
-                                                 d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
-                                                 stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                 stroke-linejoin="round" />
-                                         </svg>
-                                     </a>
-                                 </td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">10-5-2024</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                     <button
-                                         class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                         <div class="flex gap-2">
-                                             <img src="document-download.svg" alt="eye"
-                                                 class="bg-gray-200 p-1 open-project-modal rounded-full">
-                                         </div>
-
-                                     </button>
-                                 </td>
-                             </tr>
+                                                <!-- Folded corner -->
+                                                <path
+                                                    d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
+                                                    stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </a>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">10-5-2024</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                        <button
+                                            class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                            <div class="flex gap-2">
+                                                <img src="document-download.svg" alt="eye"
+                                                    class="bg-gray-200 p-1 open-project-modal rounded-full">
+                                            </div>
+                                        </button>
+                                    </td>
+                                </tr>
+                                @endforeach
                          </tbody>
                      </table>
                  </div>
@@ -3294,6 +3123,11 @@
              </div>
          </div>
      </div>
+
+
+
+
+
 
  </body>
 

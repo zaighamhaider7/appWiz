@@ -7,25 +7,30 @@ use Illuminate\Http\Request;
 use App\Models\project;
 use App\Models\Document;
 use App\Models\User;
+use App\Models\Milestone;
 
 class ProjectController extends Controller
 {
+    // project start
     public function create()
     {
         $userId = Auth::id();
 
         $projects = project::all();
 
+        $documents = Document::all();
+
         $users = User::all();
 
-        // $projects = Project::with('user')->get();
+        $projects = Project::with('user')->get();
 
 
-        return view('project', compact('projects', 'users', 'userId'));
+        return view('project', compact('projects', 'users', 'userId' ,'documents'));
     }
 
     public function store(Request $request)
     {
+
         $validated = $request->validate([
             'project_name' => 'required|string|max:255',
             'client_name' => 'required|string|max:255',
@@ -40,6 +45,8 @@ class ProjectController extends Controller
 
         
         $project = Project::create($validated);
+
+        $last_project_id = session(['last_project_id' => $project->id]);
 
         if ($request->hasFile('document_name')) {
 
@@ -94,4 +101,22 @@ class ProjectController extends Controller
 
         return redirect()->route('project.create')->with('success', 'Project deleted successfully.');
     }
+    // project end
+
+    // milestone start
+    public function milestoneStore(Request $request)
+    {
+
+        $validated = $request->validate([
+            'milestone_name' => 'required|string|max:255',
+            'start_date' => 'required|date',
+            'deadline' => 'required|date|after_or_equal:start_date',
+            'project_id' => 'required|exists:projects,id',
+        ]);
+
+        Milestone::create($validated);
+
+        return redirect()->route('project.create')->with('success', 'Milestone created successfully.');
+    }
+    // milestone end
 }

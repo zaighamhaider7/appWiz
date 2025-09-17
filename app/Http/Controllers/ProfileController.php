@@ -41,8 +41,8 @@ public function update(ProfileUpdateRequest $request): RedirectResponse
     }
 
     // Handle photo upload properly
-    if ($request->hasFile('photo')) {
-        $file = $request->file('photo');
+    if ($request->hasFile('image')) {
+        $file = $request->file('image');
         $filename = time() . '_' . $file->getClientOriginalName();
 
         // Move file to /public/userAssets
