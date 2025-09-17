@@ -16,6 +16,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/setting', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/setting', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/setting', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::post('/setting/{id}', [ProfileController::class, 'delDevice'])->name('profile.deleteDevice');
+
 
 });
 
