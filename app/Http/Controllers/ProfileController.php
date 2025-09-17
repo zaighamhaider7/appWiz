@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\User;
+use App\Models\userDevices;
 
 class ProfileController extends Controller
 {
@@ -16,9 +18,13 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        // return view('profile.edit', [
+        //     'user' => $request->user(),
+        //     'devices' => $request->user()->userDevices()->latest()->get(),
+        // ]);
+        $user = $request->user();
+        $userDevices = userDevices::where('user_id',$user->id)->get();
+        return view('profile.edit',compact('user','userDevices'));
     }
 
     /**

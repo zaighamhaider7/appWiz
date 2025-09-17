@@ -832,16 +832,16 @@
 
 <body>
     @if (session('status') === 'password-updated')
-    <div 
-        x-data="{ show: true }"
-        x-init="setTimeout(() => show = false, 1000)"
-        x-show="show"
-        x-transition
-        class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
-    >
-    Password updated successfully!
-</div>
-@endif
+        <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+            class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+            Password updated successfully!
+        </div>
+    @elseif (session('status') === 'verification-link-sent')
+        <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+            class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+            Verification link sent to your email!
+        </div>
+    @endif
     <div class="flex min-h-screen light-bg-white">
         <!-- Sidebar -->
         <aside
@@ -1084,149 +1084,162 @@
                         <!-- Overview content here -->
                         <!-- Overview Cards -->
                         <!-- User's Projects List Table -->
-                       {{-- filepath: resources/views/profile/edit.blade.php --}}
-<form action="{{ route('profile.update') }}" method="post" enctype="multipart/form-data">
-    @csrf
-    <div class="w-full h-full light-bg-d9d9d9 p-5 rounded-md">
-        <h3 class="font-medium pb-6 text-2xl">Profile Details</h3>
-        <div class="flex justify-start items-center gap-10">
-            <div style="width: 9em ;height:9em; box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.25); border-radius: 12px;">
-                <img src="{{ asset($user->image ?? 'default.png') }}" alt="" style="width: 9em ;height:9em;border-radius: 12px;">
-            </div>
-            <div>
-                <input class="bg-gray-200 p-2 mb-2 rounded-lg border dark-border-gray-500" type="file" name="image" />
-                <p>Allowed JPG, GIF or PNG. Max size of 800K</p>
-            </div>
-        </div>
-        <div class="pt-5 pb-5">
-            <div class="grid-cols-2 grid gap-4 pb-5">
-                <div>
-                    <label class="block text-sm mb-1 light-text-black">First Name</label>
-                    <div class="relative flex-grow">
-                        <input type="text" name="name" value="{{ old('name', $user->name) }}" placeholder="John"
-                            class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                    </div>
-                </div>
-   
-                <div>
-                    <label class="block text-sm mb-1 light-text-black">Email</label>
-                    <div class="relative flex-grow">
-                        <input type="email" name="email" value="{{ old('email', $user->email) }}" placeholder="John.Doe@gmail.com"
-                            class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm mb-1 light-text-black">Company/Organization Name</label>
-                    <div class="relative flex-grow">
-                        <input type="text" name="company" value="{{ old('company', $user->company) }}" placeholder="WIZSPEED"
-                            class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm mb-1 light-text-black">Business Website</label>
-                    <div class="relative flex-grow">
-                        <input type="text" name="website" value="{{ old('website', $user->website) }}" placeholder="www.wizspeed.com"
-                            class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                    </div>
-                </div>
-            </div>
-            <!-- Buttons -->
-            <div class="flex justify-end items-center mt-5">
-                <div class="flex justify-end gap-3 pt-3">
-                    <button type="button" id="cancelTicket"
-                        class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
-                        Cancel
-                    </button>
-                    <button type="submit"
-                        class="px-4 py-2 btn-orange text-white rounded-lg hover:bg-orange-600">
-                        Save
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
+                        {{-- filepath: resources/views/profile/edit.blade.php --}}
+                        <form action="{{ route('profile.update') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="w-full h-full light-bg-d9d9d9 p-5 rounded-md">
+                                <h3 class="font-medium pb-6 text-2xl">Profile Details</h3>
+                                <div class="flex justify-start items-center gap-10">
+                                    <div
+                                        style="width: 9em ;height:9em; box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.25); border-radius: 12px;">
+                                        <img src="{{ asset($user->image ?? 'default.png') }}" alt=""
+                                            style="width: 9em ;height:9em;border-radius: 12px;">
+                                    </div>
+                                    <div>
+                                        <input class="bg-gray-200 p-2 mb-2 rounded-lg border dark-border-gray-500"
+                                            type="file" name="image" />
+                                        <p>Allowed JPG, GIF or PNG. Max size of 800K</p>
+                                    </div>
+                                </div>
+                                <div class="pt-5 pb-5">
+                                    <div class="grid-cols-2 grid gap-4 pb-5">
+                                        <div>
+                                            <label class="block text-sm mb-1 light-text-black">First Name</label>
+                                            <div class="relative flex-grow">
+                                                <input type="text" name="name"
+                                                    value="{{ old('name', $user->name) }}" placeholder="John"
+                                                    class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label class="block text-sm mb-1 light-text-black">Email</label>
+                                            <div class="relative flex-grow">
+                                                <input type="email" name="email"
+                                                    value="{{ old('email', $user->email) }}"
+                                                    placeholder="John.Doe@gmail.com"
+                                                    class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm mb-1 light-text-black">Company/Organization
+                                                Name</label>
+                                            <div class="relative flex-grow">
+                                                <input type="text" name="company"
+                                                    value="{{ old('company', $user->company) }}"
+                                                    placeholder="WIZSPEED"
+                                                    class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm mb-1 light-text-black">Business Website</label>
+                                            <div class="relative flex-grow">
+                                                <input type="text" name="website"
+                                                    value="{{ old('website', $user->website) }}"
+                                                    placeholder="www.wizspeed.com"
+                                                    class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Buttons -->
+                                    <div class="flex justify-end items-center mt-5">
+                                        <div class="flex justify-end gap-3 pt-3">
+                                            <button type="button" id="cancelTicket"
+                                                class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                                                Cancel
+                                            </button>
+                                            <button type="submit"
+                                                class="px-4 py-2 btn-orange text-white rounded-lg hover:bg-orange-600">
+                                                Save
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
 
                 </div>
                 <div id="notesContent" class="tab-content hidden">
                     <!-- Notes content here -->
-                   <form action="{{ route('password.update') }}" method="post">
-                    @csrf
-                    @method('put')
-                     <div class="w-full h-full light-bg-f5f5f5 light-bg-seo p-5 mb-5 rounded-md">
-                        <h3 class="font-medium pb-6 text-2xl">Change Password</h3>
-                        <div class="flex justify-start items-center gap-10">
+                    <form action="{{ route('password.update') }}" method="post">
+                        @csrf
+                        @method('put')
+                        <div class="w-full h-full light-bg-f5f5f5 light-bg-seo p-5 mb-5 rounded-md">
+                            <h3 class="font-medium pb-6 text-2xl">Change Password</h3>
+                            <div class="flex justify-start items-center gap-10">
 
-                        </div>
-                        <div class="pt-5 pb-5">
+                            </div>
+                            <div class="pt-5 pb-5">
 
-                            <div class="grid-cols-2 grid gap-4 pb-5">
-                                <div>
-                                    <label class="block text-sm mb-1 light-text-black">Current Password</label>
-                                    <div class="relative flex-grow">
-                                        <input type="password" name="current_password"
-                                            placeholder="Enter your Current Password"
-                                            class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                                <div class="grid-cols-2 grid gap-4 pb-5">
+                                    <div>
+                                        <label class="block text-sm mb-1 light-text-black">Current Password</label>
+                                        <div class="relative flex-grow">
+                                            <input type="password" name="current_password"
+                                                placeholder="Enter your Current Password"
+                                                class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="grid-cols-2 grid gap-4 pb-5">
+                                    <div>
+                                        <label class="block text-sm mb-1 light-text-black">New Password</label>
+                                        <div class="relative flex-grow">
+                                            <input type="password" name="password"
+                                                placeholder="Enter your New Password"
+                                                class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm mb-1 light-text-black">Confirm Password</label>
+                                        <div class="relative flex-grow">
+                                            <input type="password" name="password_confirmation"
+                                                placeholder="Confirm your New Password"
+                                                class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                                            <div
+                                                class="absolute right-2 top-1/2 transform -translate-y-1/2 flex gap-2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="grid-cols-2 grid gap-4">
+
+                                    <div class="text-gray-400">
+                                        <h3 class="mb-2">Password Requirements:</h3>
+                                        <ul class="list-disc text-sm pl-5 space-y-1"> <!-- Tailwind classes -->
+                                            <li>Minimum 8 characters long - the more, the better</li>
+                                            <li>At least one lowercase character</li>
+                                            <li>At least one number, symbol, or whitespace character</li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <div class="flex items-center gap-4">
+
+
+
+                                </div>
+                                <!-- Buttons -->
+                                <div class="flex justify-end items-center mt-5">
+
+                                    <div class="flex justify-end gap-3 pt-3">
+                                        <button type="button" id="cancelTicket"
+                                            class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                                            Cancel
+                                        </button>
+                                        <button type="submit"
+                                            class="px-4 py-2 btn-orange text-white rounded-lg hover:bg-orange-600">
+                                            Save
+                                        </button>
                                     </div>
                                 </div>
 
                             </div>
-                            <div class="grid-cols-2 grid gap-4 pb-5">
-    <div>
-        <label class="block text-sm mb-1 light-text-black">New Password</label>
-        <div class="relative flex-grow">
-            <input type="password" name="password" placeholder="Enter your New Password"
-                class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-        </div>
-    </div>
-    <div>
-        <label class="block text-sm mb-1 light-text-black">Confirm Password</label>
-        <div class="relative flex-grow">
-            <input type="password" name="password_confirmation"
-                placeholder="Confirm your New Password"
-                class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-            <div class="absolute right-2 top-1/2 transform -translate-y-1/2 flex gap-2">
-            </div>
-        </div>
-    </div>
-</div>
-                            
-                            <div class="grid-cols-2 grid gap-4">
-
-                                <div class="text-gray-400">
-                                    <h3 class="mb-2">Password Requirements:</h3>
-                                    <ul class="list-disc text-sm pl-5 space-y-1"> <!-- Tailwind classes -->
-                                        <li>Minimum 8 characters long - the more, the better</li>
-                                        <li>At least one lowercase character</li>
-                                        <li>At least one number, symbol, or whitespace character</li>
-                                    </ul>
-                                </div>
-
-                            </div>
-                             <div class="flex items-center gap-4">
-
-
-
-        </div>
-                            <!-- Buttons -->
-                            <div class="flex justify-end items-center mt-5">
-
-                                <div class="flex justify-end gap-3 pt-3">
-                                    <button type="button" id="cancelTicket"
-                                        class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
-                                        Cancel
-                                    </button>
-                                    <button type="submit"
-                                        class="px-4 py-2 btn-orange text-white rounded-lg hover:bg-orange-600">
-                                        Save
-                                    </button>
-                                </div>
-                            </div>
-
                         </div>
-                    </div>
-                   </form>
+                    </form>
                     <div class="w-full h-full light-bg-f5f5f5 light-bg-seo mb-5 px-5 py-2 rounded-md">
                         <h3 class="font-medium pt-4 text-2xl">Two-steps verification</h3>
                         <div class="flex justify-start items-center gap-10">
@@ -1247,10 +1260,20 @@
                                 <div class="flex justify-end items-center mt-5">
 
                                     <div class="flex justify-end gap-3 pt-3">
-                                        <button type="submit"
-                                            class="px-4 py-2 mt-14 btn-orange text-white  rounded-lg hover:bg-orange-600">
-                                            Enable two-factor authentication
-                                        </button>
+                                        @if (@auth()->user()->email_verified_at === null)
+                                            <form method="POST" action="{{ route('verification.send') }}">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="px-4 py-2 mt-14 btn-orange text-white  rounded-lg hover:bg-orange-600">
+                                                    Enable two-factor authentication
+                                                </button>
+                                            </form>
+                                        @else
+                                            <button type="submit"
+                                                class="px-4 py-2 mt-14 btn-orange text-white  rounded-lg hover:bg-orange-600">
+                                                ✅ Two-factor authentication is enabled
+                                            </button>
+                                        @endif
                                     </div>
                                 </div>
 
@@ -1314,18 +1337,20 @@
                                 </thead>
                                 <tbody class="light-bg-white  light-bg-seo divide-y divide-gray-200">
                                     <!-- Row 1 -->
-                                    <tr>
+                                   @foreach ($userDevices as $device)
+                                        <tr>
                                         <td
                                             class="px-6 py-2 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                            HP Specter 360</td>
+                                            {{ $device->device_name }}
+                                        </td>
                                         <td class="px-6 py-2 whitespace-nowrap">
-                                            <div class="text-sm font-thin text-gray-400"> 142.186.74.74 </div>
+                                            <div class="text-sm font-thin text-gray-400"> {{ $device->ip_address }} </div>
                                         </td>
                                         <td class="px-6 py-2 whitespace-nowrap">
                                             <span
-                                                class="px-2 inline-flex text-sm text-gray-400 leading-5 font-thin rounded-full">Switzerland</span>
+                                                class="px-2 inline-flex text-sm text-gray-400 leading-5 font-thin rounded-full">{{ $device->location }}</span>
                                         </td>
-                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-400">10, July 2021
+                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-400">{{ $device->last_login }}
                                             20:07</td>
                                         <td class="px-6 py-2 whitespace-nowrap text-right text-sm font-medium">
                                             <div class="flex justify-start gap-2">
@@ -1338,137 +1363,13 @@
 
                                         </td>
                                     </tr>
+                                   @endforeach
                                     <!-- Row 2 -->
-                                    <tr>
-                                        <td
-                                            class="px-6 py-2 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                            iPhone 12x</td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <div class="text-sm font-thin text-gray-400"> 34.33.163.92 </div>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <span
-                                                class="px-2 inline-flex text-sm text-gray-400 leading-5 font-thin rounded-full">Australia</span>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-400">13, July 2021
-                                            10:10</td>
-
-                                        <td class="px-6 py-2 whitespace-nowrap text-right text-sm font-medium">
-                                            <div class="flex justify-start gap-2">
-                                                <button
-                                                    class="light-text-black light-bg-d7d7d7 px-5 py-2 rounded-md light-hover-text-orange-700 "
-                                                    data-action="#">
-                                                    Remove
-                                                </button>
-                                            </div>
-
-                                        </td>
-                                    </tr>
+                                   
                                     <!-- Row 3 -->
-                                    <tr>
-                                        <td
-                                            class="px-6 py-2 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                            OnePlus 9 Pro</td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <div class="text-sm font-thin text-gray-400"> 215.154.163.36</div>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <span
-                                                class="px-2 inline-flex text-sm text-gray-400 leading-5 font-thin rounded-full">Dubai</span>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-400">14, July 2021
-                                            15:15</td>
-
-                                        <td class="px-6 py-2 whitespace-nowrap text-right text-sm font-medium">
-                                            <div class="flex justify-start gap-2">
-                                                <button
-                                                    class="light-text-black light-bg-d7d7d7 px-5 py-2 rounded-md light-hover-text-orange-700 "
-                                                    data-action="#">
-                                                    Remove
-                                                </button>
-                                            </div>
-
-                                        </td>
-                                    </tr>
+                                   
                                     <!-- Row 4 -->
-                                    <tr>
-                                        <td
-                                            class="px-6 py-2 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                            Apple IMac</td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <div class="text-sm font-thin text-gray-400">67.35.194.191</div>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <span
-                                                class="px-2 inline-flex text-sm text-gray-400 leading-5 font-thin rounded-full">India</span>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-400">16, July 2021
-                                            16:17</td>
-
-                                        <td class="px-6 py-2 whitespace-nowrap text-right text-sm font-medium">
-                                            <div class="flex justify-start gap-2">
-                                                <button
-                                                    class="light-text-black light-bg-d7d7d7 px-5 py-2 rounded-md light-hover-text-orange-700 "
-                                                    data-action="#">
-                                                    Remove
-                                                </button>
-                                            </div>
-
-                                        </td>
-                                    </tr>
-                                    <!-- Row 5 -->
-                                    <tr>
-                                        <td
-                                            class="px-6 py-2 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                            HP Specter 360</td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <div class="text-sm font-thin text-gray-400"> 67.35.194.191</div>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <span
-                                                class="px-2 inline-flex text-sm text-gray-400 leading-5 font-thin rounded-full">Switzerland</span>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-400">10, July 2021
-                                            20:07</td>
-
-                                        <td class="px-6 py-2 whitespace-nowrap text-right text-sm font-medium">
-                                            <div class="flex justify-start gap-2">
-                                                <button
-                                                    class="light-text-black light-bg-d7d7d7 px-5 py-2 rounded-md light-hover-text-orange-700 "
-                                                    data-action="#">
-                                                    Remove
-                                                </button>
-                                            </div>
-
-                                        </td>
-                                    </tr>
-                                    <!-- Row 6 -->
-                                    <tr>
-                                        <td
-                                            class="px-6 py-2 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                            OnePlus 9 Pro</td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <div class="text-sm font-thin text-gray-400"> 215.154.163.36</div>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <span
-                                                class="px-2 inline-flex text-sm text-gray-400 leading-5 font-thin rounded-full">Dubai</span>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-400">14, July 2021
-                                            15:15</td>
-
-                                        <td class="px-6 py-2 whitespace-nowrap text-right text-sm font-medium">
-                                            <div class="flex justify-start gap-2">
-
-                                                <button
-                                                    class="light-text-black light-bg-d7d7d7 px-5 py-2 rounded-md light-hover-text-orange-700 "
-                                                    data-action="#">
-                                                    Remove
-                                                </button>
-                                            </div>
-
-                                        </td>
-                                    </tr>
+                                
                                 </tbody>
                             </table>
                         </div>
@@ -1476,156 +1377,7 @@
                         <!-- Table Pagination -->
 
                     </div>
-                    <div class="lg:col-span-2 light-bg-f5f5f5 light-bg-seo mb-5 rounded-md shadow-sm">
-                        <div class="flex items-center justify-between  p-5 flex-wrap gap-3">
-                            <h2 class="text-xl font-semibold light-text-gray-800">Authorized Devices:</h2>
-
-                        </div>
-
-                        <div class="overflow-x-auto rounded-b-md	">
-                            <table class="min-w-full  divide-y divide-gray-200">
-                                <thead class="light-bg-d9d9d9">
-                                    <tr>
-                                        <th scope="col"
-                                            class="px-6 py-3  text-left text-xs
-    font-medium light-text-gray-500 uppercase tracking-wider">
-                                            <div class="flex items-center w-full justify-between">
-                                                <div style="width: 80%">DEVICE</div>
-                                                <div style="width: 20%;">
-
-                                                </div>
-                                            </div>
-                                        </th>
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs  font-medium light-text-gray-500 uppercase ">
-                                            <div class="flex items-center">
-                                                IP ADDRESS
-
-                                            </div>
-                                        </th>
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
-                                            <div class="flex items-center">
-                                                LOCATION
-
-                                            </div>
-                                        </th>
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider min-w-[120px]">
-                                            <div class="flex items-center justify-between">
-                                                <span class="whitespace-nowrap">LAST LOGIN</span>
-                                                <div class="flex flex-col ml-10">
-
-                                                </div>
-                                            </div>
-                                        </th>
-
-
-                                    </tr>
-                                </thead>
-                                <tbody class="light-bg-white  light-bg-seo divide-y divide-gray-200">
-                                    <!-- Row 1 -->
-                                    <tr>
-                                        <td
-                                            class="px-6 py-2 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                            HP Specter 360</td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <div class="text-sm font-thin text-gray-400"> 142.186.74.74 </div>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <span
-                                                class="px-2 inline-flex text-sm text-gray-400 leading-5 font-thin rounded-full">Switzerland</span>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-400">10, July 2021
-                                            20:07</td>
-
-                                    </tr>
-                                    <!-- Row 2 -->
-                                    <tr>
-                                        <td
-                                            class="px-6 py-2 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                            iPhone 12x</td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <div class="text-sm font-thin text-gray-400"> 34.33.163.92 </div>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <span
-                                                class="px-2 inline-flex text-sm text-gray-400 leading-5 font-thin rounded-full">Australia</span>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-400">13, July 2021
-                                            10:10</td>
-
-                                    </tr>
-                                    <!-- Row 3 -->
-                                    <tr>
-                                        <td
-                                            class="px-6 py-2 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                            OnePlus 9 Pro</td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <div class="text-sm font-thin text-gray-400"> 215.154.163.36</div>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <span
-                                                class="px-2 inline-flex text-sm text-gray-400 leading-5 font-thin rounded-full">Dubai</span>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-400">14, July 2021
-                                            15:15</td>
-
-                                    </tr>
-                                    <!-- Row 4 -->
-                                    <tr>
-                                        <td
-                                            class="px-6 py-2 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                            Apple IMac</td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <div class="text-sm font-thin text-gray-400">67.35.194.191</div>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <span
-                                                class="px-2 inline-flex text-sm text-gray-400 leading-5 font-thin rounded-full">India</span>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-400">16, July 2021
-                                            16:17</td>
-
-                                    </tr>
-                                    <!-- Row 5 -->
-                                    <tr>
-                                        <td
-                                            class="px-6 py-2 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                            HP Specter 360</td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <div class="text-sm font-thin text-gray-400"> 67.35.194.191</div>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <span
-                                                class="px-2 inline-flex text-sm text-gray-400 leading-5 font-thin rounded-full">Switzerland</span>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-400">10, July 2021
-                                            20:07</td>
-
-                                    </tr>
-                                    <!-- Row 6 -->
-                                    <tr>
-                                        <td
-                                            class="px-6 py-2 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                            OnePlus 9 Pro</td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <div class="text-sm font-thin text-gray-400"> 215.154.163.36</div>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <span
-                                                class="px-2 inline-flex text-sm text-gray-400 leading-5 font-thin rounded-full">Dubai</span>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-400">14, July 2021
-                                            15:15</td>
-
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <!-- Table Pagination -->
-
+                   
                     </div>
                 </div>
 
@@ -3224,7 +2976,7 @@
                         const content = card.querySelector('.card-content');
                         const icon = event.target.querySelector('img.toggle-icon'); // Get the icon
                         const textNode = event.target.childNodes[
-                        0]; // Get the text node (assuming it's first)
+                            0]; // Get the text node (assuming it's first)
 
                         if (!content.style.maxHeight || content.style.maxHeight === '0px') {
                             content.style.maxHeight = content.scrollHeight + 'px';
@@ -3260,7 +3012,7 @@
             const openRolePopupBtn = document.getElementById('openRolePopup'); // ✅ Button to open role popup
             const closeRolePopupBtn = document.getElementById('rolePopupClose'); // ✅ Close
             const rolePopupConfirmBtn = document.getElementById(
-            'rolePopupConfirm'); // ✅ Confirm button for role popup
+                'rolePopupConfirm'); // ✅ Confirm button for role popup
 
 
             const openPopupBtn = document.getElementById('openPopup');
