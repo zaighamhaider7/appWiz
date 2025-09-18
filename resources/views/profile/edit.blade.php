@@ -841,7 +841,23 @@
             class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
             Verification link sent to your email!
         </div>
+    @elseif (session('status') === 'profile-updated')
+     @elseif (session('status') === 'Role-Added')
+        <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+            class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+            Role added successfully!
+        </div>
     @endif
+   @if ($errors->any())
+    <div class="bg-red-500 text-white p-4 mb-4">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
     <div class="flex min-h-screen light-bg-white">
         <!-- Sidebar -->
         <aside
@@ -1092,7 +1108,7 @@
                                 <div class="flex justify-start items-center gap-10">
                                     <div
                                         style="width: 9em ;height:9em; box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.25); border-radius: 12px;">
-                                        <img src="{{ asset($user->image ?? 'default.png') }}" alt=""
+                                        <img src="{{ asset($user->image ?? 'assets/default.png') }}" alt=""
                                             style="width: 9em ;height:9em;border-radius: 12px;">
                                     </div>
                                     <div>
@@ -1588,7 +1604,7 @@
                                         <button id="openPopup"
                                             class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d7d7d7 light-text-gray-700 border light-border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors ">
                                             <div class="flex">
-                                                <span>Add New Ticket</span>
+                                                <span>Add New Member</span>
                                             </div>
                                         </button>
                                     </div>
@@ -2818,63 +2834,14 @@
                             <div class="bg-gray-500 rounded-md p-2">
                                 <div class="flex justify-between items-center p-2 mb-1">
                                     <div class="felx flex-col">
-                                        <img src="ADmin.svg" alt="">
+                                        <img src="{{ asset('assets/ADmin.svg') }}" alt="">
                                     </div>
-                                    <img src="dots-vertical.svg" alt="Menu" class="h-4 w-4 mt-0.5">
+                                    <img src="{{ asset('assets/dots-vertical.svg') }}" alt="Menu" class="h-4 w-4 mt-0.5">
                                 </div>
                                 <h3 class="text-lg font-medium px-2 light-text-gray-800">Administrator </h3>
 
                             </div>
-                            <div class="bg-gray-500 rounded-md p-2">
-                                <div class="flex justify-between items-center p-2 mb-1">
-                                    <div class="felx flex-col">
-                                        <img src="HR.svg" alt="">
-                                    </div>
-                                    <img src="dots-vertical.svg" alt="Menu" class="h-4 w-4 mt-0.5">
-                                </div>
-                                <h3 class="text-lg font-medium px-2 light-text-gray-800">HR </h3>
-
-                            </div>
-                            <div class="bg-gray-500 rounded-md p-2">
-                                <div class="flex justify-between items-center p-2 mb-1">
-                                    <div class="felx flex-col">
-                                        <img src="designer.svg" alt="">
-                                    </div>
-                                    <img src="dots-vertical.svg" alt="Menu" class="h-4 w-4 mt-0.5">
-                                </div>
-                                <h3 class="text-lg font-medium px-2 light-text-gray-800">Designer </h3>
-
-                            </div>
-                            <div class="bg-gray-500 rounded-md p-2">
-                                <div class="flex justify-between items-center p-2 mb-1">
-                                    <div class="felx flex-col">
-                                        <img src="manager.svg" alt="">
-                                    </div>
-                                    <img src="dots-vertical.svg" alt="Menu" class="h-4 w-4 mt-0.5">
-                                </div>
-                                <h3 class="text-lg font-medium px-2 light-text-gray-800">Manager </h3>
-
-                            </div>
-                            <div class="bg-gray-500 rounded-md p-2">
-                                <div class="flex justify-between items-center p-2 mb-1">
-                                    <div class="felx flex-col">
-                                        <img src="dev.svg" alt="">
-                                    </div>
-                                    <img src="dots-vertical.svg" alt="Menu" class="h-4 w-4 mt-0.5">
-                                </div>
-                                <h3 class="text-lg font-medium px-2 light-text-gray-800">Developer </h3>
-
-                            </div>
-                            <div class="bg-gray-500 rounded-md p-2">
-                                <div class="flex justify-between items-center p-2 mb-1">
-                                    <div class="felx flex-col">
-                                        <img src="tester.svg" alt="">
-                                    </div>
-                                    <img src="dots-vertical.svg" alt="Menu" class="h-4 w-4 mt-0.5">
-                                </div>
-                                <h3 class="text-lg font-medium px-2 light-text-gray-800">Tester </h3>
-
-                            </div>
+                           
 
                         </div>
                     </div>
@@ -3281,26 +3248,26 @@
             </div>
 
             <div class="flex justify-start items-center p-6 gap-10">
+                            <form id="ticketForm" method='POST' action="{{ route('roles.add') }}" enctype="multipart/form-data" class="space-y-4 p-6">
+@csrf
                 <img class="rounded-xl" src="Avatar-Icon.svg" alt="">
                 <div class="flex flex-col gap-2">
                     <span class="text-white text-xs">Upload Icon</span>
                     <div>
-                        <button class="bg-gray-200 p-2 mb-2 rounded-lg border dark-border-gray-500">Upload
-                            Icon</button>
+                        <input type='file' name='file' class="bg-gray-200 p-2 mb-2 rounded-lg border dark-border-gray-500"/>
                     </div>
                     <p>Allowed JPG, GIF or PNG. Max size of 800K</p>
                 </div>
             </div>
 
             <!-- Ticket Form -->
-            <form id="ticketForm" class="space-y-4 p-6">
                 <!-- Title, Project Name, Priority -->
                 <div class="grid grid-cols-1 gap-4">
 
                     <div>
                         <label class="block text-sm mb-1 light-text-black">Role Name</label>
                         <div class="relative flex-grow">
-                            <input type="text" name="title" placeholder="Write Role Name"
+                            <input type="text" name="name" placeholder="Write Role Name"
                                 class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                         </div>
                     </div>
@@ -3321,38 +3288,38 @@
                                 <tbody class=" divide-y divide-gray-700">
                                     <tr class="light-bg-f5f5f5 light-bg-seo">
                                         <td class="px-4 py-3">Projects</td>
-                                        <td class="px-4 py-3"><input type="checkbox" checked
+                                        <td class="px-4 py-3"><input name='pr' type="checkbox" checked
                                                 class="accent-orange-500 w-4 h-4"></td>
-                                        <td class="px-4 py-3"><input type="checkbox" checked
+                                        <td class="px-4 py-3"><input name='pe' type="checkbox" checked
                                                 class="accent-orange-500 w-4 h-4"></td>
-                                        <td class="px-4 py-3"><input type="checkbox" checked
+                                        <td class="px-4 py-3"><input name='pd' type="checkbox" checked
                                                 class="accent-orange-500 w-4 h-4"></td>
                                     </tr>
                                     <tr class="light-bg-f5f5f5 light-bg-seo">
                                         <td class="px-4 py-3">Tickets</td>
-                                        <td class="px-4 py-3"><input type="checkbox" checked
+                                        <td class="px-4 py-3"><input name='tr' type="checkbox" checked
                                                 class="accent-orange-500 w-4 h-4"></td>
-                                        <td class="px-4 py-3"><input type="checkbox" checked
+                                        <td class="px-4 py-3"><input name='te' type="checkbox" checked
                                                 class="accent-orange-500 w-4 h-4"></td>
-                                        <td class="px-4 py-3"><input type="checkbox" checked
+                                        <td class="px-4 py-3"><input name='td' type="checkbox" checked
                                                 class="accent-orange-500 w-4 h-4"></td>
                                     </tr>
                                     <tr class="light-bg-f5f5f5 light-bg-seo">
                                         <td class="px-4 py-3">Market Place</td>
-                                        <td class="px-4 py-3"><input type="checkbox" checked
+                                        <td class="px-4 py-3"><input name='mr' type="checkbox" checked
                                                 class="accent-orange-500 w-4 h-4"></td>
-                                        <td class="px-4 py-3"><input type="checkbox" checked
+                                        <td class="px-4 py-3"><input name='me' type="checkbox" checked
                                                 class="accent-orange-500 w-4 h-4"></td>
-                                        <td class="px-4 py-3"><input type="checkbox"
+                                        <td class="px-4 py-3"><input name='md' type="checkbox"
                                                 class="accent-orange-500 w-4 h-4"></td>
                                     </tr>
                                     <tr class="light-bg-f5f5f5 light-bg-seo">
                                         <td class="px-4 py-3">Billings</td>
-                                        <td class="px-4 py-3"><input type="checkbox" checked
+                                        <td class="px-4 py-3"><input name='br' type="checkbox" checked
                                                 class="accent-orange-500 w-4 h-4"></td>
-                                        <td class="px-4 py-3"><input type="checkbox"
+                                        <td class="px-4 py-3"><input name='be' type="checkbox"
                                                 class="accent-orange-500 w-4 h-4"></td>
-                                        <td class="px-4 py-3"><input type="checkbox"
+                                        <td class="px-4 py-3"><input name='bd' type="checkbox"
                                                 class="accent-orange-500 w-4 h-4"></td>
                                     </tr>
                                 </tbody>
@@ -3372,7 +3339,7 @@
                             class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                             Cancel
                         </button>
-                        <button type="button" id="confirmPopup"
+                        <button type="submit" id="confirmPopup"
                             class="px-4 py-2 btn-orange text-white rounded-lg hover:bg-orange-600">
                             Save
                         </button>
