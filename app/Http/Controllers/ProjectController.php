@@ -8,6 +8,7 @@ use App\Models\project;
 use App\Models\Document;
 use App\Models\User;
 use App\Models\Milestone;
+use App\Models\Test;
 
 class ProjectController extends Controller
 {
@@ -31,22 +32,20 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
 
-        $validated = $request->validate([
-            'project_name' => 'required|string|max:255',
-            'client_name' => 'required|string|max:255',
-            'membership' => 'required|string|max:255',
-            'assign_to' => 'nullable|exists:users,id',
-            'price' => 'required|numeric',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'user_id' => 'required|exists:users,id',
-            'document_name' => 'required|file',
-        ]);
+        $data = new project();
+        $data->project_name = $request->project_name;
+        $data->client_name = $request->client_name;
+        $data->membership = $request->membership;
+        $data->assign_to = $request->assign_to;
+        $data->price = $request->price;
+        $data->start_date = $request->start_date;
+        $data->end_date = $request->end_date;
+        $data->user_id = $request->user_id;
+        $data->save();
 
-        
-        $project = Project::create($validated);
+        $last_project_id = $data->id;
 
-        $last_project_id = session(['last_project_id' => $project->id]);
+        session(['last_project_id' => $last_project_id]);
 
         if ($request->hasFile('document_name')) {
 
@@ -58,11 +57,47 @@ class ProjectController extends Controller
 
             Document::create([
                 'document_name' => 'projectAssets/' . $filename,
-                'project_id'    => $project->id,
+                'project_id'    => $data->id,
             ]);
         }
 
-        return redirect()->route('project.create')->with('success', 'Project created successfully.');
+
+
+
+        return response()->json(['message' => 'Data saved successfully', 'project_id' => $last_project_id]);
+
+        // $validated = $request->validate([
+        //     'project_name' => 'required|string|max:255',
+        //     'client_name' => 'required|string|max:255',
+        //     'membership' => 'required|string|max:255',
+        //     'assign_to' => 'nullable|exists:users,id',
+        //     'price' => 'required|numeric',
+        //     'start_date' => 'required|date',
+        //     'end_date' => 'required|date|after_or_equal:start_date',
+        //     'user_id' => 'required|exists:users,id',
+        //     'document_name' => 'required|file',
+        // ]);
+
+        
+        // $project = Project::create($validated);
+
+        // $last_project_id = session(['last_project_id' => $project->id]);
+
+        // if ($request->hasFile('document_name')) {
+
+        //     $file = $request->file('document_name');
+
+        //     $filename = time() . '_' . $file->getClientOriginalName();
+            
+        //     $file->move(public_path('projectAssets'), $filename);
+
+        //     Document::create([
+        //         'document_name' => 'projectAssets/' . $filename,
+        //         'project_id'    => $project->id,
+        //     ]);
+        // }
+
+        // return redirect()->route('project.create')->with('success', 'Project created successfully.');
     }
 
 
@@ -75,7 +110,7 @@ class ProjectController extends Controller
 
     }
 
-    public function edit(Request $request)
+    public function edit(Request $request, $id)
     {
         $validated = $request->validate([
             'project_name' => 'required|string|max:255',
@@ -88,6 +123,7 @@ class ProjectController extends Controller
 
         $project = project::find($request->id);
         $project->update($request->all());
+
 
         return redirect()->route('project.create')->with('success', 'Project updated successfully.');
     }
@@ -107,16 +143,69 @@ class ProjectController extends Controller
     public function milestoneStore(Request $request)
     {
 
-        $validated = $request->validate([
-            'milestone_name' => 'required|string|max:255',
-            'start_date' => 'required|date',
-            'deadline' => 'required|date|after_or_equal:start_date',
-            'project_id' => 'required|exists:projects,id',
-        ]);
+        $data = new Milestone();
+        $data->milestone_name = $request->milestone_name;
+        $data->start_date = $request->milestone_start_date;
+        $data->deadline = $request->deadline;
+        $data->project_id = $request->project_id;
+        $data->save();
 
-        Milestone::create($validated);
+        return response()->json(['message' => 'Data saved successfully']);
 
-        return redirect()->route('project.create')->with('success', 'Milestone created successfully.');
+        // $validated = $request->validate([
+        //     'milestone_name' => 'required|string|max:255',
+        //     'start_date' => 'required|date',
+        //     'deadline' => 'required|date|after_or_equal:start_date',
+        //     'project_id' => 'required|exists:projects,id',
+        // ]);
+
+        // Milestone::create($validated);
+
+        // return redirect()->route('project.create')->with('success', 'Milestone created successfully.');
     }
     // milestone end
+
+
+    public function testView()
+    {
+        return view('test');
+    }
+
+    public function testStore(Request $request)
+    {
+        $data = new Test();
+        $data->name =  $request->name;
+        $data->email = $request->email;
+
+        if ($request->hasFile('file')) {
+
+            $file = $request->file('file');
+
+            $filename = time() . '_' . $file->getClientOriginalName();
+            
+            $file->move(public_path('projectAssets'), $filename);
+
+            $data->file = 'projectAssets/' . $filename;
+
+        }
+
+        $data->save();
+
+
+
+         return response()->json(['message' => 'Data saved successfully']);
+
+
+    }
+
+    public function receiveId(Request $request)
+    {
+        $projectId = $request->input('id');
+
+        $projectData = Project::where('id', $projectId)->first();
+
+        return response()->json(["data" => $projectData]);
+    }
+
+
 }

@@ -764,6 +764,9 @@
  </head>
 
  <body>
+
+
+
      <div class="flex min-h-screen light-bg-white">
          <!-- Sidebar -->
          @include('layouts.sidebar')
@@ -977,10 +980,14 @@
                                              </div>
                                          </th>
                                      </tr>
+                                         @php
+                                        $count = 1;
+                                     @endphp
                                  </thead>
                                  <tbody class="light-bg-white light-bg-seo divide-y divide-gray-200">
                                      <!-- Row 1 -->
                                      @if ($projects->count() > 0)
+                                 
                                          @foreach ($projects as $project)
                                              <tr>
                                                  <td
@@ -999,12 +1006,14 @@
                                                  <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
                                                      <div class="flex items-center gap-1">
                                                          {{-- <img class="w-20 h-10" src="{{asset('assets/Avatar Group.svg')}}" alt=""> --}}
-                                                            @if ($project->user)
-                                                                {{-- <p>{{ $project->user->name }}</p> --}}
-                                                                    <img class=" w-12 h-12 light-text-gray-900 rounded-full  light-mode-icon" src="{{asset($project->user->image)}}" alt="">
-                                                            @else
-                                                                <p>No user assigned</p>
-                                                            @endif
+                                                         @if ($project->user)
+                                                             {{-- <p>{{ $project->user->name }}</p> --}}
+                                                             <img class=" w-12 h-12 light-text-gray-900 rounded-full  light-mode-icon"
+                                                                 src="{{ $project->user->image ? asset($project->user->image) : asset('assets/default-prf.png') }}""
+                                                                 alt="">
+                                                         @else
+                                                             <p>No user assigned</p>
+                                                         @endif
                                                      </div>
                                                  </td>
                                                  <td class="px-6 py-4 whitespace-nowrap">
@@ -1056,91 +1065,101 @@
                                                      class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                      <button
                                                          class="light-text-orange-500  rounded-full p-1 light-hover-text-orange-700 toggle-btn"
-                                                         data-target="expand-01">
-                                                         <img src="{{ asset('assets/Avatar Group.svg') }}"
-                                                             alt="">
+                                                         data-target="expand-0{{$count}}">
+                                                         <img src="{{ asset('assets/AR.svg') }}" alt="">
+
                                                      </button>
                                                  </td>
                                              </tr>
 
-                                            <!-- Expandable Row (Sub-Header + Sub-Row) -->
-                                            <tr id="expand-01" class="hidden light-text-black">
-                                                <td colspan="7" class="px-6 py-4 ">
-                                                    <!-- Sub-table Head -->
-                                                    <div
-                                                        class="grid grid-cols-6  font-semibold light-text-black border-b border-gray-300">
-                                                        <div class="w-1/2">#</div>
-                                                        <div class="flex items-center text-xs">
-                                                            AMOUNT
-                                                            <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24"
-                                                                fill="none" stroke="currentColor" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                                <path d="M7 8 L12 3 L17 8" />
-                                                                <path d="M7 16 L12 21 L17 16" />
-                                                            </svg>
-                                                        </div>
-                                                        <div class="flex items-center text-xs">
-                                                            LEAD SOURCE
-                                                            <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24"
-                                                                fill="none" stroke="currentColor" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                                <path d="M7 8 L12 3 L17 8" />
-                                                                <path d="M7 16 L12 21 L17 16" />
-                                                            </svg>
-                                                        </div>
-                                                        <div class="flex items-center text-xs">
-                                                            CURRENT PROJECT
-                                                            <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24"
-                                                                fill="none" stroke="currentColor" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                                <path d="M7 8 L12 3 L17 8" />
-                                                                <path d="M7 16 L12 21 L17 16" />
-                                                            </svg>
-                                                        </div>
-                                                        <div class="flex items-center text-xs">
-                                                            MEMBERSHIP
-                                                            <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24"
-                                                                fill="none" stroke="currentColor" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                                <path d="M7 8 L12 3 L17 8" />
-                                                                <path d="M7 16 L12 21 L17 16" />
-                                                            </svg>
-                                                        </div>
-                                                        <div class="flex items-center text-xs">ACTION</div>
-                                                    </div>
+                                             <!-- Expandable Row (Sub-Header + Sub-Row) -->
+                                             <tr id="expand-0{{$count}}" class="hidden light-text-black">
+                                                 <td colspan="7" class="px-6 py-4 ">
+                                                     <!-- Sub-table Head -->
+                                                     <div
+                                                         class="grid grid-cols-6  font-semibold light-text-black border-b border-gray-300">
+                                                         <div class="w-1/2">#</div>
+                                                         <div class="flex items-center text-xs">
+                                                             AMOUNT
+                                                             <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24"
+                                                                 fill="none" stroke="currentColor"
+                                                                 stroke-width="1.5" stroke-linecap="round"
+                                                                 stroke-linejoin="round">
+                                                                 <path d="M7 8 L12 3 L17 8" />
+                                                                 <path d="M7 16 L12 21 L17 16" />
+                                                             </svg>
+                                                         </div>
+                                                         <div class="flex items-center text-xs">
+                                                             LEAD SOURCE
+                                                             <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24"
+                                                                 fill="none" stroke="currentColor"
+                                                                 stroke-width="1.5" stroke-linecap="round"
+                                                                 stroke-linejoin="round">
+                                                                 <path d="M7 8 L12 3 L17 8" />
+                                                                 <path d="M7 16 L12 21 L17 16" />
+                                                             </svg>
+                                                         </div>
+                                                         <div class="flex items-center text-xs">
+                                                             CURRENT PROJECT
+                                                             <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24"
+                                                                 fill="none" stroke="currentColor"
+                                                                 stroke-width="1.5" stroke-linecap="round"
+                                                                 stroke-linejoin="round">
+                                                                 <path d="M7 8 L12 3 L17 8" />
+                                                                 <path d="M7 16 L12 21 L17 16" />
+                                                             </svg>
+                                                         </div>
+                                                         <div class="flex items-center text-xs">
+                                                             MEMBERSHIP
+                                                             <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24"
+                                                                 fill="none" stroke="currentColor"
+                                                                 stroke-width="1.5" stroke-linecap="round"
+                                                                 stroke-linejoin="round">
+                                                                 <path d="M7 8 L12 3 L17 8" />
+                                                                 <path d="M7 16 L12 21 L17 16" />
+                                                             </svg>
+                                                         </div>
+                                                         <div class="flex items-center text-xs">ACTION</div>
+                                                     </div>
 
 
-                                                    <!-- Sub-table Row -->
-                                                    <div class="grid grid-cols-6 pt-2 mt-2 light-text-black">
-                                                        <div class="w-1/2"></div>
-                                                        <div>$10,000</div>
-                                                        <div>Email Marketing</div>
-                                                        <div>Wiz speed Dashboard</div>
-                                                        <div>
-                                                            <span
+                                                     <!-- Sub-table Row -->
+                                                     <div class="grid grid-cols-6 pt-2 mt-2 light-text-black">
+                                                         <div class="w-1/2"></div>
+                                                         <div>{{ $project->price }}</div>
+                                                         <div>Email Marketing</div>
+                                                         <div>{{ $project->project_name }}</div>
+                                                         <div>
+                                                             {{ $project->membership }}
+                                                             {{-- <span
                                                                 class="light-bg-d7d7d7 px-2 py-1 rounded-md text-xs">Domain</span>
                                                             <span
                                                                 class="light-bg-d7d7d7 px-2 py-1 rounded-md text-xs">Hosting</span>
                                                             <span
-                                                                class="light-bg-d7d7d7 px-2 py-1 rounded-md text-xs">+3</span>
-                                                        </div>
-                                                        <div class="flex items-center gap-2">
+                                                                class="light-bg-d7d7d7 px-2 py-1 rounded-md text-xs">+3</span> --}}
+                                                         </div>
+                                                         <div class="flex items-center gap-2">
 
-                                                            <img src="{{ asset('assets/document-download-DARK.svg') }}"
-                                                                id="openModalBtn" alt="Action 1"
-                                                                class="w-6 h-6 rounded-full p-1 bg-gray-500" />
+                                                             <img src="{{ asset('assets/document-download-DARK.svg') }}"
+                                                                 id="openModalBtn" alt="Action 1"
+                                                                 class="w-6 h-6 rounded-full p-1 bg-gray-500" />
 
-                                                            <img src="{{ asset('assets/edit.svg') }}" alt="Action 2"
-                                                                class="w-6 h-6  rounded-full p-1 bg-gray-500"
-                                                                data-action="view-project" />
+                                                             <img src="{{ asset('assets/edit.svg') }}" alt="Action 2"
+                                                                 class="edit-project w-6 h-6  rounded-full p-1 bg-gray-500"
+                                                                 data-action="view-project"
+                                                                 data-project-id = "{{$project->id}}"
+                                                                 />
 
-                                                            <img src="{{ asset('assets/trash.svg') }}" alt="Action 3"
-                                                                class="w-6 h-6 rounded-full p-1 bg-gray-500" />
-                                                        </div>
-                                                    </div>
+                                                             <img src="{{ asset('assets/trash.svg') }}"
+                                                                 alt="Action 3"
+                                                                 class="w-6 h-6 rounded-full p-1 bg-gray-500" />
+                                                         </div>
+                                                     </div>
 
-                                                </td>
-                                            </tr>
+                                                 </td>
+                                             </tr>
+                                         @php $count++ @endphp
+
                                          @endforeach
                                      @else
                                          <tr>
@@ -1230,554 +1249,6 @@
              </div>
          </main>
      </div>
-
-     <script>
-         document.addEventListener('DOMContentLoaded', () => {
-             const body = document.body;
-             const knowledgeButton = document.getElementById('knowledgeButton');
-             const filterButton = document.getElementById('filterButton');
-             const filterDropdown = document.getElementById('filterDropdown');
-
-             // ✅ Dropdown toggle
-             const filterButtons = document.querySelectorAll('[id^="filterButton"]');
-             const filterDropdowns = document.querySelectorAll('[id^="filterDropdown"]');
-
-             filterButtons.forEach((button, index) => {
-                 button.addEventListener('click', (e) => {
-                     e.stopPropagation();
-                     filterDropdowns[index].classList.toggle('hidden');
-                 });
-             });
-
-             document.addEventListener('click', () => {
-                 filterDropdowns.forEach(dropdown => {
-                     dropdown.classList.add('hidden');
-                 });
-             });
-
-             // ✅ Dropdown color update
-             const updateDropdownColors = () => {
-                 const isDarkMode = body.classList.contains('dark-mode');
-                 if (filterDropdown) {
-                     filterDropdown.style.color = isDarkMode ? 'white' : 'black';
-                     filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
-                 }
-             };
-
-             document.querySelectorAll('.toggle-btn').forEach(button => {
-                 button.addEventListener('click', () => {
-                     const targetId = button.getAttribute('data-target');
-                     const targetRow = document.getElementById(targetId);
-                     targetRow.classList.toggle('hidden');
-
-                     // Optionally toggle button text
-                     // button.textContent =
-                     // targetRow.classList.contains('hidden') ? 'Show More' : 'Show Less';
-                 });
-             });
-
-             // ✅ Dark mode toggle
-             const toggleDarkMode = () => {
-                 body.classList.toggle('dark-mode');
-                 updateImageSources(body.classList.contains('dark-mode'));
-                 updateDropdownColors();
-                 localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-             };
-
-             // ✅ Update images for dark/light
-             const updateImageSources = (isDarkMode) => {
-                 const icons = document.querySelectorAll('.light-mode-icon');
-                 icons.forEach(icon => {
-                     const darkSrc = icon.dataset.darkSrc;
-                     const originalSrc = icon.src.replace('-DARK.svg', '.svg');
-                     if (darkSrc) icon.src = isDarkMode ? darkSrc : originalSrc;
-                 });
-
-                 const images = document.querySelectorAll('.light-mode-img');
-                 images.forEach(img => {
-                     const darkSrc = img.dataset.darkSrc;
-                     const originalSrc = img.src.replace('-DARK.png', '.png');
-                     if (darkSrc) img.src = isDarkMode ? darkSrc : originalSrc;
-                 });
-
-                 const logo = document.querySelector('.light-mode-logo');
-                 if (logo) {
-                     const darkLogoSrc = logo.dataset.darkSrc;
-                     const lightLogoSrc = 'Frame 2147224409.png';
-                     logo.src = isDarkMode ? darkLogoSrc : lightLogoSrc;
-                 }
-             };
-
-             // ✅ Apply theme from localStorage
-             if (localStorage.getItem('theme') === 'dark') {
-                 body.classList.add('dark-mode');
-             }
-
-             updateImageSources(body.classList.contains('dark-mode'));
-             updateDropdownColors();
-
-             // ✅ Dark mode toggle button
-             if (knowledgeButton) {
-                 knowledgeButton.addEventListener('click', (e) => {
-                     e.preventDefault();
-                     toggleDarkMode();
-                 });
-             }
-
-             // ✅ SEO card "View More" toggle
-             const seoCards = document.getElementById('seo-cards');
-
-             if (seoCards) {
-                 seoCards.addEventListener('click', function(event) {
-                     if (event.target.classList.contains('toggle-btn')) {
-                         const card = event.target.closest('div[class*="p-10"]');
-                         const content = card.querySelector('.card-content');
-                         const icon = event.target.querySelector('img.toggle-icon'); // Get the icon
-                         const textNode = event.target.childNodes[
-                             0]; // Get the text node (assuming it's first)
-
-                         if (!content.style.maxHeight || content.style.maxHeight === '0px') {
-                             content.style.maxHeight = content.scrollHeight + 'px';
-                             textNode.textContent = 'View Less '; // Update text only
-                         } else {
-                             content.style.maxHeight = '0px';
-                             textNode.textContent = 'View More '; // Update text only
-                         }
-                     }
-                 });
-             }
-         });
-
-         document.addEventListener('DOMContentLoaded', function() {
-             // Debugging point 1
-             console.log('DOM loaded - script running');
-
-             const modal = document.getElementById('projectModal');
-             const closeBtn = document.getElementById('closeModal');
-             const tabButtons = document.querySelectorAll('.tab-btn'); // Select all tab buttons
-             const tabContents = document.querySelectorAll('.tab-content'); // Select all tab content divs
-
-             // --- NEW: Dark Mode Elements and Logic ---
-             const themeToggleBtn = document.getElementById(
-                 'themeToggle'); // Assuming you'll have a button with this ID
-             const htmlElement = document.documentElement; // This is the <html> tag
-
-             const openModalBtn = document.getElementById("openModalBtn");
-             const closeModalBtn = document.getElementById("closeModalBtn");
-             const modals = document.getElementById("customModal");
-
-             const taskModal = document.getElementById('taskModal');
-             const openTaskModalBtn = document.getElementById('openTaskModalBtn');
-             const closeTaskModalBtn = document.getElementById('closeTaskModalBtn');
-
-             // Open task modal
-             openTaskModalBtn?.addEventListener('click', () => {
-                 taskModal.classList.remove('hidden');
-             });
-
-             // Close task modal
-             closeTaskModalBtn?.addEventListener('click', () => {
-                 taskModal.classList.add('hidden');
-             });
-
-             openModalBtn.addEventListener("click", () => {
-                 modals.classList.remove("hidden");
-             });
-
-             closeModalBtn.addEventListener("click", () => {
-                 modals.classList.add("hidden");
-             });
-
-             // Optional: close on outside click
-             window.addEventListener("click", (e) => {
-                 if (e.target === modals) {
-                     modals.classList.add("hidden");
-                 }
-             });
-
-             // Function to set the theme
-             function setTheme(theme) {
-                 if (theme === 'dark') {
-                     htmlElement.classList.add('dark');
-                     localStorage.setItem('theme', 'dark');
-                     // Update button icon/text if you have one
-                     if (themeToggleBtn) {
-                         themeToggleBtn.innerHTML =
-                             '<i class="fa-solid fa-sun"></i> Light Mode'; // Example for a sun icon
-                     }
-                 } else {
-                     htmlElement.classList.remove('dark');
-                     localStorage.setItem('theme', 'light');
-                     // Update button icon/text if you have one
-                     if (themeToggleBtn) {
-                         themeToggleBtn.innerHTML =
-                             '<i class="fa-solid fa-moon"></i> Dark Mode'; // Example for a moon icon
-                     }
-                 }
-             }
-
-             // Function to toggle the theme
-             function toggleTheme() {
-                 if (htmlElement.classList.contains('dark')) {
-                     setTheme('light');
-                 } else {
-                     setTheme('dark');
-                 }
-             }
-
-             const taskTabButtons = document.querySelectorAll('.task-tab-btn');
-             const taskTabContents = document.querySelectorAll('.task-tab-content');
-
-             taskTabButtons.forEach(btn => {
-                 btn.addEventListener('click', () => {
-                     const targetId = btn.getAttribute('data-tab');
-
-                     taskTabContents.forEach(content => {
-                         content.classList.add('hidden');
-                     });
-
-                     document.getElementById(targetId)?.classList.remove('hidden');
-                 });
-             });
-
-
-             // Apply saved theme on load, or default to system preference/light
-             const savedTheme = localStorage.getItem('theme');
-             if (savedTheme) {
-                 setTheme(savedTheme);
-             } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                 // Check for system preference if no theme is saved
-                 setTheme('dark');
-             } else {
-                 setTheme('light'); // Default to light mode if no preference
-             }
-
-             // Add event listener for the theme toggle button
-             if (themeToggleBtn) {
-                 themeToggleBtn.addEventListener('click', toggleTheme);
-             }
-             // --- END NEW: Dark Mode Elements and Logic ---
-
-
-             if (!modal || !closeBtn || tabButtons.length === 0 || tabContents.length === 0) {
-                 console.error('Modal or tab elements not found!');
-                 return;
-             }
-
-             // Debugging point 2
-             console.log('Modal, close button, and tab elements found');
-
-             // Function to show a specific tab content and activate its button
-             function showTab(tabId) {
-                 // Hide all tab contents
-                 tabContents.forEach(content => {
-                     content.classList.add('hidden');
-                 });
-
-                 // Deactivate all tab wrappers
-                 const tabWrappers = document.querySelectorAll('.tab-wrapper');
-                 tabWrappers.forEach(wrapper => {
-                     wrapper.classList.remove('active', 'bg-gray-tab');
-                 });
-
-                 // Deactivate all tab buttons
-                 tabButtons.forEach(button => {
-                     button.classList.remove(
-                         'text-orange-500',
-                         'dark:text-orange-400',
-
-                     );
-
-                     // Remove inactive gray states to avoid duplicates
-                     button.classList.remove(
-                         'text-gray-500',
-                         'dark:text-gray-400',
-                         'hover:text-gray-700',
-                         'dark:hover:text-gray-300',
-                         'text-gray-700',
-                         'dark:text-gray-300',
-                         'hover:text-gray-900',
-                         'dark:hover:text-gray-100'
-                     );
-
-                     // Add default inactive state
-                     button.classList.add(
-                         'text-gray-700', // visible in light mode
-                         'dark:text-gray-300', // visible in dark mode
-                         'hover:text-gray-900',
-                         'dark:hover:text-gray-100'
-                     );
-                 });
-
-                 // Show the selected tab content
-                 const selectedTabContent = document.getElementById(tabId + 'Content');
-                 if (selectedTabContent) {
-                     selectedTabContent.classList.remove('hidden');
-                 }
-
-                 // Activate the selected tab button and wrapper
-                 const activeButton = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
-                 if (activeButton) {
-                     // Remove inactive classes
-                     activeButton.classList.remove(
-                         'text-gray-700',
-                         'dark:text-gray-300',
-                         'hover:text-gray-900',
-                         'dark:hover:text-gray-100'
-                     );
-
-                     // Add active classes
-                     activeButton.classList.add(
-                         'text-orange-500',
-                         'dark:text-orange-400',
-
-                     );
-
-                     // Highlight its parent wrapper
-                     const wrapper = activeButton.closest('.tab-wrapper');
-                     if (wrapper) {
-                         wrapper.classList.add('active', 'bg-gray-tab');
-                     }
-                 }
-             }
-
-
-             // Use event delegation for dynamic eye buttons
-             document.addEventListener('click', function(e) {
-                 // Check if clicked element or its parent has the action attribute
-                 const eyeBtn = e.target.closest('[data-action="view-project"]');
-
-                 if (eyeBtn) {
-                     e.preventDefault();
-                     console.log('Eye button clicked');
-
-                     try {
-                         const row = eyeBtn.closest('tr');
-                         if (!row) {
-                             console.error('Row not found for clicked button');
-                             return;
-                         }
-
-                         // Debugging point 3
-                         console.log('Row found:', row);
-
-                         // Get all data from the row
-                         const projectName = row.querySelector('td:nth-child(2) div:first-child')
-                             ?.textContent || 'Website SEO';
-                         const priorityElement = row.querySelector('.light-bg-ea54547a');
-                         const priority = priorityElement ? priorityElement.textContent.trim() :
-                             'High Priority'; // Default added for safety
-
-                         // You need to adjust these selectors to accurately pull from your table structure
-                         // Assuming progress, status, dates, and price are in specific <td>s or have unique identifiers
-                         const progressValue = row.querySelector('td:nth-child(6) span:last-child')
-                             ?.textContent?.replace('Progress ', '') || '78%';
-                         const statusValue = row.querySelector('td:nth-child(7) span:last-child')
-                             ?.textContent?.replace('STATUS ', '') || 'InProgress';
-                         const startDateValue = row.querySelector('td:nth-child(4)')?.textContent?.trim() ||
-                             '05-7-2024';
-                         const deadlineValue = row.querySelector('td:nth-child(5)')?.textContent?.trim() ||
-                             '05-7-2024';
-                         const priceValue = row.querySelector('td:nth-child(3) span:last-child')?.textContent
-                             ?.replace('PRICE ', '') || '$4000';
-
-
-
-
-
-
-                         // Debugging point 4
-                         console.log('Data extracted:', {
-                             projectName,
-                             priority,
-                             progressValue,
-                             statusValue,
-                             startDateValue,
-                             deadlineValue,
-                             priceValue
-                         });
-
-                         // Update modal content for the Overview tab
-                         // Ensure 'modal' is in scope, if it wasn't already from the top of the function
-                         // const modal = document.getElementById('projectModal'); // Uncomment if modal isn't global to this scope
-                         if (!modal) {
-                             console.error('Modal element not found during update!');
-                             return;
-                         }
-
-                         modal.querySelector('h2').textContent = projectName;
-                         const modalPriorityBadge = modal.querySelector(
-                             '.text-xs.font-medium.rounded'); // Target the badge specifically
-
-                         if (modalPriorityBadge) {
-                             modalPriorityBadge.textContent = priority;
-                             // You might want to update the background/text colors based on priority here too
-                             // Example: if (priority === 'High Priority') { modalPriorityBadge.classList.add('dark:bg-red-900', 'dark:text-red-200'); }
-                             // You'll need to manage the class removals/additions based on the actual priority string
-                         }
-
-
-                         // Update progress, status, start date, deadline, price in the overview tab
-                         const overviewContent = document.getElementById('overviewContent');
-                         if (overviewContent) {
-
-                             // --- CORRECTED PRICE SPAN SELECTION ---
-                             const priceSpan = Array.from(overviewContent.querySelectorAll('span')).find(
-                                 el =>
-                                 el.textContent.includes('PRICE') && el.closest('.flex.items-center')
-                             );
-                             if (priceSpan) {
-                                 priceSpan.textContent = `PRICE ${priceValue}`;
-                             } else {
-                                 console.warn(
-                                     'Price span with "PRICE" text or its parent not found for update.');
-                             }
-                             // --- END CORRECTED PRICE SPAN SELECTION ---
-
-
-                             const statusSpan = Array.from(overviewContent.querySelectorAll(
-                                 '.flex.items-center span')).find(el => el.textContent.includes(
-                                 'STATUS'));
-                             if (statusSpan) {
-                                 statusSpan.textContent = `STATUS ${statusValue}`;
-                             }
-
-
-
-                             const deadlineSpan = Array.from(overviewContent.querySelectorAll(
-                                 '.flex.items-center span')).find(el => el.textContent.includes(
-                                 'DEADLINE'));
-                             if (deadlineSpan) {
-                                 deadlineSpan.textContent = `DEADLINE ${deadlineValue}`;
-                             }
-                         } else {
-                             console.error('Overview content element not found!');
-                             return;
-                         }
-
-                         // Show modal
-                         modal.classList.remove('hidden');
-                         document.body.style.overflow = 'hidden';
-
-                         // Ensure the 'Overview' tab is active when the modal opens
-                         showTab('overview');
-
-                     } catch (error) {
-                         console.error('Error opening modal:', error);
-                     }
-                 }
-             });
-
-             // Close modal
-             closeBtn.addEventListener('click', function() {
-                 modal.classList.add('hidden');
-                 document.body.style.overflow = 'auto';
-             });
-
-             // Close when clicking outside modal
-             modal.addEventListener('click', function(e) {
-                 if (e.target === modal) {
-                     modal.classList.add('hidden');
-                     document.body.style.overflow = 'auto';
-                 }
-             });
-
-             // Tab switching functionality
-             tabButtons.forEach(btn => {
-                 btn.addEventListener('click', function() {
-                     const tabId = this.dataset.tab; // Get the data-tab attribute value
-                     console.log(tabId);
-                     showTab(tabId); // Call the helper function
-
-                 });
-             });
-
-             // Debugging point 5
-             console.log('All event listeners set up');
-         });
-
-
-         document.addEventListener("DOMContentLoaded", () => {
-             const customModal = document.getElementById("customModal");
-             const milestoneModal = document.getElementById("milestoneModal");
-             const openMilestoneBtns = document.querySelectorAll(".open-milestone-modal");
-             const closeMilestoneBtn = document.getElementById("closeMilestoneModal");
-             const milestoneEditModal = document.getElementById("milestoneEditModal");
-             const openMilestoneEditBtns = document.querySelectorAll(".open-milestone-edit-modal");
-             const closeMilestoneEditBtn = document.getElementById("closeMilestoneEditModal");
-             const projectModal = document.getElementById("projectModal");
-
-             openMilestoneBtns.forEach(btn => {
-                 btn.addEventListener("click", () => {
-                     customModal.classList.add("hidden");
-                     milestoneModal.classList.remove("hidden");
-                 });
-             });
-
-             closeMilestoneBtn?.addEventListener("click", () => {
-                 milestoneModal.classList.add("hidden");
-                 customModal.classList.remove("hidden"); // Optional: reopen parent
-             });
-
-             openMilestoneEditBtns.forEach(btn => {
-                 btn.addEventListener("click", () => {
-                     customModal.classList.add("hidden");
-                     milestoneEditModal.classList.remove("hidden");
-                 });
-             });
-
-             closeMilestoneEditBtn?.addEventListener("click", () => {
-                 milestoneEditModal.classList.add("hidden");
-                 customModal.classList.remove("hidden"); // Optional: reopen parent
-             });
-
-
-             const openProjectModalBtns = document.querySelectorAll(".open-project-modal");
-
-
-
-             openProjectModalBtns.forEach(button => {
-                 button.addEventListener("click", () => {
-                     if (customModal && projectModal) {
-                         customModal.classList.add("hidden");
-                         projectModal.classList.remove("hidden");
-                     } else {
-                         console.warn("One or both modals not found in DOM");
-                     }
-                 });
-             });
-         });
-
-         document.addEventListener('DOMContentLoaded', () => {
-             const membershipModal = document.getElementById("membershipModal");
-             const openMembershipBtns = document.querySelectorAll(".open-membership-modal");
-             const closeMembershipBtn = document.getElementById("closeMembershipModal");
-
-             // Open modal when tab/button is clicked
-             openMembershipBtns.forEach(btn => {
-                 btn.addEventListener("click", () => {
-                     // ⛔ Close the previous modal
-                     const tabModal = document.getElementById("projectModal");
-                     tabModal?.classList.add("hidden");
-
-                     // ✅ Open the membership modal
-                     membershipModal.classList.remove("hidden");
-                 });
-             });
-
-             // Close modal on close button
-             closeMembershipBtn?.addEventListener("click", () => {
-                 membershipModal.classList.add("hidden");
-             });
-
-             // Optional: Close on background click
-             window.addEventListener("click", (e) => {
-                 if (e.target === membershipModal) {
-                     membershipModal.classList.add("hidden");
-                 }
-             });
-         });
-     </script>
 
 
      <div id="projectModal"
@@ -1869,7 +1340,7 @@
                          <div class="grid grid-cols-1 gap-2">
                              <div>
                                  <label class="block text-sm mb-1 light-text-black">Project Name</label>
-                                 <input type="text" name="project_name" placeholder="Develop WizSpeed Dashboard"
+                                 <input type="text" id="project_name" name="project_name" placeholder="Develop WizSpeed Dashboard"
                                      class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                              </div>
 
@@ -2600,17 +2071,17 @@
              <div id="taskTab1" class="task-tab-content px-6">
 
 
-                 <form id="ticketForm"  class="space-y-4 mb-10 " method="POST"
+                 <form id="ticketForm" class="space-y-4 mb-10 " method="POST"
                      action="{{ route('project.store') }}" enctype="multipart/form-data">
                      @csrf
                      <!-- Title, Project Name, Priority -->
-                     <input type="hidden" name="user_id" value="{{ $userId }}">
+                     <input type="hidden" name="user_id" id="user_id" value="{{ $userId }}">
 
                      <div class="grid grid-cols-1 gap-4">
                          <div class="grid grid-cols-1 gap-2">
                              <div>
                                  <label class="block text-sm mb-1 light-text-black">Project Name</label>
-                                 <input type="text" name="project_name" placeholder="Develop WizSpeed Dashboard"
+                                 <input type="text" id="project_name" name="project_name" placeholder="Develop WizSpeed Dashboard"
                                      class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                              </div>
 
@@ -2619,13 +2090,13 @@
                              <div class="grid grid-cols-3 gap-2">
                                  <div>
                                      <label class="block text-sm mb-1 light-text-black">Client Name</label>
-                                     <input type="text"  name="client_name" placeholder="John Doe"
+                                     <input type="text" id="client_name" name="client_name" placeholder="John Doe"
                                          class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black focus:outline-none">
                                  </div>
 
                                  <div>
                                      <label class="block text-sm mb-1 light-text-black">Membership</label>
-                                     <select name="membership"
+                                     <select name="membership" id="membership"
                                          class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                          <option value="" hidden selected>Select Membership</option>
                                          <option value="basic">Basic</option>
@@ -2637,7 +2108,7 @@
                                  <!-- State Selection -->
                                  <div>
                                      <label class="block text-sm mb-1 light-text-black">Assigned To</label>
-                                     <select name="assign_to" 
+                                     <select name="assign_to" id="assign_to"
                                          class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black"
                                          {{ $users->isEmpty() ? 'disabled' : '' }}>
 
@@ -2659,21 +2130,21 @@
                          <div class="grid grid-cols-3  gap-4">
                              <div>
                                  <label class="block text-sm mb-1 light-text-black"> Price</label>
-                                 <input type="text" name="price" placeholder="$10,000"
+                                 <input type="text" id="price" name="price" placeholder="$10,000"
                                      class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
                              </div>
 
                              <!-- State Selection -->
                              <div>
                                  <label class="block text-sm mb-1 light-text-black">Start Date</label>
-                                 <input type="date"  name="start_date" placeholder="05-7-2024"
+                                 <input type="date" name="start_date" id="start_date" placeholder="05-7-2024"
                                      class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
                              </div>
 
                              <!-- City Selection -->
                              <div>
                                  <label class="block text-sm mb-1 light-text-black">Deadline</label>
-                                 <input type="date"  name="end_date" placeholder="05-10-2024"
+                                 <input type="date" name="end_date" id="end_date" placeholder="05-10-2024"
                                      class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
                              </div>
 
@@ -2681,7 +2152,7 @@
                          <!-- File Upload -->
                          <div>
                              <label class="block text-sm mb-1 light-text-black">Attachment</label>
-                             <input type="file" id="ticketFile" name="document_name"
+                             <input type="file" id="document_name" name="document_name"
                                  class="file-input w-full light-text-black light-bg-d7d7d7 p-1 rounded-md focus:outline-none">
                          </div>
 
@@ -2705,9 +2176,13 @@
                                 class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                                 Cancel
                             </button> --}}
-                            <div id="message" style="display: none; color: green; font-weight: bold;">Default Message</div>
 
-                             <button type="submit" class="px-4 py-2 bg-orange-500  rounded-lg hover:bg-orange-600">
+                                <div  x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+                                    class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50" id="msg" style="display: none;">
+                                    Project Added successfully!
+                                </div>
+
+                             <button type="submit" id="addProject" class="px-4 py-2 bg-orange-500  rounded-lg hover:bg-orange-600">
                                  Add Project
                              </button>
                          </div>
@@ -2720,59 +2195,67 @@
              <div id="taskTab2" class="task-tab-content hidden">
                  <div class="px-5">
                      <p class="text-lg font-bold mb-2">Milestone</p>
-                     <form method="post" action="{{ route('milestone.store') }}">
-                        @csrf
 
-                        <label class="block mb-2">Milestone Name</label>
-                            <input type="text" placeholder="Name here..." name="milestone_name"
-                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                    <form method="POST">
+                         @csrf
 
-                            <div class="flex gap-4 mb-4">
-                                <div class="flex-1">
-                                    <label class="block mb-2">Start Date</label>
-                                    <input type="date" name="start_date" 
-                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                                </div>
-                                <div class="flex-1">
-                                    <label class="block mb-2">Deadline</label>
-                                    <input type="date" name="deadline"
-                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                                </div>
-                            </div>
+                         <label class="block mb-2">Milestone Name</label>
+                         <input type="text" id="milestone_name" placeholder="Name here..." name="milestone_name"
+                             class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
 
-                            <div>
-                                     {{-- <label class="block text-sm mb-1 light-text-black">Assigned To</label> --}}
-                                     <select name="project_id"
-                                         class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black"
-                                         {{ $projects->isEmpty() ? 'disabled' : '' }}>
+                         <div class="flex gap-4 mb-4">
+                             <div class="flex-1">
+                                 <label class="block mb-2">Start Date</label>
+                                 <input type="date" name="start_date" id="milestone_start_date"
+                                     class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                             </div>
+                             <div class="flex-1">
+                                 <label class="block mb-2">Deadline</label>
+                                 <input type="date" name="deadline" id="deadline"
+                                     class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                             </div>
+                         </div>
 
-                                         @if ($users->isEmpty())
-                                             <option value="" hidden selected>No users available</option>
-                                         @else
-                                             <option value="" hidden selected>Select Project</option>
-                                             @foreach ($projects as $project)
-                                                 <option value="{{ $project->id }}">{{ $project->project_name }}</option>
-                                             @endforeach
-                                         @endif
+                            {{-- <div>
+                                <select name="project_id" id="project_id"
+                                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black"
+                                    {{ $projects->isEmpty() ? 'disabled' : '' }}>
 
-                                     </select>
+                                    @if ($projects->isEmpty())
+                                        <option value="" hidden selected>No Projects available</option>
+                                    @else
+                                        <option value="" hidden selected>Select Project</option>
+                                        @foreach ($projects as $project)
+                                            <option value="{{ $project->id }}">{{ $project->project_name }}</option>
+                                        @endforeach
+                                    @endif
 
-                                 </div>
+                                </select>
+
+                            </div> --}}
+
+                            <input type="text" name="project_id" id="project_id" value="{{ session('last_project_id') }}">
 
 
                             <label class="flex items-center mb-4">
                                 <input type="checkbox" class="mr-2"> Mark as High Priority
                             </label>
-                        </div>
+                    </div>
 
-                        <div class="flex justify-between p-5 mt-4">
-                            <button class="px-4 py-2 rounded bg-[#333] text-white">Add New Milestone</button>
-                            <div class="flex gap-2">
-                                {{-- <button class="bg-gray-600 px-4 py-2 rounded">Cancel</button> --}}
-                                <button class="bg-orange-500 text-white px-4 py-2 rounded " type="submit">Save</button>
-                            </div>
+                    <div  x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+                                    class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50" id="mileStonemsg" style="display: none;">
+                                    Milestone Added successfully!
+                    </div>
+
+                    <div class="flex justify-between p-5 mt-4">
+                        <button class="px-4 py-2 rounded bg-[#333] text-white">Add New Milestone</button>
+                        <div class="flex gap-2">
+                            {{-- <button class="bg-gray-600 px-4 py-2 rounded">Cancel</button> --}}
+                            <button id="addMilestone" class="bg-orange-500 text-white px-4 py-2 rounded " type="submit">Save</button>
                         </div>
-                     </form>
+                    </div>
+                    
+                 </form>
                  {{-- <div class="px-5">
                      <p class="text-lg font-bold mb-2">Milestone 2</p>
                      <label class="block mb-2">Milestone Name</label>
@@ -2797,7 +2280,7 @@
                      </label>
                  </div> --}}
 
-                 
+
 
              </div>
 
@@ -2914,59 +2397,60 @@
                          <tbody class="bg-transparent border  light-border-gray2">
 
                              @foreach ($documents as $document)
-                                <tr class="border-2 light-border-gray2">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">01</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
-                                        <div class="flex items-center gap-1">
-                                            <img class="w-8 h-8" src="Avatar.svg" alt="">
-                                            <div>
-                                                <p class="text-md">John Doe</p>
-                                                <p class="text-xs text-gray-400">Client</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td
-                                        class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
-                                        <a href="#"
-                                            class="flex items-center bg-gray-200 rounded-md w-36
+                                 <tr class="border-2 light-border-gray2">
+                                     <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">01</td>
+                                     <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
+                                         <div class="flex items-center gap-1">
+                                             <img class="w-8 h-8" src="Avatar.svg" alt="">
+                                             <div>
+                                                 <p class="text-md">John Doe</p>
+                                                 <p class="text-xs text-gray-400">Client</p>
+                                             </div>
+                                         </div>
+                                     </td>
+                                     <td
+                                         class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
+                                         <a href="#"
+                                             class="flex items-center bg-gray-200 rounded-md w-36
                                     p-2 light-text-gray-600 dark:text-gray-400 hover:underline">
-                                            Website SEO.pdf
-                                            <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <!-- Arrow down left side -->
-                                                <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                                    stroke-width="1.25" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                                    stroke-width="1.25" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
+                                             Website SEO.pdf
+                                             <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                 <!-- Arrow down left side -->
+                                                 <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
+                                                     stroke-width="1.25" stroke-linecap="round"
+                                                     stroke-linejoin="round" />
+                                                 <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
+                                                     stroke-width="1.25" stroke-linecap="round"
+                                                     stroke-linejoin="round" />
 
-                                                <!-- Document outline -->
-                                                <path
-                                                    d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
-                                                    stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
+                                                 <!-- Document outline -->
+                                                 <path
+                                                     d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
+                                                     stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                     stroke-linejoin="round" />
 
-                                                <!-- Folded corner -->
-                                                <path
-                                                    d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
-                                                    stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                            </svg>
-                                        </a>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">10-5-2024</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                        <button
-                                            class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                            <div class="flex gap-2">
-                                                <img src="document-download.svg" alt="eye"
-                                                    class="bg-gray-200 p-1 open-project-modal rounded-full">
-                                            </div>
-                                        </button>
-                                    </td>
-                                </tr>
-                                @endforeach
+                                                 <!-- Folded corner -->
+                                                 <path
+                                                     d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
+                                                     stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                     stroke-linejoin="round" />
+                                             </svg>
+                                         </a>
+                                     </td>
+                                     <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">10-5-2024</td>
+                                     <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                         <button
+                                             class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                             <div class="flex gap-2">
+                                                 <img src="{{asset('assets/document-download.svg')}}" alt="eye"
+                                                     class="bg-gray-200 p-1 open-project-modal rounded-full">
+                                             </div>
+                                         </button>
+                                     </td>
+                                 </tr>
+                             @endforeach
+
                          </tbody>
                      </table>
                  </div>
@@ -3126,8 +2610,692 @@
 
 
 
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 
+
+
+    <script>
+        $(document).ready(function() {
+
+            // project start
+            $('#addProject').click(function (event) {
+                event.preventDefault(); 
+                
+                project_name = $('#project_name').val();
+                client_name = $('#client_name').val();
+                membership = $('#membership').val();
+                assign_to = $('#assign_to').val();
+                price = $('#price').val();
+                start_date = $('#start_date').val();
+                end_date = $('#end_date').val();
+                user_id = $('#user_id').val();
+                file = $('#document_name').val();
+
+                let formData = new FormData();
+
+                formData.append('_token', '{{ csrf_token() }}');
+                formData.append('project_name', project_name);
+                formData.append('client_name', client_name);
+                formData.append('membership', membership);
+                formData.append('assign_to', assign_to);
+                formData.append('price', price);
+                formData.append('start_date', start_date);
+                formData.append('end_date', end_date);
+                formData.append('user_id', user_id);
+                formData.append('document_name', $('#document_name')[0].files[0]);
+                  
+
+                $.ajax({
+                    url: "{{ route('project.store') }}",
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if(response) {
+                            $('#project_name').val('');
+                            $('#client_name').val('');
+                            $('#membership').val('');
+                            $('#assign_to').val('');
+                            $('#price').val('');
+                            $('#start_date').val('');
+                            $('#end_date').val('');
+                            $('#document_name').val('');
+
+                            $('#msg').fadeIn(400);
+                            setTimeout(() => {
+                                $('#msg').fadeOut(600);
+                            }, 3000);
+
+                            document.getElementById('project_id').value = response.project_id
+                        }
+                        // console.log("Data submitted successfully:", response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error submitting data:", error);
+                    }
+                });
+            });
+
+            // edit project
+
+            $('.edit-project').on('click', function() {
+                var projectId = $(this).data('project-id');
+
+                console.log(projectId);
+
+                $.ajax({
+                    url: '/projects/receive-id', 
+                    method: 'POST',
+                    data: {id: projectId},
+                    success: function(response) {
+                        console.log(response.project.name);
+                    }
+                });
+            });            
+
+            // project end
+
+            // milestone start
+
+            $('#addMilestone').click(function (event) {
+                event.preventDefault(); 
+                
+                milestone_name = $('#milestone_name').val();
+                milestone_start_date = $('#milestone_start_date').val();
+                deadline = $('#deadline').val();
+                project_id = $('#project_id').val();
+
+                let formData = new FormData();
+
+                formData.append('_token', '{{ csrf_token() }}');
+                formData.append('milestone_name', milestone_name);
+                formData.append('milestone_start_date', milestone_start_date);
+                formData.append('deadline', deadline);
+                formData.append('project_id', project_id);                  
+
+                $.ajax({
+                    url: "{{ route('milestone.store') }}",
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if(response) {
+                            $('#milestone_name').val('');
+                            $('#milestone_start_date').val('');
+                            $('#deadline').val('');
+
+                            $('#mileStonemsg').fadeIn(400);
+                            setTimeout(() => {
+                                $('#mileStonemsg').fadeOut(600);
+                            }, 3000);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error submitting data:", error);
+                    }
+            });
+
+
+                // milestone end
+
+            });
+
+        });
+        
+    </script>
+
+
+
+    <script>
+         document.addEventListener('DOMContentLoaded', () => {
+             const body = document.body;
+             const knowledgeButton = document.getElementById('knowledgeButton');
+             const filterButton = document.getElementById('filterButton');
+             const filterDropdown = document.getElementById('filterDropdown');
+
+             // ✅ Dropdown toggle
+             const filterButtons = document.querySelectorAll('[id^="filterButton"]');
+             const filterDropdowns = document.querySelectorAll('[id^="filterDropdown"]');
+
+             filterButtons.forEach((button, index) => {
+                 button.addEventListener('click', (e) => {
+                     e.stopPropagation();
+                     filterDropdowns[index].classList.toggle('hidden');
+                 });
+             });
+
+             document.addEventListener('click', () => {
+                 filterDropdowns.forEach(dropdown => {
+                     dropdown.classList.add('hidden');
+                 });
+             });
+
+             // ✅ Dropdown color update
+             const updateDropdownColors = () => {
+                 const isDarkMode = body.classList.contains('dark-mode');
+                 if (filterDropdown) {
+                     filterDropdown.style.color = isDarkMode ? 'white' : 'black';
+                     filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
+                 }
+             };
+
+             document.querySelectorAll('.toggle-btn').forEach(button => {
+                 button.addEventListener('click', () => {
+                     const targetId = button.getAttribute('data-target');
+                     const targetRow = document.getElementById(targetId);
+                     targetRow.classList.toggle('hidden');
+
+                     // Optionally toggle button text
+                     // button.textContent =
+                     // targetRow.classList.contains('hidden') ? 'Show More' : 'Show Less';
+                 });
+             });
+
+             // ✅ Dark mode toggle
+             const toggleDarkMode = () => {
+                 body.classList.toggle('dark-mode');
+                 updateImageSources(body.classList.contains('dark-mode'));
+                 updateDropdownColors();
+                 localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+             };
+
+             // ✅ Update images for dark/light
+             const updateImageSources = (isDarkMode) => {
+                 const icons = document.querySelectorAll('.light-mode-icon');
+                 icons.forEach(icon => {
+                     const darkSrc = icon.dataset.darkSrc;
+                     const originalSrc = icon.src.replace('-DARK.svg', '.svg');
+                     if (darkSrc) icon.src = isDarkMode ? darkSrc : originalSrc;
+                 });
+
+                 const images = document.querySelectorAll('.light-mode-img');
+                 images.forEach(img => {
+                     const darkSrc = img.dataset.darkSrc;
+                     const originalSrc = img.src.replace('-DARK.png', '.png');
+                     if (darkSrc) img.src = isDarkMode ? darkSrc : originalSrc;
+                 });
+
+                 const logo = document.querySelector('.light-mode-logo');
+                 if (logo) {
+                     const darkLogoSrc = logo.dataset.darkSrc;
+                     const lightLogoSrc = 'Frame 2147224409.png';
+                     logo.src = isDarkMode ? darkLogoSrc : lightLogoSrc;
+                 }
+             };
+
+             // ✅ Apply theme from localStorage
+             if (localStorage.getItem('theme') === 'dark') {
+                 body.classList.add('dark-mode');
+             }
+
+             updateImageSources(body.classList.contains('dark-mode'));
+             updateDropdownColors();
+
+             // ✅ Dark mode toggle button
+             if (knowledgeButton) {
+                 knowledgeButton.addEventListener('click', (e) => {
+                     e.preventDefault();
+                     toggleDarkMode();
+                 });
+             }
+
+             // ✅ SEO card "View More" toggle
+             const seoCards = document.getElementById('seo-cards');
+
+             if (seoCards) {
+                 seoCards.addEventListener('click', function(event) {
+                     if (event.target.classList.contains('toggle-btn')) {
+                         const card = event.target.closest('div[class*="p-10"]');
+                         const content = card.querySelector('.card-content');
+                         const icon = event.target.querySelector('img.toggle-icon'); // Get the icon
+                         const textNode = event.target.childNodes[
+                             0]; // Get the text node (assuming it's first)
+
+                         if (!content.style.maxHeight || content.style.maxHeight === '0px') {
+                             content.style.maxHeight = content.scrollHeight + 'px';
+                             textNode.textContent = 'View Less '; // Update text only
+                         } else {
+                             content.style.maxHeight = '0px';
+                             textNode.textContent = 'View More '; // Update text only
+                         }
+                     }
+                 });
+             }
+         });
+
+         document.addEventListener('DOMContentLoaded', function() {
+             // Debugging point 1
+             console.log('DOM loaded - script running');
+
+             const modal = document.getElementById('projectModal');
+             const closeBtn = document.getElementById('closeModal');
+             const tabButtons = document.querySelectorAll('.tab-btn'); // Select all tab buttons
+             const tabContents = document.querySelectorAll('.tab-content'); // Select all tab content divs
+
+             // --- NEW: Dark Mode Elements and Logic ---
+             const themeToggleBtn = document.getElementById(
+                 'themeToggle'); // Assuming you'll have a button with this ID
+             const htmlElement = document.documentElement; // This is the <html> tag
+
+             const openModalBtn = document.getElementById("openModalBtn");
+             const closeModalBtn = document.getElementById("closeModalBtn");
+             const modals = document.getElementById("customModal");
+
+             const taskModal = document.getElementById('taskModal');
+             const openTaskModalBtn = document.getElementById('openTaskModalBtn');
+             const closeTaskModalBtn = document.getElementById('closeTaskModalBtn');
+
+             // Open task modal
+             openTaskModalBtn?.addEventListener('click', () => {
+                 taskModal.classList.remove('hidden');
+             });
+
+             // Close task modal
+             closeTaskModalBtn?.addEventListener('click', () => {
+                 taskModal.classList.add('hidden');
+             });
+
+             openModalBtn.addEventListener("click", () => {
+                 modals.classList.remove("hidden");
+             });
+
+             closeModalBtn.addEventListener("click", () => {
+                 modals.classList.add("hidden");
+             });
+
+             // Optional: close on outside click
+             window.addEventListener("click", (e) => {
+                 if (e.target === modals) {
+                     modals.classList.add("hidden");
+                 }
+             });
+
+             // Function to set the theme
+             function setTheme(theme) {
+                 if (theme === 'dark') {
+                     htmlElement.classList.add('dark');
+                     localStorage.setItem('theme', 'dark');
+                     // Update button icon/text if you have one
+                     if (themeToggleBtn) {
+                         themeToggleBtn.innerHTML =
+                             '<i class="fa-solid fa-sun"></i> Light Mode'; // Example for a sun icon
+                     }
+                 } else {
+                     htmlElement.classList.remove('dark');
+                     localStorage.setItem('theme', 'light');
+                     // Update button icon/text if you have one
+                     if (themeToggleBtn) {
+                         themeToggleBtn.innerHTML =
+                             '<i class="fa-solid fa-moon"></i> Dark Mode'; // Example for a moon icon
+                     }
+                 }
+             }
+
+             // Function to toggle the theme
+             function toggleTheme() {
+                 if (htmlElement.classList.contains('dark')) {
+                     setTheme('light');
+                 } else {
+                     setTheme('dark');
+                 }
+             }
+
+             const taskTabButtons = document.querySelectorAll('.task-tab-btn');
+             const taskTabContents = document.querySelectorAll('.task-tab-content');
+
+             taskTabButtons.forEach(btn => {
+                 btn.addEventListener('click', () => {
+                     const targetId = btn.getAttribute('data-tab');
+
+                     taskTabContents.forEach(content => {
+                         content.classList.add('hidden');
+                     });
+
+                     document.getElementById(targetId)?.classList.remove('hidden');
+                 });
+             });
+
+
+             // Apply saved theme on load, or default to system preference/light
+             const savedTheme = localStorage.getItem('theme');
+             if (savedTheme) {
+                 setTheme(savedTheme);
+             } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                 // Check for system preference if no theme is saved
+                 setTheme('dark');
+             } else {
+                 setTheme('light'); // Default to light mode if no preference
+             }
+
+             // Add event listener for the theme toggle button
+             if (themeToggleBtn) {
+                 themeToggleBtn.addEventListener('click', toggleTheme);
+             }
+             // --- END NEW: Dark Mode Elements and Logic ---
+
+
+             if (!modal || !closeBtn || tabButtons.length === 0 || tabContents.length === 0) {
+                 console.error('Modal or tab elements not found!');
+                 return;
+             }
+
+             // Debugging point 2
+             console.log('Modal, close button, and tab elements found');
+
+             // Function to show a specific tab content and activate its button
+             function showTab(tabId) {
+                 // Hide all tab contents
+                 tabContents.forEach(content => {
+                     content.classList.add('hidden');
+                 });
+
+                 // Deactivate all tab wrappers
+                 const tabWrappers = document.querySelectorAll('.tab-wrapper');
+                 tabWrappers.forEach(wrapper => {
+                     wrapper.classList.remove('active', 'bg-gray-tab');
+                 });
+
+                 // Deactivate all tab buttons
+                 tabButtons.forEach(button => {
+                     button.classList.remove(
+                         'text-orange-500',
+                         'dark:text-orange-400',
+
+                     );
+
+                     // Remove inactive gray states to avoid duplicates
+                     button.classList.remove(
+                         'text-gray-500',
+                         'dark:text-gray-400',
+                         'hover:text-gray-700',
+                         'dark:hover:text-gray-300',
+                         'text-gray-700',
+                         'dark:text-gray-300',
+                         'hover:text-gray-900',
+                         'dark:hover:text-gray-100'
+                     );
+
+                     // Add default inactive state
+                     button.classList.add(
+                         'text-gray-700', // visible in light mode
+                         'dark:text-gray-300', // visible in dark mode
+                         'hover:text-gray-900',
+                         'dark:hover:text-gray-100'
+                     );
+                 });
+
+                 // Show the selected tab content
+                 const selectedTabContent = document.getElementById(tabId + 'Content');
+                 if (selectedTabContent) {
+                     selectedTabContent.classList.remove('hidden');
+                 }
+
+                 // Activate the selected tab button and wrapper
+                 const activeButton = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+                 if (activeButton) {
+                     // Remove inactive classes
+                     activeButton.classList.remove(
+                         'text-gray-700',
+                         'dark:text-gray-300',
+                         'hover:text-gray-900',
+                         'dark:hover:text-gray-100'
+                     );
+
+                     // Add active classes
+                     activeButton.classList.add(
+                         'text-orange-500',
+                         'dark:text-orange-400',
+
+                     );
+
+                     // Highlight its parent wrapper
+                     const wrapper = activeButton.closest('.tab-wrapper');
+                     if (wrapper) {
+                         wrapper.classList.add('active', 'bg-gray-tab');
+                     }
+                 }
+             }
+
+
+             // Use event delegation for dynamic eye buttons
+             document.addEventListener('click', function(e) {
+                 // Check if clicked element or its parent has the action attribute
+                 const eyeBtn = e.target.closest('[data-action="view-project"]');
+
+                 if (eyeBtn) {
+                     e.preventDefault();
+                     console.log('Eye button clicked');
+
+                     try {
+                         const row = eyeBtn.closest('tr');
+                         if (!row) {
+                             console.error('Row not found for clicked button');
+                             return;
+                         }
+
+                         // Debugging point 3
+                         console.log('Row found:', row);
+
+                         // Get all data from the row
+                         const projectName = row.querySelector('td:nth-child(2) div:first-child')
+                             ?.textContent || 'Website SEO';
+                         const priorityElement = row.querySelector('.light-bg-ea54547a');
+                         const priority = priorityElement ? priorityElement.textContent.trim() :
+                             'High Priority'; // Default added for safety
+
+                         // You need to adjust these selectors to accurately pull from your table structure
+                         // Assuming progress, status, dates, and price are in specific <td>s or have unique identifiers
+                         const progressValue = row.querySelector('td:nth-child(6) span:last-child')
+                             ?.textContent?.replace('Progress ', '') || '78%';
+                         const statusValue = row.querySelector('td:nth-child(7) span:last-child')
+                             ?.textContent?.replace('STATUS ', '') || 'InProgress';
+                         const startDateValue = row.querySelector('td:nth-child(4)')?.textContent?.trim() ||
+                             '05-7-2024';
+                         const deadlineValue = row.querySelector('td:nth-child(5)')?.textContent?.trim() ||
+                             '05-7-2024';
+                         const priceValue = row.querySelector('td:nth-child(3) span:last-child')?.textContent
+                             ?.replace('PRICE ', '') || '$4000';
+
+
+
+
+
+
+                         // Debugging point 4
+                         console.log('Data extracted:', {
+                             projectName,
+                             priority,
+                             progressValue,
+                             statusValue,
+                             startDateValue,
+                             deadlineValue,
+                             priceValue
+                         });
+
+                         // Update modal content for the Overview tab
+                         // Ensure 'modal' is in scope, if it wasn't already from the top of the function
+                         // const modal = document.getElementById('projectModal'); // Uncomment if modal isn't global to this scope
+                         if (!modal) {
+                             console.error('Modal element not found during update!');
+                             return;
+                         }
+
+                         modal.querySelector('h2').textContent = projectName;
+                         const modalPriorityBadge = modal.querySelector(
+                             '.text-xs.font-medium.rounded'); // Target the badge specifically
+
+                         if (modalPriorityBadge) {
+                             modalPriorityBadge.textContent = priority;
+                             // You might want to update the background/text colors based on priority here too
+                             // Example: if (priority === 'High Priority') { modalPriorityBadge.classList.add('dark:bg-red-900', 'dark:text-red-200'); }
+                             // You'll need to manage the class removals/additions based on the actual priority string
+                         }
+
+
+                         // Update progress, status, start date, deadline, price in the overview tab
+                         const overviewContent = document.getElementById('overviewContent');
+                         if (overviewContent) {
+
+                             // --- CORRECTED PRICE SPAN SELECTION ---
+                             const priceSpan = Array.from(overviewContent.querySelectorAll('span')).find(
+                                 el =>
+                                 el.textContent.includes('PRICE') && el.closest('.flex.items-center')
+                             );
+                             if (priceSpan) {
+                                 priceSpan.textContent = `PRICE ${priceValue}`;
+                             } else {
+                                 console.warn(
+                                     'Price span with "PRICE" text or its parent not found for update.');
+                             }
+                             // --- END CORRECTED PRICE SPAN SELECTION ---
+
+
+                             const statusSpan = Array.from(overviewContent.querySelectorAll(
+                                 '.flex.items-center span')).find(el => el.textContent.includes(
+                                 'STATUS'));
+                             if (statusSpan) {
+                                 statusSpan.textContent = `STATUS ${statusValue}`;
+                             }
+
+
+
+                             const deadlineSpan = Array.from(overviewContent.querySelectorAll(
+                                 '.flex.items-center span')).find(el => el.textContent.includes(
+                                 'DEADLINE'));
+                             if (deadlineSpan) {
+                                 deadlineSpan.textContent = `DEADLINE ${deadlineValue}`;
+                             }
+                         } else {
+                             console.error('Overview content element not found!');
+                             return;
+                         }
+
+                         // Show modal
+                         modal.classList.remove('hidden');
+                         document.body.style.overflow = 'hidden';
+
+                         // Ensure the 'Overview' tab is active when the modal opens
+                         showTab('overview');
+
+                     } catch (error) {
+                         console.error('Error opening modal:', error);
+                     }
+                 }
+             });
+
+             // Close modal
+             closeBtn.addEventListener('click', function() {
+                 modal.classList.add('hidden');
+                 document.body.style.overflow = 'auto';
+             });
+
+             // Close when clicking outside modal
+             modal.addEventListener('click', function(e) {
+                 if (e.target === modal) {
+                     modal.classList.add('hidden');
+                     document.body.style.overflow = 'auto';
+                 }
+             });
+
+             // Tab switching functionality
+             tabButtons.forEach(btn => {
+                 btn.addEventListener('click', function() {
+                     const tabId = this.dataset.tab; // Get the data-tab attribute value
+                     console.log(tabId);
+                     showTab(tabId); // Call the helper function
+
+                 });
+             });
+
+             // Debugging point 5
+             console.log('All event listeners set up');
+         });
+
+
+         document.addEventListener("DOMContentLoaded", () => {
+             const customModal = document.getElementById("customModal");
+             const milestoneModal = document.getElementById("milestoneModal");
+             const openMilestoneBtns = document.querySelectorAll(".open-milestone-modal");
+             const closeMilestoneBtn = document.getElementById("closeMilestoneModal");
+             const milestoneEditModal = document.getElementById("milestoneEditModal");
+             const openMilestoneEditBtns = document.querySelectorAll(".open-milestone-edit-modal");
+             const closeMilestoneEditBtn = document.getElementById("closeMilestoneEditModal");
+             const projectModal = document.getElementById("projectModal");
+
+             openMilestoneBtns.forEach(btn => {
+                 btn.addEventListener("click", () => {
+                     customModal.classList.add("hidden");
+                     milestoneModal.classList.remove("hidden");
+                 });
+             });
+
+             closeMilestoneBtn?.addEventListener("click", () => {
+                 milestoneModal.classList.add("hidden");
+                 customModal.classList.remove("hidden"); // Optional: reopen parent
+             });
+
+             openMilestoneEditBtns.forEach(btn => {
+                 btn.addEventListener("click", () => {
+                     customModal.classList.add("hidden");
+                     milestoneEditModal.classList.remove("hidden");
+                 });
+             });
+
+             closeMilestoneEditBtn?.addEventListener("click", () => {
+                 milestoneEditModal.classList.add("hidden");
+                 customModal.classList.remove("hidden"); // Optional: reopen parent
+             });
+
+
+             const openProjectModalBtns = document.querySelectorAll(".open-project-modal");
+
+
+
+             openProjectModalBtns.forEach(button => {
+                 button.addEventListener("click", () => {
+                     if (customModal && projectModal) {
+                         customModal.classList.add("hidden");
+                         projectModal.classList.remove("hidden");
+                     } else {
+                         console.warn("One or both modals not found in DOM");
+                     }
+                 });
+             });
+         });
+
+         document.addEventListener('DOMContentLoaded', () => {
+             const membershipModal = document.getElementById("membershipModal");
+             const openMembershipBtns = document.querySelectorAll(".open-membership-modal");
+             const closeMembershipBtn = document.getElementById("closeMembershipModal");
+
+             // Open modal when tab/button is clicked
+             openMembershipBtns.forEach(btn => {
+                 btn.addEventListener("click", () => {
+                     // ⛔ Close the previous modal
+                     const tabModal = document.getElementById("projectModal");
+                     tabModal?.classList.add("hidden");
+
+                     // ✅ Open the membership modal
+                     membershipModal.classList.remove("hidden");
+                 });
+             });
+
+             // Close modal on close button
+             closeMembershipBtn?.addEventListener("click", () => {
+                 membershipModal.classList.add("hidden");
+             });
+
+             // Optional: Close on background click
+             window.addEventListener("click", (e) => {
+                 if (e.target === membershipModal) {
+                     membershipModal.classList.add("hidden");
+                 }
+             });
+         });
+    </script>
 
  </body>
 

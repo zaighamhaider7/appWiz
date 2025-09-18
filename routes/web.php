@@ -17,6 +17,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/setting', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/setting', [ProfileController::class, 'destroy'])->name('profile.destroy');
         Route::post('/setting/{id}', [ProfileController::class, 'delDevice'])->name('profile.deleteDevice');
+<<<<<<< HEAD
     Route::post('/settings', [settingController::class, 'addRoles'])->name('roles.add');
 
 });
@@ -24,6 +25,10 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+=======
+    Route::post('/settings', [RolesController::class, 'addRoles'])->name('roles.add');
+    
+>>>>>>> 9546feabcff39c8a50f62105c5e4697a24f9bdce
 Route::get('/projects', [ProjectController::class, 'create'])->name('project.create');
 
 Route::post('/projects', [ProjectController::class, 'store'])->name('project.store');
@@ -33,6 +38,16 @@ Route::post('/projects', [ProjectController::class, 'store'])->name('project.sto
 Route::post('/projects/milestone', [ProjectController::class, 'milestoneStore'])->name('milestone.store');
 
 
+
+});
+
+
+require __DIR__.'/auth.php';
+
+
+Route::get('/tests', [ProjectController::class, 'testView'])->name('test.create');
+
+Route::post('/tests', [ProjectController::class, 'testStore'])->name('test.store');
 
 
 
@@ -45,3 +60,13 @@ Route::post('/edit-project/{id}', [ProjectController::class, 'edit'])->name('pro
 
 Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('project.delete');
 
+
+
+
+
+
+
+
+
+
+Route::post('/projects/receive-id', [ProjectController::class, 'receiveId']);
