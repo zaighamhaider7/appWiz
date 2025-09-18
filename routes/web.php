@@ -3,7 +3,6 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\settingController;
-use App\Http\Controllers\RolesController;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home;
@@ -18,7 +17,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/setting', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/setting', [ProfileController::class, 'destroy'])->name('profile.destroy');
         Route::post('/setting/{id}', [ProfileController::class, 'delDevice'])->name('profile.deleteDevice');
-    Route::post('/settings', [RolesController::class, 'addRoles'])->name('roles.add');
+    Route::post('/settings', [settingController::class, 'addRoles'])->name('roles.add');
 
 });
 

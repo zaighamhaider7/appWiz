@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
+use App\Models\roles;
 return new class extends Migration
 {
     /**
@@ -11,18 +11,35 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+         Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('image')->nullable();
-            $table->string('company')->nullable();
-            $table->string('website')->nullable();
-            $table->rememberToken();
+            $table->string('name')->unique();
+            $table->json('access');
+            $table->string('icon')->nullable();
             $table->timestamps();
         });
+       Schema::create('users', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+    $table->string('email')->unique();
+    $table->timestamp('email_verified_at')->nullable();
+    $table->string('password');
+      
+    // Correct foreign key:
+    $table->foreignId('role_id')
+      ->default(5)
+      ->references('id') // or whatever column name
+      ->on('roles')
+      ->onDelete('cascade');
+
+
+    $table->string('image')->nullable();
+    $table->string('company')->nullable();
+    $table->string('website')->nullable();
+    $table->rememberToken();
+    $table->timestamps();
+});
+
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();

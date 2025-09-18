@@ -639,11 +639,13 @@ namespace App\Models {
      * @property string|null $website
      * @property string|null $company
      * @property string|null $image
+     * @property mixed $role_id
      * @property string $password
      * @property \Illuminate\Support\Carbon|null $email_verified_at
      * @property string $email
      * @property string $name
      * @property int $id
+     * @property-read \App\Models\Roles $roles
      * @property-read \Illuminate\Database\Eloquent\Collection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
      * @property-read int|null $notifications_count
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereId($value)
@@ -651,6 +653,7 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereEmail($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereEmailVerifiedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User wherePassword($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereRoleId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereImage($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereCompany($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereWebsite($value)
