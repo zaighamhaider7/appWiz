@@ -980,10 +980,14 @@
                                              </div>
                                          </th>
                                      </tr>
+                                         @php
+                                        $count = 1;
+                                     @endphp
                                  </thead>
                                  <tbody class="light-bg-white light-bg-seo divide-y divide-gray-200">
                                      <!-- Row 1 -->
                                      @if ($projects->count() > 0)
+                                 
                                          @foreach ($projects as $project)
                                              <tr>
                                                  <td
@@ -1061,7 +1065,7 @@
                                                      class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                      <button
                                                          class="light-text-orange-500  rounded-full p-1 light-hover-text-orange-700 toggle-btn"
-                                                         data-target="expand-01">
+                                                         data-target="expand-0{{$count}}">
                                                          <img src="{{ asset('assets/AR.svg') }}" alt="">
 
                                                      </button>
@@ -1069,7 +1073,7 @@
                                              </tr>
 
                                              <!-- Expandable Row (Sub-Header + Sub-Row) -->
-                                             <tr id="expand-01" class="hidden light-text-black">
+                                             <tr id="expand-0{{$count}}" class="hidden light-text-black">
                                                  <td colspan="7" class="px-6 py-4 ">
                                                      <!-- Sub-table Head -->
                                                      <div
@@ -1141,8 +1145,10 @@
                                                                  class="w-6 h-6 rounded-full p-1 bg-gray-500" />
 
                                                              <img src="{{ asset('assets/edit.svg') }}" alt="Action 2"
-                                                                 class="w-6 h-6  rounded-full p-1 bg-gray-500"
-                                                                 data-action="view-project" />
+                                                                 class="edit-project w-6 h-6  rounded-full p-1 bg-gray-500"
+                                                                 data-action="view-project"
+                                                                 data-project-id = "{{$project->id}}"
+                                                                 />
 
                                                              <img src="{{ asset('assets/trash.svg') }}"
                                                                  alt="Action 3"
@@ -1152,6 +1158,8 @@
 
                                                  </td>
                                              </tr>
+                                         @php $count++ @endphp
+
                                          @endforeach
                                      @else
                                          <tr>
@@ -1241,554 +1249,6 @@
              </div>
          </main>
      </div>
-
-     <script>
-         document.addEventListener('DOMContentLoaded', () => {
-             const body = document.body;
-             const knowledgeButton = document.getElementById('knowledgeButton');
-             const filterButton = document.getElementById('filterButton');
-             const filterDropdown = document.getElementById('filterDropdown');
-
-             // ✅ Dropdown toggle
-             const filterButtons = document.querySelectorAll('[id^="filterButton"]');
-             const filterDropdowns = document.querySelectorAll('[id^="filterDropdown"]');
-
-             filterButtons.forEach((button, index) => {
-                 button.addEventListener('click', (e) => {
-                     e.stopPropagation();
-                     filterDropdowns[index].classList.toggle('hidden');
-                 });
-             });
-
-             document.addEventListener('click', () => {
-                 filterDropdowns.forEach(dropdown => {
-                     dropdown.classList.add('hidden');
-                 });
-             });
-
-             // ✅ Dropdown color update
-             const updateDropdownColors = () => {
-                 const isDarkMode = body.classList.contains('dark-mode');
-                 if (filterDropdown) {
-                     filterDropdown.style.color = isDarkMode ? 'white' : 'black';
-                     filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
-                 }
-             };
-
-             document.querySelectorAll('.toggle-btn').forEach(button => {
-                 button.addEventListener('click', () => {
-                     const targetId = button.getAttribute('data-target');
-                     const targetRow = document.getElementById(targetId);
-                     targetRow.classList.toggle('hidden');
-
-                     // Optionally toggle button text
-                     // button.textContent =
-                     // targetRow.classList.contains('hidden') ? 'Show More' : 'Show Less';
-                 });
-             });
-
-             // ✅ Dark mode toggle
-             const toggleDarkMode = () => {
-                 body.classList.toggle('dark-mode');
-                 updateImageSources(body.classList.contains('dark-mode'));
-                 updateDropdownColors();
-                 localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-             };
-
-             // ✅ Update images for dark/light
-             const updateImageSources = (isDarkMode) => {
-                 const icons = document.querySelectorAll('.light-mode-icon');
-                 icons.forEach(icon => {
-                     const darkSrc = icon.dataset.darkSrc;
-                     const originalSrc = icon.src.replace('-DARK.svg', '.svg');
-                     if (darkSrc) icon.src = isDarkMode ? darkSrc : originalSrc;
-                 });
-
-                 const images = document.querySelectorAll('.light-mode-img');
-                 images.forEach(img => {
-                     const darkSrc = img.dataset.darkSrc;
-                     const originalSrc = img.src.replace('-DARK.png', '.png');
-                     if (darkSrc) img.src = isDarkMode ? darkSrc : originalSrc;
-                 });
-
-                 const logo = document.querySelector('.light-mode-logo');
-                 if (logo) {
-                     const darkLogoSrc = logo.dataset.darkSrc;
-                     const lightLogoSrc = 'Frame 2147224409.png';
-                     logo.src = isDarkMode ? darkLogoSrc : lightLogoSrc;
-                 }
-             };
-
-             // ✅ Apply theme from localStorage
-             if (localStorage.getItem('theme') === 'dark') {
-                 body.classList.add('dark-mode');
-             }
-
-             updateImageSources(body.classList.contains('dark-mode'));
-             updateDropdownColors();
-
-             // ✅ Dark mode toggle button
-             if (knowledgeButton) {
-                 knowledgeButton.addEventListener('click', (e) => {
-                     e.preventDefault();
-                     toggleDarkMode();
-                 });
-             }
-
-             // ✅ SEO card "View More" toggle
-             const seoCards = document.getElementById('seo-cards');
-
-             if (seoCards) {
-                 seoCards.addEventListener('click', function(event) {
-                     if (event.target.classList.contains('toggle-btn')) {
-                         const card = event.target.closest('div[class*="p-10"]');
-                         const content = card.querySelector('.card-content');
-                         const icon = event.target.querySelector('img.toggle-icon'); // Get the icon
-                         const textNode = event.target.childNodes[
-                             0]; // Get the text node (assuming it's first)
-
-                         if (!content.style.maxHeight || content.style.maxHeight === '0px') {
-                             content.style.maxHeight = content.scrollHeight + 'px';
-                             textNode.textContent = 'View Less '; // Update text only
-                         } else {
-                             content.style.maxHeight = '0px';
-                             textNode.textContent = 'View More '; // Update text only
-                         }
-                     }
-                 });
-             }
-         });
-
-         document.addEventListener('DOMContentLoaded', function() {
-             // Debugging point 1
-             console.log('DOM loaded - script running');
-
-             const modal = document.getElementById('projectModal');
-             const closeBtn = document.getElementById('closeModal');
-             const tabButtons = document.querySelectorAll('.tab-btn'); // Select all tab buttons
-             const tabContents = document.querySelectorAll('.tab-content'); // Select all tab content divs
-
-             // --- NEW: Dark Mode Elements and Logic ---
-             const themeToggleBtn = document.getElementById(
-                 'themeToggle'); // Assuming you'll have a button with this ID
-             const htmlElement = document.documentElement; // This is the <html> tag
-
-             const openModalBtn = document.getElementById("openModalBtn");
-             const closeModalBtn = document.getElementById("closeModalBtn");
-             const modals = document.getElementById("customModal");
-
-             const taskModal = document.getElementById('taskModal');
-             const openTaskModalBtn = document.getElementById('openTaskModalBtn');
-             const closeTaskModalBtn = document.getElementById('closeTaskModalBtn');
-
-             // Open task modal
-             openTaskModalBtn?.addEventListener('click', () => {
-                 taskModal.classList.remove('hidden');
-             });
-
-             // Close task modal
-             closeTaskModalBtn?.addEventListener('click', () => {
-                 taskModal.classList.add('hidden');
-             });
-
-             openModalBtn.addEventListener("click", () => {
-                 modals.classList.remove("hidden");
-             });
-
-             closeModalBtn.addEventListener("click", () => {
-                 modals.classList.add("hidden");
-             });
-
-             // Optional: close on outside click
-             window.addEventListener("click", (e) => {
-                 if (e.target === modals) {
-                     modals.classList.add("hidden");
-                 }
-             });
-
-             // Function to set the theme
-             function setTheme(theme) {
-                 if (theme === 'dark') {
-                     htmlElement.classList.add('dark');
-                     localStorage.setItem('theme', 'dark');
-                     // Update button icon/text if you have one
-                     if (themeToggleBtn) {
-                         themeToggleBtn.innerHTML =
-                             '<i class="fa-solid fa-sun"></i> Light Mode'; // Example for a sun icon
-                     }
-                 } else {
-                     htmlElement.classList.remove('dark');
-                     localStorage.setItem('theme', 'light');
-                     // Update button icon/text if you have one
-                     if (themeToggleBtn) {
-                         themeToggleBtn.innerHTML =
-                             '<i class="fa-solid fa-moon"></i> Dark Mode'; // Example for a moon icon
-                     }
-                 }
-             }
-
-             // Function to toggle the theme
-             function toggleTheme() {
-                 if (htmlElement.classList.contains('dark')) {
-                     setTheme('light');
-                 } else {
-                     setTheme('dark');
-                 }
-             }
-
-             const taskTabButtons = document.querySelectorAll('.task-tab-btn');
-             const taskTabContents = document.querySelectorAll('.task-tab-content');
-
-             taskTabButtons.forEach(btn => {
-                 btn.addEventListener('click', () => {
-                     const targetId = btn.getAttribute('data-tab');
-
-                     taskTabContents.forEach(content => {
-                         content.classList.add('hidden');
-                     });
-
-                     document.getElementById(targetId)?.classList.remove('hidden');
-                 });
-             });
-
-
-             // Apply saved theme on load, or default to system preference/light
-             const savedTheme = localStorage.getItem('theme');
-             if (savedTheme) {
-                 setTheme(savedTheme);
-             } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                 // Check for system preference if no theme is saved
-                 setTheme('dark');
-             } else {
-                 setTheme('light'); // Default to light mode if no preference
-             }
-
-             // Add event listener for the theme toggle button
-             if (themeToggleBtn) {
-                 themeToggleBtn.addEventListener('click', toggleTheme);
-             }
-             // --- END NEW: Dark Mode Elements and Logic ---
-
-
-             if (!modal || !closeBtn || tabButtons.length === 0 || tabContents.length === 0) {
-                 console.error('Modal or tab elements not found!');
-                 return;
-             }
-
-             // Debugging point 2
-             console.log('Modal, close button, and tab elements found');
-
-             // Function to show a specific tab content and activate its button
-             function showTab(tabId) {
-                 // Hide all tab contents
-                 tabContents.forEach(content => {
-                     content.classList.add('hidden');
-                 });
-
-                 // Deactivate all tab wrappers
-                 const tabWrappers = document.querySelectorAll('.tab-wrapper');
-                 tabWrappers.forEach(wrapper => {
-                     wrapper.classList.remove('active', 'bg-gray-tab');
-                 });
-
-                 // Deactivate all tab buttons
-                 tabButtons.forEach(button => {
-                     button.classList.remove(
-                         'text-orange-500',
-                         'dark:text-orange-400',
-
-                     );
-
-                     // Remove inactive gray states to avoid duplicates
-                     button.classList.remove(
-                         'text-gray-500',
-                         'dark:text-gray-400',
-                         'hover:text-gray-700',
-                         'dark:hover:text-gray-300',
-                         'text-gray-700',
-                         'dark:text-gray-300',
-                         'hover:text-gray-900',
-                         'dark:hover:text-gray-100'
-                     );
-
-                     // Add default inactive state
-                     button.classList.add(
-                         'text-gray-700', // visible in light mode
-                         'dark:text-gray-300', // visible in dark mode
-                         'hover:text-gray-900',
-                         'dark:hover:text-gray-100'
-                     );
-                 });
-
-                 // Show the selected tab content
-                 const selectedTabContent = document.getElementById(tabId + 'Content');
-                 if (selectedTabContent) {
-                     selectedTabContent.classList.remove('hidden');
-                 }
-
-                 // Activate the selected tab button and wrapper
-                 const activeButton = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
-                 if (activeButton) {
-                     // Remove inactive classes
-                     activeButton.classList.remove(
-                         'text-gray-700',
-                         'dark:text-gray-300',
-                         'hover:text-gray-900',
-                         'dark:hover:text-gray-100'
-                     );
-
-                     // Add active classes
-                     activeButton.classList.add(
-                         'text-orange-500',
-                         'dark:text-orange-400',
-
-                     );
-
-                     // Highlight its parent wrapper
-                     const wrapper = activeButton.closest('.tab-wrapper');
-                     if (wrapper) {
-                         wrapper.classList.add('active', 'bg-gray-tab');
-                     }
-                 }
-             }
-
-
-             // Use event delegation for dynamic eye buttons
-             document.addEventListener('click', function(e) {
-                 // Check if clicked element or its parent has the action attribute
-                 const eyeBtn = e.target.closest('[data-action="view-project"]');
-
-                 if (eyeBtn) {
-                     e.preventDefault();
-                     console.log('Eye button clicked');
-
-                     try {
-                         const row = eyeBtn.closest('tr');
-                         if (!row) {
-                             console.error('Row not found for clicked button');
-                             return;
-                         }
-
-                         // Debugging point 3
-                         console.log('Row found:', row);
-
-                         // Get all data from the row
-                         const projectName = row.querySelector('td:nth-child(2) div:first-child')
-                             ?.textContent || 'Website SEO';
-                         const priorityElement = row.querySelector('.light-bg-ea54547a');
-                         const priority = priorityElement ? priorityElement.textContent.trim() :
-                             'High Priority'; // Default added for safety
-
-                         // You need to adjust these selectors to accurately pull from your table structure
-                         // Assuming progress, status, dates, and price are in specific <td>s or have unique identifiers
-                         const progressValue = row.querySelector('td:nth-child(6) span:last-child')
-                             ?.textContent?.replace('Progress ', '') || '78%';
-                         const statusValue = row.querySelector('td:nth-child(7) span:last-child')
-                             ?.textContent?.replace('STATUS ', '') || 'InProgress';
-                         const startDateValue = row.querySelector('td:nth-child(4)')?.textContent?.trim() ||
-                             '05-7-2024';
-                         const deadlineValue = row.querySelector('td:nth-child(5)')?.textContent?.trim() ||
-                             '05-7-2024';
-                         const priceValue = row.querySelector('td:nth-child(3) span:last-child')?.textContent
-                             ?.replace('PRICE ', '') || '$4000';
-
-
-
-
-
-
-                         // Debugging point 4
-                         console.log('Data extracted:', {
-                             projectName,
-                             priority,
-                             progressValue,
-                             statusValue,
-                             startDateValue,
-                             deadlineValue,
-                             priceValue
-                         });
-
-                         // Update modal content for the Overview tab
-                         // Ensure 'modal' is in scope, if it wasn't already from the top of the function
-                         // const modal = document.getElementById('projectModal'); // Uncomment if modal isn't global to this scope
-                         if (!modal) {
-                             console.error('Modal element not found during update!');
-                             return;
-                         }
-
-                         modal.querySelector('h2').textContent = projectName;
-                         const modalPriorityBadge = modal.querySelector(
-                             '.text-xs.font-medium.rounded'); // Target the badge specifically
-
-                         if (modalPriorityBadge) {
-                             modalPriorityBadge.textContent = priority;
-                             // You might want to update the background/text colors based on priority here too
-                             // Example: if (priority === 'High Priority') { modalPriorityBadge.classList.add('dark:bg-red-900', 'dark:text-red-200'); }
-                             // You'll need to manage the class removals/additions based on the actual priority string
-                         }
-
-
-                         // Update progress, status, start date, deadline, price in the overview tab
-                         const overviewContent = document.getElementById('overviewContent');
-                         if (overviewContent) {
-
-                             // --- CORRECTED PRICE SPAN SELECTION ---
-                             const priceSpan = Array.from(overviewContent.querySelectorAll('span')).find(
-                                 el =>
-                                 el.textContent.includes('PRICE') && el.closest('.flex.items-center')
-                             );
-                             if (priceSpan) {
-                                 priceSpan.textContent = `PRICE ${priceValue}`;
-                             } else {
-                                 console.warn(
-                                     'Price span with "PRICE" text or its parent not found for update.');
-                             }
-                             // --- END CORRECTED PRICE SPAN SELECTION ---
-
-
-                             const statusSpan = Array.from(overviewContent.querySelectorAll(
-                                 '.flex.items-center span')).find(el => el.textContent.includes(
-                                 'STATUS'));
-                             if (statusSpan) {
-                                 statusSpan.textContent = `STATUS ${statusValue}`;
-                             }
-
-
-
-                             const deadlineSpan = Array.from(overviewContent.querySelectorAll(
-                                 '.flex.items-center span')).find(el => el.textContent.includes(
-                                 'DEADLINE'));
-                             if (deadlineSpan) {
-                                 deadlineSpan.textContent = `DEADLINE ${deadlineValue}`;
-                             }
-                         } else {
-                             console.error('Overview content element not found!');
-                             return;
-                         }
-
-                         // Show modal
-                         modal.classList.remove('hidden');
-                         document.body.style.overflow = 'hidden';
-
-                         // Ensure the 'Overview' tab is active when the modal opens
-                         showTab('overview');
-
-                     } catch (error) {
-                         console.error('Error opening modal:', error);
-                     }
-                 }
-             });
-
-             // Close modal
-             closeBtn.addEventListener('click', function() {
-                 modal.classList.add('hidden');
-                 document.body.style.overflow = 'auto';
-             });
-
-             // Close when clicking outside modal
-             modal.addEventListener('click', function(e) {
-                 if (e.target === modal) {
-                     modal.classList.add('hidden');
-                     document.body.style.overflow = 'auto';
-                 }
-             });
-
-             // Tab switching functionality
-             tabButtons.forEach(btn => {
-                 btn.addEventListener('click', function() {
-                     const tabId = this.dataset.tab; // Get the data-tab attribute value
-                     console.log(tabId);
-                     showTab(tabId); // Call the helper function
-
-                 });
-             });
-
-             // Debugging point 5
-             console.log('All event listeners set up');
-         });
-
-
-         document.addEventListener("DOMContentLoaded", () => {
-             const customModal = document.getElementById("customModal");
-             const milestoneModal = document.getElementById("milestoneModal");
-             const openMilestoneBtns = document.querySelectorAll(".open-milestone-modal");
-             const closeMilestoneBtn = document.getElementById("closeMilestoneModal");
-             const milestoneEditModal = document.getElementById("milestoneEditModal");
-             const openMilestoneEditBtns = document.querySelectorAll(".open-milestone-edit-modal");
-             const closeMilestoneEditBtn = document.getElementById("closeMilestoneEditModal");
-             const projectModal = document.getElementById("projectModal");
-
-             openMilestoneBtns.forEach(btn => {
-                 btn.addEventListener("click", () => {
-                     customModal.classList.add("hidden");
-                     milestoneModal.classList.remove("hidden");
-                 });
-             });
-
-             closeMilestoneBtn?.addEventListener("click", () => {
-                 milestoneModal.classList.add("hidden");
-                 customModal.classList.remove("hidden"); // Optional: reopen parent
-             });
-
-             openMilestoneEditBtns.forEach(btn => {
-                 btn.addEventListener("click", () => {
-                     customModal.classList.add("hidden");
-                     milestoneEditModal.classList.remove("hidden");
-                 });
-             });
-
-             closeMilestoneEditBtn?.addEventListener("click", () => {
-                 milestoneEditModal.classList.add("hidden");
-                 customModal.classList.remove("hidden"); // Optional: reopen parent
-             });
-
-
-             const openProjectModalBtns = document.querySelectorAll(".open-project-modal");
-
-
-
-             openProjectModalBtns.forEach(button => {
-                 button.addEventListener("click", () => {
-                     if (customModal && projectModal) {
-                         customModal.classList.add("hidden");
-                         projectModal.classList.remove("hidden");
-                     } else {
-                         console.warn("One or both modals not found in DOM");
-                     }
-                 });
-             });
-         });
-
-         document.addEventListener('DOMContentLoaded', () => {
-             const membershipModal = document.getElementById("membershipModal");
-             const openMembershipBtns = document.querySelectorAll(".open-membership-modal");
-             const closeMembershipBtn = document.getElementById("closeMembershipModal");
-
-             // Open modal when tab/button is clicked
-             openMembershipBtns.forEach(btn => {
-                 btn.addEventListener("click", () => {
-                     // ⛔ Close the previous modal
-                     const tabModal = document.getElementById("projectModal");
-                     tabModal?.classList.add("hidden");
-
-                     // ✅ Open the membership modal
-                     membershipModal.classList.remove("hidden");
-                 });
-             });
-
-             // Close modal on close button
-             closeMembershipBtn?.addEventListener("click", () => {
-                 membershipModal.classList.add("hidden");
-             });
-
-             // Optional: Close on background click
-             window.addEventListener("click", (e) => {
-                 if (e.target === membershipModal) {
-                     membershipModal.classList.add("hidden");
-                 }
-             });
-         });
-     </script>
 
 
      <div id="projectModal"
@@ -1880,7 +1340,7 @@
                          <div class="grid grid-cols-1 gap-2">
                              <div>
                                  <label class="block text-sm mb-1 light-text-black">Project Name</label>
-                                 <input type="text" name="project_name" placeholder="Develop WizSpeed Dashboard"
+                                 <input type="text" id="project_name" name="project_name" placeholder="Develop WizSpeed Dashboard"
                                      class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                              </div>
 
@@ -2756,8 +2216,7 @@
                              </div>
                          </div>
 
-                            <div>
-                                {{-- <label class="block text-sm mb-1 light-text-black">Assigned To</label> --}}
+                            {{-- <div>
                                 <select name="project_id" id="project_id"
                                     class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black"
                                     {{ $projects->isEmpty() ? 'disabled' : '' }}>
@@ -2773,7 +2232,9 @@
 
                                 </select>
 
-                            </div>
+                            </div> --}}
+
+                            <input type="text" name="project_id" id="project_id" value="{{ session('last_project_id') }}">
 
 
                             <label class="flex items-center mb-4">
@@ -3152,6 +2613,8 @@
      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 
+
+
     <script>
         $(document).ready(function() {
 
@@ -3204,6 +2667,8 @@
                             setTimeout(() => {
                                 $('#msg').fadeOut(600);
                             }, 3000);
+
+                            document.getElementById('project_id').value = response.project_id
                         }
                         // console.log("Data submitted successfully:", response);
                     },
@@ -3213,11 +2678,28 @@
                 });
             });
 
+            // edit project
+
+            $('.edit-project').on('click', function() {
+                var projectId = $(this).data('project-id');
+
+                console.log(projectId);
+
+                $.ajax({
+                    url: '/projects/receive-id', 
+                    method: 'POST',
+                    data: {id: projectId},
+                    success: function(response) {
+                        console.log(response.project.name);
+                    }
+                });
+            });            
+
             // project end
 
             // milestone start
 
-             $('#addMilestone').click(function (event) {
+            $('#addMilestone').click(function (event) {
                 event.preventDefault(); 
                 
                 milestone_name = $('#milestone_name').val();
@@ -3242,7 +2724,7 @@
                     success: function(response) {
                         if(response) {
                             $('#milestone_name').val('');
-                            $('#start_date').val('');
+                            $('#milestone_start_date').val('');
                             $('#deadline').val('');
 
                             $('#mileStonemsg').fadeIn(400);
@@ -3254,14 +2736,566 @@
                     error: function(xhr, status, error) {
                         console.error("Error submitting data:", error);
                     }
-                });
+            });
+
 
                 // milestone end
 
             });
+
         });
+        
     </script>
 
+
+
+    <script>
+         document.addEventListener('DOMContentLoaded', () => {
+             const body = document.body;
+             const knowledgeButton = document.getElementById('knowledgeButton');
+             const filterButton = document.getElementById('filterButton');
+             const filterDropdown = document.getElementById('filterDropdown');
+
+             // ✅ Dropdown toggle
+             const filterButtons = document.querySelectorAll('[id^="filterButton"]');
+             const filterDropdowns = document.querySelectorAll('[id^="filterDropdown"]');
+
+             filterButtons.forEach((button, index) => {
+                 button.addEventListener('click', (e) => {
+                     e.stopPropagation();
+                     filterDropdowns[index].classList.toggle('hidden');
+                 });
+             });
+
+             document.addEventListener('click', () => {
+                 filterDropdowns.forEach(dropdown => {
+                     dropdown.classList.add('hidden');
+                 });
+             });
+
+             // ✅ Dropdown color update
+             const updateDropdownColors = () => {
+                 const isDarkMode = body.classList.contains('dark-mode');
+                 if (filterDropdown) {
+                     filterDropdown.style.color = isDarkMode ? 'white' : 'black';
+                     filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
+                 }
+             };
+
+             document.querySelectorAll('.toggle-btn').forEach(button => {
+                 button.addEventListener('click', () => {
+                     const targetId = button.getAttribute('data-target');
+                     const targetRow = document.getElementById(targetId);
+                     targetRow.classList.toggle('hidden');
+
+                     // Optionally toggle button text
+                     // button.textContent =
+                     // targetRow.classList.contains('hidden') ? 'Show More' : 'Show Less';
+                 });
+             });
+
+             // ✅ Dark mode toggle
+             const toggleDarkMode = () => {
+                 body.classList.toggle('dark-mode');
+                 updateImageSources(body.classList.contains('dark-mode'));
+                 updateDropdownColors();
+                 localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+             };
+
+             // ✅ Update images for dark/light
+             const updateImageSources = (isDarkMode) => {
+                 const icons = document.querySelectorAll('.light-mode-icon');
+                 icons.forEach(icon => {
+                     const darkSrc = icon.dataset.darkSrc;
+                     const originalSrc = icon.src.replace('-DARK.svg', '.svg');
+                     if (darkSrc) icon.src = isDarkMode ? darkSrc : originalSrc;
+                 });
+
+                 const images = document.querySelectorAll('.light-mode-img');
+                 images.forEach(img => {
+                     const darkSrc = img.dataset.darkSrc;
+                     const originalSrc = img.src.replace('-DARK.png', '.png');
+                     if (darkSrc) img.src = isDarkMode ? darkSrc : originalSrc;
+                 });
+
+                 const logo = document.querySelector('.light-mode-logo');
+                 if (logo) {
+                     const darkLogoSrc = logo.dataset.darkSrc;
+                     const lightLogoSrc = 'Frame 2147224409.png';
+                     logo.src = isDarkMode ? darkLogoSrc : lightLogoSrc;
+                 }
+             };
+
+             // ✅ Apply theme from localStorage
+             if (localStorage.getItem('theme') === 'dark') {
+                 body.classList.add('dark-mode');
+             }
+
+             updateImageSources(body.classList.contains('dark-mode'));
+             updateDropdownColors();
+
+             // ✅ Dark mode toggle button
+             if (knowledgeButton) {
+                 knowledgeButton.addEventListener('click', (e) => {
+                     e.preventDefault();
+                     toggleDarkMode();
+                 });
+             }
+
+             // ✅ SEO card "View More" toggle
+             const seoCards = document.getElementById('seo-cards');
+
+             if (seoCards) {
+                 seoCards.addEventListener('click', function(event) {
+                     if (event.target.classList.contains('toggle-btn')) {
+                         const card = event.target.closest('div[class*="p-10"]');
+                         const content = card.querySelector('.card-content');
+                         const icon = event.target.querySelector('img.toggle-icon'); // Get the icon
+                         const textNode = event.target.childNodes[
+                             0]; // Get the text node (assuming it's first)
+
+                         if (!content.style.maxHeight || content.style.maxHeight === '0px') {
+                             content.style.maxHeight = content.scrollHeight + 'px';
+                             textNode.textContent = 'View Less '; // Update text only
+                         } else {
+                             content.style.maxHeight = '0px';
+                             textNode.textContent = 'View More '; // Update text only
+                         }
+                     }
+                 });
+             }
+         });
+
+         document.addEventListener('DOMContentLoaded', function() {
+             // Debugging point 1
+             console.log('DOM loaded - script running');
+
+             const modal = document.getElementById('projectModal');
+             const closeBtn = document.getElementById('closeModal');
+             const tabButtons = document.querySelectorAll('.tab-btn'); // Select all tab buttons
+             const tabContents = document.querySelectorAll('.tab-content'); // Select all tab content divs
+
+             // --- NEW: Dark Mode Elements and Logic ---
+             const themeToggleBtn = document.getElementById(
+                 'themeToggle'); // Assuming you'll have a button with this ID
+             const htmlElement = document.documentElement; // This is the <html> tag
+
+             const openModalBtn = document.getElementById("openModalBtn");
+             const closeModalBtn = document.getElementById("closeModalBtn");
+             const modals = document.getElementById("customModal");
+
+             const taskModal = document.getElementById('taskModal');
+             const openTaskModalBtn = document.getElementById('openTaskModalBtn');
+             const closeTaskModalBtn = document.getElementById('closeTaskModalBtn');
+
+             // Open task modal
+             openTaskModalBtn?.addEventListener('click', () => {
+                 taskModal.classList.remove('hidden');
+             });
+
+             // Close task modal
+             closeTaskModalBtn?.addEventListener('click', () => {
+                 taskModal.classList.add('hidden');
+             });
+
+             openModalBtn.addEventListener("click", () => {
+                 modals.classList.remove("hidden");
+             });
+
+             closeModalBtn.addEventListener("click", () => {
+                 modals.classList.add("hidden");
+             });
+
+             // Optional: close on outside click
+             window.addEventListener("click", (e) => {
+                 if (e.target === modals) {
+                     modals.classList.add("hidden");
+                 }
+             });
+
+             // Function to set the theme
+             function setTheme(theme) {
+                 if (theme === 'dark') {
+                     htmlElement.classList.add('dark');
+                     localStorage.setItem('theme', 'dark');
+                     // Update button icon/text if you have one
+                     if (themeToggleBtn) {
+                         themeToggleBtn.innerHTML =
+                             '<i class="fa-solid fa-sun"></i> Light Mode'; // Example for a sun icon
+                     }
+                 } else {
+                     htmlElement.classList.remove('dark');
+                     localStorage.setItem('theme', 'light');
+                     // Update button icon/text if you have one
+                     if (themeToggleBtn) {
+                         themeToggleBtn.innerHTML =
+                             '<i class="fa-solid fa-moon"></i> Dark Mode'; // Example for a moon icon
+                     }
+                 }
+             }
+
+             // Function to toggle the theme
+             function toggleTheme() {
+                 if (htmlElement.classList.contains('dark')) {
+                     setTheme('light');
+                 } else {
+                     setTheme('dark');
+                 }
+             }
+
+             const taskTabButtons = document.querySelectorAll('.task-tab-btn');
+             const taskTabContents = document.querySelectorAll('.task-tab-content');
+
+             taskTabButtons.forEach(btn => {
+                 btn.addEventListener('click', () => {
+                     const targetId = btn.getAttribute('data-tab');
+
+                     taskTabContents.forEach(content => {
+                         content.classList.add('hidden');
+                     });
+
+                     document.getElementById(targetId)?.classList.remove('hidden');
+                 });
+             });
+
+
+             // Apply saved theme on load, or default to system preference/light
+             const savedTheme = localStorage.getItem('theme');
+             if (savedTheme) {
+                 setTheme(savedTheme);
+             } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                 // Check for system preference if no theme is saved
+                 setTheme('dark');
+             } else {
+                 setTheme('light'); // Default to light mode if no preference
+             }
+
+             // Add event listener for the theme toggle button
+             if (themeToggleBtn) {
+                 themeToggleBtn.addEventListener('click', toggleTheme);
+             }
+             // --- END NEW: Dark Mode Elements and Logic ---
+
+
+             if (!modal || !closeBtn || tabButtons.length === 0 || tabContents.length === 0) {
+                 console.error('Modal or tab elements not found!');
+                 return;
+             }
+
+             // Debugging point 2
+             console.log('Modal, close button, and tab elements found');
+
+             // Function to show a specific tab content and activate its button
+             function showTab(tabId) {
+                 // Hide all tab contents
+                 tabContents.forEach(content => {
+                     content.classList.add('hidden');
+                 });
+
+                 // Deactivate all tab wrappers
+                 const tabWrappers = document.querySelectorAll('.tab-wrapper');
+                 tabWrappers.forEach(wrapper => {
+                     wrapper.classList.remove('active', 'bg-gray-tab');
+                 });
+
+                 // Deactivate all tab buttons
+                 tabButtons.forEach(button => {
+                     button.classList.remove(
+                         'text-orange-500',
+                         'dark:text-orange-400',
+
+                     );
+
+                     // Remove inactive gray states to avoid duplicates
+                     button.classList.remove(
+                         'text-gray-500',
+                         'dark:text-gray-400',
+                         'hover:text-gray-700',
+                         'dark:hover:text-gray-300',
+                         'text-gray-700',
+                         'dark:text-gray-300',
+                         'hover:text-gray-900',
+                         'dark:hover:text-gray-100'
+                     );
+
+                     // Add default inactive state
+                     button.classList.add(
+                         'text-gray-700', // visible in light mode
+                         'dark:text-gray-300', // visible in dark mode
+                         'hover:text-gray-900',
+                         'dark:hover:text-gray-100'
+                     );
+                 });
+
+                 // Show the selected tab content
+                 const selectedTabContent = document.getElementById(tabId + 'Content');
+                 if (selectedTabContent) {
+                     selectedTabContent.classList.remove('hidden');
+                 }
+
+                 // Activate the selected tab button and wrapper
+                 const activeButton = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+                 if (activeButton) {
+                     // Remove inactive classes
+                     activeButton.classList.remove(
+                         'text-gray-700',
+                         'dark:text-gray-300',
+                         'hover:text-gray-900',
+                         'dark:hover:text-gray-100'
+                     );
+
+                     // Add active classes
+                     activeButton.classList.add(
+                         'text-orange-500',
+                         'dark:text-orange-400',
+
+                     );
+
+                     // Highlight its parent wrapper
+                     const wrapper = activeButton.closest('.tab-wrapper');
+                     if (wrapper) {
+                         wrapper.classList.add('active', 'bg-gray-tab');
+                     }
+                 }
+             }
+
+
+             // Use event delegation for dynamic eye buttons
+             document.addEventListener('click', function(e) {
+                 // Check if clicked element or its parent has the action attribute
+                 const eyeBtn = e.target.closest('[data-action="view-project"]');
+
+                 if (eyeBtn) {
+                     e.preventDefault();
+                     console.log('Eye button clicked');
+
+                     try {
+                         const row = eyeBtn.closest('tr');
+                         if (!row) {
+                             console.error('Row not found for clicked button');
+                             return;
+                         }
+
+                         // Debugging point 3
+                         console.log('Row found:', row);
+
+                         // Get all data from the row
+                         const projectName = row.querySelector('td:nth-child(2) div:first-child')
+                             ?.textContent || 'Website SEO';
+                         const priorityElement = row.querySelector('.light-bg-ea54547a');
+                         const priority = priorityElement ? priorityElement.textContent.trim() :
+                             'High Priority'; // Default added for safety
+
+                         // You need to adjust these selectors to accurately pull from your table structure
+                         // Assuming progress, status, dates, and price are in specific <td>s or have unique identifiers
+                         const progressValue = row.querySelector('td:nth-child(6) span:last-child')
+                             ?.textContent?.replace('Progress ', '') || '78%';
+                         const statusValue = row.querySelector('td:nth-child(7) span:last-child')
+                             ?.textContent?.replace('STATUS ', '') || 'InProgress';
+                         const startDateValue = row.querySelector('td:nth-child(4)')?.textContent?.trim() ||
+                             '05-7-2024';
+                         const deadlineValue = row.querySelector('td:nth-child(5)')?.textContent?.trim() ||
+                             '05-7-2024';
+                         const priceValue = row.querySelector('td:nth-child(3) span:last-child')?.textContent
+                             ?.replace('PRICE ', '') || '$4000';
+
+
+
+
+
+
+                         // Debugging point 4
+                         console.log('Data extracted:', {
+                             projectName,
+                             priority,
+                             progressValue,
+                             statusValue,
+                             startDateValue,
+                             deadlineValue,
+                             priceValue
+                         });
+
+                         // Update modal content for the Overview tab
+                         // Ensure 'modal' is in scope, if it wasn't already from the top of the function
+                         // const modal = document.getElementById('projectModal'); // Uncomment if modal isn't global to this scope
+                         if (!modal) {
+                             console.error('Modal element not found during update!');
+                             return;
+                         }
+
+                         modal.querySelector('h2').textContent = projectName;
+                         const modalPriorityBadge = modal.querySelector(
+                             '.text-xs.font-medium.rounded'); // Target the badge specifically
+
+                         if (modalPriorityBadge) {
+                             modalPriorityBadge.textContent = priority;
+                             // You might want to update the background/text colors based on priority here too
+                             // Example: if (priority === 'High Priority') { modalPriorityBadge.classList.add('dark:bg-red-900', 'dark:text-red-200'); }
+                             // You'll need to manage the class removals/additions based on the actual priority string
+                         }
+
+
+                         // Update progress, status, start date, deadline, price in the overview tab
+                         const overviewContent = document.getElementById('overviewContent');
+                         if (overviewContent) {
+
+                             // --- CORRECTED PRICE SPAN SELECTION ---
+                             const priceSpan = Array.from(overviewContent.querySelectorAll('span')).find(
+                                 el =>
+                                 el.textContent.includes('PRICE') && el.closest('.flex.items-center')
+                             );
+                             if (priceSpan) {
+                                 priceSpan.textContent = `PRICE ${priceValue}`;
+                             } else {
+                                 console.warn(
+                                     'Price span with "PRICE" text or its parent not found for update.');
+                             }
+                             // --- END CORRECTED PRICE SPAN SELECTION ---
+
+
+                             const statusSpan = Array.from(overviewContent.querySelectorAll(
+                                 '.flex.items-center span')).find(el => el.textContent.includes(
+                                 'STATUS'));
+                             if (statusSpan) {
+                                 statusSpan.textContent = `STATUS ${statusValue}`;
+                             }
+
+
+
+                             const deadlineSpan = Array.from(overviewContent.querySelectorAll(
+                                 '.flex.items-center span')).find(el => el.textContent.includes(
+                                 'DEADLINE'));
+                             if (deadlineSpan) {
+                                 deadlineSpan.textContent = `DEADLINE ${deadlineValue}`;
+                             }
+                         } else {
+                             console.error('Overview content element not found!');
+                             return;
+                         }
+
+                         // Show modal
+                         modal.classList.remove('hidden');
+                         document.body.style.overflow = 'hidden';
+
+                         // Ensure the 'Overview' tab is active when the modal opens
+                         showTab('overview');
+
+                     } catch (error) {
+                         console.error('Error opening modal:', error);
+                     }
+                 }
+             });
+
+             // Close modal
+             closeBtn.addEventListener('click', function() {
+                 modal.classList.add('hidden');
+                 document.body.style.overflow = 'auto';
+             });
+
+             // Close when clicking outside modal
+             modal.addEventListener('click', function(e) {
+                 if (e.target === modal) {
+                     modal.classList.add('hidden');
+                     document.body.style.overflow = 'auto';
+                 }
+             });
+
+             // Tab switching functionality
+             tabButtons.forEach(btn => {
+                 btn.addEventListener('click', function() {
+                     const tabId = this.dataset.tab; // Get the data-tab attribute value
+                     console.log(tabId);
+                     showTab(tabId); // Call the helper function
+
+                 });
+             });
+
+             // Debugging point 5
+             console.log('All event listeners set up');
+         });
+
+
+         document.addEventListener("DOMContentLoaded", () => {
+             const customModal = document.getElementById("customModal");
+             const milestoneModal = document.getElementById("milestoneModal");
+             const openMilestoneBtns = document.querySelectorAll(".open-milestone-modal");
+             const closeMilestoneBtn = document.getElementById("closeMilestoneModal");
+             const milestoneEditModal = document.getElementById("milestoneEditModal");
+             const openMilestoneEditBtns = document.querySelectorAll(".open-milestone-edit-modal");
+             const closeMilestoneEditBtn = document.getElementById("closeMilestoneEditModal");
+             const projectModal = document.getElementById("projectModal");
+
+             openMilestoneBtns.forEach(btn => {
+                 btn.addEventListener("click", () => {
+                     customModal.classList.add("hidden");
+                     milestoneModal.classList.remove("hidden");
+                 });
+             });
+
+             closeMilestoneBtn?.addEventListener("click", () => {
+                 milestoneModal.classList.add("hidden");
+                 customModal.classList.remove("hidden"); // Optional: reopen parent
+             });
+
+             openMilestoneEditBtns.forEach(btn => {
+                 btn.addEventListener("click", () => {
+                     customModal.classList.add("hidden");
+                     milestoneEditModal.classList.remove("hidden");
+                 });
+             });
+
+             closeMilestoneEditBtn?.addEventListener("click", () => {
+                 milestoneEditModal.classList.add("hidden");
+                 customModal.classList.remove("hidden"); // Optional: reopen parent
+             });
+
+
+             const openProjectModalBtns = document.querySelectorAll(".open-project-modal");
+
+
+
+             openProjectModalBtns.forEach(button => {
+                 button.addEventListener("click", () => {
+                     if (customModal && projectModal) {
+                         customModal.classList.add("hidden");
+                         projectModal.classList.remove("hidden");
+                     } else {
+                         console.warn("One or both modals not found in DOM");
+                     }
+                 });
+             });
+         });
+
+         document.addEventListener('DOMContentLoaded', () => {
+             const membershipModal = document.getElementById("membershipModal");
+             const openMembershipBtns = document.querySelectorAll(".open-membership-modal");
+             const closeMembershipBtn = document.getElementById("closeMembershipModal");
+
+             // Open modal when tab/button is clicked
+             openMembershipBtns.forEach(btn => {
+                 btn.addEventListener("click", () => {
+                     // ⛔ Close the previous modal
+                     const tabModal = document.getElementById("projectModal");
+                     tabModal?.classList.add("hidden");
+
+                     // ✅ Open the membership modal
+                     membershipModal.classList.remove("hidden");
+                 });
+             });
+
+             // Close modal on close button
+             closeMembershipBtn?.addEventListener("click", () => {
+                 membershipModal.classList.add("hidden");
+             });
+
+             // Optional: Close on background click
+             window.addEventListener("click", (e) => {
+                 if (e.target === membershipModal) {
+                     membershipModal.classList.add("hidden");
+                 }
+             });
+         });
+    </script>
 
  </body>
 

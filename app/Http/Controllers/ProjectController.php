@@ -43,6 +43,10 @@ class ProjectController extends Controller
         $data->user_id = $request->user_id;
         $data->save();
 
+        $last_project_id = $data->id;
+
+        session(['last_project_id' => $last_project_id]);
+
         if ($request->hasFile('document_name')) {
 
             $file = $request->file('document_name');
@@ -60,7 +64,7 @@ class ProjectController extends Controller
 
 
 
-        return response()->json(['message' => 'Data saved successfully']);
+        return response()->json(['message' => 'Data saved successfully', 'project_id' => $last_project_id]);
 
         // $validated = $request->validate([
         //     'project_name' => 'required|string|max:255',
@@ -106,7 +110,7 @@ class ProjectController extends Controller
 
     }
 
-    public function edit(Request $request)
+    public function edit(Request $request, $id)
     {
         $validated = $request->validate([
             'project_name' => 'required|string|max:255',
@@ -119,6 +123,7 @@ class ProjectController extends Controller
 
         $project = project::find($request->id);
         $project->update($request->all());
+
 
         return redirect()->route('project.create')->with('success', 'Project updated successfully.');
     }
@@ -192,4 +197,15 @@ class ProjectController extends Controller
 
 
     }
+
+    public function receiveId(Request $request)
+    {
+        $projectId = $request->input('id');
+
+        $projectData = Project::where('id', $projectId)->first();
+
+        return response()->json(["data" => $projectData]);
+    }
+
+
 }
