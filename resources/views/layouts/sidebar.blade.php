@@ -42,7 +42,7 @@
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="analytics.html" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
+                        <a href="{{ route('test.create') }}" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
                             <img src="{{ asset('assets/chart-bar.svg') }}" alt="icon" class="w-8 h-6 light-mode-icon" data-dark-src="{{asset('assets/chart-bar-DARK.svg')}}">
                             Analytics
                         </a>

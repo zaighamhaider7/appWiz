@@ -34,6 +34,10 @@ Route::post('/projects/milestone', [ProjectController::class, 'milestoneStore'])
 
 
 
+Route::get('/tests', [ProjectController::class, 'testView'])->name('test.create');
+
+Route::post('/tests', [ProjectController::class, 'testStore'])->name('test.store');
+
 
 
 
