@@ -11,4 +11,5 @@ class Roles extends Model
         'access',
         'icon'
     ];
+  
 }
