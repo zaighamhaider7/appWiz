@@ -46,7 +46,7 @@ Route::post('/tests', [ProjectController::class, 'testStore'])->name('test.store
 
 Route::get('/view-project/{id}', [ProjectController::class, 'view_edit'])->name('project.view');
 
-Route::post('/edit-project/{id}', [ProjectController::class, 'edit'])->name('project.edit');
+// Route::post('/edit-project/{id}', [ProjectController::class, 'edit'])->name('project.edit');
 
 
 Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('project.delete');
@@ -60,4 +60,17 @@ Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('project.
 
 
 
-Route::post('/projects/receive-id', [ProjectController::class, 'receiveId']);
+Route::post('/projects/project-id', [ProjectController::class, 'projectId']);
+Route::post('/edit-project', [ProjectController::class, 'edit'])->name('project.edit');
+
+
+Route::post('/milestone/milestone-id', [ProjectController::class, 'milestoneId']);
+Route::post('/milestone/edit-milestone', [ProjectController::class, 'editMilestone'])->name('milestone.edit');
+Route::post('/milestone/delete', [ProjectController::class, 'Deletemilestone']);
+
+
+Route::post('/milestone/list', [ProjectController::class, 'list']);
+
+Route::get('/project/list', [ProjectController::class, 'projectList']);
+
+

@@ -16,6 +16,9 @@
      <!-- Tailwind CSS CDN -->
      <script src="https://cdn.tailwindcss.com"></script>
      <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+         crossorigin="anonymous" referrerpolicy="no-referrer" />
      <style>
          :root {
              --btn-bg: #EA580C;
@@ -875,20 +878,7 @@
                              </div>
                          </div>
 
-                         {{-- project insert message --}}
-                         {{-- @if (session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
-                @endif
 
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif --}}
 
 
                          <div class="overflow-x-auto">
@@ -980,198 +970,16 @@
                                              </div>
                                          </th>
                                      </tr>
-                                         @php
-                                        $count = 1;
+                                     @php
+                                         $count = 1;
                                      @endphp
                                  </thead>
-                                 <tbody class="light-bg-white light-bg-seo divide-y divide-gray-200">
-                                     <!-- Row 1 -->
-                                     @if ($projects->count() > 0)
-                                 
-                                         @foreach ($projects as $project)
-                                             <tr>
-                                                 <td
-                                                     class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                                     {{ $project->id }}</td>
-                                                 <td class="px-6 py-4 whitespace-nowrap">
-                                                     <div class="text-sm font-medium light-text-gray-900">
-                                                         {{ $project->project_name }}</div>
-                                                 </td>
-                                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
-                                                     <div class="flex items-center gap-1">
-                                                         {{-- <img class="w-6 h-6" src="Avatar.svg" alt=""> --}}
-                                                         <p>{{ $project->client_name }}</p>
-                                                     </div>
-                                                 </td>
-                                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
-                                                     <div class="flex items-center gap-1">
-                                                         {{-- <img class="w-20 h-10" src="{{asset('assets/Avatar Group.svg')}}" alt=""> --}}
-                                                         @if ($project->user)
-                                                             {{-- <p>{{ $project->user->name }}</p> --}}
-                                                             <img class=" w-12 h-12 light-text-gray-900 rounded-full  light-mode-icon"
-                                                                 src="{{ $project->user->image ? asset($project->user->image) : asset('assets/default-prf.png') }}""
-                                                                 alt="">
-                                                         @else
-                                                             <p>No user assigned</p>
-                                                         @endif
-                                                     </div>
-                                                 </td>
-                                                 <td class="px-6 py-4 whitespace-nowrap">
-                                                     <div class="flex items-center">
-                                                         <div class="w-52 bg-gray-200 rounded-full h-2.5">
-                                                             <div class="bg-green-500 h-2.5 rounded-full"
-                                                                 style="width: 0%">
-                                                             </div>
-                                                         </div>
-                                                         <span class="ml-2 text-sm light-text-gray-700">0%</span>
-                                                     </div>
-                                                 </td>
-                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400"><button
-                                                         id="filterButton"
-                                                         class="flex items-center justify-center px-4 py-2 rounded-lg bg-cyan-900/50 light-text-gray-700 text-gray-700 hover:bg-gray-200 transition-colors">
-                                                         <div
-                                                             class="w-32 flex items-center text-cyan-500 justify-between ">
-                                                             <span>In Process</span>
-                                                             <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24"
-                                                                 fill="none" stroke="currentColor"
-                                                                 stroke-width="1.5" stroke-linecap="round"
-                                                                 stroke-linejoin="round">
-                                                                 <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                                             </svg>
-                                                         </div>
-                                                     </button>
-                                                     <!-- Dropdown Content -->
-                                                     <div id="filterDropdown"
-                                                         class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                                         <div class="py-1" role="menu"
-                                                             aria-orientation="vertical">
-                                                             <a href="#"
-                                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                 role="menuitem">Filter Option 1</a>
-                                                             <a href="#"
-                                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                 role="menuitem">Filter Option 2</a>
-                                                             <a href="#"
-                                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                 role="menuitem">Filter Option 3</a>
-                                                             <div class="border-t border-gray-100"></div>
-                                                             <a href="#"
-                                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                 role="menuitem">Reset Filters</a>
-                                                         </div>
-                                                     </div>
-                                                 </td>
-                                                 <td
-                                                     class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                     <button
-                                                         class="light-text-orange-500  rounded-full p-1 light-hover-text-orange-700 toggle-btn"
-                                                         data-target="expand-0{{$count}}">
-                                                         <img src="{{ asset('assets/AR.svg') }}" alt="">
 
-                                                     </button>
-                                                 </td>
-                                             </tr>
-
-                                             <!-- Expandable Row (Sub-Header + Sub-Row) -->
-                                             <tr id="expand-0{{$count}}" class="hidden light-text-black">
-                                                 <td colspan="7" class="px-6 py-4 ">
-                                                     <!-- Sub-table Head -->
-                                                     <div
-                                                         class="grid grid-cols-6  font-semibold light-text-black border-b border-gray-300">
-                                                         <div class="w-1/2">#</div>
-                                                         <div class="flex items-center text-xs">
-                                                             AMOUNT
-                                                             <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24"
-                                                                 fill="none" stroke="currentColor"
-                                                                 stroke-width="1.5" stroke-linecap="round"
-                                                                 stroke-linejoin="round">
-                                                                 <path d="M7 8 L12 3 L17 8" />
-                                                                 <path d="M7 16 L12 21 L17 16" />
-                                                             </svg>
-                                                         </div>
-                                                         <div class="flex items-center text-xs">
-                                                             LEAD SOURCE
-                                                             <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24"
-                                                                 fill="none" stroke="currentColor"
-                                                                 stroke-width="1.5" stroke-linecap="round"
-                                                                 stroke-linejoin="round">
-                                                                 <path d="M7 8 L12 3 L17 8" />
-                                                                 <path d="M7 16 L12 21 L17 16" />
-                                                             </svg>
-                                                         </div>
-                                                         <div class="flex items-center text-xs">
-                                                             CURRENT PROJECT
-                                                             <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24"
-                                                                 fill="none" stroke="currentColor"
-                                                                 stroke-width="1.5" stroke-linecap="round"
-                                                                 stroke-linejoin="round">
-                                                                 <path d="M7 8 L12 3 L17 8" />
-                                                                 <path d="M7 16 L12 21 L17 16" />
-                                                             </svg>
-                                                         </div>
-                                                         <div class="flex items-center text-xs">
-                                                             MEMBERSHIP
-                                                             <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24"
-                                                                 fill="none" stroke="currentColor"
-                                                                 stroke-width="1.5" stroke-linecap="round"
-                                                                 stroke-linejoin="round">
-                                                                 <path d="M7 8 L12 3 L17 8" />
-                                                                 <path d="M7 16 L12 21 L17 16" />
-                                                             </svg>
-                                                         </div>
-                                                         <div class="flex items-center text-xs">ACTION</div>
-                                                     </div>
-
-
-                                                     <!-- Sub-table Row -->
-                                                     <div class="grid grid-cols-6 pt-2 mt-2 light-text-black">
-                                                         <div class="w-1/2"></div>
-                                                         <div>{{ $project->price }}</div>
-                                                         <div>Email Marketing</div>
-                                                         <div>{{ $project->project_name }}</div>
-                                                         <div>
-                                                             {{ $project->membership }}
-                                                             {{-- <span
-                                                                class="light-bg-d7d7d7 px-2 py-1 rounded-md text-xs">Domain</span>
-                                                            <span
-                                                                class="light-bg-d7d7d7 px-2 py-1 rounded-md text-xs">Hosting</span>
-                                                            <span
-                                                                class="light-bg-d7d7d7 px-2 py-1 rounded-md text-xs">+3</span> --}}
-                                                         </div>
-                                                         <div class="flex items-center gap-2">
-
-                                                             <img src="{{ asset('assets/document-download-DARK.svg') }}"
-                                                                 id="openModalBtn" alt="Action 1"
-                                                                 class="w-6 h-6 rounded-full p-1 bg-gray-500" />
-
-                                                             <img src="{{ asset('assets/edit.svg') }}" alt="Action 2"
-                                                                 class="edit-project w-6 h-6  rounded-full p-1 bg-gray-500"
-                                                                 data-action="view-project"
-                                                                 data-project-id = "{{$project->id}}"
-                                                                 />
-
-                                                             <img src="{{ asset('assets/trash.svg') }}"
-                                                                 alt="Action 3"
-                                                                 class="w-6 h-6 rounded-full p-1 bg-gray-500" />
-                                                         </div>
-                                                     </div>
-
-                                                 </td>
-                                             </tr>
-                                         @php $count++ @endphp
-
-                                         @endforeach
-                                     @else
-                                         <tr>
-                                             <td colspan="7"
-                                                 class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
-                                                 No projects found.
-                                             </td>
-                                         </tr>
-                                     @endif
-
+                                 <tbody id="project-table-body" class="light-bg-white light-bg-seo divide-y divide-gray-200">
+    
 
                                  </tbody>
+
                              </table>
                          </div>
 
@@ -1247,6 +1055,7 @@
                  <!-- Bottom Cards: Need Help & Free Consulting -->
 
              </div>
+
          </main>
      </div>
 
@@ -1329,80 +1138,99 @@
 
                      </div>
                  </div>
+
              </div>
 
 
              <div id="overviewContent" class="tab-content px-6">
 
-                 <form id="ticketForm" class="space-y-4 mb-10 " method="POST">
-                     <!-- Title, Project Name, Priority -->
+                 <form id="ticketForm" class="space-y-4 mb-10 " action="{{ route('project.edit') }}"
+                     method="POST">
+                     @csrf
                      <div class="grid grid-cols-1 gap-4">
                          <div class="grid grid-cols-1 gap-2">
+
+                             <input type="hidden" id="edit_project_id" name="project_id" placeholder="John Doe"
+                                 class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black focus:outline-none">
+
+                             <input type="hidden" id="edit_user_id" name="project_id" placeholder="John Doe"
+                                 class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black focus:outline-none">
+
                              <div>
                                  <label class="block text-sm mb-1 light-text-black">Project Name</label>
-                                 <input type="text" id="project_name" name="project_name" placeholder="Develop WizSpeed Dashboard"
+                                 <input type="text" id="edit_project_name" name="project_name"
+                                     placeholder="Develop WizSpeed Dashboard"
                                      class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                              </div>
 
                          </div>
+
                          <div class="grid-cols-1 gap-4">
-                             <div class="grid grid-cols-2 gap-2">
+                             <div class="grid grid-cols-3 gap-2">
                                  <div>
                                      <label class="block text-sm mb-1 light-text-black">Client Name</label>
-                                     <select
-                                         class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black"
-                                         name="client_name">
-                                         <option value="">Wizspeed</option>
-                                         <option value="Pakistan">Pakistan</option>
-                                         <option value="Punjab">Punjab</option>
-                                         <option value="Sindh">Sindh</option>
-                                         <option value="Balochistan">Balochistan</option>
+                                     <input type="text" id="edit_client_name" name="client_name"
+                                         placeholder="John Doe"
+                                         class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black focus:outline-none">
+                                 </div>
+
+                                 <div>
+                                     <label class="block text-sm mb-1 light-text-black">Membership</label>
+                                     <select name="membership" id="edit_membership"
+                                         class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                                         <option value="" hidden selected>Select Membership</option>
+                                         <option value="basic">Basic</option>
+                                         <option value="gold">Gold</option>
+                                         <option value="premium">Premium</option>
                                      </select>
                                  </div>
 
                                  <!-- State Selection -->
                                  <div>
                                      <label class="block text-sm mb-1 light-text-black">Assigned To</label>
-                                     <select name="assign_to"
-                                         class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
-                                         <option value="">img</option>
-                                         <option value="KPK">KPK</option>
-                                         <option value="Punjab">Punjab</option>
-                                         <option value="Manshera">Manshera</option>
-                                         <option value="Balochistan">Balochistan</option>
+                                     <select name="assign_to" id="edit_assign_to"
+                                         class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black"
+                                         {{ $users->isEmpty() ? 'disabled' : '' }}>
+
+                                         @if ($users->isEmpty())
+                                             <option value="" hidden selected>No users available</option>
+                                         @else
+                                             <option value="" hidden selected>Select User</option>
+                                             @foreach ($users as $user)
+                                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                             @endforeach
+                                         @endif
+
                                      </select>
+
                                  </div>
 
                              </div>
                          </div>
+
+
                          <div class="grid grid-cols-3  gap-4">
                              <div>
                                  <label class="block text-sm mb-1 light-text-black"> Price</label>
-                                 <input type="text" name="price" placeholder="$10,000"
+                                 <input type="text" id="edit_price" name="price" placeholder="$10,000"
                                      class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
                              </div>
 
-                             <!-- State Selection -->
                              <div>
                                  <label class="block text-sm mb-1 light-text-black">Start Date</label>
-                                 <input type="date" name="start_date" placeholder="05-7-2024"
+                                 <input type="date" id="edit_start_date" name="start_date"
+                                     placeholder="05-7-2024"
                                      class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
                              </div>
 
-                             <!-- City Selection -->
                              <div>
                                  <label class="block text-sm mb-1 light-text-black">Deadline</label>
-                                 <input type="date" name="end_date" placeholder="05-10-2024"
+                                 <input type="date" id="edit_end_date" name="end_date" placeholder="05-10-2024"
                                      class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
                              </div>
 
                          </div>
-                         <!-- File Upload -->
-                         <div>
-                             <label class="block text-sm mb-1 light-text-black">Attachment</label>
-                             <input type="file" id="ticketFile" name="document_name"
-                                 class="file-input w-full light-text-black light-bg-d7d7d7 p-1 rounded-md focus:outline-none">
-                         </div>
+
 
                          <div class="flex items-center gap-2">
                              <input type="checkbox" checked class="accent-orange-500 w-4 h-4">
@@ -1424,8 +1252,16 @@
                                 class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                                 Cancel
                             </button> --}}
-                             <button type="submit" class="px-4 py-2 bg-orange-500  rounded-lg hover:bg-orange-600">
-                                 Add Project
+
+                             <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+                                 class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
+                                 id="updateMsg" style="display: none;">
+                                 Project Updated successfully!
+                             </div>
+
+                             <button type="submit"
+                                 class="edit-project px-4 py-2 bg-orange-500  rounded-lg hover:bg-orange-600">
+                                 Edit Project
                              </button>
                          </div>
                      </div>
@@ -1535,249 +1371,10 @@
                              </tr>
                          </thead>
 
-                         <tbody class="bg-transparent light-border-gray2  ">
-                             <tr class="border-2 light-border-gray2 ">
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">01</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Design UI</td>
-                                 <td class="px-6 py-4 text-sm light-text-black">05-3-2024</td>
-                                 <td class="px-6 py-4 text-sm light-text-black">05-3-2024</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400"><button
-                                         id="filterButton"
-                                         class="flex items-center justify-center px-4 py-2 rounded-lg bg-green-900/50 light-text-gray-700 text-gray-700 hover:bg-gray-200 transition-colors">
-                                         <div class="w-32 flex items-center text-green-500 justify-between ">
-                                             <span>Complete</span>
-                                             <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24" fill="none"
-                                                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                 stroke-linejoin="round">
-                                                 <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                             </svg>
-                                         </div>
-                                     </button>
-                                     <!-- Dropdown Content -->
-                                     <div id="filterDropdown"
-                                         class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                         <div class="py-1" role="menu" aria-orientation="vertical">
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Filter Option 1</a>
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Filter Option 2</a>
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Filter Option 3</a>
-                                             <div class="border-t border-gray-100"></div>
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Reset Filters</a>
-                                         </div>
-                                     </div>
-                                 </td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                     <button
-                                         class="light-text-indigo-600 hover:light-text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-2">
-                                         <img src="edit.svg" alt="eye"
-                                             class="bg-gray-200 open-milestone-edit-modal p-1 rounded-full">
-                                     </button>
-                                     <button
-                                         class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                         <img src="trash.png" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                     </button>
-                                 </td>
-                             </tr>
-                             <tr class="border-2 light-border-gray2 ">
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">01</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Frontend</td>
-                                 <td class="px-6 py-4 text-sm light-text-black">05-3-2024</td>
-                                 <td class="px-6 py-4 text-sm light-text-black">05-3-2024</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400"><button
-                                         id="filterButton"
-                                         class="flex items-center justify-center px-4 py-2 rounded-lg bg-cyan-900/50 light-text-gray-700 text-gray-700 hover:bg-gray-200 transition-colors">
-                                         <div class="w-32 flex items-center text-cyan-500 justify-between ">
-                                             <span>In Process</span>
-                                             <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24" fill="none"
-                                                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                 stroke-linejoin="round">
-                                                 <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                             </svg>
-                                         </div>
-                                     </button>
-                                     <!-- Dropdown Content -->
-                                     <div id="filterDropdown"
-                                         class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                         <div class="py-1" role="menu" aria-orientation="vertical">
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Filter Option 1</a>
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Filter Option 2</a>
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Filter Option 3</a>
-                                             <div class="border-t border-gray-100"></div>
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Reset Filters</a>
-                                         </div>
-                                     </div>
-                                 </td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                     <button
-                                         class="light-text-indigo-600 hover:light-text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-2">
-                                         <img src="edit.svg" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                     </button>
-                                     <button
-                                         class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                         <img src="trash.png" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                     </button>
-                                 </td>
-                             </tr>
-                             <tr class="border-2 light-border-gray2 ">
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">01</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Backend</td>
-                                 <td class="px-6 py-4 text-sm light-text-black">05-3-2024</td>
-                                 <td class="px-6 py-4 text-sm light-text-black">05-3-2024</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400"><button
-                                         id="filterButton"
-                                         class="flex items-center justify-center px-4 py-2 rounded-lg bg-cyan-900/50 light-text-gray-700 text-gray-700 hover:bg-gray-200 transition-colors">
-                                         <div class="w-32 flex items-center text-cyan-500 justify-between ">
-                                             <span>In Process</span>
-                                             <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24" fill="none"
-                                                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                 stroke-linejoin="round">
-                                                 <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                             </svg>
-                                         </div>
-                                     </button>
-                                     <!-- Dropdown Content -->
-                                     <div id="filterDropdown"
-                                         class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                         <div class="py-1" role="menu" aria-orientation="vertical">
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Filter Option 1</a>
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Filter Option 2</a>
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Filter Option 3</a>
-                                             <div class="border-t border-gray-100"></div>
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Reset Filters</a>
-                                         </div>
-                                     </div>
-                                 </td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                     <button
-                                         class="light-text-indigo-600 hover:light-text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-2">
-                                         <img src="edit.svg" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                     </button>
-                                     <button
-                                         class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                         <img src="trash.png" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                     </button>
-                                 </td>
-                             </tr>
-                             <tr class="border-2 light-border-gray2 ">
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">01</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Deployment</td>
-                                 <td class="px-6 py-4 text-sm light-text-black">05-3-2024</td>
-                                 <td class="px-6 py-4 text-sm light-text-black">05-3-2024</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400"><button
-                                         id="filterButton"
-                                         class="flex items-center justify-center px-4 py-2 rounded-lg bg-cyan-900/50 light-text-gray-700 text-gray-700 hover:bg-gray-200 transition-colors">
-                                         <div class="w-32 flex items-center text-cyan-500 justify-between ">
-                                             <span>In Process</span>
-                                             <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24" fill="none"
-                                                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                 stroke-linejoin="round">
-                                                 <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                             </svg>
-                                         </div>
-                                     </button>
-                                     <!-- Dropdown Content -->
-                                     <div id="filterDropdown"
-                                         class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                         <div class="py-1" role="menu" aria-orientation="vertical">
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Filter Option 1</a>
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Filter Option 2</a>
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Filter Option 3</a>
-                                             <div class="border-t border-gray-100"></div>
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Reset Filters</a>
-                                         </div>
-                                     </div>
-                                 </td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                     <button
-                                         class="light-text-indigo-600 hover:light-text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-2">
-                                         <img src="edit.svg" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                     </button>
-                                     <button
-                                         class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                         <img src="trash.png" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                     </button>
-                                 </td>
-                             </tr>
-                             <tr class="border-2 light-border-gray2 ">
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">01</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Testing</td>
-                                 <td class="px-6 py-4 text-sm light-text-black">05-3-2024</td>
-                                 <td class="px-6 py-4 text-sm light-text-black">05-3-2024</td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400"><button
-                                         id="filterButton"
-                                         class="flex items-center justify-center px-4 py-2 rounded-lg bg-cyan-900/50 light-text-gray-700 text-gray-700 hover:bg-gray-200 transition-colors">
-                                         <div class="w-32 flex items-center text-cyan-500 justify-between ">
-                                             <span>In Process</span>
-                                             <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24" fill="none"
-                                                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                 stroke-linejoin="round">
-                                                 <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                             </svg>
-                                         </div>
-                                     </button>
-                                     <!-- Dropdown Content -->
-                                     <div id="filterDropdown"
-                                         class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                         <div class="py-1" role="menu" aria-orientation="vertical">
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Filter Option 1</a>
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Filter Option 2</a>
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Filter Option 3</a>
-                                             <div class="border-t border-gray-100"></div>
-                                             <a href="#"
-                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                 role="menuitem">Reset Filters</a>
-                                         </div>
-                                     </div>
-                                 </td>
-                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                     <button
-                                         class="light-text-indigo-600 hover:light-text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-2">
-                                         <img src="edit.svg" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                     </button>
-                                     <button
-                                         class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                         <img src="trash.png" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                     </button>
-                                 </td>
-                             </tr>
+                         <tbody class="bg-transparent light-border-gray2  " id="milestoneTableBody">
+
                          </tbody>
+
                      </table>
                  </div>
 
@@ -2081,7 +1678,8 @@
                          <div class="grid grid-cols-1 gap-2">
                              <div>
                                  <label class="block text-sm mb-1 light-text-black">Project Name</label>
-                                 <input type="text" id="project_name" name="project_name" placeholder="Develop WizSpeed Dashboard"
+                                 <input type="text" id="project_name" name="project_name"
+                                     placeholder="Develop WizSpeed Dashboard"
                                      class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                              </div>
 
@@ -2090,7 +1688,8 @@
                              <div class="grid grid-cols-3 gap-2">
                                  <div>
                                      <label class="block text-sm mb-1 light-text-black">Client Name</label>
-                                     <input type="text" id="client_name" name="client_name" placeholder="John Doe"
+                                     <input type="text" id="client_name" name="client_name"
+                                         placeholder="John Doe"
                                          class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black focus:outline-none">
                                  </div>
 
@@ -2127,6 +1726,7 @@
 
                              </div>
                          </div>
+
                          <div class="grid grid-cols-3  gap-4">
                              <div>
                                  <label class="block text-sm mb-1 light-text-black"> Price</label>
@@ -2177,12 +1777,14 @@
                                 Cancel
                             </button> --}}
 
-                                <div  x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
-                                    class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50" id="msg" style="display: none;">
-                                    Project Added successfully!
-                                </div>
+                             <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+                                 class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
+                                 id="msg" style="display: none;">
+                                 Project Added successfully!
+                             </div>
 
-                             <button type="submit" id="addProject" class="px-4 py-2 bg-orange-500  rounded-lg hover:bg-orange-600">
+                             <button type="submit" id="addProject"
+                                 class="px-4 py-2 bg-orange-500  rounded-lg hover:bg-orange-600">
                                  Add Project
                              </button>
                          </div>
@@ -2196,7 +1798,7 @@
                  <div class="px-5">
                      <p class="text-lg font-bold mb-2">Milestone</p>
 
-                    <form method="POST">
+                     <form method="POST">
                          @csrf
 
                          <label class="block mb-2">Milestone Name</label>
@@ -2216,7 +1818,7 @@
                              </div>
                          </div>
 
-                            {{-- <div>
+                         {{-- <div>
                                 <select name="project_id" id="project_id"
                                     class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black"
                                     {{ $projects->isEmpty() ? 'disabled' : '' }}>
@@ -2234,27 +1836,30 @@
 
                             </div> --}}
 
-                            <input type="text" name="project_id" id="project_id" value="{{ session('last_project_id') }}">
+                         <input type="text" name="project_id" id="project_id"
+                             value="{{ session('last_project_id') }}">
 
 
-                            <label class="flex items-center mb-4">
-                                <input type="checkbox" class="mr-2"> Mark as High Priority
-                            </label>
-                    </div>
+                         <label class="flex items-center mb-4">
+                             <input type="checkbox" class="mr-2"> Mark as High Priority
+                         </label>
+                 </div>
 
-                    <div  x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
-                                    class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50" id="mileStonemsg" style="display: none;">
-                                    Milestone Added successfully!
-                    </div>
+                 <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+                     class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
+                     id="mileStonemsg" style="display: none;">
+                     Milestone Added successfully!
+                 </div>
 
-                    <div class="flex justify-between p-5 mt-4">
-                        <button class="px-4 py-2 rounded bg-[#333] text-white">Add New Milestone</button>
-                        <div class="flex gap-2">
-                            {{-- <button class="bg-gray-600 px-4 py-2 rounded">Cancel</button> --}}
-                            <button id="addMilestone" class="bg-orange-500 text-white px-4 py-2 rounded " type="submit">Save</button>
-                        </div>
-                    </div>
-                    
+                 <div class="flex justify-between p-5 mt-4">
+                     <button class="px-4 py-2 rounded bg-[#333] text-white">Add New Milestone</button>
+                     <div class="flex gap-2">
+                         {{-- <button class="bg-gray-600 px-4 py-2 rounded">Cancel</button> --}}
+                         <button id="addMilestone" class="bg-orange-500 text-white px-4 py-2 rounded "
+                             type="submit">Save</button>
+                     </div>
+                 </div>
+
                  </form>
                  {{-- <div class="px-5">
                      <p class="text-lg font-bold mb-2">Milestone 2</p>
@@ -2330,8 +1935,7 @@
                              <button
                                  class="flex items-center px-4 py-2 border border-gray-200 dark:text-gray-300 rounded-lg hover:light-bg-gray-300 dark:hover:bg-gray-600">
                                  Filters
-                                 <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor"
-                                     viewBox="0 0 24 24">
+                                 <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                          d="M19 9l-7 7-7-7"></path>
                                  </svg>
@@ -2443,7 +2047,8 @@
                                          <button
                                              class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
                                              <div class="flex gap-2">
-                                                 <img src="{{asset('assets/document-download.svg')}}" alt="eye"
+                                                 <img src="{{ asset('assets/document-download.svg') }}"
+                                                     alt="eye"
                                                      class="bg-gray-200 p-1 open-project-modal rounded-full">
                                              </div>
                                          </button>
@@ -2529,7 +2134,7 @@
          </div>
      </div>
 
-     <!-- Third (Child) Modal -->
+     {{-- edit milestone modal --}}
      <div id="milestoneEditModal"
          class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
          <div class="bg-[#1f1f1f] p-6 rounded-lg w-full max-w-[70vw] text-white">
@@ -2538,39 +2143,58 @@
                  <button id="closeMilestoneEditModal" class="text-gray-300 hover:text-white">✕</button>
              </div>
 
-             <label class="block mb-2">Milestone Name</label>
-             <input type="text" placeholder="Design UI of Dashboard"
-                 class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+             <form method="POST" action="{{ route('milestone.edit') }}">
+                 @csrf
 
-             <div class="flex gap-4 mb-4">
-                 <div class="flex-1">
-                     <label class="block mb-2">Start Date</label>
-                     <input type="date"
-                         class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                 </div>
-                 <div class="flex-1">
-                     <label class="block mb-2">Deadline</label>
-                     <input type="date"
-                         class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                 </div>
-             </div>
+                 <input type="text" id="m_project_id" name="project_id">
+                 <input type="text" id="m_milestone_id" name="milestone_id">
 
 
+                 <label class="block mb-2">Milestone Name</label>
+                 <input type="text" id="m_milestone_name" name="milestone_name"
+                     placeholder="Design UI of Dashboard"
+                     class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
 
-             <div class="flex justify-between mt-4">
-
-                 <div>
-                     <label class="flex items-center mb-4">
-                         <input type="checkbox" class="mr-2"> Mark as High Priority
-                     </label>
+                 <div class="flex gap-4 mb-4">
+                     <div class="flex-1">
+                         <label class="block mb-2">Start Date</label>
+                         <input type="date" id="m_start_date" name="start_date"
+                             class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                     </div>
+                     <div class="flex-1">
+                         <label class="block mb-2">Deadline</label>
+                         <input type="date" id="m_deadline" name="deadline"
+                             class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                     </div>
                  </div>
 
-                 <div class="flex gap-2">
-                     <button class="bg-gray-600 px-4 py-2 rounded">Cancel</button>
-                     <button class="bg-orange-500 text-white px-4 py-2 rounded">Save</button>
-                 </div>
-             </div>
+
+
+                 <div class="flex justify-between mt-4">
+
+                     <div>
+                         <label class="flex items-center mb-4">
+                             <input type="checkbox" class="mr-2"> Mark as High Priority
+                         </label>
+                     </div>
+
+                     <div class="flex gap-2">
+                         <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+                             class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
+                             id="milestoneMsg" style="display: none;">
+                             Milestone Updated successfully!
+                         </div>
+
+
+
+                         {{-- <button class="bg-gray-600 px-4 py-2 rounded">Cancel</button> --}}
+                         <button type="submit"
+                             class="bg-orange-500 text-white px-4 py-2 rounded edit-milestone">Save</button>
+                     </div>
+             </form>
+
          </div>
+     </div>
      </div>
 
      <!-- MEMBERSHIP MODAL -->
@@ -2609,147 +2233,461 @@
      </div>
 
 
+     <div id="milestonedelete" style="display: none"
+         class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
+         Milestone Deleted successfully!
+     </div>
+
+
 
      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 
 
 
-    <script>
-        $(document).ready(function() {
+     <script>
+         let currentProjectId = null;
 
-            // project start
-            $('#addProject').click(function (event) {
-                event.preventDefault(); 
-                
-                project_name = $('#project_name').val();
-                client_name = $('#client_name').val();
-                membership = $('#membership').val();
-                assign_to = $('#assign_to').val();
-                price = $('#price').val();
-                start_date = $('#start_date').val();
-                end_date = $('#end_date').val();
-                user_id = $('#user_id').val();
-                file = $('#document_name').val();
+        //  milestone data fetch funtion start
+         function renderMilestones(milestoneData) {
+             const tableBody = document.getElementById('milestoneTableBody');
+             tableBody.innerHTML = '';
 
-                let formData = new FormData();
+             if (milestoneData.length === 0) {
+                 const noDataTr = document.createElement('tr');
+                 noDataTr.innerHTML = `
+                            <td colspan="6" class="px-6 py-4 text-center text-gray-500 italic">
+                            No milestones found.
+                            </td>
+                        `;
+                 tableBody.appendChild(noDataTr);
+                 return;
+             }
 
-                formData.append('_token', '{{ csrf_token() }}');
-                formData.append('project_name', project_name);
-                formData.append('client_name', client_name);
-                formData.append('membership', membership);
-                formData.append('assign_to', assign_to);
-                formData.append('price', price);
-                formData.append('start_date', start_date);
-                formData.append('end_date', end_date);
-                formData.append('user_id', user_id);
-                formData.append('document_name', $('#document_name')[0].files[0]);
-                  
+             milestoneData.forEach((milestone, index) => {
+                 const tr = document.createElement('tr');
+                 tr.classList.add('border-2', 'light-border-gray2');
 
+                 tr.innerHTML = `
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${index + 1}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${milestone.milestone_name}</td>
+                            <td class="px-6 py-4 text-sm light-text-black">${milestone.start_date}</td>
+                            <td class="px-6 py-4 text-sm light-text-black">${milestone.deadline}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                <button id="filterButton" class="flex items-center justify-center px-4 py-2 rounded-lg bg-green-900/50 light-text-gray-700 text-gray-700 hover:bg-gray-200 transition-colors">
+                                <div class="w-32 flex items-center text-green-500 justify-between">
+                                    <span>Complete</span>
+                                    <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M7 16 L12 21 L17 16" />
+                                    </svg>
+                                </div>
+                                </button>
+                                <div id="filterDropdown" class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
+                                    <div class="py-1" role="menu" aria-orientation="vertical">
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Filter Option 1</a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Filter Option 2</a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Filter Option 3</a>
+                                        <div class="border-t border-gray-100"></div>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Reset Filters</a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <button class="light-text-indigo-600 hover:light-text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-2"> 
+                                    <img src="{{ asset('assets/edit.svg') }}" alt="eye" class="bg-gray-200 open-milestone-edit-modal p-1 rounded-full" 
+                                data-milestone-id="${milestone.id}" > 
+                                </button> 
+                                <button class="delete-milestone light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300" data-m_delete-id="${milestone.id}" data-m_project-id="${milestone.project_id}"> 
+                                    <img src="{{ asset('assets/trash.png') }}" alt="eye" class="bg-gray-200 p-1 rounded-full" >
+                                </button> 
+                            </td> 
+                        `;
+
+                 tableBody.appendChild(tr);
+             });
+         }
+        //  milestone data fetch funtion start
+
+         // edit milestone code start
+            document.addEventListener("DOMContentLoaded", function() {
+                const editBtn = document.querySelector('.edit-milestone');
+
+                if (editBtn) {
+                    editBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+
+                        const milestone_name = document.getElementById('m_milestone_name').value;
+                        const start_date = document.getElementById('m_start_date').value;
+                        const deadline = document.getElementById('m_deadline').value;
+                        const project_id = document.getElementById('m_project_id').value;
+                        const milestone_id = document.getElementById('m_milestone_id').value;
+
+                        const formData = new FormData();
+                        formData.append('_token', '{{ csrf_token() }}');
+                        formData.append('milestone_name', milestone_name);
+                        formData.append('start_date', start_date);
+                        formData.append('deadline', deadline);
+                        formData.append('project_id', project_id);
+                        formData.append('milestone_id', milestone_id);
+
+                        fetch('{{ route('milestone.edit') }}', {
+                                method: 'POST',
+                                body: formData,
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error("Network response was not ok");
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                // Show success message
+                                const msgBox = document.getElementById('milestoneMsg');
+                                if (msgBox) {
+                                    msgBox.style.display = 'block';
+                                    setTimeout(() => {
+                                        msgBox.style.display = 'none';
+                                    }, 3000);
+                                }
+
+                                return fetch('/milestone/list', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    },
+                                    body: JSON.stringify({ project_id: project_id })
+                                });
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error("Failed to reload milestones after edit.");
+                                }
+                                return response.json();
+                            })
+                            .then(milestoneResponse => {
+                                renderMilestones(milestoneResponse.milestonesData);
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Failed to update milestones after edit.');
+                            });
+                    });
+                }
+            });
+         // edit milestone code start
+
+
+
+         $(document).ready(function() {
+
+            // project data fetch using ajax start
+            function projectData(){
                 $.ajax({
-                    url: "{{ route('project.store') }}",
-                    type: "POST",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        if(response) {
-                            $('#project_name').val('');
-                            $('#client_name').val('');
-                            $('#membership').val('');
-                            $('#assign_to').val('');
-                            $('#price').val('');
-                            $('#start_date').val('');
-                            $('#end_date').val('');
-                            $('#document_name').val('');
+                    type: 'GET',
+                    url: '/project/list',
+                    success:function(response){
+                        if (response.success) {
+                                let rows = '';
+                                let count = 0;
 
-                            $('#msg').fadeIn(400);
-                            setTimeout(() => {
-                                $('#msg').fadeOut(600);
-                            }, 3000);
+                                if(response.success.length > 0){
 
-                            document.getElementById('project_id').value = response.project_id
+                                    response.success.forEach(function(project) {
+                                        count++;
+
+                                        rows += `
+                                            <tr>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
+                                                    ${project.id}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="text-sm font-medium light-text-gray-900">
+                                                        ${project.project_name}
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
+                                                    <div class="flex items-center gap-1">
+                                                        <p>${project.client_name}</p>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
+                                                    <div class="flex items-center gap-1">
+                                                        ${project.user && project.user.image 
+                                                            ? `<img class="w-12 h-12 light-text-gray-900 rounded-full light-mode-icon" src="${project.user.image}" alt="">`
+                                                            : `<p>No user assigned</p>`}
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center">
+                                                        <div class="w-52 bg-gray-200 rounded-full h-2.5">
+                                                            <div class="bg-green-500 h-2.5 rounded-full" style="width: 0%"></div>
+                                                        </div>
+                                                        <span class="ml-2 text-sm light-text-gray-700">0%</span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                                    <button class="flex items-center justify-center px-4 py-2 rounded-lg bg-cyan-900/50 light-text-gray-700 text-gray-700 hover:bg-gray-200 transition-colors">
+                                                        <div class="w-32 flex items-center text-cyan-500 justify-between">
+                                                            <span>In Process</span>
+                                                            <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                                <path d="M7 16 L12 21 L17 16" />
+                                                            </svg>
+                                                        </div>
+                                                    </button>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                    <button class="light-text-orange-500 rounded-full p-1 light-hover-text-orange-700 toggle-btn toggle-btn" data-target="expand-0${count}">
+                                                        <i class="fa-solid fa-arrow-down"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+
+                                            <tr id="expand-0${count}" class="hidden light-text-black">
+                                                <td colspan="7" class="px-6 py-4">
+                                                    <div class="grid grid-cols-6 font-semibold light-text-black border-b border-gray-300">
+                                                        <div class="w-1/2">#</div>
+                                                        <div>${project.price}</div>
+                                                        
+                                                        <div>Email Marketing</div>
+                                                        <div>${project.project_name}</div>
+                                                        <div>${project.membership}</div>
+                                                        <div class="flex items-center gap-2">
+                                                            <img src="/assets/document-download-DARK.svg" class="w-6 h-6 rounded-full p-1 bg-gray-500" />
+                                                            <img src="/assets/edit.svg" class="edit-project-modal w-6 h-6 rounded-full p-1 bg-gray-500" data-action="view-project" data-project-id="${project.id}" />
+                                                            <img src="/assets/trash.svg" class="w-6 h-6 rounded-full p-1 bg-gray-500" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        `;
+                                    });
+
+                                }
+                                else {
+                                    rows = `
+                                        <tr>
+                                            <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
+                                                No projects found.
+                                            </td>
+                                        </tr>
+                                    `;
+                                }
+                            $('#project-table-body').html(rows);
                         }
-                        // console.log("Data submitted successfully:", response);
+
                     },
-                    error: function(xhr, status, error) {
-                        console.error("Error submitting data:", error);
+                    error: function(xhr){
+                        console.error('Error fetching project data:', xhr.responseText);
                     }
                 });
+            }
+
+            projectData();
+
+            $('#project-table-body').on('click', '.toggle-btn', function() {
+                const targetId = $(this).data('target');
+                $('#' + targetId).toggleClass('hidden');
             });
 
-            // edit project
 
-            $('.edit-project').on('click', function() {
-                var projectId = $(this).data('project-id');
+            // project data fetch using ajax end
 
-                console.log(projectId);
+             // project start
+             $('#addProject').click(function(event) {
+                 event.preventDefault();
 
-                $.ajax({
-                    url: '/projects/receive-id', 
-                    method: 'POST',
-                    data: {id: projectId},
-                    success: function(response) {
-                        console.log(response.project.name);
-                    }
-                });
-            });            
+                 project_name = $('#project_name').val();
+                 client_name = $('#client_name').val();
+                 membership = $('#membership').val();
+                 assign_to = $('#assign_to').val();
+                 price = $('#price').val();
+                 start_date = $('#start_date').val();
+                 end_date = $('#end_date').val();
+                 user_id = $('#user_id').val();
+                 file = $('#document_name').val();
 
-            // project end
+                 let formData = new FormData();
 
-            // milestone start
+                 formData.append('_token', '{{ csrf_token() }}');
+                 formData.append('project_name', project_name);
+                 formData.append('client_name', client_name);
+                 formData.append('membership', membership);
+                 formData.append('assign_to', assign_to);
+                 formData.append('price', price);
+                 formData.append('start_date', start_date);
+                 formData.append('end_date', end_date);
+                 formData.append('user_id', user_id);
+                 formData.append('document_name', $('#document_name')[0].files[0]);
 
-            $('#addMilestone').click(function (event) {
-                event.preventDefault(); 
+                 for (let [key, value] of formData.entries()) {
+                     console.log(`${key}:`, value);
+                 }
+
+                 $.ajax({
+                     url: "{{ route('project.store') }}",
+                     type: "POST",
+                     data: formData,
+                     contentType: false,
+                     processData: false,
+                     success: function(response) {
+                         if (response) {
+                            projectData();
+                             $('#project_name').val('');
+                             $('#client_name').val('');
+                             $('#membership').val('');
+                             $('#assign_to').val('');
+                             $('#price').val('');
+                             $('#start_date').val('');
+                             $('#end_date').val('');
+                             $('#document_name').val('');
+
+                             $('#msg').fadeIn(400);
+                             setTimeout(() => {
+                                 $('#msg').fadeOut(600);
+                             }, 3000);
+
+                             document.getElementById('project_id').value = response.project_id
+                         }
+                         // console.log("Data submitted successfully:", response);
+                     },
+                     error: function(xhr, status, error) {
+                         console.error("Error submitting data:", error);
+                     }
+                 });
+
+             });
+
+             $.ajaxSetup({
+                 headers: {
+                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                 }
+             });
+
+             $('.edit-project-modal').on('click', function() {
+                 currentProjectId = $(this).data('project-id');
+
+                 // console.log(projectId);
+
+                 $.ajax({
+                     url: '/projects/project-id',
+                     method: 'POST',
+                     data: {
+                         id: currentProjectId
+                     },
+                     success: function(response) {
+                         $('#edit_project_name').val(response.data.project_name);
+                         $('#edit_client_name').val(response.data.client_name);
+                         $('#edit_price').val(response.data.price);
+                         $('#edit_start_date').val(response.data.start_date);
+                         $('#edit_end_date').val(response.data.end_date);
+                         $('#edit_membership').val(response.data.membership);
+                         $('#edit_assign_to').val(response.data.user.id);
+                         $('#edit_user_id').val(response.data.user_id);
+                         $('#edit_project_id').val(response.data.id);
+
+                         renderMilestones(response.milestoneData)
+                     }
+                 });
+
+             });
+
+             $('.edit-project').on('click', function(s) {
+                 s.preventDefault()
+
+                 project_name = $('#edit_project_name').val();
+                 client_name = $('#edit_client_name').val();
+                 membership = $('#edit_membership').val();
+                 assign_to = $('#edit_assign_to').val();
+                 price = $('#edit_price').val();
+                 start_date = $('#edit_start_date').val();
+                 end_date = $('#edit_end_date').val();
+                 user_id = $('#edit_user_id').val();
+                 project_id = $('#edit_project_id').val();
+
+                 let formData = new FormData();
+
+                 formData.append('_token', '{{ csrf_token() }}');
+                 formData.append('project_name', project_name);
+                 formData.append('client_name', client_name);
+                 formData.append('membership', membership);
+                 formData.append('assign_to', assign_to);
+                 formData.append('price', price);
+                 formData.append('start_date', start_date);
+                 formData.append('end_date', end_date);
+                 formData.append('user_id', user_id);
+                 formData.append('id', project_id);
+
+
+                 $.ajax({
+                     url: '/edit-project',
+                     method: 'POST',
+                     data: formData,
+                     processData: false,
+                     contentType: false,
+                     success: function(response) {
+                        projectData();
+                         $('#updateMsg').fadeIn(400);
+                         setTimeout(() => {
+                             $('#updateMsg').fadeOut(600);
+                         }, 3000);
+                     }
+                 });
+             });
+
+             // project end
+
+             // milestone start
+
+             $('#addMilestone').click(function(event) {
+                 event.preventDefault();
+
+                 milestone_name = $('#milestone_name').val();
+                 milestone_start_date = $('#milestone_start_date').val();
+                 deadline = $('#deadline').val();
+                 project_id = $('#project_id').val();
+
+                 let formData = new FormData();
+
+                 formData.append('_token', '{{ csrf_token() }}');
+                 formData.append('milestone_name', milestone_name);
+                 formData.append('milestone_start_date', milestone_start_date);
+                 formData.append('deadline', deadline);
+                 formData.append('project_id', project_id);
+
+                 $.ajax({
+                     url: "{{ route('milestone.store') }}",
+                     type: "POST",
+                     data: formData,
+                     contentType: false,
+                     processData: false,
+                     success: function(response) {
+                         if (response) {
+                             $('#milestone_name').val('');
+                             $('#milestone_start_date').val('');
+                             $('#deadline').val('');
+
+                             $('#mileStonemsg').fadeIn(400);
+                             setTimeout(() => {
+                                 $('#mileStonemsg').fadeOut(600);
+                             }, 3000);
+                         }
+                     },
+                     error: function(xhr, status, error) {
+                         console.error("Error submitting data:", error);
+                     }
+                 });
+
                 
-                milestone_name = $('#milestone_name').val();
-                milestone_start_date = $('#milestone_start_date').val();
-                deadline = $('#deadline').val();
-                project_id = $('#project_id').val();
+             });
+            // milestone end
 
-                let formData = new FormData();
-
-                formData.append('_token', '{{ csrf_token() }}');
-                formData.append('milestone_name', milestone_name);
-                formData.append('milestone_start_date', milestone_start_date);
-                formData.append('deadline', deadline);
-                formData.append('project_id', project_id);                  
-
-                $.ajax({
-                    url: "{{ route('milestone.store') }}",
-                    type: "POST",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        if(response) {
-                            $('#milestone_name').val('');
-                            $('#milestone_start_date').val('');
-                            $('#deadline').val('');
-
-                            $('#mileStonemsg').fadeIn(400);
-                            setTimeout(() => {
-                                $('#mileStonemsg').fadeOut(600);
-                            }, 3000);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Error submitting data:", error);
-                    }
-            });
-
-
-                // milestone end
-
-            });
-
-        });
-        
-    </script>
+         });
+     </script>
 
 
 
-    <script>
+     <script>
          document.addEventListener('DOMContentLoaded', () => {
              const body = document.body;
              const knowledgeButton = document.getElementById('knowledgeButton');
@@ -3237,12 +3175,93 @@
                  customModal.classList.remove("hidden"); // Optional: reopen parent
              });
 
-             openMilestoneEditBtns.forEach(btn => {
-                 btn.addEventListener("click", () => {
-                     customModal.classList.add("hidden");
-                     milestoneEditModal.classList.remove("hidden");
+             //  milestone show and delete start
+
+            const tableBody = document.getElementById('milestoneTableBody');
+
+             tableBody.addEventListener('click', (event) => {
+                 // Edit Milestone
+                 const editBtn = event.target.closest('.open-milestone-edit-modal');
+                 if (editBtn) {
+                     customModal.classList.add('hidden');
+                     milestoneEditModal.classList.remove('hidden');
+
+                     const milestoneId = editBtn.getAttribute('data-milestone-id');
+
+                     $.ajax({
+                         url: '/milestone/milestone-id',
+                         method: 'POST',
+                         data: {
+                             milestoneId: milestoneId
+                         },
+                         success: function(milestoneResponse) {
+                             document.getElementById('m_milestone_name').value =
+                                 milestoneResponse.milestoneDatafetch.milestone_name;
+                             document.getElementById('m_start_date').value = milestoneResponse
+                                 .milestoneDatafetch.start_date;
+                             document.getElementById('m_deadline').value = milestoneResponse
+                                 .milestoneDatafetch.deadline;
+                             document.getElementById('m_project_id').value = milestoneResponse
+                                 .milestoneDatafetch.project_id;
+                             document.getElementById('m_milestone_id').value = milestoneResponse
+                                 .milestoneDatafetch.id;
+                         },
+                         error: function(err) {
+                             console.error('AJAX error:', err);
+                         }
+                     });
+
+                     return;
+                 }
+
+                 document.addEventListener('click', function(event) {
+                     const deleteBtn = event.target.closest('.delete-milestone');
+                     if (deleteBtn) {
+                         const deleteId = deleteBtn.getAttribute('data-m_delete-id');
+                         const projectId = deleteBtn.getAttribute('data-m_project-id');
+
+                         $.ajax({
+                             url: '/milestone/delete',
+                             method: 'POST',
+                             data: {
+                                 delete_id: deleteId
+                             },
+                             success: function(deleteResponse) {
+                                 document.getElementById('milestonedelete').style
+                                     .display = 'block';
+
+                                 setTimeout(function() {
+                                     document.getElementById('milestonedelete')
+                                         .style.display = 'none';
+                                 }, 3000);
+
+                                 $.ajax({
+                                     url: '/milestone/list',
+                                     method: 'POST',
+                                     data: {
+                                         project_id: projectId
+                                     },
+                                     success: function(milestoneResponse) {
+                                         renderMilestones(milestoneResponse
+                                             .milestonesData);
+                                     },
+                                     error: function() {
+                                         alert(
+                                             'Failed to reload milestones after deletion.');
+                                     }
+                                 });
+                             }
+                         });
+
+                     }
                  });
+
+
              });
+
+             //  milestone show and delete end
+
+
 
              closeMilestoneEditBtn?.addEventListener("click", () => {
                  milestoneEditModal.classList.add("hidden");
@@ -3295,7 +3314,7 @@
                  }
              });
          });
-    </script>
+     </script>
 
  </body>
 
