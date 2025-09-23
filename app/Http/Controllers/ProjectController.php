@@ -236,6 +236,21 @@ class ProjectController extends Controller
         }
     }
 
+    public function Deleteproject(Request $request)
+    {
+        $projectId = $request->input('delete_id');
+
+        $projectData = Project::find($projectId);
+
+        $projectData->Delete();
+
+        return response()->json([
+            "delete" => 'delete'
+        ]);
+    }
+
+
+
     public function milestoneId(Request $request)
     {
         $milestoneId = $request->input('milestoneId');

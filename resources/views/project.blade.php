@@ -2238,6 +2238,11 @@
          Milestone Deleted successfully!
      </div>
 
+    <div id="deleteProject" style="display: none"
+         class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
+         Project Deleted successfully!
+    </div>
+
 
 
      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -2246,7 +2251,6 @@
 
 
      <script>
-         let currentProjectId = null;
 
         //  milestone data fetch funtion start
          function renderMilestones(milestoneData) {
@@ -2380,9 +2384,10 @@
 
 
          $(document).ready(function() {
-
+            
             // project data fetch using ajax start
             function projectData(){
+
                 $.ajax({
                     type: 'GET',
                     url: '/project/list',
@@ -2413,11 +2418,17 @@
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
                                                     <div class="flex items-center gap-1">
-                                                        ${project.user && project.user.image 
-                                                            ? `<img class="w-12 h-12 light-text-gray-900 rounded-full light-mode-icon" src="${project.user.image}" alt="">`
-                                                            : `<p>No user assigned</p>`}
+                                                        ${
+                                                            project.user
+                                                                ? (project.user.image
+                                                                    ? `<img class="w-12 h-12 light-text-gray-900 rounded-full light-mode-icon" src="${project.user.image}" alt="User Image">`
+                                                                    : `<img class="w-12 h-12 light-text-gray-900 rounded-full light-mode-icon" src="/assets/profile-circle-DARK.svg" alt="Default User">`
+                                                                )
+                                                                : `<p>No user assigned</p>`
+                                                        }
                                                     </div>
                                                 </td>
+
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     <div class="flex items-center">
                                                         <div class="w-52 bg-gray-200 rounded-full h-2.5">
@@ -2445,19 +2456,77 @@
 
                                             <tr id="expand-0${count}" class="hidden light-text-black">
                                                 <td colspan="7" class="px-6 py-4">
-                                                    <div class="grid grid-cols-6 font-semibold light-text-black border-b border-gray-300">
-                                                        <div class="w-1/2">#</div>
+
+                                                <!-- Sub-table Head -->
+                                                <div
+                                                    class="grid grid-cols-6  font-semibold light-text-black border-b border-gray-300">
+                                                    <div class="w-1/2">#</div>
+                                                    <div class="flex items-center text-xs">
+                                                        AMOUNT
+                                                        <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                            stroke-linejoin="round">
+                                                            <path d="M7 8 L12 3 L17 8" />
+                                                            <path d="M7 16 L12 21 L17 16" />
+                                                        </svg>
+                                                    </div>
+                                                    <div class="flex items-center text-xs">
+                                                        LEAD SOURCE
+                                                        <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                            stroke-linejoin="round">
+                                                            <path d="M7 8 L12 3 L17 8" />
+                                                            <path d="M7 16 L12 21 L17 16" />
+                                                        </svg>
+                                                    </div>
+                                                    <div class="flex items-center text-xs">
+                                                        CURRENT PROJECT
+                                                        <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                            stroke-linejoin="round">
+                                                            <path d="M7 8 L12 3 L17 8" />
+                                                            <path d="M7 16 L12 21 L17 16" />
+                                                        </svg>
+                                                    </div>
+                                                    <div class="flex items-center text-xs">
+                                                        MEMBERSHIP
+                                                        <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                            stroke-linejoin="round">
+                                                            <path d="M7 8 L12 3 L17 8" />
+                                                            <path d="M7 16 L12 21 L17 16" />
+                                                        </svg>
+                                                    </div>
+                                                    <div class="flex items-center text-xs">ACTION</div>
+                                                </div>
+
+                                                     <!-- Sub-table Row -->
+                                                    <div class="grid grid-cols-6 pt-2 mt-2 light-text-black">
+                                                        <div class="w-1/2"></div>
                                                         <div>${project.price}</div>
-                                                        
                                                         <div>Email Marketing</div>
                                                         <div>${project.project_name}</div>
-                                                        <div>${project.membership}</div>
-                                                        <div class="flex items-center gap-2">
-                                                            <img src="/assets/document-download-DARK.svg" class="w-6 h-6 rounded-full p-1 bg-gray-500" />
-                                                            <img src="/assets/edit.svg" class="edit-project-modal w-6 h-6 rounded-full p-1 bg-gray-500" data-action="view-project" data-project-id="${project.id}" />
-                                                            <img src="/assets/trash.svg" class="w-6 h-6 rounded-full p-1 bg-gray-500" />
+                                                        <div>
+                                                           ${project.membership}
                                                         </div>
-                                                    </div>
+                                                        <div class="flex items-center gap-2">
+
+                                                             <img src="{{ asset('assets/document-download-DARK.svg') }}"
+                                                                 id="openModalBtn" alt="Action 1"
+                                                                 class="w-6 h-6 rounded-full p-1 bg-gray-500" />
+
+                                                             <img src="{{ asset('assets/edit.svg') }}" alt="Action 2"
+                                                                 class="edit-project-modal w-6 h-6  rounded-full p-1 bg-gray-500"
+                                                                 data-action="view-project"
+                                                                 data-project-id = "${project.id }" />
+
+                                                             <img data-delete_p-id = "${project.id}"  src="{{ asset('assets/trash.svg') }}"
+                                                                 alt="Action 3"
+                                                                 class="delete-project w-6 h-6 rounded-full p-1 bg-gray-500" />
+                                                        </div>
+
+                                                    </div>            
+
                                                 </td>
                                             </tr>
                                         `;
@@ -2489,7 +2558,6 @@
                 const targetId = $(this).data('target');
                 $('#' + targetId).toggleClass('hidden');
             });
-
 
             // project data fetch using ajax end
 
@@ -2564,33 +2632,31 @@
                  }
              });
 
-             $('.edit-project-modal').on('click', function() {
-                 currentProjectId = $(this).data('project-id');
+            $(document).on('click','.edit-project-modal', function () {
+                const currentProjectId = $(this).data('project-id');
+                console.log(currentProjectId);
 
-                 // console.log(projectId);
+                $.ajax({
+                    url: '/projects/project-id',
+                    method: 'POST',
+                    data: {
+                        id: currentProjectId
+                    },
+                    success: function (response) {
+                        $('#edit_project_name').val(response.data.project_name);
+                        $('#edit_client_name').val(response.data.client_name);
+                        $('#edit_price').val(response.data.price);
+                        $('#edit_start_date').val(response.data.start_date);
+                        $('#edit_end_date').val(response.data.end_date);
+                        $('#edit_membership').val(response.data.membership);
+                        $('#edit_assign_to').val(response.data.user.id);
+                        $('#edit_user_id').val(response.data.user_id);
+                        $('#edit_project_id').val(response.data.id);
+                        renderMilestones(response.milestoneData);
+                    }
+                });
+            });
 
-                 $.ajax({
-                     url: '/projects/project-id',
-                     method: 'POST',
-                     data: {
-                         id: currentProjectId
-                     },
-                     success: function(response) {
-                         $('#edit_project_name').val(response.data.project_name);
-                         $('#edit_client_name').val(response.data.client_name);
-                         $('#edit_price').val(response.data.price);
-                         $('#edit_start_date').val(response.data.start_date);
-                         $('#edit_end_date').val(response.data.end_date);
-                         $('#edit_membership').val(response.data.membership);
-                         $('#edit_assign_to').val(response.data.user.id);
-                         $('#edit_user_id').val(response.data.user_id);
-                         $('#edit_project_id').val(response.data.id);
-
-                         renderMilestones(response.milestoneData)
-                     }
-                 });
-
-             });
 
              $('.edit-project').on('click', function(s) {
                  s.preventDefault()
@@ -2633,6 +2699,23 @@
                          }, 3000);
                      }
                  });
+             });
+
+             $(document).on('click','.delete-project', function(){
+                let ProjectId = $(this).data('delete_p-id');
+                console.log(ProjectId);
+                $.ajax({
+                    url :'/project/delete',
+                    method : 'POST',
+                    data : {delete_id: ProjectId},
+                    success : function(response){
+                        projectData();
+                        $('#deleteProject').fadeIn(400);
+                        setTimeout(() => {
+                            $('#deleteProject').fadeOut(600);
+                        }, 3000);
+                    }
+                });
              });
 
              // project end
@@ -2818,7 +2901,7 @@
                  'themeToggle'); // Assuming you'll have a button with this ID
              const htmlElement = document.documentElement; // This is the <html> tag
 
-             const openModalBtn = document.getElementById("openModalBtn");
+            //  const openModalBtn = document.getElementById("openModalBtn");
              const closeModalBtn = document.getElementById("closeModalBtn");
              const modals = document.getElementById("customModal");
 
@@ -2836,9 +2919,21 @@
                  taskModal.classList.add('hidden');
              });
 
-             openModalBtn.addEventListener("click", () => {
-                 modals.classList.remove("hidden");
-             });
+            //  openModalBtn.addEventListener("click", () => {
+            //      modals.classList.remove("hidden");
+            //  });
+
+            document.addEventListener("click", function (event) {
+                if (event.target && event.target.id === "openModalBtn") {
+                    const modals = document.getElementById("openModalBtn"); 
+                    if (modals) {
+                        modals.classList.remove("hidden");
+                    } else {
+                        console.error("Modal element not found.");
+                    }
+                }
+            });
+
 
              closeModalBtn.addEventListener("click", () => {
                  modals.classList.add("hidden");
@@ -3042,20 +3137,10 @@
 
 
 
-                         // Debugging point 4
-                         console.log('Data extracted:', {
-                             projectName,
-                             priority,
-                             progressValue,
-                             statusValue,
-                             startDateValue,
-                             deadlineValue,
-                             priceValue
-                         });
 
                          // Update modal content for the Overview tab
                          // Ensure 'modal' is in scope, if it wasn't already from the top of the function
-                         // const modal = document.getElementById('projectModal'); // Uncomment if modal isn't global to this scope
+                         const modal = document.getElementById('projectModal'); // Uncomment if modal isn't global to this scope
                          if (!modal) {
                              console.error('Modal element not found during update!');
                              return;
@@ -3067,9 +3152,7 @@
 
                          if (modalPriorityBadge) {
                              modalPriorityBadge.textContent = priority;
-                             // You might want to update the background/text colors based on priority here too
-                             // Example: if (priority === 'High Priority') { modalPriorityBadge.classList.add('dark:bg-red-900', 'dark:text-red-200'); }
-                             // You'll need to manage the class removals/additions based on the actual priority string
+                             
                          }
 
 
