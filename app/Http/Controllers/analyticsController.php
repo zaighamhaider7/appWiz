@@ -150,24 +150,26 @@ class AnalyticsController extends Controller
         ]);
     }
 
-    public function earningsData()
+public function earningsData()
 {
-    $propertyId = "398445627";
+    $propertyId = "398445627"; // Your GA4 property ID
     $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
 
     $client = new BetaAnalyticsDataClient([
         'credentials' => $credentials,
     ]);
 
-    // Example: sessions per month
+    // Dimension: Month
     $dimensions = [
-        new Dimension(['name' => 'month']), // month
+        new Dimension(['name' => 'month']), // month as 01, 02...
     ];
 
+    // Metric: purchaseRevenue
     $metrics = [
-        new Metric(['name' => 'sessions']), // total sessions in that month
+        new Metric(['name' => 'purchaseRevenue']), // total revenue in that month
     ];
 
+    // Request for the year 2024
     $request = (new RunReportRequest())
         ->setProperty('properties/' . $propertyId)
         ->setDateRanges([
@@ -176,19 +178,25 @@ class AnalyticsController extends Controller
         ->setDimensions($dimensions)
         ->setMetrics($metrics);
 
-    $response = $client->runReport($request);
-
+  try {
+        $response = $client->runReport($request);
+        \Log::info('GA4 earningsData raw response', ['rows' => $response->getRows()]);
+    } catch (\Exception $e) {
+        \Log::error('GA4 API error: ' . $e->getMessage());
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
     $labels = [];
     $values = [];
 
     foreach ($response->getRows() as $row) {
-        // GA4 returns month as 01, 02 ... so format it
+        // Month number
         $monthNum = $row->getDimensionValues()[0]->getValue();
+        // Convert to Jan, Feb...
         $monthName = date('M', mktime(0, 0, 0, $monthNum, 10));
-        $sessions = (int)$row->getMetricValues()[0]->getValue();
-
+        // Revenue (GA4 returns string, cast to float)
+        $revenue = (float)$row->getMetricValues()[0]->getValue();
         $labels[] = $monthName;
-        $values[] = $sessions;
+        $values[] = $revenue;
     }
 
     return response()->json([
@@ -197,4 +205,59 @@ class AnalyticsController extends Controller
         'values' => $values
     ]);
 }
+public function deviceTypeData()
+{
+    $propertyId = "398445627";
+    $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
+
+    $client = new BetaAnalyticsDataClient([
+        'credentials' => $credentials,
+    ]);
+
+    $dimensions = [
+        new Dimension(['name' => 'deviceCategory']), // desktop/mobile/tablet
+    ];
+
+    $metrics = [
+        new Metric(['name' => 'sessions']),
+    ];
+
+    $request = (new RunReportRequest())
+        ->setProperty('properties/' . $propertyId)
+        ->setDateRanges([
+            new DateRange([
+                'start_date' => '30daysAgo',
+                'end_date' => 'today',
+            ]),
+        ])
+        ->setDimensions($dimensions)
+        ->setMetrics($metrics);
+
+    $response = $client->runReport($request);
+
+    $labels = [];
+    $percentages = [];
+
+    // First collect totals
+    $sessionsArray = [];
+    foreach ($response->getRows() as $row) {
+        $device = $row->getDimensionValues()[0]->getValue(); // mobile/desktop/tablet
+        $sessions = (int)$row->getMetricValues()[0]->getValue();
+        $sessionsArray[$device] = $sessions;
+    }
+
+    $totalSessions = array_sum($sessionsArray);
+
+    // Convert to %
+    foreach ($sessionsArray as $device => $sessions) {
+        $labels[] = ucfirst($device);
+        $percentages[] = $totalSessions > 0 ? round(($sessions / $totalSessions) * 100, 2) : 0;
+    }
+
+    return response()->json([
+        'labels' => $labels,
+        'values' => $percentages // % per device
+    ]);
+}
+
 }

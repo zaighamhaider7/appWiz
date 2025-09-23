@@ -912,38 +912,32 @@ body.sidebar-open {
     </div>
     
     <!-- Percentage bar visualization -->
-    <div class="w-full h-10 bg-gray-200 rounded-full mb-6">
-        <div class="flex h-full rounded-full">
-            <div class="bg-[#25293c] rounded-tl-lg rounded-bl-lg flex items-center pl-6" style="width: 50%">50%</div>
-            <div class="bg-[#7367F0] flex items-center justify-center" style="width: 15%">15%</div>
-            <div class="bg-[#009944] rounded-tr-lg rounded-br-lg flex items-center justify-center" style="width: 35%">35%</div>
-        </div>
+    <!-- Horizontal Bar -->
+<div class="w-full h-10 bg-gray-200 rounded-full mb-6">
+    <div class="flex h-full rounded-full">
+        <div id="desktopBar" class=" flex items-center justify-center rounded-tl-lg rounded-bl-lg">0%</div>
+               <div id="mobileBar" class=" flex items-center justify-center ">0%</div>
+
+        <div id="tabletBar" class=" flex items-center justify-center rounded-tr-lg rounded-br-lg" >0%</div>
     </div>
-    
-    <!-- Top percentage row -->
-    
-    
-    <!-- Vertical list view -->
-    <div class="space-y-4">
-        <div class="flex justify-between border-b border-gray-600 items-center">
-            <div class="flex items-center">
-                <span>Desktop</span>
-            </div>
-            <span class="font-medium">50%</span>
-        </div>
-        <div class="flex justify-between border-b border-gray-600 items-center">
-            <div class="flex items-center">
-                <span>Mobile</span>
-            </div>
-            <span class="font-medium">35%</span>
-        </div>
-        <div class="flex justify-between border-b border-gray-600 items-center">
-            <div class="flex items-center">
-                <span>Tablets</span>
-            </div>
-            <span class="font-medium">15%</span>
-        </div>
+</div>
+
+<!-- Vertical list view -->
+<div class="space-y-4">
+    <div class="flex justify-between border-b border-gray-600 items-center">
+        <span>Desktop</span>
+        <span id="desktopPercent" class="font-medium">0%</span>
     </div>
+    <div class="flex justify-between border-b border-gray-600 items-center">
+        <span>Mobile</span>
+        <span id="mobilePercent" class="font-medium">0%</span>
+    </div>
+    <div class="flex justify-between border-b border-gray-600 items-center">
+        <span>Tablets</span>
+        <span id="tabletPercent" class="font-medium">0%</span>
+    </div>
+</div>
+
 </div>
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-[50%_50%] gap-6  pr-6">
@@ -1582,7 +1576,6 @@ const ctxEarnings = document.getElementById('earningsChart').getContext('2d');
             // Fill chart labels & data
             earningsChart.data.labels = response.labels;
             earningsChart.data.datasets[0].data = response.values;
-            console.log(response);
             // Highlight the max value bar as orange, rest gray
             const maxVal = Math.max(...response.values);
             earningsChart.data.datasets[0].backgroundColor = response.values.map(v =>
@@ -1595,6 +1588,63 @@ const ctxEarnings = document.getElementById('earningsChart').getContext('2d');
             console.error('Error fetching GA4 data');
         }
     });
+$.ajax({
+    url: '/device-type-data', // endpoint returning % data
+    type: 'GET',
+    success: function (response) {
+        // Expecting labels: ["Desktop","Mobile","Tablet"], values: [50,35,15]
+        const data = {};
+        response.labels.forEach((label, i) => {
+            data[label.toLowerCase()] = response.values[i];
+        });
+
+        // Horizontal bar widths and text (use parentheses with ?? for safe concatenation)
+        $('#desktopBar')
+          .css('width', (data.desktop ??10) + '%')
+          .text((data.desktop ?? 0) + '%');
+        $('#mobileBar')
+          .css('width', (data.mobile ?? 10) + '%')
+          .text((data.mobile ?? 0) + '%');
+        $('#tabletBar')
+          .css('width', (data.tablet ?? 10) + '%')
+          .text((data.tablet ?? 0) + '%');
+
+        // Now read numeric values AFTER setting text
+        let desktopVal = parseInt($('#desktopBar').text()) || 0;
+        let mobileVal  = parseInt($('#mobileBar').text()) || 0;
+        let tabletVal  = parseInt($('#tabletBar').text()) || 0;
+
+        // Reset colors first
+        // $('#desktopBar').css('background-color', '#25293c');
+        // $('#mobileBar').css('background-color', '#7367F0');
+        // $('#tabletBar').css('background-color', '#009944');
+
+        // Highlight the highest one
+        if (mobileVal > tabletVal && mobileVal > desktopVal) {
+            $('#mobileBar').css('background-color', '#009944'); // highlight
+            $('#tabletBar').css('background-color', '#7367F0');
+            $('#desktopBar').css('background-color', '#25293c');
+        } else if (tabletVal > mobileVal && tabletVal > desktopVal) {
+            $('#tabletBar').css('background-color', '#009944'); // highlight
+            $('#desktopBar').css('background-color', '#7367F0');
+            $('#mobileBar').css('background-color', '#25293c');
+        } else if (desktopVal > tabletVal && desktopVal > mobileVal) {
+            $('#desktopBar').css('background-color', '#009944'); // highlight
+            $('#tabletBar').css('background-color', '#7367F0');
+            $('#mobileBar').css('background-color', '#25293c');
+        }
+
+        // Vertical list percentages
+        $('#desktopPercent').text((data.desktop ?? 0) + '%');
+        $('#mobilePercent').text((data.mobile ?? 0) + '%');
+        $('#tabletPercent').text((data.tablet ?? 0) + '%');
+    },
+    error: function () {
+        console.error('Error fetching device data');
+    }
+});
+
+
 // Traffic chart
 const ctxTraffic = document.getElementById('trafficChart').getContext('2d');
 
