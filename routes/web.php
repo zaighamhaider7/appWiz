@@ -65,15 +65,14 @@ Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('project.
 
 Route::post('/projects/project-id', [ProjectController::class, 'projectId']);
 Route::post('/edit-project', [ProjectController::class, 'edit'])->name('project.edit');
+Route::post('/project/delete', [ProjectController::class, 'Deleteproject']);
+Route::get('/project/list', [ProjectController::class, 'projectList']);
 
 
 Route::post('/milestone/milestone-id', [ProjectController::class, 'milestoneId']);
 Route::post('/milestone/edit-milestone', [ProjectController::class, 'editMilestone'])->name('milestone.edit');
 Route::post('/milestone/delete', [ProjectController::class, 'Deletemilestone']);
-
-
 Route::post('/milestone/list', [ProjectController::class, 'list']);
 
-Route::get('/project/list', [ProjectController::class, 'projectList']);
 
 
