@@ -32,7 +32,7 @@ Route::post('/projects/milestone', [ProjectController::class, 'milestoneStore'])
 Route::get('/analytics',[analyticsController::class,'index'])->name('analytics');
 Route::get('/earnings-data', [analyticsController::class, 'earningsData']);
 Route::get('/device-type-data',[AnalyticsController::class,'deviceTypeData']);
-
+Route::get('/traffic-data',[AnalyticsController::class,'traffic']);
 });
 
 
