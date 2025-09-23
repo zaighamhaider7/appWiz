@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\User;
 use App\Models\userDevices;
+use App\Models\Roles;
 
 class ProfileController extends Controller
 {
@@ -24,7 +25,8 @@ class ProfileController extends Controller
         // ]);
         $user = $request->user();
         $userDevices = userDevices::where('user_id',$user->id)->get();
-        return view('profile.edit',compact('user','userDevices'));
+        $roles = Roles::all();
+        return view('profile.edit',compact('user','userDevices','roles'));
     }
 
     /**

@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\settingController;
 use App\Http\Controllers\RolesController;
+use App\Http\Controllers\analyticsController;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home;
@@ -28,6 +29,8 @@ Route::post('/projects', [ProjectController::class, 'store'])->name('project.sto
 
 Route::post('/projects/milestone', [ProjectController::class, 'milestoneStore'])->name('milestone.store');
 
+Route::get('/analytics',[analyticsController::class,'index'])->name('analytics');
+Route::get('/earnings-data', [analyticsController::class, 'earningsData']);
 
 
 });
