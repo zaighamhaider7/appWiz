@@ -110,23 +110,23 @@ class ProjectController extends Controller
 
     }
 
-    public function edit(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'project_name' => 'required|string|max:255',
-            'client_name' => 'required|string|max:255',
-            'assign_to' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-        ]);
+    // public function edit(Request $request, $id)
+    // {
+    //     $validated = $request->validate([
+    //         'project_name' => 'required|string|max:255',
+    //         'client_name' => 'required|string|max:255',
+    //         'assign_to' => 'required|string|max:255',
+    //         'price' => 'required|numeric',
+    //         'start_date' => 'required|date',
+    //         'end_date' => 'required|date|after_or_equal:start_date',
+    //     ]);
 
-        $project = project::find($request->id);
-        $project->update($request->all());
+    //     $project = project::find($request->id);
+    //     $project->update($request->all());
 
 
-        return redirect()->route('project.create')->with('success', 'Project updated successfully.');
-    }
+    //     return redirect()->route('project.create')->with('success', 'Project updated successfully.');
+    // }
 
 
 
@@ -166,46 +166,135 @@ class ProjectController extends Controller
     // milestone end
 
 
-    public function testView()
-    {
-        return view('test');
-    }
+    // public function testView()
+    // {
+    //     return view('test');
+    // }
 
-    public function testStore(Request $request)
-    {
-        $data = new Test();
-        $data->name =  $request->name;
-        $data->email = $request->email;
+    // public function testStore(Request $request)
+    // {
+    //     $data = new Test();
+    //     $data->name =  $request->name;
+    //     $data->email = $request->email;
 
-        if ($request->hasFile('file')) {
+    //     if ($request->hasFile('file')) {
 
-            $file = $request->file('file');
+    //         $file = $request->file('file');
 
-            $filename = time() . '_' . $file->getClientOriginalName();
+    //         $filename = time() . '_' . $file->getClientOriginalName();
             
-            $file->move(public_path('projectAssets'), $filename);
+    //         $file->move(public_path('projectAssets'), $filename);
 
-            $data->file = 'projectAssets/' . $filename;
+    //         $data->file = 'projectAssets/' . $filename;
 
-        }
+    //     }
 
-        $data->save();
-
-
-
-         return response()->json(['message' => 'Data saved successfully']);
+    //     $data->save();
 
 
-    }
 
-    public function receiveId(Request $request)
+    //      return response()->json(['message' => 'Data saved successfully']);
+
+
+    // }
+
+    public function projectId(Request $request)
     {
         $projectId = $request->input('id');
 
-        $projectData = Project::where('id', $projectId)->first();
+        $projectData = Project::with('user')->where('id', $projectId)->first();
 
-        return response()->json(["data" => $projectData]);
+        $milestoneData = Milestone::where('project_id', $projectId)->get();
+
+        return response()->json([
+            "data" => $projectData,
+            "milestoneData" => $milestoneData
+        ]);
     }
+
+    public function edit(Request $request)
+    {
+        if($request->id){
+            $data = project::find($request->id);
+            $data->project_name = $request->project_name;
+            $data->client_name = $request->client_name;
+            $data->membership = $request->membership;
+            $data->assign_to = $request->assign_to;
+            $data->price = $request->price;
+            $data->start_date = $request->start_date;
+            $data->end_date = $request->end_date;
+            $data->user_id = $request->user_id;
+            $data->save();
+            return response()->json(
+                [
+                    "sucess" => "updated"
+                ]
+            );
+        }
+        else{
+            return response()->json(["error" => "error"]);
+        }
+    }
+
+    public function milestoneId(Request $request)
+    {
+        $milestoneId = $request->input('milestoneId');
+
+        $milestoneData = Milestone::where('id', $milestoneId)->first();
+
+        return response()->json([
+            "milestoneDatafetch" => $milestoneData
+        ]);
+    }
+
+    public function editMilestone(Request $request)
+    {
+        if($request->milestone_id){
+            $data = Milestone::find($request->milestone_id);
+            $data->milestone_name = $request->milestone_name;
+            $data->start_date = $request->start_date;
+            $data->deadline = $request->deadline;
+            $data->project_id = $request->project_id;
+            $data->save();
+            return response()->json(["success" => "updated"]);
+        }
+        else{
+            return response()->json(["error" => "error"]);
+        }
+    }
+
+    public function Deletemilestone(Request $request)
+    {
+        $milestoneId = $request->input('delete_id');
+
+        $milestoneData = Milestone::find($milestoneId);
+
+        $milestoneData->Delete();
+
+        return response()->json([
+            "delete" => 'delete'
+        ]);
+    }
+
+
+    public function list(Request $request)
+    {
+        $milestones = Milestone::where('project_id', $request->project_id)->get();
+
+        return response()->json([
+            'milestonesData' => $milestones
+        ]);
+    }
+
+
+    public function projectList() {
+        $projects = Project::with('user')->get();
+
+        return response()->json([
+            'success' => $projects,
+        ]);
+    }
+
 
 
 }
