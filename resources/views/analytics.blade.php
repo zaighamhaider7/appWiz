@@ -891,8 +891,8 @@ body.sidebar-open {
             <!-- Average Session Duration Chart (60% width) -->
             <div class="light-bg-f5f5f5 light-bg-seo p-6 pt-6 rounded-xl shadow-sm">
                 <div class="mb-50">
-                <h3 class="text-lg font-semibold light-text-gray-800">Average Session Duration</h3>
-                <p class="text-sm text-gray-400">Yearly Average Session Duration</p>
+                <h3 class="text-lg font-semibold light-text-gray-800">Earning Reports</h3>
+                <p class="text-sm text-gray-400">Yearly Earnings Overview</p>
                 </div>
                 
                 <div class="h-52 flex items-end space-x-2">
@@ -944,8 +944,8 @@ body.sidebar-open {
             <!-- Average Session Duration Chart (60% width) -->
             <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm ">
                 <div class="mb-6">
-                <h3 class="text-lg font-semibold light-text-gray-800">Average Session Duration</h3>
-                <p class="text-sm text-gray-400">Yearly Average Session Duration</p>
+                <h3 class="text-lg font-semibold light-text-gray-800">Peak Traffic Time</h3>
+                <p class="text-sm text-gray-400">Yearly Traffic Overview</p>
                 </div>
                 
                 <div class="h-52 flex items-end space-x-2">
@@ -1653,13 +1653,13 @@ const gradient = ctxTraffic.createLinearGradient(0, 0, 0, 300);
 gradient.addColorStop(0, 'rgba(0, 255, 128, 0.2)');
 gradient.addColorStop(1, 'rgba(0, 255, 128, 0)');
 
-new Chart(ctxTraffic, {
+const trafficChart = new Chart(ctxTraffic, {
   type: 'line',
   data: {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+    labels: [], // initially empty
     datasets: [{
       label: 'Traffic',
-      data: [10, 25, 20, 35, 45, 30, 40, 50, 45],
+      data: [],
       borderColor: '#00ff80',
       backgroundColor: gradient,
       fill: true,
@@ -1692,7 +1692,7 @@ new Chart(ctxTraffic, {
         displayColors: false,
         callbacks: {
           title: () => '',
-          label: () => '+10.2%'
+          label: (context) => `${context.parsed.y}k`
         },
         padding: 10,
         cornerRadius: 6
@@ -1703,9 +1703,7 @@ new Chart(ctxTraffic, {
         grid: { display: false },
         ticks: {
           color: '#ccc',
-          font: {
-            size: 12
-          }
+          font: { size: 12 }
         }
       },
       y: {
@@ -1714,15 +1712,33 @@ new Chart(ctxTraffic, {
         ticks: {
           color: '#aaa',
           callback: (value) => `${value}k`,
-          font: {
-            size: 12
-          }
+          font: { size: 12 }
         }
       }
     }
   }
 });
 
+// Fetch GA4 data
+$.ajax({
+  url: '/traffic-data',
+  type: 'GET',
+  success: function (response) {
+    console.log(response);
+
+    // Fill chart labels & data
+    trafficChart.data.labels = response.labels;
+    trafficChart.data.datasets[0].data = response.values;
+
+    // keep gradient fill
+    trafficChart.data.datasets[0].backgroundColor = gradient;
+
+    trafficChart.update();
+  },
+  error: function () {
+    console.error('Error fetching GA4 data');
+  }
+});
 document.addEventListener('DOMContentLoaded', function() {
     const ctx = document.getElementById('verticalBarChart');
     

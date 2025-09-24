@@ -259,5 +259,59 @@ public function deviceTypeData()
         'values' => $percentages // % per device
     ]);
 }
+public function traffic()
+{
+    $propertyId = "398445627"; // Your GA4 property ID
+    $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
 
+    $client = new BetaAnalyticsDataClient([
+        'credentials' => $credentials,
+    ]);
+
+    // Dimension: Month
+    $dimensions = [
+        new Dimension(['name' => 'month']), // month as 01, 02...
+    ];
+
+    // Metric: purchaseRevenue
+    $metrics = [
+        new Metric(['name' => 'sessions']), // total revenue in that month
+    ];
+
+    // Request for the year 2024
+    $request = (new RunReportRequest())
+        ->setProperty('properties/' . $propertyId)
+        ->setDateRanges([
+            new DateRange(['start_date' => '2024-01-01', 'end_date' => '2024-12-31']),
+        ])
+        ->setDimensions($dimensions)
+        ->setMetrics($metrics);
+
+  try {
+        $response = $client->runReport($request);
+        \Log::info('GA4 earningsData raw response', ['rows' => $response->getRows()]);
+    } catch (\Exception $e) {
+        \Log::error('GA4 API error: ' . $e->getMessage());
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+    $labels = [];
+    $values = [];
+
+    foreach ($response->getRows() as $row) {
+        // Month number
+        $monthNum = $row->getDimensionValues()[0]->getValue();
+        // Convert to Jan, Feb...
+        $monthName = date('M', mktime(0, 0, 0, $monthNum, 10));
+        // Revenue (GA4 returns string, cast to float)
+        $revenue = (float)$row->getMetricValues()[0]->getValue();
+        $labels[] = $monthName;
+        $values[] = $revenue;
+    }
+
+    return response()->json([
+        'labels' => $labels,
+        'msg'    => 'ok',
+        'values' => $values
+    ]);
+}
 }
