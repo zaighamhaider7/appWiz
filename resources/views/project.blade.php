@@ -2243,6 +2243,11 @@
          Project Deleted successfully!
     </div>
 
+    <div id="Projectstatus" style="display: none"
+         class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+         Project Status Update successfully!
+    </div>
+
 
 
      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -2396,6 +2401,8 @@
                                 let rows = '';
                                 let count = 0;
 
+                                let index = 1;
+
                                 if(response.success.length > 0){
 
                                     response.success.forEach(function(project) {
@@ -2404,7 +2411,7 @@
                                         rows += `
                                             <tr>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                                    ${project.id}
+                                                ${index++}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     <div class="text-sm font-medium light-text-gray-900">
@@ -2438,15 +2445,16 @@
                                                     </div>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                    <button class="flex items-center justify-center px-4 py-2 rounded-lg bg-cyan-900/50 light-text-gray-700 text-gray-700 hover:bg-gray-200 transition-colors">
-                                                        <div class="w-32 flex items-center text-cyan-500 justify-between">
-                                                            <span>In Process</span>
-                                                            <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                                <path d="M7 16 L12 21 L17 16" />
-                                                            </svg>
-                                                        </div>
-                                                    </button>
+                                                    <input type="hidden" id="project_status_id" value="${project.id}">
+                                                    <select id="project_status" name="project_status" class="w-32 px-4 py-2 rounded-lg bg-success-900/50 text-gray-700 hover:bg-gray-200 transition-colors">
+                                                        <option value="${project.status}" selected>${project.status}</option>
+                                                        <option value="in-process">In Process</option>
+                                                        <option value="delay">Delay</option>
+                                                        <option value="completed">Completed</option>
+                                                        <option value="cancelled">Cancelled</option>
+                                                    </select>
                                                 </td>
+
                                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                     <button class="light-text-orange-500 rounded-full p-1 light-hover-text-orange-700 toggle-btn toggle-btn" data-target="expand-0${count}">
                                                         <i class="fa-solid fa-arrow-down"></i>
@@ -2550,6 +2558,7 @@
                         console.error('Error fetching project data:', xhr.responseText);
                     }
                 });
+                
             }
 
             projectData();
@@ -2718,6 +2727,25 @@
                 });
              });
 
+             $(document).on('change', '#project_status', function(){
+
+                let selectedStatus = $(this).val();
+                 let project_status_id = $('#project_status_id').val();
+                $.ajax({
+                    url : '/projects/status',
+                    method : 'POST',
+                    data : {project_status : selectedStatus, project_status_id : project_status_id},
+                    success: function(response){
+                        projectData();
+                         $('#Projectstatus').fadeIn(400);
+                         setTimeout(() => {
+                             $('#Projectstatus').fadeOut(600);
+                         }, 3000);
+                    }
+                });
+
+             });
+
              // project end
 
              // milestone start
@@ -2763,9 +2791,29 @@
 
                 
              });
+
+            // $(document).on('change', '#milestone_status', function(){
+
+            //     let selectedMStatus = $(this).val();
+            //      let milestone_status_id = $('#project_status_id').val();
+            //     $.ajax({
+            //         url : '/milestone/status',
+            //         method : 'POST',
+            //         data : {milestone_status : selectedMStatus, milestone_status_id : milestone_status_id},
+            //         success: function(response){
+            //             projectData();
+            //              $('#Projectstatus').fadeIn(400);
+            //              setTimeout(() => {
+            //                  $('#Projectstatus').fadeOut(600);
+            //              }, 3000);
+            //         }
+            //     });
+
+            //  });
             // milestone end
 
          });
+
      </script>
 
 

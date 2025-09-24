@@ -15,7 +15,8 @@ class project extends Model
     'user',
     'start_date',
     'end_date',
-    'user_id'
+    'user_id',
+    'status'
 ];
 
 public function user()

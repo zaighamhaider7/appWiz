@@ -21,7 +21,7 @@ class ProjectController extends Controller
 
         $documents = Document::all();
 
-        $users = User::all();
+        $users = User::where('name', '!=', 'admin')->get();
 
         $projects = Project::with('user')->get();
 
@@ -250,6 +250,20 @@ class ProjectController extends Controller
     }
 
 
+    public function projectStatus(Request $request){
+        if($request->project_status_id){
+            $data = project::find($request->project_status_id);
+            $data->status = $request->project_status;
+            $data->save();
+            return response()->json(
+                [
+                    "sucess" => "Status Updated"
+                ]
+            );
+        }
+    }
+
+
 
     public function milestoneId(Request $request)
     {
@@ -290,6 +304,19 @@ class ProjectController extends Controller
             "delete" => 'delete'
         ]);
     }
+
+    // public function milestoneStatus(Request $request){
+    //     if($request->project_status_id){
+    //         $data = Milestone::find($request->milestone_status_id);
+    //         $data->status = $request->milestone_status;
+    //         $data->save();
+    //         return response()->json(
+    //             [
+    //                 "sucess" => "Status Updated"
+    //             ]
+    //         );
+    //     }
+    // }
 
 
     public function list(Request $request)

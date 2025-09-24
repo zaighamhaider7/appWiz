@@ -17,17 +17,21 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/setting', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/setting', [ProfileController::class, 'update'])->name('profile.update');
+    
     Route::delete('/setting', [ProfileController::class, 'destroy'])->name('profile.destroy');
-        Route::post('/setting/{id}', [ProfileController::class, 'delDevice'])->name('profile.deleteDevice');
+    Route::post('/setting/{id}', [ProfileController::class, 'delDevice'])->name('profile.deleteDevice');
     Route::post('/settings', [RolesController::class, 'addRoles'])->name('roles.add');
     
-Route::get('/projects', [ProjectController::class, 'create'])->name('project.create');
 
+Route::get('/projects', [ProjectController::class, 'create'])->name('project.create');
 Route::post('/projects', [ProjectController::class, 'store'])->name('project.store');
+Route::post('/projects/status', [ProjectController::class, 'projectStatus']);
 
 
 
 Route::post('/projects/milestone', [ProjectController::class, 'milestoneStore'])->name('milestone.store');
+// Route::post('/milestone/status', [ProjectController::class, 'milestoneStatus']);
+
 
 Route::get('/analytics',[analyticsController::class,'index'])->name('analytics');
 Route::get('/earnings-data', [analyticsController::class, 'earningsData']);

@@ -117,10 +117,13 @@
                 </a>
             </div>
             <div class="pt-4">
-                <a href="#" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
-                    <img src="logout.svg" alt="icon" class="w-8 h-6 light-mode-icon" data-dark-src="logout-DARK.svg">
-                    Logout
-                </a>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
+                        <img src="logout.svg" alt="icon" class="w-8 h-6 light-mode-icon" data-dark-src="logout-DARK.svg">
+                        Logout
+                    </button>
+                </form>
             </div>
             </div>
         </aside>
