@@ -305,18 +305,18 @@ class ProjectController extends Controller
         ]);
     }
 
-    // public function milestoneStatus(Request $request){
-    //     if($request->project_status_id){
-    //         $data = Milestone::find($request->milestone_status_id);
-    //         $data->status = $request->milestone_status;
-    //         $data->save();
-    //         return response()->json(
-    //             [
-    //                 "sucess" => "Status Updated"
-    //             ]
-    //         );
-    //     }
-    // }
+    public function milestoneStatus(Request $request){
+        if($request->milestone_status_id){
+            $data = Milestone::find($request->milestone_status_id);
+            $data->status = $request->milestone_status;
+            $data->save();
+            return response()->json(
+                [
+                    "sucess" => "Status Updated"
+                ]
+            );
+        }
+    }
 
 
     public function list(Request $request)

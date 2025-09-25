@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('deadline');
             $table->unsignedBigInteger('project_id');
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+            $table->string('status')->default('in-process');
             $table->timestamps();
         });
     }

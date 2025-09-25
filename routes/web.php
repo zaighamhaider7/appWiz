@@ -30,7 +30,7 @@ Route::post('/projects/status', [ProjectController::class, 'projectStatus']);
 
 
 Route::post('/projects/milestone', [ProjectController::class, 'milestoneStore'])->name('milestone.store');
-// Route::post('/milestone/status', [ProjectController::class, 'milestoneStatus']);
+Route::post('/milestone/status', [ProjectController::class, 'milestoneStatus']);
 
 
 Route::get('/analytics',[analyticsController::class,'index'])->name('analytics');

@@ -779,10 +779,17 @@
         Project Status Update successfully!
     </div>
 
+    <div id="milestonestatus" style="display: none"
+        class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        Milestone Status Update successfully!
+    </div>
+
     <div id="document_delete_msg" style="display: none"
         class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
         Document Deleted successfully!
     </div>
+
+ 
 
 
     <div class="flex min-h-screen light-bg-white">
@@ -1328,7 +1335,7 @@
                 <div class="flex justify-between items-center px-8 mb-4 gap-4">
 
                     <div class="flex justify-between items-center p-4 mb-4">
-                        
+
                         <div class="flex justify-between items-center  ">
                             <h3 class="text-2xl">Milestones</h3>
                             <div class="relative w-full max-w-xs pl-2">
@@ -1693,7 +1700,7 @@
                             <img class="w-5 h-5" src="fi_839860.png" alt="">
                             <button
                                 class="task-tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
-                                data-tab="notes">Notes</button>
+                                data-tab="notes">Milestones</button>
                         </div>
 
                         <!-- Tab 3: Uploaded Document
@@ -2089,7 +2096,7 @@
         </div>
     </div>
 
-    <!-- Second (Child) Modal -->
+    <!-- Second (Child) Modal milestone-->
     <div id="milestoneModal"
         class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
         <div class="bg-[#1f1f1f] p-6 rounded-lg w-full max-w-[70vw] text-white">
@@ -2098,34 +2105,40 @@
                 <button id="closeMilestoneModal" class="text-gray-300 hover:text-white">✕</button>
             </div>
 
-            <label class="block mb-2">Milestone Name</label>
-            <input type="text" placeholder="Name here..."
-                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+            <form action="" method="POST">
+                @csrf
 
-            <div class="flex gap-4 mb-4">
-                <div class="flex-1">
-                    <label class="block mb-2">Start Date</label>
-                    <input type="date"
-                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                </div>
-                <div class="flex-1">
-                    <label class="block mb-2">Deadline</label>
-                    <input type="date"
-                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                </div>
-            </div>
+                <label class="block mb-2">Milestone Name</label>
+                <input type="text" placeholder="Name here..."
+                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
 
-            <label class="flex items-center mb-4">
-                <input type="checkbox" class="mr-2"> Mark as High Priority
-            </label>
-
-            <div class="flex justify-between mt-4">
-                <button class="px-4 py-2 rounded bg-[#333] text-white">Add New Milestone</button>
-                <div class="flex gap-2">
-                    <button class="bg-gray-600 px-4 py-2 rounded">Cancel</button>
-                    <button class="bg-orange-500 text-white px-4 py-2 rounded">Save</button>
+                <div class="flex gap-4 mb-4">
+                    <div class="flex-1">
+                        <label class="block mb-2">Start Date</label>
+                        <input type="date"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                    </div>
+                    <div class="flex-1">
+                        <label class="block mb-2">Deadline</label>
+                        <input type="date"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                    </div>
                 </div>
-            </div>
+
+                <label class="flex items-center mb-4">
+                    <input type="checkbox" class="mr-2"> Mark as High Priority
+                </label>
+
+                <div class="flex justify-between mt-4">
+                    {{-- <button class="px-4 py-2 rounded bg-[#333] text-white">Add New Milestone</button> --}}
+                    <div class="flex gap-2">
+                        {{-- <button class="bg-gray-600 px-4 py-2 rounded">Cancel</button> --}}
+                        <button type="submit" class="add-milestone-btn bg-orange-500 text-white px-4 py-2 rounded">Save</button>
+                    </div>
+                </div>
+
+            </form>
+            
         </div>
     </div>
 
@@ -2257,23 +2270,14 @@
                             <td class="px-6 py-4 text-sm light-text-black">${milestone.start_date}</td>
                             <td class="px-6 py-4 text-sm light-text-black">${milestone.deadline}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                <button id="filterButton" class="flex items-center justify-center px-4 py-2 rounded-lg bg-green-900/50 light-text-gray-700 text-gray-700 hover:bg-gray-200 transition-colors">
-                                <div class="w-32 flex items-center text-green-500 justify-between">
-                                    <span>Complete</span>
-                                    <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M7 16 L12 21 L17 16" />
-                                    </svg>
-                                </div>
-                                </button>
-                                <div id="filterDropdown" class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                    <div class="py-1" role="menu" aria-orientation="vertical">
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Filter Option 1</a>
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Filter Option 2</a>
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Filter Option 3</a>
-                                        <div class="border-t border-gray-100"></div>
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Reset Filters</a>
-                                    </div>
-                                </div>
+                                <input type="hidden" id="milestone_status_id" value="${milestone.id}">
+                                <select id="milestone_status" name="milestone_status" class="w-32 px-4 py-2 rounded-lg bg-success-900/50 text-gray-700 hover:bg-gray-200 transition-colors">
+                                    <option value="${milestone.status}" selected>${milestone.status}</option>
+                                    <option value="In Process">In Process</option>
+                                    <option value="Delay">Delay</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                </select>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <button class="light-text-indigo-600 hover:light-text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-2"> 
@@ -2625,6 +2629,7 @@
                         id: currentProjectId
                     },
                     success: function(response) {
+                        $('.open-milestone-modal').attr('data-project-id', currentProjectId);
                         $('#edit_project_name').val(response.data.project_name);
                         $('#edit_client_name').val(response.data.client_name);
                         $('#edit_price').val(response.data.price);
@@ -2774,24 +2779,31 @@
 
             });
 
-            // $(document).on('change', '#milestone_status', function(){
+            $(document).on('change', '#milestone_status', function(){
 
-            //     let selectedMStatus = $(this).val();
-            //      let milestone_status_id = $('#project_status_id').val();
-            //     $.ajax({
-            //         url : '/milestone/status',
-            //         method : 'POST',
-            //         data : {milestone_status : selectedMStatus, milestone_status_id : milestone_status_id},
-            //         success: function(response){
-            //             projectData();
-            //              $('#Projectstatus').fadeIn(400);
-            //              setTimeout(() => {
-            //                  $('#Projectstatus').fadeOut(600);
-            //              }, 3000);
-            //         }
-            //     });
+                let selectedMStatus = $(this).val();
+                 let milestone_status_id = $('#milestone_status_id').val();
 
-            //  });
+                $.ajax({
+                    url : '/milestone/status',
+                    method : 'POST',
+                    data : {milestone_status : selectedMStatus, milestone_status_id : milestone_status_id},
+                    success: function(response){
+                         $('#milestonestatus').fadeIn(400);
+                         setTimeout(() => {
+                             $('#milestonestatus').fadeOut(600);
+                         }, 3000);
+
+                    }
+                });
+
+            });
+
+            $(document).on('click', '.open-milestone-modal', function(){
+                let milestone_project_id = $(this).attr('data-project-id');
+
+            });
+
             // milestone end
 
 
@@ -2851,7 +2863,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                 <button class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
                                     <div class="flex gap-2">
-                                        <img data-document-id="${document.id}" data-d_project-id="${document.id}" src="{{asset('assets/trash.svg')}}" alt="eye" class="delete-document-btn bg-gray-200 p-1 rounded-full">
+                                        <img data-document-id="${document.id}" data-d_project-id="${document.id}" src="{{ asset('assets/trash.svg') }}" alt="eye" class="delete-document-btn bg-gray-200 p-1 rounded-full">
                                     </div>
                                 </button>
                             </td>
@@ -2867,9 +2879,11 @@
             $(document).on('click', '.openModalBtn', function() {
                 let project_id = $(this).data('d-project-id');
                 $.ajax({
-                    url : 'project/document',
-                    method : 'POST',
-                    data: {project_id : project_id},
+                    url: 'project/document',
+                    method: 'POST',
+                    data: {
+                        project_id: project_id
+                    },
                     success: function(documentresponse) {
                         renderDocuments(documentresponse);
                     }
@@ -2877,37 +2891,39 @@
                 });
             });
 
-            $(document).on('click', '.delete-document-btn', function(){
+            $(document).on('click', '.delete-document-btn', function() {
                 document_id = $(this).data('document-id');
                 projectId = $(this).data('d_project-id');
 
                 $.ajax({
-                    url:'document/delete',
-                    method : 'POST',
-                    data:{document_id : document_id},
-                    success: function(r){
+                    url: 'document/delete',
+                    method: 'POST',
+                    data: {
+                        document_id: document_id
+                    },
+                    success: function(r) {
                         $('#document_delete_msg').fadeIn(400);
-                         setTimeout(() => {
-                             $('#document_delete_msg').fadeOut(600);
-                         }, 3000);
+                        setTimeout(() => {
+                            $('#document_delete_msg').fadeOut(600);
+                        }, 3000);
 
-                            $.ajax({
-                                    url: '/document/list',
-                                    method: 'POST',
-                                    data: {
-                                        project_id: projectId
-                                    },
-                                    success: function(documentResponse) {
-                                        renderDocuments(documentResponse);
-                                    },
-                                    error: function() {
-                                        alert(
-                                            'Failed to reload milestones after deletion.'
-                                        );
-                                    }
-                            });
+                        $.ajax({
+                            url: '/document/list',
+                            method: 'POST',
+                            data: {
+                                project_id: projectId
+                            },
+                            success: function(documentResponse) {
+                                renderDocuments(documentResponse);
+                            },
+                            error: function() {
+                                alert(
+                                    'Failed to reload milestones after deletion.'
+                                );
+                            }
+                        });
 
-                         
+
                     }
                 });
             })
@@ -3351,7 +3367,7 @@
                                     error: function() {
                                         alert(
                                             'Failed to reload milestones after deletion.'
-                                            );
+                                        );
                                     }
                                 });
                             }

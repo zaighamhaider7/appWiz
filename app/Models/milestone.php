@@ -10,6 +10,7 @@ class milestone extends Model
         'milestone_name',
         'start_date',
         'deadline',
-        'project_id'
+        'project_id',
+        'status'
     ];
 }
