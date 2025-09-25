@@ -21,7 +21,7 @@ class ProjectController extends Controller
 
         $documents = Document::all();
 
-        $users = User::all();
+        $users = User::where('name', '!=', 'admin')->get();
 
         $projects = Project::with('user')->get();
 
@@ -250,6 +250,20 @@ class ProjectController extends Controller
     }
 
 
+    public function projectStatus(Request $request){
+        if($request->project_status_id){
+            $data = project::find($request->project_status_id);
+            $data->status = $request->project_status;
+            $data->save();
+            return response()->json(
+                [
+                    "sucess" => "Status Updated"
+                ]
+            );
+        }
+    }
+
+
 
     public function milestoneId(Request $request)
     {
@@ -291,6 +305,19 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function milestoneStatus(Request $request){
+        if($request->milestone_status_id){
+            $data = Milestone::find($request->milestone_status_id);
+            $data->status = $request->milestone_status;
+            $data->save();
+            return response()->json(
+                [
+                    "sucess" => "Status Updated"
+                ]
+            );
+        }
+    }
+
 
     public function list(Request $request)
     {
@@ -307,6 +334,60 @@ class ProjectController extends Controller
 
         return response()->json([
             'success' => $projects,
+        ]);
+    }
+
+
+    // public function project2(){
+    //     $userId = Auth::id();
+
+    //     $projects = project::all();
+
+    //     $documents = Document::all();
+
+    //     $users = User::where('name', '!=', 'admin')->get();
+
+    //     $projects = Project::with('user')->get();
+
+    //     return view('/projects2', compact('projects', 'users', 'userId' ,'documents'));
+    // }
+
+
+
+    public function documentId(request $request){
+        $projectId = $request->input('project_id');
+        
+        // $documentData = Document::where('project_id', $projectId)->get();
+
+        $documentData = Document::with('project.creator') 
+                        ->where('project_id', $projectId)
+                        ->get();
+
+        return response([
+            'documentData' => $documentData
+        ]);
+    }
+
+    public function deleteDocument(request $request){
+        $documentId = $request->input('document_id');
+
+        $documentData = Document::find($documentId);
+
+        $documentData->Delete();
+
+        return response([
+            'delete' => 'Document Deleted'
+        ]);
+    }
+    
+
+    public function Documentlist(request $request){
+        $projectId = $request->input('project_id');
+
+        $documentData = Document::where('project_id', $projectId)->get();
+
+        return response([
+            'documentData' => $documentData
         ]);
     }
 
