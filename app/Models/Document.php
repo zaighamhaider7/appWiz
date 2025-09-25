@@ -10,4 +10,8 @@ class Document extends Model
         'document_name',
         'project_id',
     ];
+
+    public function project() {
+        return $this->belongsTo(Project::class);
+    }
 }

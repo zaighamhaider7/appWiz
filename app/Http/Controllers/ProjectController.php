@@ -338,5 +338,59 @@ class ProjectController extends Controller
     }
 
 
+    // public function project2(){
+    //     $userId = Auth::id();
+
+    //     $projects = project::all();
+
+    //     $documents = Document::all();
+
+    //     $users = User::where('name', '!=', 'admin')->get();
+
+    //     $projects = Project::with('user')->get();
+
+    //     return view('/projects2', compact('projects', 'users', 'userId' ,'documents'));
+    // }
+
+
+
+    public function documentId(request $request){
+        $projectId = $request->input('project_id');
+        
+        // $documentData = Document::where('project_id', $projectId)->get();
+
+        $documentData = Document::with('project.creator') 
+                        ->where('project_id', $projectId)
+                        ->get();
+
+        return response([
+            'documentData' => $documentData
+        ]);
+    }
+
+    public function deleteDocument(request $request){
+        $documentId = $request->input('document_id');
+
+        $documentData = Document::find($documentId);
+
+        $documentData->Delete();
+
+        return response([
+            'delete' => 'Document Deleted'
+        ]);
+    }
+    
+
+    public function Documentlist(request $request){
+        $projectId = $request->input('project_id');
+
+        $documentData = Document::where('project_id', $projectId)->get();
+
+        return response([
+            'documentData' => $documentData
+        ]);
+    }
+
+
 
 }

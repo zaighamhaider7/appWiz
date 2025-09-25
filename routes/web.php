@@ -44,7 +44,6 @@ require __DIR__.'/auth.php';
 
 
 Route::get('/tests', [ProjectController::class, 'testView'])->name('test.create');
-
 Route::post('/tests', [ProjectController::class, 'testStore'])->name('test.store');
 
 
@@ -54,7 +53,6 @@ Route::post('/tests', [ProjectController::class, 'testStore'])->name('test.store
 Route::get('/view-project/{id}', [ProjectController::class, 'view_edit'])->name('project.view');
 
 // Route::post('/edit-project/{id}', [ProjectController::class, 'edit'])->name('project.edit');
-
 
 Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('project.delete');
 
@@ -78,5 +76,12 @@ Route::post('/milestone/edit-milestone', [ProjectController::class, 'editMilesto
 Route::post('/milestone/delete', [ProjectController::class, 'Deletemilestone']);
 Route::post('/milestone/list', [ProjectController::class, 'list']);
 
+Route::post('project/document', [ProjectController::class, 'documentId']);
+Route::post('document/delete', [ProjectController::class, 'deleteDocument']);
+Route::post('/document/list', [ProjectController::class, 'Documentlist']);
 
 
+
+
+
+Route::get('/projects2', [ProjectController::class, 'project2'])->name('project.show');
