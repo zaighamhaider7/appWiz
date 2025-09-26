@@ -32,15 +32,27 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
 
+        $validated = $request->validate([
+            'project_name'  => 'required|string|max:255',
+            'client_name'   => 'required|string|max:255',
+            'membership'    => 'required|string|max:255',
+            'assign_to'     => 'required|string|max:255',
+            'price'         => 'required|numeric',
+            'start_date'    => 'required|date',
+            'end_date'      => 'required|date|after_or_equal:start_date',
+            'user_id'       => 'required|integer|exists:users,id',
+            'document_name' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048', // Adjust file rules as needed
+        ]);
+
         $data = new project();
-        $data->project_name = $request->project_name;
-        $data->client_name = $request->client_name;
-        $data->membership = $request->membership;
-        $data->assign_to = $request->assign_to;
-        $data->price = $request->price;
-        $data->start_date = $request->start_date;
-        $data->end_date = $request->end_date;
-        $data->user_id = $request->user_id;
+        $data->project_name = $validated['project_name'];
+        $data->client_name = $validated['client_name'];
+        $data->membership = $validated['membership'];
+        $data->assign_to = $validated['assign_to'];
+        $data->price = $validated['price'];
+        $data->start_date = $validated['start_date'];
+        $data->end_date = $validated['end_date'];
+        $data->user_id = $validated['user_id'];
         $data->save();
 
         $last_project_id = $data->id;
@@ -142,26 +154,21 @@ class ProjectController extends Controller
     // milestone start
     public function milestoneStore(Request $request)
     {
+        $validated = $request->validate([
+            'milestone_name' => 'required|string|max:255',
+            'milestone_start_date' => 'required|date',
+            'deadline' => 'required|after_or_equal:start_date',
+            'project_id' => 'required|exists:projects,id'
+        ]);
 
         $data = new Milestone();
-        $data->milestone_name = $request->milestone_name;
-        $data->start_date = $request->milestone_start_date;
-        $data->deadline = $request->deadline;
-        $data->project_id = $request->project_id;
+        $data->milestone_name = $validated['milestone_name'];
+        $data->start_date = $validated['milestone_start_date'];
+        $data->deadline = $validated['deadline'];
+        $data->project_id = $validated['project_id'];
         $data->save();
 
         return response()->json(['message' => 'Data saved successfully']);
-
-        // $validated = $request->validate([
-        //     'milestone_name' => 'required|string|max:255',
-        //     'start_date' => 'required|date',
-        //     'deadline' => 'required|date|after_or_equal:start_date',
-        //     'project_id' => 'required|exists:projects,id',
-        // ]);
-
-        // Milestone::create($validated);
-
-        // return redirect()->route('project.create')->with('success', 'Milestone created successfully.');
     }
     // milestone end
 

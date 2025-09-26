@@ -763,30 +763,40 @@
 </head>
 
 <body>
+    <div id="m_mileStonemsg" style="display: none; z-index: 9999 !important;"
+        class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        Milestone Added successfully!
+    </div>
 
-    <div id="milestonedelete" style="display: none"
+    <div id="milestonedelete" style="display: none; z-index: 9999 !important;"
         class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
         Milestone Deleted successfully!
     </div>
 
-    <div id="deleteProject" style="display: none"
+    <div id="deleteProject" style="display: none; z-index: 9999 !important;"
         class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
         Project Deleted successfully!
     </div>
 
-    <div id="Projectstatus" style="display: none"
+    <div id="Projectstatus" style="display: none; z-index: 9999 !important;"
         class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
         Project Status Update successfully!
     </div>
 
-    <div id="milestonestatus" style="display: none"
+    <div id="milestonestatus" style="display: none; z-index: 9999 !important;"
         class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
         Milestone Status Update successfully!
     </div>
 
-    <div id="document_delete_msg" style="display: none"
+    <div id="document_delete_msg" style="display: none; z-index: 9999 !important;"
         class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
         Document Deleted successfully!
+    </div>
+
+
+    <div  style="display: none; z-index: 9999 !important;"
+        class="Errors fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg ">
+        
     </div>
 
  
@@ -2105,22 +2115,22 @@
                 <button id="closeMilestoneModal" class="text-gray-300 hover:text-white">✕</button>
             </div>
 
-            <form action="" method="POST">
+            <form  method="POST">
                 @csrf
 
                 <label class="block mb-2">Milestone Name</label>
-                <input type="text" placeholder="Name here..."
+                <input type="text" id="m_milestone_name2" placeholder="Name here..."
                     class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
 
                 <div class="flex gap-4 mb-4">
                     <div class="flex-1">
                         <label class="block mb-2">Start Date</label>
-                        <input type="date"
+                        <input type="date" id="m_start_date2"
                             class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                     </div>
                     <div class="flex-1">
                         <label class="block mb-2">Deadline</label>
-                        <input type="date"
+                        <input type="date" id="m_deadline2"
                             class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                     </div>
                 </div>
@@ -2604,11 +2614,37 @@
 
                             document.getElementById('project_id').value = response.project_id
                         }
-                        // console.log("Data submitted successfully:", response);
+                        
                     },
                     error: function(xhr, status, error) {
-                        console.error("Error submitting data:", error);
+                        if (xhr.status === 422) { 
+                            let errors = xhr.responseJSON.errors;
+                            let errorHtml = '<ul class="list-disc list-inside">';
+
+                            $.each(errors, function(key, messages) {
+                                $.each(messages, function(index, message) {
+                                    errorHtml += '<li>' + message + '</li>';
+                                });
+                            });
+
+                            errorHtml += '</ul>';
+
+                            $('.Errors').html(errorHtml).fadeIn();
+
+                            
+                            setTimeout(() => {
+                                $('.Errors').fadeOut();
+                            }, 5000);
+
+                        }
+                        else {
+                            $('.Errors').html('An unexpected error occurred.').fadeIn();
+                            setTimeout(() => {
+                                $('.Errors').fadeOut();
+                            }, 5000);
+                        }
                     }
+
                 });
 
             });
@@ -2629,7 +2665,7 @@
                         id: currentProjectId
                     },
                     success: function(response) {
-                        $('.open-milestone-modal').attr('data-project-id', currentProjectId);
+                        $('.add-milestone-btn').attr('data-project-id', currentProjectId);
                         $('#edit_project_name').val(response.data.project_name);
                         $('#edit_client_name').val(response.data.client_name);
                         $('#edit_price').val(response.data.price);
@@ -2772,8 +2808,32 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.error("Error submitting data:", error);
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+
+                            let milestoneError = '<ul class="list-disc list-inside">';
+                            
+                            $.each(errors, function(key, m_messages) {
+                                $.each(m_messages, function(index, m_message) {
+                                    milestoneError += '<li>' + m_message + '</li>';
+                                });
+                            });
+
+                            milestoneError += '</ul>';
+
+                            $('.Errors').html(milestoneError).fadeIn(); 
+
+                            setTimeout(() => {
+                                $('.Errors').fadeOut(); 
+                            }, 5000);
+                        } else {
+                            $('.Errors').html('An unexpected error occurred.').fadeIn(); 
+                            setTimeout(() => {
+                                $('.Errors').fadeOut(); 
+                            }, 5000); 
+                        }
                     }
+
                 });
 
 
@@ -2799,8 +2859,87 @@
 
             });
 
-            $(document).on('click', '.open-milestone-modal', function(){
+            $(document).on('click', '.add-milestone-btn', function(e){
+                e.preventDefault();
                 let milestone_project_id = $(this).attr('data-project-id');
+
+                event.preventDefault();
+
+                milestone_name = $('#m_milestone_name2').val();
+                milestone_start_date = $('#m_start_date2').val();
+                deadline = $('#m_deadline2').val();
+
+                let formData = new FormData();
+
+                formData.append('_token', '{{ csrf_token() }}');
+                formData.append('milestone_name', milestone_name);
+                formData.append('milestone_start_date', milestone_start_date);
+                formData.append('deadline', deadline);
+                formData.append('project_id', milestone_project_id);
+
+
+                $.ajax({
+                    url: "{{ route('milestone.store') }}",
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response) {
+                            $('#m_milestone_name2').val('');
+                            $('#m_start_date2').val('');
+                            $('#m_deadline2').val('');
+
+                            $('#m_mileStonemsg').fadeIn(400);
+                            setTimeout(() => {
+                                $('#m_mileStonemsg').fadeOut(600);
+                            }, 3000);
+
+                            $.ajax({
+                                    url: '/milestone/list',
+                                    method: 'POST',
+                                    data: {
+                                        project_id: milestone_project_id
+                                    },
+                                    success: function(milestoneResponse) {
+                                        renderMilestones(milestoneResponse
+                                            .milestonesData);
+                                    },
+                                    error: function() {
+                                        alert(
+                                            'Failed to reload milestones after deletion.'
+                                        );
+                                    }
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+
+                            let milestoneError = '<ul class="list-disc list-inside">';
+                            
+                            $.each(errors, function(key, m_messages) {
+                                $.each(m_messages, function(index, m_message) {
+                                    milestoneError += '<li>' + m_message + '</li>';
+                                });
+                            });
+
+                            milestoneError += '</ul>';
+
+                            $('.Errors').html(milestoneError).fadeIn(); 
+
+                            setTimeout(() => {
+                                $('.Errors').fadeOut(); 
+                            }, 5000);
+                        } else {
+                            $('.Errors').html('An unexpected error occurred.').fadeIn(); 
+                            setTimeout(() => {
+                                $('.Errors').fadeOut(); 
+                            }, 5000); 
+                        }
+                    }
+                });
 
             });
 
