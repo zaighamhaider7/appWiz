@@ -7,6 +7,7 @@ use Google\Analytics\Data\V1beta\DateRange;
 use Google\Analytics\Data\V1beta\Dimension;
 use Google\Analytics\Data\V1beta\Metric;
 use Google\Analytics\Data\V1beta\RunReportRequest;
+use App\Models\Role;
 
 class AnalyticsController extends Controller
 {
@@ -143,7 +144,10 @@ class AnalyticsController extends Controller
         }
 
         // Pass both detailed rows & percentage changes to view
-        return view('admin.analytics')->with([
+    //    $id = auth()->user()->id;
+    //    $check = Role::where('userId');
+    //    dd($id);
+     return view('client.analytics')->with([
             'data' => $currentData,
             'summary' => $results,
             'source' => $sources,
