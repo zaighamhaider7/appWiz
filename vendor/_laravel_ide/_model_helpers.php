@@ -10,6 +10,7 @@ namespace App\Models {
      * @property mixed $project_id
      * @property string $document_name
      * @property int $id
+     * @property-read \App\Models\project $project
      * @method static \Illuminate\Database\Eloquent\Builder<Document>|Document whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Document>|Document whereDocumentName($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Document>|Document whereProjectId($value)
@@ -1292,6 +1293,7 @@ namespace App\Models {
      * @property string $project_name
      * @property int $id
      * @property-read \App\Models\User $user
+     * @property-read \App\Models\User $creator
      * @method static \Illuminate\Database\Eloquent\Builder<project>|project whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<project>|project whereProjectName($value)
      * @method static \Illuminate\Database\Eloquent\Builder<project>|project whereClientName($value)

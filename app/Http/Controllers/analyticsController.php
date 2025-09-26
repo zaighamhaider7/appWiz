@@ -143,7 +143,7 @@ class AnalyticsController extends Controller
         }
 
         // Pass both detailed rows & percentage changes to view
-        return view('analytics')->with([
+        return view('admin.analytics')->with([
             'data' => $currentData,
             'summary' => $results,
             'source' => $sources,

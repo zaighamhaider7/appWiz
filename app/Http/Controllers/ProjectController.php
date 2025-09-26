@@ -26,7 +26,7 @@ class ProjectController extends Controller
         $projects = Project::with('user')->get();
 
 
-        return view('project', compact('projects', 'users', 'userId' ,'documents'));
+        return view('admin.project', compact('projects', 'users', 'userId' ,'documents'));
     }
 
     public function store(Request $request)
@@ -118,7 +118,7 @@ class ProjectController extends Controller
 
         $projects = project::findorFail($id);
 
-       return view('edit-project', compact('projects'));
+       return view('admin.edit-project', compact('projects'));
 
     }
 
