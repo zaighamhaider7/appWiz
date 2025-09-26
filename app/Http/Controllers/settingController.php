@@ -38,4 +38,5 @@ class settingController extends Controller
         ]);
         return redirect()->back()->with('status','role-added');
     }
+    
 }
