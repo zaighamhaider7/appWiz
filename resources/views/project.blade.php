@@ -1650,269 +1650,342 @@
     </div>
 
     <div id="taskModal"
-        class="fixed inset-0 bg-black light-bg-000000 bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="light-bg-white  rounded-xl  w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-xl">
+                    class="fixed inset-0 bg-black light-bg-000000 bg-opacity-50 flex items-center justify-center z-50 hidden">
+                    <div class="light-bg-white  rounded-xl  w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-xl">
 
-            <div class="flex justify-between border-b light-border-gray-200 dark:border-gray-700 items-start">
+                        <div class="flex justify-between border-b light-border-gray-200 dark:border-gray-700 items-start">
 
-                <div class="px-6 ">
-                    <h2 class="text-xl font-light light-text-black pt-3">Add Project</h2>
-                </div>
-                <button id="closeTaskModalBtn"
-                    class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-4">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-
-            <div class="relative">
-                <!-- Desktop View (unchanged) -->
-                <div class="hidden md:flex light-bg-d9d9d9 px-5 py-2  mb-10">
-                    <!-- Your existing desktop tabs structure -->
-                    <!-- Tab 1: Overview -->
-                    <div
-                        class="flex items-center active px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
-                        <img class="w-4 h-4 mb-2" src="category.png" alt="">
-                        <button class="task-tab-btn  pb-2 px-2  " data-tab="taskTab1">Overview</button>
-                    </div>
-                    <!-- Other tabs... -->
-                    <!-- Tab 2: Notes -->
-                    <div
-                        class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
-                        <img class="w-4 h-4 mb-2" src="fi_839860.png" alt="">
-                        <button class="task-tab-btn pb-2 px-2 font-medium " data-tab="taskTab2">Milestones</button>
-                    </div>
-
-                    <!-- Tab 3: Uploaded Document
-        <div class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
-            <img class="w-4 h-4 mb-2" src="bookmark.svg" alt="">
-            <button class="task-tab-btn open-membership-modal mb-2 px-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300" data-tab="taskTab3">Memberships</button>
-        </div>
--->
-
-                </div>
-
-                <!-- Mobile Slider View -->
-                <div class="md:hidden overflow-x-auto whitespace-nowrap py-4 scrollbar-hide">
-                    <div class="inline-flex space-x-8 px-4">
-                        <!-- Tab 1: Overview -->
-                        <div class="flex tab-wrapper flex-col active items-center">
-                            <img class="w-5 h-5" src="category.png" alt="">
-                            <button
-                                class="task-tab-btn  pt-2 font-medium light-text-orange-500 dark:text-orange-400 border-b-2 light-border-orange-500 dark:border-orange-400"
-                                data-tab="overview">Overview</button>
-                        </div>
-
-                        <!-- Tab 2: Notes -->
-                        <div class="flex tab-wrapper flex-col items-center">
-                            <img class="w-5 h-5" src="fi_839860.png" alt="">
-                            <button
-                                class="task-tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
-                                data-tab="notes">Milestones</button>
-                        </div>
-
-                        <!-- Tab 3: Uploaded Document
-            <div class="flex flex-col items-center">
-                <img class="w-5 h-5" src="document.png" alt="">
-                <button class="task-tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300" data-tab="uploadedDocument">Uploaded</button>
-            </div>
--->
-
-                    </div>
-                </div>
-            </div>
-
-
-            <div id="taskTab1Content" class="task-tab-content px-6">
-
-                <form id="ticketForm" class="space-y-4 mb-10 " method="POST" action="{{ route('project.store') }}"
-                    enctype="multipart/form-data">
-                    @csrf
-                    <!-- Title, Project Name, Priority -->
-                    <input type="hidden" name="user_id" id="user_id" value="{{ $userId }}">
-
-                    <div class="grid grid-cols-1 gap-4">
-                        <div class="grid grid-cols-1 gap-2">
-                            <div>
-                                <label class="block text-sm mb-1 light-text-black">Project Name</label>
-                                <input type="text" id="project_name" name="project_name"
-                                    placeholder="Develop WizSpeed Dashboard"
-                                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                            <div class="px-6 ">
+                                <h2 class="text-xl font-light light-text-black pt-3">Add Project</h2>
                             </div>
-
-                        </div>
-                        <div class="grid-cols-1 gap-4">
-                            <div class="grid grid-cols-3 gap-2">
-                                <div>
-                                    <label class="block text-sm mb-1 light-text-black">Client Name</label>
-                                    <input type="text" id="client_name" name="client_name" placeholder="John Doe"
-                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black focus:outline-none">
-                                </div>
-
-                                <div>
-                                    <label class="block text-sm mb-1 light-text-black">Membership</label>
-                                    <select name="membership" id="membership"
-                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
-                                        <option value="" hidden selected>Select Membership</option>
-                                        <option value="basic">Basic</option>
-                                        <option value="gold">Gold</option>
-                                        <option value="premium">Premium</option>
-                                    </select>
-                                </div>
-
-                                <!-- State Selection -->
-                                <div>
-                                    <label class="block text-sm mb-1 light-text-black">Assigned To</label>
-                                    <select name="assign_to" id="assign_to"
-                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black"
-                                        {{ $users->isEmpty() ? 'disabled' : '' }}>
-
-                                        @if ($users->isEmpty())
-                                            <option value="" hidden selected>No users available</option>
-                                        @else
-                                            <option value="" hidden selected>Select User</option>
-                                            @foreach ($users as $user)
-                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                            @endforeach
-                                        @endif
-
-                                    </select>
-
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-3  gap-4">
-                            <div>
-                                <label class="block text-sm mb-1 light-text-black"> Price</label>
-                                <input type="text" id="price" name="price" placeholder="$10,000"
-                                    class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
-                            </div>
-
-                            <!-- State Selection -->
-                            <div>
-                                <label class="block text-sm mb-1 light-text-black">Start Date</label>
-                                <input type="date" name="start_date" id="start_date" placeholder="05-7-2024"
-                                    class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
-                            </div>
-
-                            <!-- City Selection -->
-                            <div>
-                                <label class="block text-sm mb-1 light-text-black">Deadline</label>
-                                <input type="date" name="end_date" id="end_date" placeholder="05-10-2024"
-                                    class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
-                            </div>
-
-                        </div>
-                        <!-- File Upload -->
-                        <div>
-                            <label class="block text-sm mb-1 light-text-black">Attachment</label>
-                            <input type="file" id="document_name" name="document_name"
-                                class="file-input w-full light-text-black light-bg-d7d7d7 p-1 rounded-md focus:outline-none">
-                        </div>
-
-                        <div class="flex items-center gap-2">
-                            <input type="checkbox" checked class="accent-orange-500 w-4 h-4">
-                            <p class="text-xs font-light">Mark As High Priority</p>
-                        </div>
-
-
-
-
-
-                    </div>
-
-
-                    <!-- Buttons -->
-                    <div class="flex justify-end items-center">
-
-                        <div class="flex justify-end gap-3 pt-3">
-                            {{-- <button type="button" id="cancelTicket"
-                                class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
-                                Cancel
-                            </button> --}}
-
-                            <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
-                                class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
-                                id="msg" style="display: none;">
-                                Project Added successfully!
-                            </div>
-
-                            <button type="submit" id="addProject"
-                                class="px-4 py-2 bg-orange-500  rounded-lg hover:bg-orange-600">
-                                Add Project
+                            <button id="closeTaskModalBtn"
+                                class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-4">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
                             </button>
                         </div>
-                    </div>
-                </form>
+
+                    <div class="relative">
+                        <!-- Desktop View (unchanged) -->
+                        <div class="hidden md:flex light-bg-d9d9d9 px-5 py-2  mb-10">
+                            <!-- Your existing desktop tabs structure -->
+                            <!-- Tab 1: Overview -->
+                            <div
+                                class="flex items-center active px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                                <img class="w-4 h-4 mb-2" src="category.png" alt="">
+                                <button class="task-tab-btn  pb-2 px-2  " data-tab="taskTab1">Overview</button>
+                            </div>
+                            <!-- Other tabs... -->
+                            
+
+                                        <!-- Tab 3: Uploaded Document
+                            <div class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                                <img class="w-4 h-4 mb-2" src="bookmark.svg" alt="">
+                                <button class="task-tab-btn open-membership-modal mb-2 px-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300" data-tab="taskTab3">Memberships</button>
+                            </div>
+                    -->
+
+                                    </div>
+
+                                <!-- Mobile Slider View -->
+                                <div class="md:hidden overflow-x-auto whitespace-nowrap py-4 scrollbar-hide">
+                                    <div class="inline-flex space-x-8 px-4">
+                                        <!-- Tab 1: Overview -->
+                                        <div class="flex tab-wrapper flex-col active items-center">
+                                            <img class="w-5 h-5" src="category.png" alt="">
+                                            <button
+                                                class="task-tab-btn  pt-2 font-medium light-text-orange-500 dark:text-orange-400 border-b-2 light-border-orange-500 dark:border-orange-400"
+                                                data-tab="overview">Overview</button>
+                                        </div>
+
+                                        <!-- Tab 2: Notes -->
+                                        <div class="flex tab-wrapper flex-col items-center">
+                                            <img class="w-5 h-5" src="fi_839860.png" alt="">
+                                            <button
+                                                class="task-tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
+                                                data-tab="notes">Milestones</button>
+                                        </div>
+
+                                        <!-- Tab 3: Uploaded Document
+                            <div class="flex flex-col items-center">
+                                <img class="w-5 h-5" src="document.png" alt="">
+                                <button class="task-tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300" data-tab="uploadedDocument">Uploaded</button>
+                            </div>
+                -->
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div id="taskTab1Content" class="task-tab-content px-6">
+
+                                <form id="ticketForm" class="space-y-4 mb-10 " method="POST" action="{{ route('project.store') }}"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <!-- Title, Project Name, Priority -->
+                                    <input type="hidden" name="user_id" id="user_id" value="{{ $userId }}">
+
+                                    <div class="grid grid-cols-1 gap-4">
+                                        <div class="grid grid-cols-1 gap-2">
+                                            <div>
+                                                <label class="block text-sm mb-1 light-text-black">Project Name</label>
+                                                <input type="text" id="project_name" name="project_name"
+                                                    placeholder="Develop WizSpeed Dashboard"
+                                                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                                            </div>
+
+                                        </div>
+                                        <div class="grid-cols-1 gap-4">
+                                            <div class="grid grid-cols-3 gap-2">
+                                                <div>
+                                                    <label class="block text-sm mb-1 light-text-black">Client Name</label>
+                                                    <input type="text" id="client_name" name="client_name" placeholder="John Doe"
+                                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black focus:outline-none">
+                                                </div>
+
+                                                <div>
+                                                    <label class="block text-sm mb-1 light-text-black">Membership</label>
+                                                    <select name="membership" id="membership"
+                                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                                                        <option value="" hidden selected>Select Membership</option>
+                                                        <option value="basic">Basic</option>
+                                                        <option value="gold">Gold</option>
+                                                        <option value="premium">Premium</option>
+                                                    </select>
+                                                </div>
+
+                                                <!-- State Selection -->
+                                                <div>
+                                                    <label class="block text-sm mb-1 light-text-black">Assigned To</label>
+                                                    <select name="assign_to" id="assign_to"
+                                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black"
+                                                        {{ $users->isEmpty() ? 'disabled' : '' }}>
+
+                                                        @if ($users->isEmpty())
+                                                            <option value="" hidden selected>No users available</option>
+                                                        @else
+                                                            <option value="" hidden selected>Select User</option>
+                                                            @foreach ($users as $user)
+                                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                            @endforeach
+                                                        @endif
+
+                                                    </select>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="grid grid-cols-3  gap-4">
+                                            <div>
+                                                <label class="block text-sm mb-1 light-text-black"> Price</label>
+                                                <input type="text" id="price" name="price" placeholder="$10,000"
+                                                    class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
+                                            </div>
+
+                                            <!-- State Selection -->
+                                            <div>
+                                                <label class="block text-sm mb-1 light-text-black">Start Date</label>
+                                                <input type="date" name="start_date" id="start_date" placeholder="05-7-2024"
+                                                    class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
+                                            </div>
+
+                                            <!-- City Selection -->
+                                            <div>
+                                                <label class="block text-sm mb-1 light-text-black">Deadline</label>
+                                                <input type="date" name="end_date" id="end_date" placeholder="05-10-2024"
+                                                    class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
+                                            </div>
+
+                                        </div>
+                                        <!-- File Upload -->
+                                        <div>
+                                            <label class="block text-sm mb-1 light-text-black">Attachment</label>
+                                            <input type="file" id="document_name" name="document_name"
+                                                class="file-input w-full light-text-black light-bg-d7d7d7 p-1 rounded-md focus:outline-none">
+                                        </div>
+
+                                        <div class="flex items-center gap-2">
+                                            <input type="checkbox" checked class="accent-orange-500 w-4 h-4">
+                                            <p class="text-xs font-light">Mark As High Priority</p>
+                                        </div>
+
+
+
+
+
+                                    </div>
+
+
+                                    <!-- Buttons -->
+                                    <div class="flex justify-end items-center">
+
+                                        <div class="flex justify-end gap-3 pt-3">
+                                            {{-- <button type="button" id="cancelTicket"
+                                                class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                                                Cancel
+                                            </button> --}}
+
+                                            <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+                                                class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
+                                                id="msg" style="display: none;">
+                                                Project Added successfully!
+                                            </div>
+
+                                            <button type="submit" id="addProject"
+                                                class="px-4 py-2 bg-orange-500 open-Task-Milestone-Modal-Btn rounded-lg hover:bg-orange-600">
+                                                Add Project
+                                            </button>
+                                            
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                    
+
+
+                </div>
+
+                <div id="taskTab3" class="task-tab-content   hidden">
+
+                </div>
+
 
             </div>
+            </div>
 
-            <div id="taskTab2Content" class="task-tab-content hidden">
-                <div class="px-5">
-                    <p class="text-lg font-bold mb-2">Milestone 1</p>
 
-                    <form method="POST">
-                        @csrf
+            <div id="taskMilestoneModal"
+                    class="fixed inset-0 bg-black light-bg-000000 bg-opacity-50 flex items-center justify-center z-50 hidden">
+                    <div class="light-bg-white  rounded-xl  w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-xl">
 
-                        <label class="block mb-2">Milestone Name</label>
-                        <input type="text" id="milestone_name" placeholder="Name here..." name="milestone_name"
-                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                        <div class="flex justify-between border-b light-border-gray-200 dark:border-gray-700 items-start">
 
-                        <div class="flex gap-4 mb-4">
-                            <div class="flex-1">
-                                <label class="block mb-2">Start Date</label>
-                                <input type="date" name="start_date" id="milestone_start_date"
-                                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                            <div class="px-6 ">
+                                <h2 class="text-xl font-light light-text-black pt-3">Add Project</h2>
                             </div>
-                            <div class="flex-1">
-                                <label class="block mb-2">Deadline</label>
-                                <input type="date" name="deadline" id="deadline"
+                            <button class="close-Task-Milestone-Modal-Btn"
+                                class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-4">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                    <div class="relative">
+                        <!-- Desktop View (unchanged) -->
+                        <div class="hidden md:flex light-bg-d9d9d9 px-5 py-2  mb-10">
+                            <!-- Your existing desktop tabs structure -->
+                            
+                            <!-- Tab 2: Notes -->
+                            <div
+                                class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                                <img class="w-4 h-4 mb-2" src="fi_839860.png" alt="">
+                                <button class="milestone-task-tab-btn pb-2 px-2 font-medium " data-tab="taskTab2">Milestones</button>
+                            </div>
+
+                                        <!-- Tab 3: Uploaded Document
+                            <div class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                                <img class="w-4 h-4 mb-2" src="bookmark.svg" alt="">
+                                <button class="task-tab-btn open-membership-modal mb-2 px-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300" data-tab="taskTab3">Memberships</button>
+                            </div>
+                    -->
+
+                                    </div>
+
+                                <!-- Mobile Slider View -->
+                                <div class="md:hidden overflow-x-auto whitespace-nowrap py-4 scrollbar-hide">
+                                    <div class="inline-flex space-x-8 px-4">
+                                        
+
+                                        <!-- Tab 2: Notes -->
+                                        <div class="flex tab-wrapper flex-col items-center">
+                                            <img class="w-5 h-5" src="fi_839860.png" alt="">
+                                            <button
+                                                class="milestone-task-tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
+                                                data-tab="notes">Milestones</button>
+                                        </div>
+
+                                        <!-- Tab 3: Uploaded Document
+                            <div class="flex flex-col items-center">
+                                <img class="w-5 h-5" src="document.png" alt="">
+                                <button class="task-tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300" data-tab="uploadedDocument">Uploaded</button>
+                            </div>
+                -->
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            
+                    <div id="taskTab2Content" class=" ">
+                        <div class="px-5">
+
+                            <form method="POST">
+                                @csrf
+
+                                <label class="block mb-2">Milestone Name</label>
+                                <input type="text" id="milestone_name" placeholder="Name here..." name="milestone_name"
                                     class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+
+                                <div class="flex gap-4 mb-4">
+                                    <div class="flex-1">
+                                        <label class="block mb-2">Start Date</label>
+                                        <input type="date" name="start_date" id="milestone_start_date"
+                                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                                    </div>
+                                    <div class="flex-1">
+                                        <label class="block mb-2">Deadline</label>
+                                        <input type="date" name="deadline" id="deadline"
+                                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                                    </div>
+                                </div>
+
+                                <input type="text" name="project_id" id="project_id"
+                                    value="{{ session('last_project_id') }}">
+
+
+                                <label class="flex items-center mb-4">
+                                    <input type="checkbox" class="mr-2"> Mark as High Priority
+                                </label>
+                        </div>
+
+                        <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+                            class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
+                            id="mileStonemsg" style="display: none;">
+                            Milestone Added successfully!
+                        </div>
+
+                        <div class="flex justify-between p-5 mt-4">
+                            <button class="px-4 py-2 rounded bg-[#333] text-white">Add New Milestone</button>
+                            <div class="flex gap-2">
+                                {{-- <button class="bg-gray-600 px-4 py-2 rounded">Cancel</button> --}}
+                                <button id="addMilestone" class="bg-orange-500 text-white px-4 py-2 rounded "
+                                    type="submit">Save</button>
                             </div>
                         </div>
 
-                        <input type="text" name="project_id" id="project_id"
-                            value="{{ session('last_project_id') }}">
+                        </form>
 
-
-                        <label class="flex items-center mb-4">
-                            <input type="checkbox" class="mr-2"> Mark as High Priority
-                        </label>
-                </div>
-
-                <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
-                    class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
-                    id="mileStonemsg" style="display: none;">
-                    Milestone Added successfully!
-                </div>
-
-                <div class="flex justify-between p-5 mt-4">
-                    <button class="px-4 py-2 rounded bg-[#333] text-white">Add New Milestone</button>
-                    <div class="flex gap-2">
-                        {{-- <button class="bg-gray-600 px-4 py-2 rounded">Cancel</button> --}}
-                        <button id="addMilestone" class="bg-orange-500 text-white px-4 py-2 rounded "
-                            type="submit">Save</button>
                     </div>
+
+
                 </div>
 
-                </form>
+                
+
 
             </div>
+            </div>
 
-
-        </div>
-
-        <div id="taskTab3" class="task-tab-content   hidden">
-
-        </div>
-
-
-    </div>
-    </div>
 
     <!-- Modal -->
     <div id="customModal"
@@ -1961,7 +2034,7 @@
                                 <option value="50">50</option>
                             </select>
                             <button
-                                class="light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
+                                class="open-upload-modal light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
                                 Upload Documents
                             </button>
                         </div>
@@ -2102,6 +2175,30 @@
                     </nav>
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+     <!-- Upload Modal -->
+    <div id="uploadModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden" >
+        <div class="p-6 bg-[#1f1f1f] rounded-lg w-full max-w-[70vw] text-white">
+
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Upload Documents</h2>
+                <button class="close-upload-modal text-gray-300 hover:text-white">✕</button>
+            </div>
+
+            <!-- file Upload -->
+            <div>
+                <label class="block text-sm mb-1 light-text-black">Attachment</label>
+                <input type="file" id="ticketFile" class="file-input w-full light-text-black light-bg-d7d7d7 p-1 rounded-md focus:outline-none">
+            </div>
+
+            <div class="flex justify-end mt-4">
+                <div class="flex gap-2">
+                    <button class="close-upload-modal bg-gray-600 px-4 py-2 rounded">Cancel</button>
+                    <button class="bg-orange-500 text-white px-4 py-2 rounded">Save</button>
+                </div>
             </div>
         </div>
     </div>
@@ -2249,6 +2346,7 @@
         </div>
     </div>
 
+   
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -2562,6 +2660,7 @@
             $('#addProject').click(function(event) {
                 event.preventDefault();
 
+
                 project_name = $('#project_name').val();
                 client_name = $('#client_name').val();
                 membership = $('#membership').val();
@@ -2598,6 +2697,12 @@
                     success: function(response) {
                         if (response) {
                             projectData();
+
+                            $('#msg').fadeIn(400);
+                            setTimeout(() => {
+                                $('#msg').fadeOut(600);
+                            }, 3000);
+
                             $('#project_name').val('');
                             $('#client_name').val('');
                             $('#membership').val('');
@@ -2607,12 +2712,12 @@
                             $('#end_date').val('');
                             $('#document_name').val('');
 
-                            $('#msg').fadeIn(400);
-                            setTimeout(() => {
-                                $('#msg').fadeOut(600);
-                            }, 3000);
+                            document.getElementById('project_id').value = response.project_id;
 
-                            document.getElementById('project_id').value = response.project_id
+                            $('#taskMilestoneModal').css('display','flex');
+                            $('#taskModal').addClass('hidden')
+
+
                         }
                         
                     },
@@ -2774,7 +2879,7 @@
             // milestone start
 
             $('#addMilestone').click(function(event) {
-                event.preventDefault();
+                // event.preventDefault();
 
                 milestone_name = $('#milestone_name').val();
                 milestone_start_date = $('#milestone_start_date').val();
@@ -3208,6 +3313,10 @@
             const taskModal = document.getElementById('taskModal');
             const openTaskModalBtn = document.getElementById('openTaskModalBtn');
             const closeTaskModalBtn = document.getElementById('closeTaskModalBtn');
+            
+            // const taskMilestoneModal = document.getElementById('taskMilestoneModal');
+            // const openTaskMilestoneModalBtn = document.querySelectorAll('.open-Task-Milestone-Modal-Btn');
+            // const closeTaskMilestoneModalBtn = document.querySelectorAll('.close-Task-Milestone-Modal-Btn');
 
             // Open/Close task modal
             openTaskModalBtn?.addEventListener('click', () => {
@@ -3215,6 +3324,22 @@
             });
             closeTaskModalBtn?.addEventListener('click', () => {
                 taskModal.classList.add('hidden');
+            });
+
+            // openTaskMilestoneModalBtns.forEach((btn, index) => {
+            // btn.addEventListener('click', () => {
+            //     if (taskMilestoneModals[index]) {
+            //         taskMilestoneModals[index].style.display = 'block';
+            //     }
+            //     });
+            // });
+
+            closeTaskMilestoneModalBtns.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                if (taskMilestoneModals[index]) {
+                    taskMilestoneModals[index].style.display = 'none';
+                }
+                });
             });
 
             // ✅ Open modal on click of any button
@@ -3238,6 +3363,17 @@
                     modals.classList.add("hidden");
                 }
             });
+
+            openTaskMilestoneModalBtn?.addEventListener('click', () => {
+    // Close the task modal
+    taskModal.classList.add('hidden');
+
+    // Open the milestone modal
+    taskMilestoneModal.classList.remove('hidden');
+
+    // Optional: Show default tab inside milestone modal
+    showTab('taskTab2', taskMilestoneModal);
+});
 
 
             // ========== DARK MODE ==========
@@ -3335,6 +3471,24 @@
                     });
                 });
             }
+            if (taskMilestoneModal) {
+            taskMilestoneModal.querySelectorAll('.milestone-task-tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.dataset.tab;
+                    showTab(tabId, taskMilestoneModal);
+                });
+                });
+            }
+
+            // Auto-show tab on milestone modal open
+            openTaskMilestoneModalBtn?.addEventListener('click', () => {
+                taskMilestoneModal.classList.remove('hidden');
+                showTab('taskTab2', taskMilestoneModal);
+            });
+
+            closeTaskMilestoneModalBtn?.addEventListener('click', () => {
+                taskMilestoneModal.classList.add('hidden');
+            });
 
 
             // ✅ Restore tab button listeners
@@ -3419,6 +3573,21 @@
             const openMilestoneEditBtns = document.querySelectorAll(".open-milestone-edit-modal");
             const closeMilestoneEditBtn = document.getElementById("closeMilestoneEditModal");
             const projectModal = document.getElementById("projectModal");
+            const uploadModal = document.getElementById("uploadModal");
+            const openUploadModalBtns = document.querySelectorAll(".open-upload-modal");
+            const closeUploadModalBtns = document.querySelectorAll(".close-upload-modal");
+
+            openUploadModalBtns.forEach(btn => {
+                btn.addEventListener("click", () => {
+                uploadModal.classList.remove("hidden");
+                });
+            });
+
+            closeUploadModalBtns.forEach(btn => {
+                btn.addEventListener("click", () => {
+                uploadModal.classList.add("hidden");
+                });
+            });
 
             openMilestoneBtns.forEach(btn => {
                 btn.addEventListener("click", () => {
@@ -3431,6 +3600,8 @@
                 milestoneModal.classList.add("hidden");
 
             });
+
+
 
 
             //  milestone show and delete start
