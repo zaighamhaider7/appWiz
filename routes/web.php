@@ -11,7 +11,7 @@ use App\Http\Controllers\Home;
 Route::get('/',[Home::class,'index']);
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('client.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -31,6 +31,12 @@ Route::post('/projects/status', [ProjectController::class, 'projectStatus']);
 
 Route::post('/projects/milestone', [ProjectController::class, 'milestoneStore'])->name('milestone.store');
 Route::post('/milestone/status', [ProjectController::class, 'milestoneStatus']);
+
+
+Route::post('/documents', [ProjectController::class, 'uploadDocument'])->name('document.store');
+
+
+
 
 
 Route::get('/analytics',[analyticsController::class,'index'])->name('analytics');

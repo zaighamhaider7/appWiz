@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 use Illuminate\Http\Request;
 use App\Models\project;
 use App\Models\Document;
+use App\Models\assignTo;
 use App\Models\User;
 use App\Models\Milestone;
 use App\Models\Test;
@@ -17,16 +19,9 @@ class ProjectController extends Controller
     {
         $userId = Auth::id();
 
-        $projects = project::all();
-
-        $documents = Document::all();
-
         $users = User::where('name', '!=', 'admin')->get();
-
-        $projects = Project::with('user')->get();
-
-
-        return view('client.project', compact('projects', 'users', 'userId' ,'documents'));
+        
+        return view('client.project', compact('users', 'userId'));
     }
 
     public function store(Request $request)
@@ -36,9 +31,9 @@ class ProjectController extends Controller
             'project_name'  => 'required|string|max:255',
             'client_name'   => 'required|string|max:255',
             'membership'    => 'required|string|max:255',
-            'assign_to'     => 'required|string|max:255',
             'price'         => 'required|numeric',
             'start_date'    => 'required|date',
+            'assign_to'    => 'required',
             'end_date'      => 'required|date|after_or_equal:start_date',
             'user_id'       => 'required|integer|exists:users,id',
             'document_name' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048', // Adjust file rules as needed
@@ -48,7 +43,6 @@ class ProjectController extends Controller
         $data->project_name = $validated['project_name'];
         $data->client_name = $validated['client_name'];
         $data->membership = $validated['membership'];
-        $data->assign_to = $validated['assign_to'];
         $data->price = $validated['price'];
         $data->start_date = $validated['start_date'];
         $data->end_date = $validated['end_date'];
@@ -58,6 +52,15 @@ class ProjectController extends Controller
         $last_project_id = $data->id;
 
         session(['last_project_id' => $last_project_id]);
+
+        if ($request->has('assign_to')) {
+            foreach ($validated['assign_to'] as $userId) {
+                AssignTo::create([
+                    'assign_to' => $userId,
+                    'project_id' => $data->id,
+                ]);
+            }
+        }
 
         if ($request->hasFile('document_name')) {
 
@@ -207,15 +210,19 @@ class ProjectController extends Controller
 
     public function projectId(Request $request)
     {
-        $projectId = $request->input('id');
+        $projectId = $request->id;
 
-        $projectData = Project::with('user')->where('id', $projectId)->first();
+        $projectData = Project::with('creator')->where('id', $projectId)->first();
 
         $milestoneData = Milestone::where('project_id', $projectId)->get();
 
+        $assignedUsers = AssignTo::with('user')->where('project_id', $projectId)->get();
+
+
         return response()->json([
             "data" => $projectData,
-            "milestoneData" => $milestoneData
+            "milestoneData" => $milestoneData,
+            "assignedUsers" => $assignedUsers
         ]);
     }
 
@@ -226,12 +233,23 @@ class ProjectController extends Controller
             $data->project_name = $request->project_name;
             $data->client_name = $request->client_name;
             $data->membership = $request->membership;
-            $data->assign_to = $request->assign_to;
             $data->price = $request->price;
             $data->start_date = $request->start_date;
             $data->end_date = $request->end_date;
             $data->user_id = $request->user_id;
             $data->save();
+
+            if($request->has('edit_assign_to')) {
+                AssignTo::where('project_id', $request->id)->delete();
+
+                foreach ($request->edit_assign_to as $userId) {
+                    AssignTo::create([
+                        'assign_to' => $userId,
+                        'project_id' => $data->id,
+                    ]);
+                }
+            }
+
             return response()->json(
                 [
                     "sucess" => "updated"
@@ -337,10 +355,12 @@ class ProjectController extends Controller
 
 
     public function projectList() {
-        $projects = Project::with('user')->get();
+        $projects = Project::with('creator')->get();
+        $assignedUsers = AssignTo::with(['user', 'project'])->get();
 
         return response()->json([
             'success' => $projects,
+            'assignedUsers' => $assignedUsers
         ]);
     }
 
@@ -364,8 +384,6 @@ class ProjectController extends Controller
     public function documentId(request $request){
         $projectId = $request->input('project_id');
         
-        // $documentData = Document::where('project_id', $projectId)->get();
-
         $documentData = Document::with('project.creator') 
                         ->where('project_id', $projectId)
                         ->get();
@@ -379,6 +397,10 @@ class ProjectController extends Controller
         $documentId = $request->input('document_id');
 
         $documentData = Document::find($documentId);
+
+        if (File::exists(public_path($documentData->document_name))) {
+            File::delete(public_path($documentData->document_name));
+        }
 
         $documentData->Delete();
 
@@ -398,6 +420,31 @@ class ProjectController extends Controller
         ]);
     }
 
+
+    public function uploadDocument(request $request){
+        $validated = $request->validate([
+            'project_document' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
+            'project_id' => 'required|exists:projects,id'
+        ]);
+
+        if ($request->hasFile('project_document')) {
+
+            $file = $request->file('project_document');
+
+            $filename = time() . '_' . $file->getClientOriginalName();
+            
+            $file->move(public_path('projectAssets'), $filename);
+
+            Document::create([
+                'document_name' => 'projectAssets/' . $filename,
+                'project_id'    => $request->project_id,
+            ]);
+        }
+
+        return response([
+            'success' => 'Document Uploaded'
+        ]);
+    }
 
 
 }

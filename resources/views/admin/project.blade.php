@@ -758,61 +758,6 @@
                 overflow: visible;
             }
         }
-
-        .custom-dropdown {
-            position: relative;
-            width: 100%;
-            max-width: 300px;
-            font-family: sans-serif;
-        }
-
-        .dropdown-toggle {
-            background-color: #d7d7d7 !important;
-            color: #000;
-            border: 1px solid #444;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background-color: #111 !important;
-            border: 1px solid #444;
-            border-top: none;
-            max-height: 200px;
-            overflow-y: auto;
-            display: none;
-            z-index: 1000;
-        }
-
-        .dropdown-menu.open {
-            display: block;
-        }
-
-        .dropdown-item {
-            padding: 8px 12px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .dropdown-item:hover {
-            background-color: #111 !important;
-        }
-
-        .dropdown-item input {
-            margin-right: 8px;
-        }
-
-        .no-users {
-            padding: 10px;
-            color: #888;
-        }
     </style>
 
 </head>
@@ -848,18 +793,13 @@
         Document Deleted successfully!
     </div>
 
-    <div id="documentUploadMsg" style="display: none; z-index: 9999 !important;"
-        class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
-        Document Upload successfully!
-    </div>
 
-
-    <div style="display: none; z-index: 9999 !important;"
+    <div  style="display: none; z-index: 9999 !important;"
         class="Errors fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg ">
-
+        
     </div>
 
-
+ 
 
 
     <div class="flex min-h-screen light-bg-white">
@@ -1212,26 +1152,24 @@
                     <!-- Your existing desktop tabs structure -->
                     <!-- Tab 1: Overview -->
                     <div
-                        class="flex items-center  px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 bg-gray-500 tab-wrapper">
-                        <img class="w-4 h-4 mb-2" src="{{ asset('assets/category.png') }}" alt="">
-                        <button class="tab-btn  pb-2 px-2 " id="project-open-modal"
-                            data-tab="overview">Overview</button>
+                        class="flex items-center active px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                        <img class="w-4 h-4 mb-2" src="category.png" alt="">
+                        <button class="tab-btn  pb-2 px-2  " data-tab="overview">Overview</button>
                     </div>
                     <!-- Other tabs... -->
                     <!-- Tab 2: Notes -->
                     <div
                         class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
-                        <img class="w-4 h-4 mb-2" src="{{ asset('assets/fi_839860.png') }}" alt="">
-                        <button class="tab-btn pb-2 px-2 font-medium " id="milestone-open-modal"
-                            data-tab="notes">Milestones</button>
+                        <img class="w-4 h-4 mb-2" src="fi_839860.png" alt="">
+                        <button class="tab-btn pb-2 px-2 font-medium " data-tab="notes">Milestones</button>
                     </div>
 
                     <!-- Tab 3: Uploaded Document
-                            <div class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
-                                <img class="w-4 h-4 mb-2" src="bookmark.svg" alt="">
-                                <button class="tab-btn mb-2 px-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300" data-tab="uploadedDocument">Memberships</button>
-                            </div>
-                    -->
+        <div class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+            <img class="w-4 h-4 mb-2" src="bookmark.svg" alt="">
+            <button class="tab-btn mb-2 px-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300" data-tab="uploadedDocument">Memberships</button>
+        </div>
+-->
 
                 </div>
 
@@ -1251,7 +1189,7 @@
                             <img class="w-5 h-5" src="fi_839860.png" alt="">
                             <button
                                 class="tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
-                                data-tab="notes">Milestones</button>
+                                data-tab="notes">Notes</button>
                         </div>
 
                         <!-- Tab 3: Uploaded Document
@@ -1259,7 +1197,7 @@
                 <img class="w-5 h-5" src="document.png" alt="">
                 <button class="tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300" data-tab="uploadedDocument">Uploaded</button>
             </div>
-            -->
+-->
 
                     </div>
                 </div>
@@ -1309,7 +1247,7 @@
                                 </div>
 
                                 <!-- State Selection -->
-                                {{-- <div>
+                                <div>
                                     <label class="block text-sm mb-1 light-text-black">Assigned To</label>
                                     <select name="assign_to" id="edit_assign_to"
                                         class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black"
@@ -1326,37 +1264,7 @@
 
                                     </select>
 
-                                </div> --}}
-
-                                {{-- edit assign user --}}
-
-                                <div>
-                                    <label class="block text-sm mb-1 light-text-black">Assign To</label>
-                                    <div class="custom-dropdown relative w-full">
-                                        <div class="dropdown-toggle edit-assign-toggle p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black cursor-pointer h-10 flex items-center justify-between"
-                                            onclick="edittoggleDropdown()">
-                                            Select Users
-                                        </div>
-                                        <div class="dropdown-menu absolute left-0 right-0 bg-white border border-gray-700 mt-1 max-h-40 overflow-y-auto rounded shadow-lg z-10 hidden"
-                                            id="edituserDropdown">
-                                            @if ($users->isEmpty())
-                                                <div class="no-users p-2 text-gray-500">No users available</div>
-                                            @else
-                                                @foreach ($users as $user)
-                                                    <div
-                                                        class="dropdown-item flex items-center px-3 py-2 cursor-pointer hover:bg-gray-100">
-                                                        <input type="checkbox" name="edit_assign_to[]"
-                                                            value="{{ $user->id }}"
-                                                            id="edit_user_{{ $user->id }}" class="mr-2">
-                                                        <label
-                                                            for="edit_user_{{ $user->id }}">{{ $user->name }}</label>
-                                                    </div>
-                                                @endforeach
-                                            @endif
-                                        </div>
-                                    </div>
                                 </div>
-
 
                             </div>
                         </div>
@@ -1742,355 +1650,344 @@
     </div>
 
     <div id="taskModal"
-        class="fixed inset-0 bg-black light-bg-000000 bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="light-bg-white  rounded-xl  w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-xl">
+                    class="fixed inset-0 bg-black light-bg-000000 bg-opacity-50 flex items-center justify-center z-50 hidden">
+                    <div class="light-bg-white  rounded-xl  w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-xl">
 
-            <div class="flex justify-between border-b light-border-gray-200 dark:border-gray-700 items-start">
+                        <div class="flex justify-between border-b light-border-gray-200 dark:border-gray-700 items-start">
 
-                <div class="px-6 ">
-                    <h2 class="text-xl font-light light-text-black pt-3">Add Project</h2>
-                </div>
-                <button id="closeTaskModalBtn"
-                    class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-4">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
+                            <div class="px-6 ">
+                                <h2 class="text-xl font-light light-text-black pt-3">Add Project</h2>
+                            </div>
+                            <button id="closeTaskModalBtn"
+                                class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-4">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
 
-            <div class="relative">
-                <!-- Desktop View (unchanged) -->
-                <div class="hidden md:flex light-bg-d9d9d9 px-5 py-2  mb-10">
-                    <!-- Your existing desktop tabs structure -->
-                    <!-- Tab 1: Overview -->
-                    <div
-                        class="flex items-center active px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
-                        <img class="w-4 h-4 mb-2" src="{{ asset('assets/category.png') }}" alt="">
-                        <button class="task-tab-btn  pb-2 px-2  " data-tab="taskTab1">Overview</button>
-                    </div>
-                    <!-- Other tabs... -->
+                    <div class="relative">
+                        <!-- Desktop View (unchanged) -->
+                        <div class="hidden md:flex light-bg-d9d9d9 px-5 py-2  mb-10">
+                            <!-- Your existing desktop tabs structure -->
+                            <!-- Tab 1: Overview -->
+                            <div
+                                class="flex items-center active px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                                <img class="w-4 h-4 mb-2" src="category.png" alt="">
+                                <button class="task-tab-btn  pb-2 px-2  " data-tab="taskTab1">Overview</button>
+                            </div>
+                            <!-- Other tabs... -->
+                            
 
-
-                    <!-- Tab 3: Uploaded Document
+                                        <!-- Tab 3: Uploaded Document
                             <div class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
                                 <img class="w-4 h-4 mb-2" src="bookmark.svg" alt="">
                                 <button class="task-tab-btn open-membership-modal mb-2 px-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300" data-tab="taskTab3">Memberships</button>
                             </div>
                     -->
 
-                </div>
+                                    </div>
 
-                <!-- Mobile Slider View -->
-                <div class="md:hidden overflow-x-auto whitespace-nowrap py-4 scrollbar-hide">
-                    <div class="inline-flex space-x-8 px-4">
-                        <!-- Tab 1: Overview -->
-                        <div class="flex tab-wrapper flex-col active items-center">
-                            <img class="w-5 h-5" src="{{ asset('assets/category.png') }}" alt="">
-                            <button
-                                class="task-tab-btn  pt-2 font-medium light-text-orange-500 dark:text-orange-400 border-b-2 light-border-orange-500 dark:border-orange-400"
-                                data-tab="overview">Overview</button>
-                        </div>
+                                <!-- Mobile Slider View -->
+                                <div class="md:hidden overflow-x-auto whitespace-nowrap py-4 scrollbar-hide">
+                                    <div class="inline-flex space-x-8 px-4">
+                                        <!-- Tab 1: Overview -->
+                                        <div class="flex tab-wrapper flex-col active items-center">
+                                            <img class="w-5 h-5" src="category.png" alt="">
+                                            <button
+                                                class="task-tab-btn  pt-2 font-medium light-text-orange-500 dark:text-orange-400 border-b-2 light-border-orange-500 dark:border-orange-400"
+                                                data-tab="overview">Overview</button>
+                                        </div>
 
-                        <!-- Tab 2: Notes -->
-                        <div class="flex tab-wrapper flex-col items-center">
-                            <img class="w-5 h-5" src="fi_839860.png" alt="">
-                            <button
-                                class="task-tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
-                                data-tab="notes">Milestones</button>
-                        </div>
+                                        <!-- Tab 2: Notes -->
+                                        <div class="flex tab-wrapper flex-col items-center">
+                                            <img class="w-5 h-5" src="fi_839860.png" alt="">
+                                            <button
+                                                class="task-tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
+                                                data-tab="notes">Milestones</button>
+                                        </div>
 
-                        <!-- Tab 3: Uploaded Document
+                                        <!-- Tab 3: Uploaded Document
                             <div class="flex flex-col items-center">
                                 <img class="w-5 h-5" src="document.png" alt="">
                                 <button class="task-tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300" data-tab="uploadedDocument">Uploaded</button>
                             </div>
                 -->
 
-                    </div>
-                </div>
-            </div>
-
-
-            <div id="taskTab1Content" class="task-tab-content px-6">
-
-                <form id="ticketForm" class="space-y-4 mb-10 " method="POST" action="{{ route('project.store') }}"
-                    enctype="multipart/form-data">
-                    @csrf
-                    <!-- Title, Project Name, Priority -->
-                    <input type="hidden" name="user_id" id="user_id" value="{{ $userId }}">
-
-                    <div class="grid grid-cols-1 gap-4">
-                        <div class="grid grid-cols-1 gap-2">
-                            <div>
-                                <label class="block text-sm mb-1 light-text-black">Project Name</label>
-                                <input type="text" id="project_name" name="project_name"
-                                    placeholder="Develop WizSpeed Dashboard"
-                                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                            </div>
-
-                        </div>
-
-                        <div class="grid grid-cols-3 gap-4">
-                            <!-- Client Name -->
-                            <div>
-                                <label class="block text-sm mb-1 light-text-black">Client Name</label>
-                                <input type="text" id="client_name" name="client_name" placeholder="John Doe"
-                                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black focus:outline-none h-10">
-                            </div>
-
-                            <!-- Membership -->
-                            <div>
-                                <label class="block text-sm mb-1 light-text-black">Membership</label>
-                                <select name="membership" id="membership"
-                                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black h-10">
-                                    <option value="" hidden selected>Select Membership</option>
-                                    <option value="basic">Basic</option>
-                                    <option value="gold">Gold</option>
-                                    <option value="premium">Premium</option>
-                                </select>
-                            </div>
-
-                            <!-- User Dropdown -->
-                            <div>
-                                <label class="block text-sm mb-1 light-text-black">Assign To</label>
-                                <div class="custom-dropdown relative w-full">
-                                    <div class="dropdown-toggle assign-toggle p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black cursor-pointer h-10 flex items-center justify-between"
-                                        onclick="toggleDropdown()">
-                                        Select Users
-                                    </div>
-                                    <div class="dropdown-menu absolute left-0 right-0 bg-white border border-gray-700 mt-1 max-h-40 overflow-y-auto rounded shadow-lg z-10 hidden"
-                                        id="userDropdown">
-                                        @if ($users->isEmpty())
-                                            <div class="no-users p-2 text-gray-500">No users available</div>
-                                        @else
-                                            @foreach ($users as $user)
-                                                <div
-                                                    class="dropdown-item flex items-center px-3 py-2 cursor-pointer hover:bg-gray-100">
-                                                    <input type="checkbox" name="assign_to[]"
-                                                        value="{{ $user->id }}" id="user_{{ $user->id }}"
-                                                        class="mr-2">
-                                                    <label for="user_{{ $user->id }}">{{ $user->name }}</label>
-                                                </div>
-                                            @endforeach
-                                        @endif
                                     </div>
                                 </div>
                             </div>
 
-                        </div>
+
+                            <div id="taskTab1Content" class="task-tab-content px-6">
+
+                                <form id="ticketForm" class="space-y-4 mb-10 " method="POST" action="{{ route('project.store') }}"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <!-- Title, Project Name, Priority -->
+                                    <input type="hidden" name="user_id" id="user_id" value="{{ $userId }}">
+
+                                    <div class="grid grid-cols-1 gap-4">
+                                        <div class="grid grid-cols-1 gap-2">
+                                            <div>
+                                                <label class="block text-sm mb-1 light-text-black">Project Name</label>
+                                                <input type="text" id="project_name" name="project_name"
+                                                    placeholder="Develop WizSpeed Dashboard"
+                                                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                                            </div>
+
+                                        </div>
+                                        <div class="grid-cols-1 gap-4">
+                                            <div class="grid grid-cols-3 gap-2">
+                                                <div>
+                                                    <label class="block text-sm mb-1 light-text-black">Client Name</label>
+                                                    <input type="text" id="client_name" name="client_name" placeholder="John Doe"
+                                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black focus:outline-none">
+                                                </div>
+
+                                                <div>
+                                                    <label class="block text-sm mb-1 light-text-black">Membership</label>
+                                                    <select name="membership" id="membership"
+                                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                                                        <option value="" hidden selected>Select Membership</option>
+                                                        <option value="basic">Basic</option>
+                                                        <option value="gold">Gold</option>
+                                                        <option value="premium">Premium</option>
+                                                    </select>
+                                                </div>
+
+                                                <!-- State Selection -->
+                                                <div>
+                                                    <label class="block text-sm mb-1 light-text-black">Assigned To</label>
+                                                    <select name="assign_to" id="assign_to"
+                                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black"
+                                                        {{ $users->isEmpty() ? 'disabled' : '' }}>
+
+                                                        @if ($users->isEmpty())
+                                                            <option value="" hidden selected>No users available</option>
+                                                        @else
+                                                            <option value="" hidden selected>Select User</option>
+                                                            @foreach ($users as $user)
+                                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                            @endforeach
+                                                        @endif
+
+                                                    </select>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="grid grid-cols-3  gap-4">
+                                            <div>
+                                                <label class="block text-sm mb-1 light-text-black"> Price</label>
+                                                <input type="text" id="price" name="price" placeholder="$10,000"
+                                                    class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
+                                            </div>
+
+                                            <!-- State Selection -->
+                                            <div>
+                                                <label class="block text-sm mb-1 light-text-black">Start Date</label>
+                                                <input type="date" name="start_date" id="start_date" placeholder="05-7-2024"
+                                                    class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
+                                            </div>
+
+                                            <!-- City Selection -->
+                                            <div>
+                                                <label class="block text-sm mb-1 light-text-black">Deadline</label>
+                                                <input type="date" name="end_date" id="end_date" placeholder="05-10-2024"
+                                                    class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
+                                            </div>
+
+                                        </div>
+                                        <!-- File Upload -->
+                                        <div>
+                                            <label class="block text-sm mb-1 light-text-black">Attachment</label>
+                                            <input type="file" id="document_name" name="document_name"
+                                                class="file-input w-full light-text-black light-bg-d7d7d7 p-1 rounded-md focus:outline-none">
+                                        </div>
+
+                                        <div class="flex items-center gap-2">
+                                            <input type="checkbox" checked class="accent-orange-500 w-4 h-4">
+                                            <p class="text-xs font-light">Mark As High Priority</p>
+                                        </div>
 
 
 
-                        <div class="grid grid-cols-3  gap-4">
-                            <div>
-                                <label class="block text-sm mb-1 light-text-black"> Price</label>
-                                <input type="text" id="price" name="price" placeholder="$10,000"
-                                    class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
-                            </div>
-
-                            <!-- State Selection -->
-                            <div>
-                                <label class="block text-sm mb-1 light-text-black">Start Date</label>
-                                <input type="date" name="start_date" id="start_date" placeholder="05-7-2024"
-                                    class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
-                            </div>
-
-                            <!-- City Selection -->
-                            <div>
-                                <label class="block text-sm mb-1 light-text-black">Deadline</label>
-                                <input type="date" name="end_date" id="end_date" placeholder="05-10-2024"
-                                    class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
-                            </div>
-
-                        </div>
-                        <!-- File Upload -->
-                        <div>
-                            <label class="block text-sm mb-1 light-text-black">Attachment</label>
-                            <input type="file" id="document_name" name="document_name"
-                                class="file-input w-full light-text-black light-bg-d7d7d7 p-1 rounded-md focus:outline-none">
-                        </div>
-
-                        <div class="flex items-center gap-2">
-                            <input type="checkbox" checked class="accent-orange-500 w-4 h-4">
-                            <p class="text-xs font-light">Mark As High Priority</p>
-                        </div>
 
 
+                                    </div>
 
 
+                                    <!-- Buttons -->
+                                    <div class="flex justify-end items-center">
 
-                    </div>
-
-
-                    <!-- Buttons -->
-                    <div class="flex justify-end items-center">
-
-                        <div class="flex justify-end gap-3 pt-3">
-                            {{-- <button type="button" id="cancelTicket"
+                                        <div class="flex justify-end gap-3 pt-3">
+                                            {{-- <button type="button" id="cancelTicket"
                                                 class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                                                 Cancel
                                             </button> --}}
 
-                            <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
-                                class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
-                                id="msg" style="display: none;">
-                                Project Added successfully!
+                                            <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+                                                class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
+                                                id="msg" style="display: none;">
+                                                Project Added successfully!
+                                            </div>
+
+                                            <button type="submit" id="addProject"
+                                                class="px-4 py-2 bg-orange-500 open-Task-Milestone-Modal-Btn rounded-lg hover:bg-orange-600">
+                                                Add Project
+                                            </button>
+                                            
+                                        </div>
+                                    </div>
+                                </form>
+
                             </div>
 
-                            <button type="submit" id="addProject"
-                                class="px-4 py-2 bg-orange-500 open-Task-Milestone-Modal-Btn rounded-lg hover:bg-orange-600">
-                                Add Project
-                            </button>
-
-                        </div>
-                    </div>
-                </form>
-
-            </div>
+                    
 
 
-
-
-        </div>
-
-        <div id="taskTab3" class="task-tab-content   hidden">
-
-        </div>
-
-
-    </div>
-    </div>
-
-
-    <div id="taskMilestoneModal"
-        class="fixed inset-0 bg-black light-bg-000000 bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="light-bg-white  rounded-xl  w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-xl">
-
-            <div class="flex justify-between border-b light-border-gray-200 dark:border-gray-700 items-start">
-
-                <div class="px-6 ">
-                    <h2 class="text-xl font-light light-text-black pt-3">Add Milestones</h2>
                 </div>
-                <button id="closeMilestoneModal"
-                    class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-4">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
+
+                <div id="taskTab3" class="task-tab-content   hidden">
+
+                </div>
+
+
+            </div>
             </div>
 
-            <div class="relative">
-                <!-- Desktop View (unchanged) -->
-                <div class="hidden md:flex light-bg-d9d9d9 px-5 py-2  mb-10">
-                    <!-- Your existing desktop tabs structure -->
 
-                    <!-- Tab 2: Notes -->
-                    <div
-                        class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
-                        <img class="w-4 h-4 mb-2" src="{{ asset('assets/fi_839860.png') }}" alt="">
-                        <button class="milestone-task-tab-btn pb-2 px-2 font-medium "
-                            data-tab="taskTab2">Milestones</button>
-                    </div>
+            <div id="taskMilestoneModal"
+                    class="fixed inset-0 bg-black light-bg-000000 bg-opacity-50 flex items-center justify-center z-50 hidden">
+                    <div class="light-bg-white  rounded-xl  w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-xl">
 
-                    <!-- Tab 3: Uploaded Document
+                        <div class="flex justify-between border-b light-border-gray-200 dark:border-gray-700 items-start">
+
+                            {{-- <div class="px-6 ">
+                                <h2 class="text-xl font-light light-text-black pt-3">Add Project</h2>
+                            </div> --}}
+                            <button class="close-Task-Milestone-Modal-Btn"
+                                class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-4">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                    <div class="relative">
+                        <!-- Desktop View (unchanged) -->
+                        <div class="hidden md:flex light-bg-d9d9d9 px-5 py-2  mb-10">
+                            <!-- Your existing desktop tabs structure -->
+                            
+                            <!-- Tab 2: Notes -->
+                            <div
+                                class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                                <img class="w-4 h-4 mb-2" src="fi_839860.png" alt="">
+                                <button class="milestone-task-tab-btn pb-2 px-2 font-medium " data-tab="taskTab2">Milestones</button>
+                            </div>
+
+                                        <!-- Tab 3: Uploaded Document
                             <div class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
                                 <img class="w-4 h-4 mb-2" src="bookmark.svg" alt="">
                                 <button class="task-tab-btn open-membership-modal mb-2 px-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300" data-tab="taskTab3">Memberships</button>
                             </div>
                     -->
 
-                </div>
+                                    </div>
 
-                <!-- Mobile Slider View -->
-                <div class="md:hidden overflow-x-auto whitespace-nowrap py-4 scrollbar-hide">
-                    <div class="inline-flex space-x-8 px-4">
+                                <!-- Mobile Slider View -->
+                                <div class="md:hidden overflow-x-auto whitespace-nowrap py-4 scrollbar-hide">
+                                    <div class="inline-flex space-x-8 px-4">
+                                        
 
+                                        <!-- Tab 2: Notes -->
+                                        <div class="flex tab-wrapper flex-col items-center">
+                                            <img class="w-5 h-5" src="fi_839860.png" alt="">
+                                            <button
+                                                class="milestone-task-tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
+                                                data-tab="notes">Milestones</button>
+                                        </div>
 
-                        <!-- Tab 2: Notes -->
-                        <div class="flex tab-wrapper flex-col items-center">
-                            <img class="w-5 h-5" src="fi_839860.png" alt="">
-                            <button
-                                class="milestone-task-tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
-                                data-tab="notes">Milestones</button>
-                        </div>
-
-                        <!-- Tab 3: Uploaded Document
+                                        <!-- Tab 3: Uploaded Document
                             <div class="flex flex-col items-center">
                                 <img class="w-5 h-5" src="document.png" alt="">
                                 <button class="task-tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300" data-tab="uploadedDocument">Uploaded</button>
                             </div>
                              -->
 
-                    </div>
-                </div>
-            </div>
-
-
-
-            <div id="taskTab2Content" class=" ">
-                <div class="px-5">
-
-                    <form method="POST">
-                        @csrf
-
-                        <label class="block mb-2">Milestone Name</label>
-                        <input type="text" id="milestone_name" placeholder="Name here..." name="milestone_name"
-                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-
-                        <div class="flex gap-4 mb-4">
-                            <div class="flex-1">
-                                <label class="block mb-2">Start Date</label>
-                                <input type="date" name="start_date" id="milestone_start_date"
-                                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                                    </div>
+                                </div>
                             </div>
-                            <div class="flex-1">
-                                <label class="block mb-2">Deadline</label>
-                                <input type="date" name="deadline" id="deadline"
+
+
+                            
+                    <div id="taskTab2Content" class=" ">
+                        <div class="px-5">
+
+                            <form method="POST">
+                                @csrf
+
+                                <label class="block mb-2">Milestone Name</label>
+                                <input type="text" id="milestone_name" placeholder="Name here..." name="milestone_name"
                                     class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                            </div>
+
+                                <div class="flex gap-4 mb-4">
+                                    <div class="flex-1">
+                                        <label class="block mb-2">Start Date</label>
+                                        <input type="date" name="start_date" id="milestone_start_date"
+                                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                                    </div>
+                                    <div class="flex-1">
+                                        <label class="block mb-2">Deadline</label>
+                                        <input type="date" name="deadline" id="deadline"
+                                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                                    </div>
+                                </div>
+
+                                <input type="text" name="project_id" id="project_id"
+                                    value="{{ session('last_project_id') }}">
+
+
+                                <label class="flex items-center mb-4">
+                                    <input type="checkbox" class="mr-2"> Mark as High Priority
+                                </label>
+
+
+                                
                         </div>
 
-                        <input type="text" name="project_id" id="project_id"
-                            value="{{ session('last_project_id') }}">
+                            <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+                                class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
+                                id="mileStonemsg" style="display: none; z-index:9999 !important;">
+                                Milestone Added successfully!
+                            </div>
 
+                            <div class="flex justify-between p-5 mt-4">
+                                <button class="px-4 py-2 rounded bg-[#333] text-white">Add New Milestone</button>
+                                <div class="flex gap-2">
+                                    {{-- <button class="bg-gray-600 px-4 py-2 rounded">Cancel</button> --}}
+                                    <button id="addMilestone" class="bg-orange-500 text-white px-4 py-2 rounded "
+                                        type="submit">Save</button>
+                                </div>
+                            </div>
 
-                        <label class="flex items-center mb-4">
-                            <input type="checkbox" class="mr-2"> Mark as High Priority
-                        </label>
+                        </form>
 
-
-
-                </div>
-
-                <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
-                    class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
-                    id="mileStonemsg" style="display: none; z-index:9999 !important;">
-                    Milestone Added successfully!
-                </div>
-
-                <div class="flex justify-between p-5 mt-4">
-                    <button class="px-4 py-2 rounded bg-[#333] text-white">Add New Milestone</button>
-                    <div class="flex gap-2">
-                        {{-- <button class="bg-gray-600 px-4 py-2 rounded">Cancel</button> --}}
-                        <button id="addMilestone" class="bg-orange-500 text-white px-4 py-2 rounded "
-                            type="submit">Save</button>
                     </div>
+
+
                 </div>
 
-                </form>
+                
+
 
             </div>
-
-
-        </div>
-
-
-
-
-    </div>
-    </div>
+            </div>
 
 
     <!-- Modal -->
@@ -2146,7 +2043,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y light-divide-gray-200 dark:divide-gray-700">
                         <thead class="light-bg-gray-50 dark:bg-gray-700">
@@ -2251,7 +2147,6 @@
                         </tbody>
                     </table>
                 </div>
-
                 <div class="flex justify-between items-center p-8 mt-4">
                     <div class="flex items-center">
                         <span class="text-sm light-text-gray-700 dark:text-gray-400">Showing 1 to 5 of 100
@@ -2287,8 +2182,8 @@
         </div>
     </div>
 
-    <!-- Upload Modal -->
-    <div id="uploadModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
+     <!-- Upload Modal -->
+    <div id="uploadModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden" >
         <div class="p-6 bg-[#1f1f1f] rounded-lg w-full max-w-[70vw] text-white">
 
             <div class="flex justify-between items-center mb-4">
@@ -2297,22 +2192,17 @@
             </div>
 
             <!-- file Upload -->
-            <form action="{{ route('document.store') }}" method="POST">
-                @csrf
-                <div>
-                    <label class="block text-sm mb-1 light-text-black">Attachment</label>
-                    <input id="project_document" type="file" id="ticketFile"
-                        class="file-input w-full light-text-black light-bg-d7d7d7 p-1 rounded-md focus:outline-none">
-                </div>
+            <div>
+                <label class="block text-sm mb-1 light-text-black">Attachment</label>
+                <input type="file" id="ticketFile" class="file-input w-full light-text-black light-bg-d7d7d7 p-1 rounded-md focus:outline-none">
+            </div>
 
-                <div class="flex justify-end mt-4">
-                    <div class="flex gap-2">
-                        <button class="close-upload-modal bg-gray-600 px-4 py-2 rounded">Cancel</button>
-                        <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded"
-                            id="upload-document-btn">Save</button>
-                    </div>
+            <div class="flex justify-end mt-4">
+                <div class="flex gap-2">
+                    <button class="close-upload-modal bg-gray-600 px-4 py-2 rounded">Cancel</button>
+                    <button class="bg-orange-500 text-white px-4 py-2 rounded">Save</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 
@@ -2325,7 +2215,7 @@
                 <button id="closeMilestoneModal" class="text-gray-300 hover:text-white">✕</button>
             </div>
 
-            <form method="POST">
+            <form  method="POST">
                 @csrf
 
                 <label class="block mb-2">Milestone Name</label>
@@ -2353,13 +2243,12 @@
                     {{-- <button class="px-4 py-2 rounded bg-[#333] text-white">Add New Milestone</button> --}}
                     <div class="flex gap-2">
                         {{-- <button class="bg-gray-600 px-4 py-2 rounded">Cancel</button> --}}
-                        <button type="submit"
-                            class="add-milestone-btn bg-orange-500 text-white px-4 py-2 rounded">Save</button>
+                        <button type="submit" class="add-milestone-btn bg-orange-500 text-white px-4 py-2 rounded">Save</button>
                     </div>
                 </div>
 
             </form>
-
+            
         </div>
     </div>
 
@@ -2460,7 +2349,7 @@
         </div>
     </div>
 
-
+   
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -2592,39 +2481,9 @@
         //  jquery work
         $(document).ready(function() {
 
-            $('.tab-btn').click(function() {
-                const tab = $(this).data('tab');
-
-                if (tab === 'overview') {
-                    $('#overviewContent').removeClass('hidden').show();
-                    $('#notesContent').hide().addClass('hidden');
-                } else if (tab === 'notes') {
-                    $('#notesContent').removeClass('hidden').show();
-                    $('#overviewContent').hide().addClass('hidden');
-                }
-
-                $('.tab-wrapper')
-                    .removeClass('bg-gray-500 text-orange-500 dark:text-orange-400 dark:border-orange-400')
-                    .addClass(
-                        'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300');
-
-                $(this).closest('.tab-wrapper')
-                    .removeClass(
-                        'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300')
-                    .addClass('bg-gray-500 text-orange-500 dark:text-orange-400');
-
-            });
-
-            $('#closeModal').click(function() {
-                $('#projectModal').css('display', 'none');
-            });
-
-            $('#closeMilestoneModal').click(function() {
-                $('#taskMilestoneModal').css('display', 'none');
-            });
-
             // project data fetch using ajax start
             function projectData() {
+
                 $.ajax({
                     type: 'GET',
                     url: '/project/list',
@@ -2632,113 +2491,104 @@
                         if (response.success) {
                             let rows = '';
                             let count = 0;
+
                             let index = 1;
 
-                            // Prepare a map: projectId => array of assigned users
-                            const assignedUsersMap = {};
-                            if (response.assignedUsers && response.assignedUsers.length > 0) {
-                                response.assignedUsers.forEach(user => {
-                                    const pid = user
-                                    .project_id; // adjust field name if different
-                                    if (!assignedUsersMap[pid]) assignedUsersMap[pid] = [];
-                                    assignedUsersMap[pid].push(user);
-                                });
-                            }
-
                             if (response.success.length > 0) {
+
                                 response.success.forEach(function(project) {
                                     count++;
 
-                                    // Get assigned users for current project from map
-                                    const assignedUsers = assignedUsersMap[project.id] || [];
-
-                                    // Build assigned users HTML inside one <td>
-                                    let assignedUsersHtml =
-                                        '<td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900"><div class="flex items-center -space-x-2">';
-                                    if (assignedUsers.length > 0) {
-                                        assignedUsers.forEach(function(users) {
-                                            console.log(users);
-                                            assignedUsersHtml += `
-                                                    <!-- User avatars -->
-                                                    <img src="${users.user.image}" alt="${users.user.name}" class="w-10 h-10 rounded-full border-2 border-black">
-                                                `;
-                                        });
-                                    } else {
-                                        assignedUsersHtml += 'No users assigned';
-                                    }
-                                    assignedUsersHtml += '</div></td>';
-
                                     rows += `
-                                        <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
+                                            <tr>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
                                                 ${index++}
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-medium light-text-gray-900">
-                                                    ${project.project_name}
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
-                                                <div class="flex items-center gap-1">
-                                                    <p>${project.client_name}</p>
-                                                </div>
-                                            </td>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="text-sm font-medium light-text-gray-900">
+                                                        ${project.project_name}
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
+                                                    <div class="flex items-center gap-1">
+                                                        <p>${project.client_name}</p>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
+                                                    <div class="flex items-center gap-1">
+                                                        ${
+                                                            project.user
+                                                                ? (project.user.image
+                                                                    ? `<img class="w-12 h-12 light-text-gray-900 rounded-full light-mode-icon" src="${project.user.image}" alt="User Image">`
+                                                                    : `<img class="w-12 h-12 light-text-gray-900 rounded-full light-mode-icon" src="/assets/profile-circle-DARK.svg" alt="Default User">`
+                                                                )
+                                                                : `<p>No user assigned</p>`
+                                                        }
+                                                    </div>
+                                                </td>
 
-                                            ${assignedUsersHtml}
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <button style="border-radius: 20px;" class="w-52 bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700" onclick="myFunction()">
+                                                        <progress class="w-full" style="border-radius: 45px !important;color:orange;"  value="78" max="100"></progress> 78%
+                                                    </button>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                                    <input type="hidden" id="project_status_id" value="${project.id}">
+                                                    <select id="project_status" name="project_status" class="w-32 px-4 py-2 rounded-lg bg-success-900/50 text-gray-700 hover:bg-gray-200 transition-colors">
+                                                        <option value="${project.status}" selected>${project.status}</option>
+                                                        <option value="In Process">In Process</option>
+                                                        <option value="Delay">Delay</option>
+                                                        <option value="Completed">Completed</option>
+                                                        <option value="Cancelled">Cancelled</option>
+                                                    </select>
+                                                </td>
 
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <button style="border-radius: 20px;" class="w-52 bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700" onclick="myFunction()">
-                                                    <progress class="w-full" style="border-radius: 45px !important; color:orange;" value="78" max="100"></progress> 78%
-                                                </button>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                <input type="hidden" class="project_status_id" value="${project.id}">
-                                                <select id="project_status" name="project_status" class="w-32 px-4 py-2 rounded-lg bg-success-900/50 text-gray-700 hover:bg-gray-200 transition-colors">
-                                                    <option value="${project.status}" selected>${project.status}</option>
-                                                    <option value="In Process">In Process</option>
-                                                    <option value="Delay">Delay</option>
-                                                    <option value="Completed">Completed</option>
-                                                    <option value="Cancelled">Cancelled</option>
-                                                </select>
-                                            </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                    <button class="light-text-orange-500 rounded-full p-1 light-hover-text-orange-700 toggle-btn toggle-btn" data-target="expand-0${count}">
+                                                        <i class="fa-solid fa-arrow-down"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
 
-                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                <button class="light-text-orange-500 rounded-full p-1 light-hover-text-orange-700 toggle-btn" data-target="expand-0${count}">
-                                                    <i class="fa-solid fa-arrow-down"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-
-                                        <tr id="expand-0${count}" class="hidden light-text-black">
-                                            <td colspan="7" class="px-6 py-4">
+                                            <tr id="expand-0${count}" class="hidden light-text-black">
+                                                <td colspan="7" class="px-6 py-4">
 
                                                 <!-- Sub-table Head -->
-                                                <div class="grid grid-cols-6 font-semibold light-text-black border-b border-gray-300">
+                                                <div
+                                                    class="grid grid-cols-6  font-semibold light-text-black border-b border-gray-300">
                                                     <div class="w-1/2">#</div>
                                                     <div class="flex items-center text-xs">
                                                         AMOUNT
-                                                        <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                        <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                            stroke-linejoin="round">
                                                             <path d="M7 8 L12 3 L17 8" />
                                                             <path d="M7 16 L12 21 L17 16" />
                                                         </svg>
                                                     </div>
                                                     <div class="flex items-center text-xs">
                                                         LEAD SOURCE
-                                                        <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                        <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                            stroke-linejoin="round">
                                                             <path d="M7 8 L12 3 L17 8" />
                                                             <path d="M7 16 L12 21 L17 16" />
                                                         </svg>
                                                     </div>
                                                     <div class="flex items-center text-xs">
                                                         CURRENT PROJECT
-                                                        <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                        <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                            stroke-linejoin="round">
                                                             <path d="M7 8 L12 3 L17 8" />
                                                             <path d="M7 16 L12 21 L17 16" />
                                                         </svg>
                                                     </div>
                                                     <div class="flex items-center text-xs">
                                                         MEMBERSHIP
-                                                        <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                        <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                            stroke-linejoin="round">
                                                             <path d="M7 8 L12 3 L17 8" />
                                                             <path d="M7 16 L12 21 L17 16" />
                                                         </svg>
@@ -2746,40 +2596,58 @@
                                                     <div class="flex items-center text-xs">ACTION</div>
                                                 </div>
 
-                                                <!-- Sub-table Row -->
-                                                <div class="grid grid-cols-6 pt-2 mt-2 light-text-black">
-                                                    <div class="w-1/2"></div>
-                                                    <div>${project.price}</div>
-                                                    <div>Email Marketing</div>
-                                                    <div>${project.project_name}</div>
-                                                    <div>${project.membership}</div>
-                                                    <div class="flex items-center gap-2">
-                                                        <img src="{{ asset('assets/document-download-DARK.svg') }}" id="openModalBtn" alt="Action 1" class="openModalBtn w-6 h-6 rounded-full p-1 bg-gray-500" data-d-project-id="${project.id}" />
-                                                        <img src="{{ asset('assets/edit.svg') }}" alt="Action 2" class="edit-project-modal w-6 h-6 rounded-full p-1 bg-gray-500" data-action="view-project" data-project-id="${project.id}" />
-                                                        <img data-delete_p-id="${project.id}" src="{{ asset('assets/trash.svg') }}" alt="Action 3" class="delete-project w-6 h-6 rounded-full p-1 bg-gray-500" />
-                                                    </div>
-                                                </div>
+                                                     <!-- Sub-table Row -->
+                                                    <div class="grid grid-cols-6 pt-2 mt-2 light-text-black">
+                                                        <div class="w-1/2"></div>
+                                                        <div>${project.price}</div>
+                                                        <div>Email Marketing</div>
+                                                        <div>${project.project_name}</div>
+                                                        <div>
+                                                           ${project.membership}
+                                                        </div>
+                                                        <div class="flex items-center gap-2">
 
+                                                             <img src="{{ asset('assets/document-download-DARK.svg') }}"
+                                                                 id="openModalBtn" alt="Action 1"
+                                                                 class="openModalBtn w-6 h-6 rounded-full p-1 bg-gray-500"
+                                                                 data-d-project-id = "${project.id }"
+                                                                 />
+
+                                                             <img src="{{ asset('assets/edit.svg') }}" alt="Action 2"
+                                                                 class="edit-project-modal w-6 h-6  rounded-full p-1 bg-gray-500"
+                                                                 data-action="view-project"
+                                                                 data-project-id = "${project.id }" />
+
+                                                             <img data-delete_p-id = "${project.id}"  src="{{ asset('assets/trash.svg') }}"
+                                                                 alt="Action 3"
+                                                                 class="delete-project w-6 h-6 rounded-full p-1 bg-gray-500" />
+                                                        </div>
+
+                                                    </div>            
+
+                                                </td>
+                                            </tr>
+                                        `;
+                                });
+
+                            } else {
+                                rows = `
+                                        <tr>
+                                            <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
+                                                No projects found.
                                             </td>
                                         </tr>
                                     `;
-                                });
-                            } else {
-                                rows = `
-                                    <tr>
-                                        <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
-                                            No projects found.
-                                        </td>
-                                    </tr>
-                                `;
                             }
                             $('#project-table-body').html(rows);
                         }
+
                     },
                     error: function(xhr) {
                         console.error('Error fetching project data:', xhr.responseText);
                     }
                 });
+
             }
 
             projectData();
@@ -2799,7 +2667,7 @@
                 project_name = $('#project_name').val();
                 client_name = $('#client_name').val();
                 membership = $('#membership').val();
-                // assign_to = $('#assign_to').val();
+                assign_to = $('#assign_to').val();
                 price = $('#price').val();
                 start_date = $('#start_date').val();
                 end_date = $('#end_date').val();
@@ -2812,16 +2680,7 @@
                 formData.append('project_name', project_name);
                 formData.append('client_name', client_name);
                 formData.append('membership', membership);
-                // formData.append('assign_to', assign_to);
-
-                let assign_to = $('input[name="assign_to[]"]:checked').map(function() {
-                    return this.value;
-                }).get();
-
-                assign_to.forEach(userId => {
-                    formData.append('assign_to[]', userId);
-                });
-
+                formData.append('assign_to', assign_to);
                 formData.append('price', price);
                 formData.append('start_date', start_date);
                 formData.append('end_date', end_date);
@@ -2858,15 +2717,15 @@
 
                             document.getElementById('project_id').value = response.project_id;
 
-                            $('#taskMilestoneModal').css('display', 'flex');
+                            $('#taskMilestoneModal').css('display','flex');
                             $('#taskModal').addClass('hidden')
 
 
                         }
-
+                        
                     },
                     error: function(xhr, status, error) {
-                        if (xhr.status === 422) {
+                        if (xhr.status === 422) { 
                             let errors = xhr.responseJSON.errors;
                             let errorHtml = '<ul class="list-disc list-inside">';
 
@@ -2880,12 +2739,13 @@
 
                             $('.Errors').html(errorHtml).fadeIn();
 
-
+                            
                             setTimeout(() => {
                                 $('.Errors').fadeOut();
                             }, 5000);
 
-                        } else {
+                        }
+                        else {
                             $('.Errors').html('An unexpected error occurred.').fadeIn();
                             setTimeout(() => {
                                 $('.Errors').fadeOut();
@@ -2902,53 +2762,33 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+                console.log("Meow");
 
             $(document).on('click', '.edit-project-modal', function() {
                 const currentProjectId = $(this).data('project-id');
 
                 console.log("edit modal clicked" + currentProjectId)
 
-                $('#projectModal').css('display', 'flex');
-                // $('#projectModal').addClass('hidden');
-
-                $.ajax({
-                    url: '/projects/project-id',
-                    method: 'POST',
-                    data: {
-                        id: currentProjectId
-                    },
-                    success: function(response) {
-                        response.assignedUsers.forEach(function(item) {
-                            console.log(item.user.name);
-                        });
-                        $('.add-milestone-btn').attr('data-project-id', currentProjectId);
-                        $('#edit_project_name').val(response.data.project_name);
-                        $('#edit_client_name').val(response.data.client_name);
-                        $('#edit_price').val(response.data.price);
-                        $('#edit_start_date').val(response.data.start_date);
-                        $('#edit_end_date').val(response.data.end_date);
-                        $('#edit_membership').val(response.data.membership);
-                        $('#edit_user_id').val(response.data.user_id);
-                        $('#edit_project_id').val(response.data.id);
-                        renderMilestones(response.milestoneData);
-
-                        $('input[name="edit_assign_to[]"]').prop('checked', false);
-
-                        if (Array.isArray(response.assignedUsers)) {
-
-                            $('input[name="edit_assign_to[]"]').prop('checked', false);
-
-
-                            response.assignedUsers.forEach(function(item) {
-                                if (item.user && item.user.id) {
-                                    $('#edit_user_' + item.user.id).prop('checked',
-                                        true);
-                                }
-                            });
-                        }
-
-                    }
-                });
+                // $.ajax({
+                //     url: '/projects/project-id',
+                //     method: 'POST',
+                //     data: {
+                //         id: currentProjectId
+                //     },
+                //     success: function(response) {
+                //         $('.add-milestone-btn').attr('data-project-id', currentProjectId);
+                //         $('#edit_project_name').val(response.data.project_name);
+                //         $('#edit_client_name').val(response.data.client_name);
+                //         $('#edit_price').val(response.data.price);
+                //         $('#edit_start_date').val(response.data.start_date);
+                //         $('#edit_end_date').val(response.data.end_date);
+                //         $('#edit_membership').val(response.data.membership);
+                //         $('#edit_assign_to').val(response.data.user.id);
+                //         $('#edit_user_id').val(response.data.user_id);
+                //         $('#edit_project_id').val(response.data.id);
+                //         renderMilestones(response.milestoneData);
+                //     }
+                // });
 
             });
 
@@ -2959,38 +2799,25 @@
                 project_name = $('#edit_project_name').val();
                 client_name = $('#edit_client_name').val();
                 membership = $('#edit_membership').val();
+                assign_to = $('#edit_assign_to').val();
                 price = $('#edit_price').val();
                 start_date = $('#edit_start_date').val();
                 end_date = $('#edit_end_date').val();
                 user_id = $('#edit_user_id').val();
                 project_id = $('#edit_project_id').val();
 
-
-
                 let formData = new FormData();
-
 
                 formData.append('_token', '{{ csrf_token() }}');
                 formData.append('project_name', project_name);
                 formData.append('client_name', client_name);
                 formData.append('membership', membership);
+                formData.append('assign_to', assign_to);
                 formData.append('price', price);
                 formData.append('start_date', start_date);
                 formData.append('end_date', end_date);
                 formData.append('user_id', user_id);
                 formData.append('id', project_id);
-
-                let assign_to = $('input[name="edit_assign_to[]"]:checked').map(function() {
-                    return this.value;
-                }).get();
-
-                assign_to.forEach(userId => {
-                    formData.append('edit_assign_to[]', userId);
-                });
-
-                for (let [key, value] of formData.entries()) {
-                    console.log(`${key}:`, value);
-                }
 
 
                 $.ajax({
@@ -3007,7 +2834,6 @@
                         }, 3000);
                     }
                 });
-
             });
 
             $(document).on('click', '.delete-project', function() {
@@ -3032,8 +2858,7 @@
             $(document).on('change', '#project_status', function() {
 
                 let selectedStatus = $(this).val();
-
-                let project_status_id = $(this).siblings('.project_status_id').val();
+                let project_status_id = $('#project_status_id').val();
 
 
                 $.ajax({
@@ -3097,26 +2922,25 @@
                             let errors = xhr.responseJSON.errors;
 
                             let milestoneError = '<ul class="list-disc list-inside">';
-
+                            
                             $.each(errors, function(key, m_messages) {
                                 $.each(m_messages, function(index, m_message) {
-                                    milestoneError += '<li>' + m_message +
-                                        '</li>';
+                                    milestoneError += '<li>' + m_message + '</li>';
                                 });
                             });
 
                             milestoneError += '</ul>';
 
-                            $('.Errors').html(milestoneError).fadeIn();
+                            $('.Errors').html(milestoneError).fadeIn(); 
 
                             setTimeout(() => {
-                                $('.Errors').fadeOut();
+                                $('.Errors').fadeOut(); 
                             }, 5000);
                         } else {
-                            $('.Errors').html('An unexpected error occurred.').fadeIn();
+                            $('.Errors').html('An unexpected error occurred.').fadeIn(); 
                             setTimeout(() => {
-                                $('.Errors').fadeOut();
-                            }, 5000);
+                                $('.Errors').fadeOut(); 
+                            }, 5000); 
                         }
                     }
 
@@ -3125,30 +2949,27 @@
 
             });
 
-            $(document).on('change', '#milestone_status', function() {
+            $(document).on('change', '#milestone_status', function(){
 
                 let selectedMStatus = $(this).val();
-                let milestone_status_id = $('#milestone_status_id').val();
+                 let milestone_status_id = $('#milestone_status_id').val();
 
                 $.ajax({
-                    url: '/milestone/status',
-                    method: 'POST',
-                    data: {
-                        milestone_status: selectedMStatus,
-                        milestone_status_id: milestone_status_id
-                    },
-                    success: function(response) {
-                        $('#milestonestatus').fadeIn(400);
-                        setTimeout(() => {
-                            $('#milestonestatus').fadeOut(600);
-                        }, 3000);
+                    url : '/milestone/status',
+                    method : 'POST',
+                    data : {milestone_status : selectedMStatus, milestone_status_id : milestone_status_id},
+                    success: function(response){
+                         $('#milestonestatus').fadeIn(400);
+                         setTimeout(() => {
+                             $('#milestonestatus').fadeOut(600);
+                         }, 3000);
 
                     }
                 });
 
             });
 
-            $(document).on('click', '.add-milestone-btn', function(e) {
+            $(document).on('click', '.add-milestone-btn', function(e){
                 e.preventDefault();
                 let milestone_project_id = $(this).attr('data-project-id');
 
@@ -3183,20 +3004,20 @@
                             }, 3000);
 
                             $.ajax({
-                                url: '/milestone/list',
-                                method: 'POST',
-                                data: {
-                                    project_id: milestone_project_id
-                                },
-                                success: function(milestoneResponse) {
-                                    renderMilestones(milestoneResponse
-                                        .milestonesData);
-                                },
-                                error: function() {
-                                    alert(
-                                        'Failed to reload milestones after deletion.'
-                                    );
-                                }
+                                    url: '/milestone/list',
+                                    method: 'POST',
+                                    data: {
+                                        project_id: milestone_project_id
+                                    },
+                                    success: function(milestoneResponse) {
+                                        renderMilestones(milestoneResponse
+                                            .milestonesData);
+                                    },
+                                    error: function() {
+                                        alert(
+                                            'Failed to reload milestones after deletion.'
+                                        );
+                                    }
                             });
                         }
                     },
@@ -3205,26 +3026,25 @@
                             let errors = xhr.responseJSON.errors;
 
                             let milestoneError = '<ul class="list-disc list-inside">';
-
+                            
                             $.each(errors, function(key, m_messages) {
                                 $.each(m_messages, function(index, m_message) {
-                                    milestoneError += '<li>' + m_message +
-                                        '</li>';
+                                    milestoneError += '<li>' + m_message + '</li>';
                                 });
                             });
 
                             milestoneError += '</ul>';
 
-                            $('.Errors').html(milestoneError).fadeIn();
+                            $('.Errors').html(milestoneError).fadeIn(); 
 
                             setTimeout(() => {
-                                $('.Errors').fadeOut();
+                                $('.Errors').fadeOut(); 
                             }, 5000);
                         } else {
-                            $('.Errors').html('An unexpected error occurred.').fadeIn();
+                            $('.Errors').html('An unexpected error occurred.').fadeIn(); 
                             setTimeout(() => {
-                                $('.Errors').fadeOut();
-                            }, 5000);
+                                $('.Errors').fadeOut(); 
+                            }, 5000); 
                         }
                     }
                 });
@@ -3313,7 +3133,6 @@
                     },
                     success: function(documentresponse) {
                         renderDocuments(documentresponse);
-                        $('#upload-document-btn').attr('data-project-id', project_id);
                     }
 
                 });
@@ -3346,7 +3165,7 @@
                             },
                             error: function() {
                                 alert(
-                                    'Failed to reload Document after deletion.'
+                                    'Failed to reload milestones after deletion.'
                                 );
                             }
                         });
@@ -3356,132 +3175,15 @@
                 });
             })
 
-            $(document).on('click', '#upload-document-btn', function(d) {
-
-                d.preventDefault();
-
-                let document_project_id = $(this).attr('data-project-id');
-
-
-                let formData = new FormData();
-
-                formData.append('_token', '{{ csrf_token() }}');
-                formData.append('project_document', $('#project_document')[0].files[0]);
-                formData.append('project_id', document_project_id);
-
-
-                $.ajax({
-                    url: "{{ route('document.store') }}",
-                    type: "POST",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        if (response) {
-                            $('#project_document').val('');
-                            $('#documentUploadMsg').fadeIn(400);
-                            setTimeout(() => {
-                                $('#documentUploadMsg').fadeOut(600);
-                            }, 3000);
-
-                            $.ajax({
-                                url: '/document/list',
-                                method: 'POST',
-                                data: {
-                                    project_id: document_project_id
-                                },
-                                success: function(documentResponse) {
-                                    renderDocuments(documentResponse);
-                                },
-                                error: function() {
-                                    alert(
-                                        'Failed to reload Document after deletion.'
-                                    );
-                                }
-                            });
-                        }
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.status);
-                        console.log(xhr.responseJSON);
-                    }
-                });
-            });
-
             // document work end
 
         });
+
     </script>
 
 
     <script>
-        function toggleDropdown() {
-        const dropdown = document.getElementById("userDropdown");
-        dropdown.classList.toggle("open");
-        }
-
-        function edittoggleDropdown() {
-        const dropdown = document.getElementById("edituserDropdown");
-        dropdown.classList.toggle("open");
-        }
-
-        document.addEventListener("click", function(e) {
-        
-        const userDropdown = document.getElementById("userDropdown");
-        const userToggle = document.querySelector(".assign-toggle");
-
-        if (!userDropdown.contains(e.target) && !userToggle.contains(e.target)) {
-            userDropdown.classList.remove("open");
-        }
-
-        // For edit dropdown
-        const editDropdown = document.getElementById("edituserDropdown");
-        const editToggle = document.querySelector(".edit-assign-toggle");
-
-        if (!editDropdown.contains(e.target) && !editToggle.contains(e.target)) {
-            editDropdown.classList.remove("open");
-        }
-        });
-
-
-        function updateSelectedCount() {
-            const checkedCount = $('input[name="assign_to[]"]:checked').length;
-            const toggleBtn = document.querySelector('.assign-toggle');
-
-            if (checkedCount === 0) {
-                toggleBtn.textContent = 'Select Users ';
-            } else if (checkedCount === 1) {
-                toggleBtn.textContent = '1 user selected ';
-            } else {
-                toggleBtn.textContent = `${checkedCount} users selected `;
-            }
-        }
-
-        $('input[name="assign_to[]"]').on('change', updateSelectedCount);
-
-        updateSelectedCount();
-
-        function editSelectedCount() {
-            const editcheckedCount = $('input[name="edit_assign_to[]"]:checked').length;
-            const edittoggleBtn = document.querySelector('.edit-assign-toggle');
-
-
-            if (editcheckedCount === 0) {
-                edittoggleBtn.textContent = 'Select Users ';
-            } else if (editcheckedCount === 1) {
-                edittoggleBtn.textContent = '1 user selected ';
-            } else {
-                edittoggleBtn.textContent = `${editcheckedCount} users selected `;
-            }
-        }
-
-        $('input[name="edit_assign_to[]"]').on('change', editSelectedCount);
-
-        editSelectedCount();
-
-
         document.addEventListener('DOMContentLoaded', () => {
-
             const body = document.body;
             const htmlElement = document.documentElement;
             const themeToggleBtn = document.getElementById('themeToggle');
@@ -3614,17 +3316,15 @@
             const taskModal = document.getElementById('taskModal');
             const openTaskModalBtn = document.getElementById('openTaskModalBtn');
             const closeTaskModalBtn = document.getElementById('closeTaskModalBtn');
-
+            
             const taskMilestoneModal = document.getElementById('taskMilestoneModal');
             const openTaskMilestoneModalBtn = document.querySelectorAll('.open-Task-Milestone-Modal-Btn');
             const closeTaskMilestoneModalBtn = document.querySelectorAll('.close-Task-Milestone-Modal-Btn');
 
-
             // Open/Close task modal
-            openTaskModalBtn?.addEventListener('click', () => {
-                taskModal.classList.remove('hidden');
-            });
-
+            // openTaskModalBtn?.addEventListener('click', () => {
+            //     taskModal.classList.remove('hidden');
+            // });
             closeTaskModalBtn?.addEventListener('click', () => {
                 taskModal.classList.add('hidden');
             });
@@ -3638,10 +3338,10 @@
             // });
 
             closeTaskMilestoneModalBtn.forEach((btn, index) => {
-                btn.addEventListener('click', () => {
-                    if (taskMilestoneModals[index]) {
-                        taskMilestoneModals[index].style.display = 'none';
-                    }
+            btn.addEventListener('click', () => {
+                if (taskMilestoneModals[index]) {
+                    taskMilestoneModals[index].style.display = 'none';
+                }
                 });
             });
 
@@ -3668,15 +3368,15 @@
             });
 
             openTaskMilestoneModalBtn?.addEventListener('click', () => {
-                // Close the task modal
-                taskModal.classList.add('hidden');
+    // Close the task modal
+    taskModal.classList.add('hidden');
 
-                // Open the milestone modal
-                taskMilestoneModal.classList.remove('hidden');
+    // Open the milestone modal
+    taskMilestoneModal.classList.remove('hidden');
 
-                // Optional: Show default tab inside milestone modal
-                showTab('taskTab2', taskMilestoneModal);
-            });
+    // Optional: Show default tab inside milestone modal
+    showTab('taskTab2', taskMilestoneModal);
+});
 
 
             // ========== DARK MODE ==========
@@ -3718,7 +3418,7 @@
             function showTab(tabId, container) {
                 const tabButtons = container.querySelectorAll('.tab-btn, .task-tab-btn');
                 const tabContents = container.querySelectorAll('.tab-content, .task-tab-content');
-                // console.log(tabButtons)
+
                 // Hide all tab contents
                 tabContents.forEach(content => content.classList.add('hidden'));
 
@@ -3775,11 +3475,11 @@
                 });
             }
             if (taskMilestoneModal) {
-                taskMilestoneModal.querySelectorAll('.milestone-task-tab-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const tabId = btn.dataset.tab;
-                        showTab(tabId, taskMilestoneModal);
-                    });
+            taskMilestoneModal.querySelectorAll('.milestone-task-tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.dataset.tab;
+                    showTab(tabId, taskMilestoneModal);
+                });
                 });
             }
 
@@ -3882,13 +3582,13 @@
 
             openUploadModalBtns.forEach(btn => {
                 btn.addEventListener("click", () => {
-                    uploadModal.classList.remove("hidden");
+                uploadModal.classList.remove("hidden");
                 });
             });
 
             closeUploadModalBtns.forEach(btn => {
                 btn.addEventListener("click", () => {
-                    uploadModal.classList.add("hidden");
+                uploadModal.classList.add("hidden");
                 });
             });
 
