@@ -24,7 +24,14 @@ class User extends Authenticatable
         'image',
         'company',
         'website',
-        'roleId'
+        'roleId',
+        'business_name',
+        'phone',
+        'country',
+        'city',
+        'status',
+        'leads',
+        'membership'
         
     ];
       public function roles()

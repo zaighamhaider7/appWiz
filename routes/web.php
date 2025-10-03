@@ -5,6 +5,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\settingController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\analyticsController;
+use App\Http\Controllers\ClientsController;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home;
@@ -33,11 +34,6 @@ Route::post('/projects/milestone', [ProjectController::class, 'milestoneStore'])
 Route::post('/milestone/status', [ProjectController::class, 'milestoneStatus']);
 
 
-Route::post('/documents', [ProjectController::class, 'uploadDocument'])->name('document.store');
-
-
-
-
 
 Route::get('/analytics',[analyticsController::class,'index'])->name('analytics');
 Route::get('/earnings-data', [analyticsController::class, 'earningsData']);
@@ -64,13 +60,6 @@ Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('project.
 
 
 
-
-
-
-
-
-
-
 Route::post('/projects/project-id', [ProjectController::class, 'projectId']);
 Route::post('/edit-project', [ProjectController::class, 'edit'])->name('project.edit');
 Route::post('/project/delete', [ProjectController::class, 'Deleteproject']);
@@ -85,9 +74,15 @@ Route::post('/milestone/list', [ProjectController::class, 'list']);
 Route::post('project/document', [ProjectController::class, 'documentId']);
 Route::post('document/delete', [ProjectController::class, 'deleteDocument']);
 Route::post('/document/list', [ProjectController::class, 'Documentlist']);
-
-
+Route::post('/documents', [ProjectController::class, 'uploadDocument'])->name('document.store');
 
 
 
 Route::get('/projects2', [ProjectController::class, 'project2'])->name('project.show');
+
+
+
+Route::get('/clients', [ClientsController::class, 'ClientView'])->name('clients');
+Route::post('/clients', [ClientsController::class, 'ClientStore'])->name('client.store');
+Route::delete('/clients/{id}', [ClientsController::class, 'ClientDelete'])->name('clients.delete');
+Route::post('/clients/{id}', [ClientsController::class, 'ClientDetails'])->name('clients.details');

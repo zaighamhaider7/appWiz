@@ -19,26 +19,33 @@ return new class extends Migration
             $table->timestamps();
         });
        Schema::create('users', function (Blueprint $table) {
-    $table->id();
-    $table->string('name');
-    $table->string('email')->unique();
-    $table->timestamp('email_verified_at')->nullable();
-    $table->string('password');
-      
-    // Correct foreign key:
-    $table->foreignId('role_id')
-      ->default(5)
-      ->references('id') // or whatever column name
-      ->on('roles')
-      ->onDelete('cascade');
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            
+            // Correct foreign key:
+            $table->foreignId('role_id')
+            ->default(1)
+            ->references('id') // or whatever column name
+            ->on('roles')
+            ->onDelete('cascade');
 
 
-    $table->string('image')->nullable();
-    $table->string('company')->nullable();
-    $table->string('website')->nullable();
-    $table->rememberToken();
-    $table->timestamps();
-});
+            $table->string('image')->nullable();
+            $table->string('company')->nullable();
+            $table->string('website')->nullable();
+            $table->string('business_name')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('country')->nullable();
+            $table->string('city')->nullable();
+            $table->string('status')->default('active');
+            $table->string('leads')->nullable();
+            $table->string('membership')->nullable();
+            $table->rememberToken();
+            $table->timestamps();
+        });
 
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

@@ -45,7 +45,7 @@
                         </div>
                         </li>
                         <li class="mb-2">
-                        <a href="clients.php" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
+                        <a href="{{ route('clients') }}" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
                             <img src="{{ asset('assets/uni-01.svg') }}" alt="icon" class="w-8 h-6 light-mode-icon" data-dark-src="uni-01-DARK.svg">
                             Clients
                         </a>

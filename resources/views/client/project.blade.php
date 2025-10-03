@@ -2629,6 +2629,7 @@
                     type: 'GET',
                     url: '/project/list',
                     success: function(response) {
+                        // console.log(response);
                         if (response.success) {
                             let rows = '';
                             let count = 0;
@@ -2691,6 +2692,7 @@
                                                     <progress class="w-full" style="border-radius: 45px !important; color:orange;" value="78" max="100"></progress> 78%
                                                 </button>
                                             </td>
+                                            
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
                                                 <input type="hidden" class="project_status_id" value="${project.id}">
                                                 <select id="project_status" name="project_status" class="w-32 px-4 py-2 rounded-lg bg-success-900/50 text-gray-700 hover:bg-gray-200 transition-colors">
