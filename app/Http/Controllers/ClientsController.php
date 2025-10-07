@@ -7,24 +7,12 @@ use App\Models\User;
 use App\Models\Project;
 use App\Models\assignTo;
 use Illuminate\Support\Facades\Hash;
+use App\Helpers\ActivityLogger;
+use App\Models\ActivityLog;
 
 
 class ClientsController extends Controller
 {
-    
-    // public function ClientView()
-    // {
-    //     $clientData = User::where('name', '!=', 'Admin')->get();
-
-    //     $latestProjectByClient = [];
-
-    //     foreach ($clientData as $client) {
-    //         $latestProject = Project::where('client_name', $client->name)->latest()->first();
-    //         $latestProjectByClient[$client->id] = $latestProject;
-    //     }
-
-    //     return view('client.clients', compact('clientData', 'latestProjectByClient'));
-    // }
 
     public function ClientView()
     {
@@ -41,8 +29,9 @@ class ClientsController extends Controller
         $clientProjects = null;
         $totalProjects = null;
         $totalProjectPrice = null;
+        $activity_logs = null;
 
-        return view('client.clients', compact('clientData', 'latestProjectByClient', 'singleClientData', 'clientProjects', 'totalProjects', 'totalProjectPrice'));
+        return view('client.clients', compact('clientData', 'latestProjectByClient', 'singleClientData', 'clientProjects', 'totalProjects', 'totalProjectPrice', 'activity_logs'));
     }
 
 
@@ -56,7 +45,7 @@ class ClientsController extends Controller
             'phone' => 'required|string|max:20',
             'country' => 'required|string|max:100',
             'city' => 'required|string|max:100',
-            'status' => 'required|in:active,inactive',
+            'status' => 'required|in:Active,In Active',
             'leads' => 'nullable|string|max:255',
             'membership' => 'nullable|string|max:100',
         ]);
@@ -74,6 +63,8 @@ class ClientsController extends Controller
             'membership' => $validated['membership'],
         ]);
 
+        ActivityLogger::log('New Client Added', 'A new client "' . $validated['name'] . '" was successfully added by ' . auth()->user()->name . '.');
+
         return redirect()->back()->with('AddClient', 'Client added successfully.');
 
     }
@@ -83,15 +74,10 @@ class ClientsController extends Controller
         $client = User::findOrFail($id);
         $client->delete();
 
+        ActivityLogger::log('Client Deleted', 'The client "' . $client->name . '" was deleted by ' . auth()->user()->name . '.');
+
         return redirect()->back()->with('DeleteClient', 'Client deleted successfully.');
     }
-
-    // public function ClientDetails($id)
-    // {
-    //     $singleClientData = User::findOrFail($id);
-
-    //     return view('client.clients', compact('singleClientData'));
-    // }
 
     public function ClientDetails($id)
     {
@@ -106,6 +92,8 @@ class ClientsController extends Controller
 
         $singleClientData = User::findOrFail($id);
 
+        // $activity_logs = ActivityLog::where('user_id', $singleClientData->id)->get();
+
         $clientProjects = Project::where('client_name', $singleClientData->name)->get();
 
         $totalProjects = $clientProjects->count();
@@ -114,7 +102,9 @@ class ClientsController extends Controller
 
         $assignedUsers = AssignTo::with(['user', 'project'])->get();
 
-        return view('client.clients', compact('clientData', 'latestProjectByClient', 'singleClientData', 'clientProjects', 'assignedUsers', 'totalProjects', 'totalProjectPrice'));
+        $activity_logs = ActivityLog::where('user_id', auth()->id())->get();
+
+        return view('client.clients', compact('clientData', 'latestProjectByClient', 'singleClientData', 'clientProjects', 'assignedUsers', 'totalProjects', 'totalProjectPrice', 'activity_logs'));
     }
 }
 

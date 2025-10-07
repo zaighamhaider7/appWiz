@@ -63,9 +63,9 @@
                         </a>
                     </li>
                     <li class="mb-2 pl-2">
-                        <a href="{{ route('project.show') }}" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
+                        <a href="{{ route('leads') }}" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
                             <img src="{{ asset('assets/20.svg') }}" alt="icon" class="w-5 h-6 light-mode-icon" data-dark-src="20-DARK.svg">
-                            <span class="p-1">Leads2</span>
+                            <span class="p-1">Leads</span>
                         </a>
                     </li>
                      <li class="mb-2">

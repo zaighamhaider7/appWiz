@@ -6,6 +6,7 @@ use App\Http\Controllers\settingController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\analyticsController;
 use App\Http\Controllers\ClientsController;
+use App\Http\Controllers\LeadsController;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home;
@@ -86,3 +87,7 @@ Route::get('/clients', [ClientsController::class, 'ClientView'])->name('clients'
 Route::post('/clients', [ClientsController::class, 'ClientStore'])->name('client.store');
 Route::delete('/clients/{id}', [ClientsController::class, 'ClientDelete'])->name('clients.delete');
 Route::post('/clients/{id}', [ClientsController::class, 'ClientDetails'])->name('clients.details');
+
+
+Route::get('/leads', [LeadsController::class, 'LeadsView'])->name('leads');
+Route::post('/leads', [LeadsController::class, 'LeadsStore'])->name('lead.store');

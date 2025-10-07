@@ -11,6 +11,8 @@ use App\Models\User;
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         :root {
             --btn-bg: #EA580C;
@@ -746,6 +748,52 @@ use App\Models\User;
                 overflow: visible;
             }
         }
+
+    /* Limit dropdown height to show 5 items */
+    .choices__list--dropdown {
+      max-height: 180px;
+      overflow-y: auto;
+      background-color:black !important;
+    }
+
+    .choices__list--dropdown .choices__item--selectable {
+        padding: 6px 10px;
+        font-size: 14px;
+        line-height: 1.2;
+        background-color: black !important;
+        color: white !important; /* Optional: make text visible on dark background */
+    }
+
+    .choices__list--dropdown .choices__item--selectable:hover {
+        background-color: #1a1a1a !important; /* Slightly lighter black or just black */
+        color: white !important;
+    }
+
+    /* Optional: tighter spacing between options */
+    .choices_list--dropdown .choices_item {
+      padding: 6px 10px;
+      font-size: 14px;
+      line-height: 1.2;
+      background-color:black !important;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    /* === Main select wrapper === */
+    #mySelect + .choices {
+      background-color: black !important;
+      border: 1px solid black !important;
+      border-radius: 0.5rem;
+    }
+
+
+    .choices__inner{
+        background-color: #3f3f3f !important;
+    }
+
     </style>
 
 </head>
@@ -1205,22 +1253,17 @@ use App\Models\User;
                         </div>
                     </div>
 
-
                 </div>
 
 
                 <!-- Right Section -->
                 <div id="rightSection" class="z-10 relative  {{ isset($singleClientData) ? '' : 'hidden' }}">
                     <div class="flex gap-2 text-xs mb-10">
-                        <a href="{{route('clients')}}">
+                        <a class="underline" href="{{route('clients')}}">
                             <div id="backToLeft" class="backLeft" style="cursor: pointer">
-                                <span>Settings</span>
-                                <span>/</span>
-                                <span>Team Access</span>
-                                <span>/</span>
+                                <span style="font-size: 20px !important"><i class="fa-solid  fa-angles-left" ></i>Back</span>
                             </div>
                         </a>
-                        <span>View Team Member</span>
                     </div>
                     <div class="flex gap-2 text-xs mt-10 mb-10">
    
@@ -1231,10 +1274,10 @@ use App\Models\User;
                         <div class="w-[35%] h-[35%] p-4 light-bg-d9d9d9 rounded-md">
                             <div class="flex flex-col  mt-5 pb-4 items-center border-b light-border-black">
                                 @if ($singleClientData)
-                                    <img class="pb-4"
-                                                    src="{{ asset($singleClientData->image) }}" />
+                                    <img class="pb-4 rounded" height="150" width="150"
+                                     src="{{ asset($singleClientData->image) }}" />
                                 @else
-                                    <img src="{{ asset('assets/AvatarTeam.png') }}" class="pb-4" alt="">
+                                    <img height="150" width="150" src="{{ asset('assets/AvatarTeam.png') }}" class="pb-4 rounded" alt="">
                                 @endif
                                 
                                 @if ($singleClientData)
@@ -1290,7 +1333,7 @@ use App\Models\User;
                                 <div class="text-md flex items-center gap-2 text-white "><span
                                         class="text-md light-client">Status: </span>
                                     @if ($singleClientData)
-                                       @if( $singleClientData->status === 'active')
+                                       @if( $singleClientData->status === 'Active')
                                           <div class="bg-green-900/50 py-1 px-4 rounded-full">
                                             <p class="text-green-500">{{ $singleClientData->status }}</p>
                                         </div>
@@ -1336,90 +1379,31 @@ use App\Models\User;
                                         <div
                                             class="bg-gray-800 light-bg-f5f5f5 light-bg-seo text-white px-6 py-5 rounded-lg shadow-lg">
                                             <h2 class="text-lg font-semibold mb-4">Activity Log</h2>
+
                                             <div class="relative border-l border-gray-700 ml-3">
-                                                <div class="mb-8 relative pl-6">
-                                                    <span
-                                                        class="absolute -left-1.5 top-1/2 -translate-y-2/3 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
-                                                    <div>
-                                                        <p class="font-medium">Project status updated</p>
-                                                        <p class="text-gray-400 text-sm">WooCommerce iOS App Completed
-                                                        </p>
-                                                        <span class="absolute right-0 top-0 text-gray-400 text-sm">10
-                                                            Days Ago</span>
-                                                    </div>
-                                                </div>
 
-                                                <div class="mb-8 relative pl-6">
-                                                    <span
-                                                        class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
-                                                    <div>
-                                                        <p class="font-medium">Project status updated</p>
-                                                        <p class="text-gray-400 text-sm">WooCommerce iOS App Completed
-                                                        </p>
-                                                        <span class="absolute right-0 top-0 text-gray-400 text-sm">3
-                                                            hours ago</span>
+                                                @if(!empty($activity_logs) && count($activity_logs) > 0)
+                                                    @forEach($activity_logs as $log)
+                                                        <div class="mb-8 relative pl-6">
+                                                            <span
+                                                                class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
+                                                            <div>
+                                                                <p class="font-medium">{{$log->action}}</p>
+                                                                <p class="text-gray-400 text-sm">{{$log->description}}
+                                                                </p>
+                                                                <span class="absolute right-0 top-0 text-gray-400 text-sm">{{ $log->created_at->diffForHumans() }}</span>
+                                                            </div>
+                                                        </div>
+                                                    @endforEach 
+                                                @else                                              <div class="mb-8 relative pl-6">
+                                                      <span
+                                                                class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
+                                                        <div>
+                                                             <p class="text-gray-400 text-sm">No activity logs found.</p>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endif                         
 
-                                                <div class="mb-8 relative pl-6">
-                                                    <span
-                                                        class="absolute -left-1.5 top-1/2 -translate-y-2/3 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
-                                                    <div>
-                                                        <p class="font-medium">Project status updated</p>
-                                                        <p class="text-gray-400 text-sm">WooCommerce iOS App Completed
-                                                        </p>
-                                                        <span class="absolute right-0 top-0 text-gray-400 text-sm">10
-                                                            Days Ago</span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="mb-8 relative pl-6">
-                                                    <span
-                                                        class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
-                                                    <div>
-                                                        <p class="font-medium">Project status updated</p>
-                                                        <p class="text-gray-400 text-sm">WooCommerce iOS App Completed
-                                                        </p>
-                                                        <span class="absolute right-0 top-0 text-gray-400 text-sm">10
-                                                            mins ago</span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="mb-8 relative pl-6">
-                                                    <span
-                                                        class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
-                                                    <div>
-                                                        <p class="font-medium">Project status updated</p>
-                                                        <p class="text-gray-400 text-sm">WooCommerce iOS App Completed
-                                                        </p>
-                                                        <span class="absolute right-0 top-0 text-gray-400 text-sm">3
-                                                            hours ago</span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="mb-8 relative pl-6">
-                                                    <span
-                                                        class="absolute -left-1.5 top-1/2 -translate-y-2/3 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
-                                                    <div>
-                                                        <p class="font-medium">Project status updated</p>
-                                                        <p class="text-gray-400 text-sm">WooCommerce iOS App Completed
-                                                        </p>
-                                                        <span class="absolute right-0 top-0 text-gray-400 text-sm">10
-                                                            Days Ago</span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="mb-8 relative pl-6">
-                                                    <span
-                                                        class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
-                                                    <div>
-                                                        <p class="font-medium">Project status updated</p>
-                                                        <p class="text-gray-400 text-sm">WooCommerce iOS App Completed
-                                                        </p>
-                                                        <span class="absolute right-0 top-0 text-gray-400 text-sm">10
-                                                            mins ago</span>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1620,7 +1604,7 @@ use App\Models\User;
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="6" class="px-6 py-4 text-center text-sm light-text-gray-900">
+                                            <td colspan="6" class="px-6 py-4 text-left text-sm light-text-gray-900">
                                                 No projects found for this client.
                                             </td>
                                         </tr> 
@@ -1691,15 +1675,6 @@ use App\Models\User;
                 </div>
 
                 <!-- Overview Cards -->
-
-
-
-
-
-
-
-                <!-- Bottom Cards: Need Help & Free Consulting -->
-
             </div>
         </main>
     </div>
@@ -1722,9 +1697,6 @@ use App\Models\User;
             <div class=""> <!-- Container for heading + divider -->
                 <div class="border-t border-gray-600 w-full mt-4"></div>
             </div>
-
-
-
 
             <!-- Ticket Form -->
             <form id="ticketForm" action="{{ route('client.store') }}" method="POST" class="space-y-4 p-6">
@@ -1776,7 +1748,7 @@ use App\Models\User;
                     <div class="grid grid-cols-3  gap-4">
                         <div>
                             <label class="block text-sm mb-1 light-text-black">Country</label>
-                            <select name="country"
+                            {{-- <select name="country"
                                 class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="" {{ old('country') ? '' : 'selected' }} hidden>Select Country
                                 </option>
@@ -1788,14 +1760,17 @@ use App\Models\User;
                                 </option>
                                 <option value="Balochistan" {{ old('country') == 'Balochistan' ? 'selected' : '' }}>
                                     Balochistan</option>
-                            </select>
+                            </select> --}}
 
+                            <select id="mySelect" name="country" class=" w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                                <option value=""selected hidden>Choose Country</option>
+                            </select>
                         </div>
 
                         <!-- State Selection -->
                         <div>
                             <label class="block text-sm mb-1 light-text-black">City</label>
-                            <select name="city"
+                            {{-- <select name="city"
                                 class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="" {{ old('city') ? '' : 'selected' }} hidden>Select City
                                 </option>
@@ -1806,8 +1781,9 @@ use App\Models\User;
                                 </option>
                                 <option value="Balochistan" {{ old('city') == 'Balochistan' ? 'selected' : '' }}>
                                     Balochistan</option>
-                            </select>
-
+                            </select> --}}
+                            <input type="text" name="city" placeholder="City" value="{{ old('city') }}"
+                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                         </div>
 
                         <!-- City Selection -->
@@ -1817,11 +1793,9 @@ use App\Models\User;
                                 class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="" {{ old('status') ? '' : 'selected' }} hidden>Select status
                                 </option>
-                                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active
+                                <option value="Active" {{ old('status') == 'Active' ? 'selected' : '' }}>Active
                                 </option>
-                                <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive
-                                </option>
-                                <option value="banned" {{ old('status') == 'banned' ? 'selected' : '' }}>Banned
+                                <option value="In Active" {{ old('status') == 'In Active' ? 'selected' : '' }}>In Active
                                 </option>
                             </select>
                         </div>
@@ -1834,14 +1808,14 @@ use App\Models\User;
                                 class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="" {{ old('leads') ? '' : 'selected' }} hidden>Select Lead Source
                                 </option>
-                                <option value="website" {{ old('leads') == 'website' ? 'selected' : '' }}>Website
+                                <option value="Website" {{ old('leads') == 'Website' ? 'selected' : '' }}>Website
                                 </option>
-                                <option value="referral" {{ old('leads') == 'referral' ? 'selected' : '' }}>Referral
+                                <option value="Referral" {{ old('leads') == 'Referral' ? 'selected' : '' }}>Referral
                                 </option>
-                                <option value="social_media" {{ old('leads') == 'social_media' ? 'selected' : '' }}>
+                                <option value="Social Media" {{ old('leads') == 'Social Media' ? 'selected' : '' }}>
                                     Social Media</option>
-                                <option value="email_campaign"
-                                    {{ old('leads') == 'email_campaign' ? 'selected' : '' }}>Email Campaign</option>
+                                <option value="Email Campaign"
+                                    {{ old('leads') == 'Email Campaign' ? 'selected' : '' }}>Email Campaign</option>
                             </select>
                         </div>
 
@@ -1852,11 +1826,11 @@ use App\Models\User;
                                 class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="" {{ old('membership') ? '' : 'selected' }} hidden>Select
                                     Memberships</option>
-                                <option value="basic" {{ old('membership') == 'basic' ? 'selected' : '' }}>Basic
+                                <option value="Basic" {{ old('membership') == 'Basic' ? 'selected' : '' }}>Basic
                                 </option>
-                                <option value="gold" {{ old('membership') == 'gold' ? 'selected' : '' }}>Gold
+                                <option value="Gold" {{ old('membership') == 'Gold' ? 'selected' : '' }}>Gold
                                 </option>
-                                <option value="premium" {{ old('membership') == 'premium' ? 'selected' : '' }}>
+                                <option value="Premium" {{ old('membership') == 'Premium' ? 'selected' : '' }}>
                                     Premium</option>
                             </select>
                         </div>
@@ -1924,9 +1898,38 @@ use App\Models\User;
     @endif
 
 
-
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+
+            const select = document.getElementById('mySelect');
+
+            // Fetch country data first
+            fetch('https://restcountries.com/v3.1/all?fields=name')
+            .then(res => res.json())
+            .then(data => {
+                // Sort alphabetically
+                data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+
+                // Add each country as an option
+                data.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.name.common;
+                option.textContent = country.name.common;
+                select.appendChild(option);
+                });
+
+                // THEN initialize Choices.js after options are in place
+                new Choices(select, {
+                searchEnabled: true,
+                itemSelectText: '',
+                shouldSort: false,
+                });
+            })
+            .catch(err => {
+                console.error('Error fetching countries:', err);
+            });
+            
 
             setTimeout(function() {
                 const messages = document.querySelectorAll('.success-message');

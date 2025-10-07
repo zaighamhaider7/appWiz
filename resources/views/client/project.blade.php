@@ -2629,7 +2629,6 @@
                     type: 'GET',
                     url: '/project/list',
                     success: function(response) {
-                        // console.log(response);
                         if (response.success) {
                             let rows = '';
                             let count = 0;

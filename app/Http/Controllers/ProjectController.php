@@ -356,7 +356,7 @@ class ProjectController extends Controller
 
     public function projectList() {
         $projects = Project::with('creator')->get();
-        $assignedUsers = AssignTo::with(['user', 'project'])->get();
+        $assignedUsers = AssignTo::with(['user', 'project'])->whereHas('user')->get();
 
         return response()->json([
             'success' => $projects,
