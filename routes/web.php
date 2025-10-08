@@ -91,3 +91,6 @@ Route::post('/clients/{id}', [ClientsController::class, 'ClientDetails'])->name(
 
 Route::get('/leads', [LeadsController::class, 'LeadsView'])->name('leads');
 Route::post('/leads', [LeadsController::class, 'LeadsStore'])->name('lead.store');
+Route::post('leads/{id}', [LeadsController::class, 'LeadsUpdate'])->name('lead.update');
+Route::delete('leads/{id}', [LeadsController::class, 'LeadsDelete'])->name('lead.delete');
+

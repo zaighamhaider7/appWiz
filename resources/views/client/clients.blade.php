@@ -749,50 +749,56 @@ use App\Models\User;
             }
         }
 
-    /* Limit dropdown height to show 5 items */
-    .choices__list--dropdown {
-      max-height: 180px;
-      overflow-y: auto;
-      background-color:black !important;
-    }
+        /* Limit dropdown height to show 5 items */
+        .choices__list--dropdown {
+            max-height: 180px;
+            overflow-y: auto;
+            background-color:black !important;
+        }
 
-    .choices__list--dropdown .choices__item--selectable {
+        .choices__list--dropdown .choices__item--selectable {
+            padding: 6px 10px;
+            font-size: 14px;
+            line-height: 1.2;
+            background-color: black !important;
+            color: white !important; /* Optional: make text visible on dark background */
+        }
+
+        .choices__list--dropdown .choices__item--selectable:hover {
+            background-color: #1a1a1a !important; /* Slightly lighter black or just black */
+            color: white !important;
+        }
+
+        /* Optional: tighter spacing between options */
+        .choices_list--dropdown .choices_item {
         padding: 6px 10px;
         font-size: 14px;
         line-height: 1.2;
+        background-color:black !important;
+        }
+
+        label {
+        display: block;
+        margin-bottom: 0.7rem;
+        }
+
+        /* === Main select wrapper === */
+        #mySelect + .choices {
         background-color: black !important;
-        color: white !important; /* Optional: make text visible on dark background */
-    }
-
-    .choices__list--dropdown .choices__item--selectable:hover {
-        background-color: #1a1a1a !important; /* Slightly lighter black or just black */
-        color: white !important;
-    }
-
-    /* Optional: tighter spacing between options */
-    .choices_list--dropdown .choices_item {
-      padding: 6px 10px;
-      font-size: 14px;
-      line-height: 1.2;
-      background-color:black !important;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-    }
-
-    /* === Main select wrapper === */
-    #mySelect + .choices {
-      background-color: black !important;
-      border: 1px solid black !important;
-      border-radius: 0.5rem;
-    }
+        border: 1px solid black !important;
+        border-radius: 0.5rem;        
+        }
 
 
-    .choices__inner{
-        background-color: #3f3f3f !important;
-    }
+        .choices__inner{
+            height: 40px !important;
+            min-height: 41px !important;
+            line-height: 41px !important;    
+            background-color: #3f3f3f !important; 
+            display: flex;
+            align-items: center;   
+            border-color: #374151 !important; 
+        }
 
     </style>
 
@@ -1169,7 +1175,6 @@ use App\Models\User;
 
                                                             <form action="{{ route('clients.delete', $client->id) }}"
                                                                 method="POST"
-                                                                onsubmit="return confirm('Are you sure you want to delete this client?');"
                                                                 style="display:inline; padding-top:7px;">
                                                                 @csrf
                                                                 @method('DELETE')
@@ -1747,23 +1752,10 @@ use App\Models\User;
 
                     <div class="grid grid-cols-3  gap-4">
                         <div>
-                            <label class="block text-sm mb-1 light-text-black">Country</label>
-                            {{-- <select name="country"
-                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
-                                <option value="" {{ old('country') ? '' : 'selected' }} hidden>Select Country
-                                </option>
-                                <option value="Pakistan" {{ old('country') == 'Pakistan' ? 'selected' : '' }}>
-                                    Pakistan</option>
-                                <option value="Punjab" {{ old('country') == 'Punjab' ? 'selected' : '' }}>Punjab
-                                </option>
-                                <option value="Sindh" {{ old('country') == 'Sindh' ? 'selected' : '' }}>Sindh
-                                </option>
-                                <option value="Balochistan" {{ old('country') == 'Balochistan' ? 'selected' : '' }}>
-                                    Balochistan</option>
-                            </select> --}}
+                            <label class="block text-sm light-text-black" style="margin-bottom:5px">Country</label>
 
-                            <select id="mySelect" name="country" class=" w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
-                                <option value=""selected hidden>Choose Country</option>
+                            <select id="mySelect" name="country"  class=" w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                                <option value=""selected hidden style="color: #fff">Choose Country</option>
                             </select>
                         </div>
 

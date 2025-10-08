@@ -11,6 +11,7 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <style>
         :root {
             --btn-bg: #EA580C;
@@ -748,6 +749,58 @@
             body.sidebar-open {
                 overflow: visible;
             }
+
+        }
+
+                /* Limit dropdown height to show 5 items */
+        .choices__list--dropdown {
+            max-height: 180px;
+            overflow-y: auto;
+            background-color:black !important;
+        }
+
+        .choices__list--dropdown .choices__item--selectable {
+            padding: 6px 10px;
+            font-size: 14px;
+            line-height: 1.2;
+            background-color: black !important;
+            color: white !important; /* Optional: make text visible on dark background */
+        }
+
+        .choices__list--dropdown .choices__item--selectable:hover {
+            background-color: #1a1a1a !important; /* Slightly lighter black or just black */
+            color: white !important;
+        }
+
+        /* Optional: tighter spacing between options */
+        .choices_list--dropdown .choices_item {
+        padding: 6px 10px;
+        font-size: 14px;
+        line-height: 1.2;
+        background-color:black !important;
+        }
+
+        label {
+        display: block;
+        margin-bottom: 0.7rem;
+        }
+
+        /* === Main select wrapper === */
+        #mySelect + .choices {
+        background-color: black !important;
+        border: 1px solid black !important;
+        border-radius: 0.5rem;        
+        }
+
+
+        .choices__inner{
+            height: 40px !important;
+            min-height: 41px !important;
+            line-height: 41px !important;    
+            background-color: #3f3f3f !important; 
+            display: flex;
+            align-items: center;   
+            border-color: #374151 !important; 
         }
     </style>
 
@@ -968,7 +1021,6 @@
                                                 </div>
                                             </th>
 
-
                                             <th scope="col"
                                                 class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
                                                 <div class="flex items-center">
@@ -1020,7 +1072,8 @@
                                                     class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">{{$lead->business_name}}
                                                     </span>
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm  text-gray-400"><button
+
+                                            {{-- <td class="px-6 py-4 whitespace-nowrap text-sm  text-gray-400"><button
                                                     id="filterButton"
                                                     class="flex items-center justify-center px-4 py-2 rounded-lg light-text-gray-700  text-gray-700 hover:bg-gray-200 bg-green-900/50 transition-colors">
                                                     <div
@@ -1052,16 +1105,37 @@
                                                             role="menuitem">Reset Filters</a>
                                                     </div>
                                                 </div>
+                                            </td> --}}
+
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                                <form action="{{route('lead.update', $lead->id)}}" method="POST">
+                                                    @csrf
+                                                    @method('POST')
+                                                    {{-- <input type="hidden" name="lead_id" value="{{ $lead->id }}" > --}}
+                                                    <select class="statusDropdown" name="lead_status"
+                                                        onchange="this.form.submit(); updateDropdownStyle(this)"
+                                                        style="width: 150px; padding: 8px; border-radius: 8px; text-align: left;">
+                                                        <option value="{{$lead->lead_status}}" selected hidden>{{$lead->lead_status}}</option>
+                                                        <option value="In Process" style="color: black; background-color: #fff;">In Process</option>
+                                                        <option value="Converted" style="color: black; background-color: #fff;">Converted</option>
+                                                        <option value="Not Converted" style="color: black; background-color: #fff;">Not Converted</option>
+                                                    </select>
+                                                </form>
                                             </td>
+
 
                                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                 <div class="flex justify-end gap-2">
-                                                    <button
-                                                        class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
-                                                        data-action="view-project">
-                                                        <img src="{{asset('assets/eye-DARK.svg')}}" alt="icon"
-                                                            class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
-                                                    </button>
+                                                    <form action="{{route('lead.delete', $lead->id)}}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button
+                                                            class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
+                                                            data-action="view-project">
+                                                            <img src="{{asset('assets/trash.svg')}}" alt="icon"
+                                                                class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
+                                                        </button>
+                                                    </form>
                                                 </div>
 
                                             </td>
@@ -2080,7 +2154,7 @@
                     <div class="grid grid-cols-3  gap-4">
                         <div>
                             <label class="block text-sm mb-1 light-text-black">Country</label>
-                            <select name="country"
+                            {{-- <select name="country"
                                 class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="" {{ old('country') ? '' : 'selected' }} hidden>Select Country
                                 </option>
@@ -2092,6 +2166,10 @@
                                 </option>
                                 <option value="Balochistan" {{ old('country') == 'Balochistan' ? 'selected' : '' }}>
                                     Balochistan</option>
+                            </select> --}}
+
+                            <select id="mySelect" name="country"  class=" w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                                <option value=""selected hidden style="color: #fff">Choose Country</option>
                             </select>
                         </div>
 
@@ -2310,6 +2388,20 @@
         </div>
     @endif
 
+    @if (session('UpdateLead'))
+        <div style="z-index: 9999 !important;"
+            class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+            {{ session('UpdateLead') }}
+        </div>
+    @endif
+
+    @if (session('DeleteLead'))
+        <div style="z-index: 9999 !important;"
+            class="success-message fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
+            {{ session('DeleteLead') }}
+        </div>
+    @endif
+
     @if ($errors->any())
         <div style="z-index: 9999 !important;"
             class="success-message fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
@@ -2320,6 +2412,8 @@
             </ul>
         </div>
     @endif
+
+
 
 
         @if ($errors->any())
@@ -2333,9 +2427,59 @@
         </script>
     @endif
 
+    <script>
+        function updateDropdownStyle(select) {
+            const value = select.value;
+
+            if (value === 'In Process') {
+                select.style.backgroundColor = 'orange';
+                select.style.color = 'white';
+            } else if (value === 'Converted') {
+                select.style.backgroundColor = 'green';
+                select.style.color = 'white';
+            } else if (value === 'Not Converted') {
+                select.style.backgroundColor = 'red';
+                select.style.color = 'white';
+            }
+        }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const selects = document.querySelectorAll(".statusDropdown");
+        selects.forEach(select => updateDropdownStyle(select));
+    });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+
+
+            const select = document.getElementById('mySelect');
+
+            fetch('https://restcountries.com/v3.1/all?fields=name')
+            .then(res => res.json())
+            .then(data => {
+                
+                data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+
+                data.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.name.common;
+                option.textContent = country.name.common;
+                select.appendChild(option);
+                });
+
+                new Choices(select, {
+                searchEnabled: true,
+                itemSelectText: '',
+                shouldSort: false,
+                });
+            })
+            .catch(err => {
+                console.error('Error fetching countries:', err);
+            });
+
 
             setTimeout(function() {
                 const messages = document.querySelectorAll('.success-message');
