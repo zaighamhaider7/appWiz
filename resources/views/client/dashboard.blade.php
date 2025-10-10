@@ -481,6 +481,9 @@ body.sidebar-open {
 
 </head>
 <body>
+
+    @include('layouts.loader')
+    
     <div class="flex min-h-screen light-bg-white">
         <!-- Sidebar -->
       @include('layouts.sidebar')
@@ -488,39 +491,7 @@ body.sidebar-open {
         <!-- Main Content Area -->
         <main class="flex-1 light-bg-bill overflow-y-auto">
             <!-- Header -->
-            <header class="flex items-center justify-between light-bg-f5f5f5 light-bg-seo p-5 rounded-xl shadow-sm mb-6 header">
-                <button class="hamburger-menu open" aria-label="Toggle navigation">
-                <svg class="hamburger-icon" viewBox="0 0 24 24" width="24" height="24">
-                    <path d="M3 12h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M3 6h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-            </button>
-                <div class="relative w-full max-w-md">
-                    <input type="text" placeholder="Search here" class="w-full pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="icon text-gray-400" viewBox="0 0 24 24">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-4 ml-4">
-                    <button class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
-                        <img src="{{asset('assets/message.svg')}}" alt="icon" class="w-6 h-6 light-text-gray-900 rounded-full  light-mode-icon" data-dark-src="{{asset('assets/message-DARK.svg')}}">
-                    </button>
-                    <button class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
-                        <img src="{{asset('assets/notification.svg')}}" alt="icon" class="w-6 h-6 light-text-gray-900 rounded-full   light-mode-icon" data-dark-src="{{asset('assets/notification-DARK.svg')}}">
-                    </button>
-                    <div class="flex items-center p-1 space-x-3 rounded-full border-2 light-border-gray-300">
-                        <img src="{{asset('assets/Ellipse 3.png')}}" alt="User Avatar" class="w-10 h-10 rounded-full ">
-                        <span class="font-semibold light-text-gray-500 hidden  sm:block" >John Wick</span>
-                        <svg class="icon w-6 pr-2 h-6 text-gray-500 " viewBox="0 0 24 24">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
-                    </div>
-                </div>
-            </header>
+            @include('layouts.header')
 
             <div class="p-6 lg:p-8">
 

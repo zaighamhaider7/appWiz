@@ -12,6 +12,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <link rel="stylesheet" href="//cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css">
     <style>
         :root {
             --btn-bg: #EA580C;
@@ -807,6 +808,9 @@
 </head>
 
 <body>
+
+    @include('layouts.loader')
+
     <div class="flex min-h-screen light-bg-white">
         <!-- Sidebar -->
        @include('layouts.sidebar')
@@ -814,39 +818,7 @@
         <!-- Main Content Area -->
         <main class="flex-1  overflow-y-auto">
             <!-- Header -->
-            <header class="flex items-center justify-between light-bg-f5f5f5 light-bg-seo p-5 shadow-sm mb-2 header">
-                <div class="relative w-full max-w-md">
-                    <input type="text" placeholder="Search here"
-                        class="w-full pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="icon text-gray-400" viewBox="0 0 24 24">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-4 ml-4">
-                    <button
-                        class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
-                        <img src="message.svg" alt="icon"
-                            class="w-6 h-6 light-text-gray-900 rounded-full  light-mode-icon"
-                            data-dark-src="message-DARK.svg">
-                    </button>
-                    <button
-                        class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
-                        <img src="notification.svg" alt="icon"
-                            class="w-6 h-6 light-text-gray-900 rounded-full   light-mode-icon"
-                            data-dark-src="notification-DARK.svg">
-                    </button>
-                    <div class="flex items-center p-1 space-x-3 rounded-full border-2 light-border-gray-300">
-                        <img src="Ellipse 3.png" alt="User Avatar" class="w-10 h-10 rounded-full ">
-                        <span class="font-semibold light-text-gray-500 hidden  sm:block">John Wick</span>
-                        <svg class="icon w-6 pr-2 h-6 text-gray-500 " viewBox="0 0 24 24">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
-                    </div>
-                </div>
-            </header>
+            @include('layouts.header')
 
             <div class="p-6 light-bg-bill -mt-5 h-full lg:p-8">
 
@@ -868,8 +840,8 @@
                                 <h2 class="text-xl font-semibold light-text-gray-800">Leads Lists</h2>
                                 <div class="flex items-center space-x-3">
                                     <div class="relative">
-                                        <input type="text" placeholder="Search here"
-                                            class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                        <input type="search" placeholder="Search here"
+                                            class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500 dt-input" id="dt-search-0"  aria-controls="myTable">
                                         <div
                                             class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <svg class="icon text-gray-400" viewBox="0 0 24 24">
@@ -882,17 +854,16 @@
                                     <div class="relative inline-block">
                                         <div class="flex gap-3">
                                             <!-- Button -->
-                                            <button id="filterButton"
-                                                class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
-                                                <div class="flex">
-                                                    <span>Filters</span>
-                                                    <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round">
-                                                        <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                                    </svg>
-                                                </div>
-                                            </button>
+                                            <select aria-controls="myTable" id="dt-length-0" fdprocessedid="9gl4x"
+                                                class="dt-input w-20 px-3 py-2 rounded-md text-sm
+                                                bg-white text-gray-800 border border-gray-300
+                                                dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600
+                                                focus:outline-none focus:ring-2 focus:ring-orange-500">
+                                                <option value="Filter" selected hidden>Filter</option>
+                                                <option value="1">1</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                            </select>
                                             <button
                                                 class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d7d7d7 light-text-gray-700 border light-border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors openTicketModal">
                                                 <div class="flex">
@@ -901,34 +872,15 @@
                                             </button>
                                         </div>
 
-                                        <!-- Dropdown Content -->
-                                        <div id="filterDropdown"
-                                            class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                            <div class="py-1" role="menu" aria-orientation="vertical">
-                                                <a href="#"
-                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                    role="menuitem">Filter Option 1</a>
-                                                <a href="#"
-                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                    role="menuitem">Filter Option 2</a>
-                                                <a href="#"
-                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                    role="menuitem">Filter Option 3</a>
-                                                <div class="border-t border-gray-100"></div>
-                                                <a href="#"
-                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                    role="menuitem">Reset Filters</a>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="overflow-x-auto">
-                                <table class="min-w-full border-b-2 light-border-gray-300">
+                                <table class="min-w-full border-b-2 light-border-gray-300" id="myTable">
                                     <thead class="light-bg-d9d9d9 border-b-2 light-border-gray-300">
                                         <tr>
-                                                                            <th scope="col"
+                                        <th scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
                                             <div class="flex items-center">
                                                 ID
@@ -1157,41 +1109,8 @@
                                 class="flex items-center justify-between mt-4 p-6 text-sm light-text-gray-600 flex-wrap gap-4">
                                 <div>
 
-                                    <span>Showing 1 to 3 of 100 entries </span>
-                                    <div class="relative inline-block">
-                                        <!-- Button -->
-                                        <button id="filterButton2"
-                                            class="flex items-center justify-center ml-2 px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
-                                            <div class="flex">
-                                                <span>Filters</span>
-                                                <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                                </svg>
-                                            </div>
-                                        </button>
-
-                                        <!-- Dropdown Content -->
-                                        <div id="filterDropdown"
-                                            class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9  light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                            <div class="py-1" role="menu" aria-orientation="vertical">
-                                                <a href="#"
-                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                    role="menuitem">1</a>
-                                                <a href="#"
-                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                    role="menuitem">2</a>
-                                                <a href="#"
-                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                    role="menuitem">3</a>
-                                                <div class="border-t border-gray-100"></div>
-                                                <a href="#"
-                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                    role="menuitem">Reset Filters</a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {{-- <span>Showing 1 to 3 of 100 entries </span> --}}
+                                    <span class="dt-info" aria-live="polite" id="myTable_info" role="status" bis_skin_checked="1">Showing 1 to 2 of 2 entries</span>
                                 </div>
                                 <div class="flex space-x-2">
                                     <button
@@ -2449,9 +2368,47 @@
     });
     </script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+     <script src="//cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize DataTable
+            const table = new DataTable('#myTable',{
+                dom: 'p',
+                ordering: false
+            });
+
+            // Custom search input
+            const customSearch = document.getElementById('dt-search-0');
+
+            customSearch.addEventListener('input', function () {    
+                table.search(this.value).draw();
+            });
+
+            // ✅ Custom page length selector
+            const customLength = document.getElementById('dt-length-0');
+            customLength.addEventListener('change', function () {
+            const val = parseInt(this.value);
+            if (!isNaN(val)) {
+                table.page.len(val).draw();
+            }
+            });
+
+            // ✅ Custom Info Updater
+            table.on('draw', function () {
+                const info = table.page.info();
+                document.getElementById('myTable_info').textContent =
+                `Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`;
+            });
+            
+        });
+    </script>
+
+
+    <script>
+        
         document.addEventListener('DOMContentLoaded', () => {
 
 

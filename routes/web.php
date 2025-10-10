@@ -7,6 +7,7 @@ use App\Http\Controllers\RolesController;
 use App\Http\Controllers\analyticsController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\LeadsController;
+use App\Http\Controllers\TaskManagmentController;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home;
@@ -46,16 +47,8 @@ Route::get('/traffic-data',[AnalyticsController::class,'traffic']);
 require __DIR__.'/auth.php';
 
 
-Route::get('/tests', [ProjectController::class, 'testView'])->name('test.create');
-Route::post('/tests', [ProjectController::class, 'testStore'])->name('test.store');
-
-
-
-
 
 Route::get('/view-project/{id}', [ProjectController::class, 'view_edit'])->name('project.view');
-
-// Route::post('/edit-project/{id}', [ProjectController::class, 'edit'])->name('project.edit');
 
 Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('project.delete');
 
@@ -78,11 +71,6 @@ Route::post('/document/list', [ProjectController::class, 'Documentlist']);
 Route::post('/documents', [ProjectController::class, 'uploadDocument'])->name('document.store');
 
 
-
-Route::get('/projects2', [ProjectController::class, 'project2'])->name('project.show');
-
-
-
 Route::get('/clients', [ClientsController::class, 'ClientView'])->name('clients');
 Route::post('/clients', [ClientsController::class, 'ClientStore'])->name('client.store');
 Route::delete('/clients/{id}', [ClientsController::class, 'ClientDelete'])->name('clients.delete');
@@ -94,3 +82,5 @@ Route::post('/leads', [LeadsController::class, 'LeadsStore'])->name('lead.store'
 Route::post('leads/{id}', [LeadsController::class, 'LeadsUpdate'])->name('lead.update');
 Route::delete('leads/{id}', [LeadsController::class, 'LeadsDelete'])->name('lead.delete');
 
+
+Route::get('/task_management',[TaskManagmentController::class,'TaskView'])->name('task.view');

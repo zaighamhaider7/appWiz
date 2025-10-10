@@ -11,6 +11,8 @@ use App\Models\assignTo;
 use App\Models\User;
 use App\Models\Milestone;
 use App\Models\Test;
+use App\Models\ActivityLog;
+use App\Helpers\ActivityLogger;
 
 class ProjectController extends Controller
 {
@@ -36,7 +38,7 @@ class ProjectController extends Controller
             'assign_to'    => 'required',
             'end_date'      => 'required|date|after_or_equal:start_date',
             'user_id'       => 'required|integer|exists:users,id',
-            'document_name' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048', // Adjust file rules as needed
+            'document_name' => 'required|file|mimes:pdf,doc,docx,jpg,png',
         ]);
 
         $data = new project();
@@ -76,43 +78,10 @@ class ProjectController extends Controller
             ]);
         }
 
-
-
+        ActivityLogger::log('New Project Created', 'A new project "' . $validated['project_name'] . '" was successfully created by ' . auth()->user()->name . '.');
 
         return response()->json(['message' => 'Data saved successfully', 'project_id' => $last_project_id]);
 
-        // $validated = $request->validate([
-        //     'project_name' => 'required|string|max:255',
-        //     'client_name' => 'required|string|max:255',
-        //     'membership' => 'required|string|max:255',
-        //     'assign_to' => 'nullable|exists:users,id',
-        //     'price' => 'required|numeric',
-        //     'start_date' => 'required|date',
-        //     'end_date' => 'required|date|after_or_equal:start_date',
-        //     'user_id' => 'required|exists:users,id',
-        //     'document_name' => 'required|file',
-        // ]);
-
-        
-        // $project = Project::create($validated);
-
-        // $last_project_id = session(['last_project_id' => $project->id]);
-
-        // if ($request->hasFile('document_name')) {
-
-        //     $file = $request->file('document_name');
-
-        //     $filename = time() . '_' . $file->getClientOriginalName();
-            
-        //     $file->move(public_path('projectAssets'), $filename);
-
-        //     Document::create([
-        //         'document_name' => 'projectAssets/' . $filename,
-        //         'project_id'    => $project->id,
-        //     ]);
-        // }
-
-        // return redirect()->route('project.create')->with('success', 'Project created successfully.');
     }
 
 
@@ -121,92 +90,21 @@ class ProjectController extends Controller
 
         $projects = project::findorFail($id);
 
-       return view('client.edit-project', compact('projects'));
+        return view('client.edit-project', compact('projects'));
 
     }
-
-    // public function edit(Request $request, $id)
-    // {
-    //     $validated = $request->validate([
-    //         'project_name' => 'required|string|max:255',
-    //         'client_name' => 'required|string|max:255',
-    //         'assign_to' => 'required|string|max:255',
-    //         'price' => 'required|numeric',
-    //         'start_date' => 'required|date',
-    //         'end_date' => 'required|date|after_or_equal:start_date',
-    //     ]);
-
-    //     $project = project::find($request->id);
-    //     $project->update($request->all());
-
-
-    //     return redirect()->route('project.create')->with('success', 'Project updated successfully.');
-    // }
-
-
 
     public function delete($id)
     {
         $project = project::find($id);
         $project->delete();
 
+        ActivityLogger::log('Project Deleted', 'The project "' . $project->project_name . '" was deleted by ' . auth()->user()->name . '.');
+
         return redirect()->route('project.create')->with('success', 'Project deleted successfully.');
     }
+
     // project end
-
-    // milestone start
-    public function milestoneStore(Request $request)
-    {
-        $validated = $request->validate([
-            'milestone_name' => 'required|string|max:255',
-            'milestone_start_date' => 'required|date',
-            'deadline' => 'required|after_or_equal:start_date',
-            'project_id' => 'required|exists:projects,id'
-        ]);
-
-        $data = new Milestone();
-        $data->milestone_name = $validated['milestone_name'];
-        $data->start_date = $validated['milestone_start_date'];
-        $data->deadline = $validated['deadline'];
-        $data->project_id = $validated['project_id'];
-        $data->save();
-
-        return response()->json(['message' => 'Data saved successfully']);
-    }
-    // milestone end
-
-
-    // public function testView()
-    // {
-    //     return view('test');
-    // }
-
-    // public function testStore(Request $request)
-    // {
-    //     $data = new Test();
-    //     $data->name =  $request->name;
-    //     $data->email = $request->email;
-
-    //     if ($request->hasFile('file')) {
-
-    //         $file = $request->file('file');
-
-    //         $filename = time() . '_' . $file->getClientOriginalName();
-            
-    //         $file->move(public_path('projectAssets'), $filename);
-
-    //         $data->file = 'projectAssets/' . $filename;
-
-    //     }
-
-    //     $data->save();
-
-
-
-    //      return response()->json(['message' => 'Data saved successfully']);
-
-
-    // }
 
     public function projectId(Request $request)
     {
@@ -250,6 +148,8 @@ class ProjectController extends Controller
                 }
             }
 
+            ActivityLogger::log('Project Updated', 'The project "' . $data->project_name . '" was updated by ' . auth()->user()->name . '.');
+
             return response()->json(
                 [
                     "sucess" => "updated"
@@ -269,6 +169,8 @@ class ProjectController extends Controller
 
         $projectData->Delete();
 
+        ActivityLogger::log('Project Deleted', 'The project "' . $projectData->project_name . '" was deleted by ' . auth()->user()->name . '.');
+
         return response()->json([
             "delete" => 'delete'
         ]);
@@ -280,6 +182,9 @@ class ProjectController extends Controller
             $data = project::find($request->project_status_id);
             $data->status = $request->project_status;
             $data->save();
+
+            ActivityLogger::log('Project Status Updated', 'The project status for "' . $data->project_name . '" was updated to "' . $data->status . '" by ' . auth()->user()->name . '.');
+
             return response()->json(
                 [
                     "sucess" => "Status Updated"
@@ -288,7 +193,39 @@ class ProjectController extends Controller
         }
     }
 
+    public function projectList() {
+        $projects = Project::with('creator')->get();
+        $assignedUsers = AssignTo::with(['user', 'project'])->whereHas('user')->get();
 
+        return response()->json([
+            'success' => $projects,
+            'assignedUsers' => $assignedUsers
+        ]);
+    }
+
+    // project end
+
+    // milestone start
+    public function milestoneStore(Request $request)
+    {
+        $validated = $request->validate([
+            'milestone_name' => 'required|string|max:255',
+            'milestone_start_date' => 'required|date',
+            'deadline' => 'required|after_or_equal:start_date',
+            'project_id' => 'required|exists:projects,id'
+        ]);
+
+        $data = new Milestone();
+        $data->milestone_name = $validated['milestone_name'];
+        $data->start_date = $validated['milestone_start_date'];
+        $data->deadline = $validated['deadline'];
+        $data->project_id = $validated['project_id'];
+        $data->save();
+
+        ActivityLogger::log('New Milestone Added', 'A new milestone "' . $validated['milestone_name'] . '" Added by ' . auth()->user()->name . '.');
+
+        return response()->json(['message' => 'Data saved successfully']);
+    }
 
     public function milestoneId(Request $request)
     {
@@ -310,6 +247,7 @@ class ProjectController extends Controller
             $data->deadline = $request->deadline;
             $data->project_id = $request->project_id;
             $data->save();
+            ActivityLogger::log('Milestone Updated', 'The milestone "' . $data->milestone_name . '" was updated by ' . auth()->user()->name . '.');
             return response()->json(["success" => "updated"]);
         }
         else{
@@ -325,6 +263,8 @@ class ProjectController extends Controller
 
         $milestoneData->Delete();
 
+        ActivityLogger::log('Milestone Deleted', 'The milestone "' . $milestoneData->milestone_name . '" was deleted by ' . auth()->user()->name . '.');
+
         return response()->json([
             "delete" => 'delete'
         ]);
@@ -335,6 +275,7 @@ class ProjectController extends Controller
             $data = Milestone::find($request->milestone_status_id);
             $data->status = $request->milestone_status;
             $data->save();
+            ActivityLogger::log('Milestone Status Updated', 'The milestone status for "' . $data->milestone_name . '" was updated to "' . $data->status . '" by ' . auth()->user()->name . '.');
             return response()->json(
                 [
                     "sucess" => "Status Updated"
@@ -353,33 +294,9 @@ class ProjectController extends Controller
         ]);
     }
 
+    // milestone end
 
-    public function projectList() {
-        $projects = Project::with('creator')->get();
-        $assignedUsers = AssignTo::with(['user', 'project'])->whereHas('user')->get();
-
-        return response()->json([
-            'success' => $projects,
-            'assignedUsers' => $assignedUsers
-        ]);
-    }
-
-
-    // public function project2(){
-    //     $userId = Auth::id();
-
-    //     $projects = project::all();
-
-    //     $documents = Document::all();
-
-    //     $users = User::where('name', '!=', 'admin')->get();
-
-    //     $projects = Project::with('user')->get();
-
-    //     return view('/projects2', compact('projects', 'users', 'userId' ,'documents'));
-    // }
-
-
+    // document start
 
     public function documentId(request $request){
         $projectId = $request->input('project_id');
@@ -403,6 +320,8 @@ class ProjectController extends Controller
         }
 
         $documentData->Delete();
+
+        ActivityLogger::log('Document Deleted', 'A document was deleted by ' . auth()->user()->name . '.');
 
         return response([
             'delete' => 'Document Deleted'
@@ -439,12 +358,15 @@ class ProjectController extends Controller
                 'document_name' => 'projectAssets/' . $filename,
                 'project_id'    => $request->project_id,
             ]);
+            ActivityLogger::log('New Document Uploaded', 'A new document was uploaded by ' . auth()->user()->name . '.');
         }
 
         return response([
             'success' => 'Document Uploaded'
         ]);
     }
+
+    // document end
 
 
 }

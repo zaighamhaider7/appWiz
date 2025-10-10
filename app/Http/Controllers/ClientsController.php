@@ -102,7 +102,7 @@ class ClientsController extends Controller
 
         $assignedUsers = AssignTo::with(['user', 'project'])->get();
 
-        $activity_logs = ActivityLog::where('user_id', auth()->id())->get();
+        $activity_logs = ActivityLog::where('user_id', auth()->id())->latest()->get();
 
         return view('client.clients', compact('clientData', 'latestProjectByClient', 'singleClientData', 'clientProjects', 'assignedUsers', 'totalProjects', 'totalProjectPrice', 'activity_logs'));
     }

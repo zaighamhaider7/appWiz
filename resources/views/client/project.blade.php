@@ -818,6 +818,9 @@
 </head>
 
 <body>
+
+    @include('layouts.loader')
+
     <div id="m_mileStonemsg" style="display: none; z-index: 9999 !important;"
         class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
         Milestone Added successfully!
@@ -868,39 +871,7 @@
         <!-- Main Content Area -->
         <main class="flex-1 light-bg-bill overflow-y-auto">
             <!-- Header -->
-            <header class="flex items-center justify-between light-bg-f5f5f5 light-bg-seo p-5 shadow-sm mb-2 header">
-                <div class="relative w-full max-w-md">
-                    <input type="text" placeholder="Search here"
-                        class="w-full pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="icon text-gray-400" viewBox="0 0 24 24">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-4 ml-4">
-                    <button
-                        class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
-                        <img src="message.svg" alt="icon"
-                            class="w-6 h-6 light-text-gray-900 rounded-full  light-mode-icon"
-                            data-dark-src="message-DARK.svg">
-                    </button>
-                    <button
-                        class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
-                        <img src="notification.svg" alt="icon"
-                            class="w-6 h-6 light-text-gray-900 rounded-full   light-mode-icon"
-                            data-dark-src="notification-DARK.svg">
-                    </button>
-                    <div class="flex items-center p-1 space-x-3 rounded-full border-2 light-border-gray-300">
-                        <img src="Ellipse 3.png" alt="User Avatar" class="w-10 h-10 rounded-full ">
-                        <span class="font-semibold light-text-gray-500 hidden  sm:block">John Wick</span>
-                        <svg class="icon w-6 pr-2 h-6 text-gray-500 " viewBox="0 0 24 24">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
-                    </div>
-                </div>
-            </header>
+            @include('layouts.header')
 
             <div class="p-6 light-bg-bill lg:p-8">
 
@@ -932,9 +903,9 @@
                                     <!-- Button -->
                                     <select
                                         class="w-20 px-3 py-2 rounded-md text-sm
-                                bg-white text-gray-800 border border-gray-300
-                                dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600
-                                focus:outline-none focus:ring-2 focus:ring-orange-500">
+                                        bg-white text-gray-800 border border-gray-300
+                                        dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600
+                                        focus:outline-none focus:ring-2 focus:ring-orange-500">
                                         <option value="Filter">Filter</option>
                                         <option value="10">10</option>
                                         <option value="25">25</option>
@@ -2052,7 +2023,7 @@
                             </div>
                         </div>
 
-                        <input type="text" name="project_id" id="project_id"
+                        <input type="hidden" name="project_id" id="project_id"
                             value="{{ session('last_project_id') }}">
 
 
@@ -2375,8 +2346,8 @@
             <form method="POST" action="{{ route('milestone.edit') }}">
                 @csrf
 
-                <input type="text" id="m_project_id" name="project_id">
-                <input type="text" id="m_milestone_id" name="milestone_id">
+                <input type="hidden" id="m_project_id" name="project_id">
+                <input type="hidden" id="m_milestone_id" name="milestone_id">
 
 
                 <label class="block mb-2">Milestone Name</label>
