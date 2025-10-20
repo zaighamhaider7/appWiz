@@ -843,34 +843,35 @@
             Verification link sent to your email!
         </div>
     @elseif (session('status') === 'profile-updated')
-     <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+        <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
             class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
             Profile Updated!
         </div>
-        @elseif (session('status') === 'device-deleted')
-     <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+    @elseif (session('status') === 'device-deleted')
+        <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
             class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
             Device Deleted!
         </div>
-     @elseif(session('status') === 'role-added')
+    @elseif(session('status') === 'role-added')
         <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
             class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
             Role added successfully!
         </div>
     @endif
-   @if ($errors->any())
-     <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+    @if ($errors->any())
+        <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
             class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
- <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>        </div>
-@endif
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <div class="flex min-h-screen light-bg-white">
         <!-- Sidebar -->
-        <aside
+        {{-- <aside
             class="fixed top-0 left-0 h-screen w-full md:w-64 light-bg-f5f5f5 light-bg-seo p-10 z-50 
               transition-transform duration-300 transform -translate-x-full 
               overflow-y-auto
@@ -1010,13 +1011,13 @@
                     Logout
                 </a>
             </div>
-        </aside>
-        {{-- @include('layouts.sidebar') --}}
+        </aside> --}}
+        @include('layouts.sidebar')
 
         <!-- Main Content Area -->
-        <main class="flex-1 light-bg-bill md:ml-64 overflow-y-auto">
+        <main class="flex-1 light-bg-bill  overflow-y-auto">
             <!-- Header -->
-           @include('layouts.header')
+            @include('layouts.header')
 
             <div class="p-6 lg:p-8 -mt-5 light-bg-bill">
 
@@ -1030,7 +1031,7 @@
                     <!-- Tab 1: Overview -->
                     <div
                         class="flex items-center active px-2 py-1 justify-center border border-gray-200 rounded-lg hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
-                        <img class="w-5 h-5 mr-1" src="profile-circle.svg" alt="">
+                        <img class="w-5 h-5 mr-1" src="{{ asset('assets/profile-circle.svg') }}" alt="">
                         <button class="tab-btn text-xs p-1 tab-button " data-tab="overview">Profile
                             Management</button>
                     </div>
@@ -1038,14 +1039,15 @@
                     <!-- Tab 2: Notes -->
                     <div
                         class="flex items-center px-2 py-1 justify-center border border-gray-200 rounded-lg hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
-                        <img class="w-5 h-5 mr-2" src="security-safe.svg" alt="">
+                        <img class="w-5 h-5 mr-2" src="{{ asset('assets/security-safe.svg') }}" alt="">
                         <button class="tab-btn text-xs font-medium " data-tab="notes">Security Settings</button>
                     </div>
 
                     <!-- Tab 3: Uploaded Document -->
                     <div
                         class="flex items-center px-2 justify-center border border-gray-200 rounded-lg hover:rounded-md  light-hover-bg-gray-300 tab-wrapper">
-                        <img class="w-5 h-5 mr-2" src="notification-set.svg" class="text-white" alt="">
+                        <img class="w-5 h-5 mr-2" src="{{ asset('assets/notification-set.svg') }}" class="text-white"
+                            alt="">
                         <button
                             class="tab-btn text-xs font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
                             data-tab="uploadedDocument">Notification Preferences</button>
@@ -1054,7 +1056,8 @@
                     <!-- Tab 4: Team Member -->
                     <div
                         class="flex items-center px-2 justify-center border border-gray-200 rounded-lg hover:rounded-md  light-hover-bg-gray-300 tab-wrapper">
-                        <img class="w-5 h-5 mr-2" src="profile-2user-DARK.svg" class="text-white" alt="">
+                        <img class="w-5 h-5 mr-2" src="{{ asset('assets/profile-2user-DARK.svg') }}" class="text-white"
+                            alt="">
                         <button
                             class="tab-btn text-xs font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
                             data-tab="teamMember">Team Member</button>
@@ -1063,7 +1066,8 @@
                     <!-- Tab 5: Roles & Permission -->
                     <div
                         class="flex items-center px-2 justify-center border border-gray-200 rounded-lg hover:rounded-md  light-hover-bg-gray-300 tab-wrapper">
-                        <img class="w-5 h-5 mr-2" src="security-safe.svg" class="text-white" alt="">
+                        <img class="w-5 h-5 mr-2" src="{{ asset('assets/security-safe.svg') }}" class="text-white"
+                            alt="">
                         <button
                             class="tab-btn text-xs font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
                             data-tab="rolesAnd">Roles & Permissions</button>
@@ -1087,7 +1091,7 @@
                                 <div class="flex justify-start items-center gap-10">
                                     <div
                                         style="width: 9em ;height:9em; box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.25); border-radius: 12px;">
-                                        <img src="{{ asset($user->image ?? 'assets/default.png') }}" alt=""
+                                        <img src="{{ asset($user->image ?? 'assets/default-prf.png') }}" alt=""
                                             style="width: 9em ;height:9em;border-radius: 12px;">
                                     </div>
                                     <div>
@@ -1332,51 +1336,53 @@
                                 </thead>
                                 <tbody class="light-bg-white  light-bg-seo divide-y divide-gray-200">
                                     <!-- Row 1 -->
-                                  @if ($userDevices->isEmpty())
-                                    <tr>
-                                        <td colspan="5" class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-center">
-                                            No authorized devices found.
-                                        </td>
-                                    </tr>
-                                @else
-                                 @foreach ($userDevices as $device)
+                                    @if ($userDevices->isEmpty())
                                         <tr>
-                                        <td
-                                            class="px-6 py-2 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                            {{ $device->device_name }}
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <div class="text-sm font-thin text-gray-400"> {{ $device->ip_address }} </div>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap">
-                                            <span
-                                                class="px-2 inline-flex text-sm text-gray-400 leading-5 font-thin rounded-full">{{ $device->location }}</span>
-                                        </td>
-                                        <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-400">{{ $device->last_login }}
-                                            20:07</td>
-                                        <td class="px-6 py-2 whitespace-nowrap text-right text-sm font-medium">
-                                            <div class="flex justify-start gap-2">
-                                                <form action="{{ route('profile.deleteDevice',$device->id) }}" method="post">
-                                                    @csrf
-                                                    <button
-                                                    type="submit"
-                                                    class="light-text-black light-bg-d7d7d7 px-5 py-2 rounded-md light-hover-text-orange-700 "
-                                                    >
-                                                    Remove
-                                                </button>
-                                                </form>
-                                            </div>
+                                            <td colspan="5"
+                                                class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-center">
+                                                No authorized devices found.
+                                            </td>
+                                        </tr>
+                                    @else
+                                        @foreach ($userDevices as $device)
+                                            <tr>
+                                                <td
+                                                    class="px-6 py-2 whitespace-nowrap text-sm font-medium light-text-gray-900">
+                                                    {{ $device->device_name }}
+                                                </td>
+                                                <td class="px-6 py-2 whitespace-nowrap">
+                                                    <div class="text-sm font-thin text-gray-400">
+                                                        {{ $device->ip_address }} </div>
+                                                </td>
+                                                <td class="px-6 py-2 whitespace-nowrap">
+                                                    <span
+                                                        class="px-2 inline-flex text-sm text-gray-400 leading-5 font-thin rounded-full">{{ $device->location }}</span>
+                                                </td>
+                                                <td class="px-6 py-2 whitespace-nowrap text-sm text-gray-400">
+                                                    {{ $device->last_login }}
+                                                    20:07</td>
+                                                <td class="px-6 py-2 whitespace-nowrap text-right text-sm font-medium">
+                                                    <div class="flex justify-start gap-2">
+                                                        <form action="{{ route('profile.deleteDevice', $device->id) }}"
+                                                            method="post">
+                                                            @csrf
+                                                            <button type="submit"
+                                                                class="light-text-black light-bg-d7d7d7 px-5 py-2 rounded-md light-hover-text-orange-700 ">
+                                                                Remove
+                                                            </button>
+                                                        </form>
+                                                    </div>
 
-                                        </td>
-                                    </tr>
-                                   @endforeach
-                                  @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                     <!-- Row 2 -->
-                                   
+
                                     <!-- Row 3 -->
-                                   
+
                                     <!-- Row 4 -->
-                                
+
                                 </tbody>
                             </table>
                         </div>
@@ -1384,336 +1390,188 @@
                         <!-- Table Pagination -->
 
                     </div>
-                   
+
+                </div>
+            </div>
+            
+
+            <div id="uploadedDocumentContent" class="tab-content hidden ml-8 mr-5 -mt-8">
+                <!-- Uploaded Document content here -->
+                <div class=" mx-auto p-5 mb-5 w-full h-full  light-bg-d9d9d9 light-bg-seo rounded-lg shadow-sm">
+                    <h1 class="text-2xl font-bold light-text-black mb-6">Notification Preferences</h1>
+
+                    <div class="space-y-6">
+                        <!-- Email Notifications Section -->
+                        <div>
+                            <ul class="space-y-3">
+                                <!-- Notification Item with Toggle -->
+                                <li class="flex items-center border-b justify-between py-4 gap-8">
+                                    <div class="w-1/4 min-w-[160px]">
+                                        <span class="text-gray-400 font-medium">Email Notifications</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="text-gray-400 text-left">Turn email alerts on or off for
+                                            account updates.</span>
+                                    </div>
+                                    <div class="w-16 flex justify-end">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" class="toggle-input" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </li>
+
+                                <!-- Notification Item with Toggle -->
+                                <li class="flex items-center border-b justify-between py-4 gap-8">
+                                    <div class="w-1/4 min-w-[160px]">
+                                        <span class="text-gray-400 font-medium">In-App Notifications</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="text-gray-400 text-left">Turn on or off in-app notifications
+                                            for updates.</span>
+                                    </div>
+                                    <div class="w-16 flex justify-end">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" class="toggle-input" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </li>
+
+                                <!-- File Upload/Download Alerts -->
+                                <li class="flex items-center border-b justify-between py-4 gap-8">
+                                    <div class="w-1/4 min-w-[160px]">
+                                        <span class="text-gray-400 font-medium">File Upload/Download Alerts</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="text-gray-400 text-left">Choose which service updates you want
+                                            to be alerted about.</span>
+                                    </div>
+                                    <div class="w-16 flex justify-end">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" class="toggle-input" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </li>
+
+                                <!-- Ticket Updates -->
+                                <li class="flex items-center border-b justify-between py-4 gap-8">
+                                    <div class="w-1/4 min-w-[160px]">
+                                        <span class="text-gray-400 font-medium">Ticket Updates</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="text-gray-400 text-left">Get notified when files are uploaded
+                                            or downloaded.</span>
+                                    </div>
+                                    <div class="w-16 flex justify-end">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" class="toggle-input" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </li>
+
+                                <!-- Billing/Invoice Alerts -->
+                                <li class="flex items-center border-b justify-between py-4 gap-8">
+                                    <div class="w-1/4 min-w-[160px]">
+                                        <span class="text-gray-400 font-medium">Billing/Invoice Alerts</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="text-gray-400 text-left">Get alerts when your ticket status
+                                            changes.</span>
+                                    </div>
+                                    <div class="w-16 flex justify-end">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" class="toggle-input" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </li>
+
+                                <!-- Customize Alerts by Service -->
+                                <li class="flex border-b justify-between py-4">
+                                    <div class="w-1/4 min-w-[160px]">
+                                        <span class="text-gray-400 font-medium">Customize Alerts by Service</span>
+                                    </div>
+                                    <div class="flex-1 flex justify-between items-center">
+                                        <span class="pl-8 py-1 text-gray-400 rounded-full text-sm flex items-center">
+                                            Web Design <input type="checkbox" class="ml-2">
+                                        </span>
+                                        <span class="px-3 py-1 text-gray-400 rounded-full text-sm flex items-center">
+                                            SEO <input type="checkbox" class="ml-2">
+                                        </span>
+                                        <span class="px-3 py-1 text-gray-400 rounded-full text-sm flex items-center">
+                                            PPC <input type="checkbox" class="ml-2">
+                                        </span>
+                                        <span class="px-3 py-1 text-gray-400 rounded-full text-sm flex items-center">
+                                            PPC <input type="checkbox" class="ml-2">
+                                        </span>
+                                    </div>
+                                    <div class="w-16"></div> <!-- Spacer to match other rows -->
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Service Tags
+                <div class="flex flex-wrap gap-3 pt-4">
+                <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">Web Design</span>
+                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">SEO</span>
+                <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">PPC</span>
+                <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">PPC</span>
+                </div>-->
+                                <!-- Buttons -->
+                        <div class="flex justify-end items-center mt-5">
+
+                            <div class="flex justify-end gap-3 pt-3">
+                                <button type="submit" class="px-4 py-2 bg-gray-500  rounded-lg hover:bg-orange-600">
+                                    Cancel
+                                </button>
+                                <button type="submit"
+                                    class="px-4 py-2 btn-orange text-white rounded-lg hover:bg-orange-600">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div id="uploadedDocumentContent" class="tab-content hidden">
-                    <!-- Uploaded Document content here -->
-                    <div class="max-w-4xl mx-auto p-6 mb-5  light-bg-d9d9d9 light-bg-seo rounded-lg shadow-sm">
-                        <h1 class="text-2xl font-bold light-text-black mb-6">Notification Preferences</h1>
 
-                        <div class="space-y-6">
-                            <!-- Email Notifications Section -->
-                            <div>
-                                <ul class="space-y-3">
-                                    <!-- Notification Item with Toggle -->
-                                    <li class="flex items-center border-b justify-between py-4 gap-8">
-                                        <div class="w-1/4 min-w-[160px]">
-                                            <span class="text-gray-400 font-medium">Email Notifications</span>
-                                        </div>
-                                        <div class="flex-1">
-                                            <span class="text-gray-400 text-left">Turn email alerts on or off for
-                                                account updates.</span>
-                                        </div>
-                                        <div class="w-16 flex justify-end">
-                                            <label class="toggle-switch">
-                                                <input type="checkbox" class="toggle-input" checked>
-                                                <span class="toggle-slider"></span>
-                                            </label>
-                                        </div>
-                                    </li>
 
-                                    <!-- Notification Item with Toggle -->
-                                    <li class="flex items-center border-b justify-between py-4 gap-8">
-                                        <div class="w-1/4 min-w-[160px]">
-                                            <span class="text-gray-400 font-medium">In-App Notifications</span>
-                                        </div>
-                                        <div class="flex-1">
-                                            <span class="text-gray-400 text-left">Turn on or off in-app notifications
-                                                for updates.</span>
-                                        </div>
-                                        <div class="w-16 flex justify-end">
-                                            <label class="toggle-switch">
-                                                <input type="checkbox" class="toggle-input" checked>
-                                                <span class="toggle-slider"></span>
-                                            </label>
-                                        </div>
-                                    </li>
 
-                                    <!-- File Upload/Download Alerts -->
-                                    <li class="flex items-center border-b justify-between py-4 gap-8">
-                                        <div class="w-1/4 min-w-[160px]">
-                                            <span class="text-gray-400 font-medium">File Upload/Download Alerts</span>
-                                        </div>
-                                        <div class="flex-1">
-                                            <span class="text-gray-400 text-left">Choose which service updates you want
-                                                to be alerted about.</span>
-                                        </div>
-                                        <div class="w-16 flex justify-end">
-                                            <label class="toggle-switch">
-                                                <input type="checkbox" class="toggle-input" checked>
-                                                <span class="toggle-slider"></span>
-                                            </label>
-                                        </div>
-                                    </li>
 
-                                    <!-- Ticket Updates -->
-                                    <li class="flex items-center border-b justify-between py-4 gap-8">
-                                        <div class="w-1/4 min-w-[160px]">
-                                            <span class="text-gray-400 font-medium">Ticket Updates</span>
-                                        </div>
-                                        <div class="flex-1">
-                                            <span class="text-gray-400 text-left">Get notified when files are uploaded
-                                                or downloaded.</span>
-                                        </div>
-                                        <div class="w-16 flex justify-end">
-                                            <label class="toggle-switch">
-                                                <input type="checkbox" class="toggle-input" checked>
-                                                <span class="toggle-slider"></span>
-                                            </label>
-                                        </div>
-                                    </li>
 
-                                    <!-- Billing/Invoice Alerts -->
-                                    <li class="flex items-center border-b justify-between py-4 gap-8">
-                                        <div class="w-1/4 min-w-[160px]">
-                                            <span class="text-gray-400 font-medium">Billing/Invoice Alerts</span>
-                                        </div>
-                                        <div class="flex-1">
-                                            <span class="text-gray-400 text-left">Get alerts when your ticket status
-                                                changes.</span>
-                                        </div>
-                                        <div class="w-16 flex justify-end">
-                                            <label class="toggle-switch">
-                                                <input type="checkbox" class="toggle-input" checked>
-                                                <span class="toggle-slider"></span>
-                                            </label>
-                                        </div>
-                                    </li>
+                <!-- SEO Plan Cards -->
 
-                                    <!-- Customize Alerts by Service -->
-                                    <li class="flex border-b justify-between py-4">
-                                        <div class="w-1/4 min-w-[160px]">
-                                            <span class="text-gray-400 font-medium">Customize Alerts by Service</span>
-                                        </div>
-                                        <div class="flex-1 flex justify-between items-center">
-                                            <span
-                                                class="pl-8 py-1 text-gray-400 rounded-full text-sm flex items-center">
-                                                Web Design <input type="checkbox" class="ml-2">
-                                            </span>
-                                            <span
-                                                class="px-3 py-1 text-gray-400 rounded-full text-sm flex items-center">
-                                                SEO <input type="checkbox" class="ml-2">
-                                            </span>
-                                            <span
-                                                class="px-3 py-1 text-gray-400 rounded-full text-sm flex items-center">
-                                                PPC <input type="checkbox" class="ml-2">
-                                            </span>
-                                            <span
-                                                class="px-3 py-1 text-gray-400 rounded-full text-sm flex items-center">
-                                                PPC <input type="checkbox" class="ml-2">
-                                            </span>
-                                        </div>
-                                        <div class="w-16"></div> <!-- Spacer to match other rows -->
-                                    </li>
-                                </ul>
-                            </div>
 
-                            <!-- Service Tags
-        <div class="flex flex-wrap gap-3 pt-4">
-        <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">Web Design</span>
-        <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">SEO</span>
-        <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">PPC</span>
-        <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">PPC</span>
-        </div>-->
-                            <!-- Buttons -->
-                            <div class="flex justify-end items-center mt-5">
 
-                                <div class="flex justify-end gap-3 pt-3">
-                                    <button type="submit"
-                                        class="px-4 py-2 bg-gray-500  rounded-lg hover:bg-orange-600">
-                                        Cancel
-                                    </button>
-                                    <button type="submit"
-                                        class="px-4 py-2 btn-orange text-white rounded-lg hover:bg-orange-600">
-                                        Save
-                                    </button>
+
+
+                <!-- Bottom Cards: Need Help & Free Consulting -->
+
+            </div>
+
+            <div id="teamMemberContent" class="tab-content hidden ml-8 mr-5  -mt-8">
+                <!-- Uploaded Document content here -->
+                <div id="leftSection" class="lg:col-span-2 light-bg-f5f5f5 light-bg-seo  rounded-xl shadow-sm">
+                    <div class="flex items-center justify-between mb-4 p-6 flex-wrap gap-3">
+                        <h2 class="text-xl font-semibold light-text-gray-800">Team Access</h2>
+                        <div class="flex items-center space-x-3">
+                            <div class="relative">
+                                <input type="text" placeholder="Search here"
+                                    class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="icon text-gray-400" viewBox="0 0 24 24">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65">
+                                        </line>
+                                    </svg>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-
-
-
-
-
-                    <!-- SEO Plan Cards -->
-
-
-
-
-
-                    <!-- Bottom Cards: Need Help & Free Consulting -->
-
-                </div>
-
-                <div id="teamMemberContent" class="tab-content hidden">
-                    <!-- Uploaded Document content here -->
-                    <div id="leftSection" class="lg:col-span-2 light-bg-f5f5f5 light-bg-seo  rounded-xl shadow-sm">
-                        <div class="flex items-center justify-between mb-4 p-6 flex-wrap gap-3">
-                            <h2 class="text-xl font-semibold light-text-gray-800">Team Access</h2>
-                            <div class="flex items-center space-x-3">
-                                <div class="relative">
-                                    <input type="text" placeholder="Search here"
-                                        class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <svg class="icon text-gray-400" viewBox="0 0 24 24">
-                                            <circle cx="11" cy="11" r="8"></circle>
-                                            <line x1="21" y1="21" x2="16.65" y2="16.65">
-                                            </line>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="relative inline-block">
-                                    <!-- Button -->
-                                    <div class="flex gap-3">
-                                        <button id="filterButton"
-                                            class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
-                                            <div class="flex">
-                                                <span>Filters</span>
-                                                <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                                </svg>
-                                            </div>
-                                        </button>
-                                        <button id="openPopup"
-                                            class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d7d7d7 light-text-gray-700 border light-border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors ">
-                                            <div class="flex">
-                                                <span>Add New Member</span>
-                                            </div>
-                                        </button>
-                                    </div>
-
-                                    <!-- Dropdown Content -->
-                                    <div id="filterDropdown"
-                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                        <div class="py-1" role="menu" aria-orientation="vertical">
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Filter Option 1</a>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Filter Option 2</a>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Filter Option 3</a>
-                                            <div class="border-t border-gray-100"></div>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Reset Filters</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="light-bg-d9d9d9 w-full">
-                                    <tr>
-                                        <th scope="col"
-                                            class="px-6 py-3 w-1/3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
-                                            <div class="flex items-center">
-                                                NAME
-
-                                            </div>
-                                        </th>
-                                        <th scope="col"
-                                            class="px-6 py-3 w-1/3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
-                                            <div class="flex items-center justify-between">
-                                                EMAIL
-
-                                            </div>
-                                        </th>
-
-                                        <th scope="col"
-                                            class="px-6 py-3 w-1/3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
-                                            <div class="flex items-center justify-between">
-                                                ROLE
-
-                                            </div>
-                                        </th>
-
-                                        <th scope="col"
-                                            class="px-6 py-3 w-1/6 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
-                                            ACTION
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody class="light-bg-white light-bg-seo divide-y divide-gray-200">
-                                    <!-- Row 1 -->
-                                    <tr>
-                                        <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                            John Doe</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium light-text-gray-900">abc123@email.com</div>
-                                        </td>
-
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex  items-center ">
-
-                                                <span
-                                                    class="ml-2 text-sm items-center text-orange-500 bg-red-500/30 px-2 py-1 rounded-full ">Admin</span>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <div class="flex gap-2 justify-end items-center">
-                                                <!-- Eye Button -->
-                                                <button
-                                                    class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                                    </svg>
-                                                </button>
-
-                                                <!-- Edit Button -->
-                                                <button
-                                                    class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                    </svg>
-                                                </button>
-
-                                                <!-- Trash Button -->
-                                                <button
-                                                    class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <!-- Row 2 -->
-                                   
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <!-- Table Pagination -->
-                        <div
-                            class="flex items-center p-6 justify-between mt-4 text-sm light-text-gray-600 flex-wrap gap-2">
-                            <div>
-                                <span>Showing 1 to 3 of 100 entries</span>
-                                <div class="relative inline-block">
-                                    <!-- Button -->
-                                    <button id="filterButton2"
+                            <div class="relative inline-block">
+                                <!-- Button -->
+                                <div class="flex gap-3">
+                                    <button id="filterButton"
                                         class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
                                         <div class="flex">
                                             <span>Filters</span>
@@ -1724,795 +1582,921 @@
                                             </svg>
                                         </div>
                                     </button>
-
-                                    <!-- Dropdown Content -->
-                                    <div id="filterDropdown"
-                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                        <div class="py-1" role="menu" aria-orientation="vertical">
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">1</a>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">2</a>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">3</a>
-                                            <div class="border-t border-gray-100"></div>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Reset Filters</a>
+                                    <button id="openPopup"
+                                        class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d7d7d7 light-text-gray-700 border light-border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors ">
+                                        <div class="flex">
+                                            <span>Add New Member</span>
                                         </div>
+                                    </button>
+                                </div>
+
+                                <!-- Dropdown Content -->
+                                <div id="filterDropdown"
+                                    class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
+                                    <div class="py-1" role="menu" aria-orientation="vertical">
+                                        <a href="#"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            role="menuitem">Filter Option 1</a>
+                                        <a href="#"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            role="menuitem">Filter Option 2</a>
+                                        <a href="#"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            role="menuitem">Filter Option 3</a>
+                                        <div class="border-t border-gray-100"></div>
+                                        <a href="#"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            role="menuitem">Reset Filters</a>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="flex space-x-2">
-                                <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
-                                <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
-                                <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
-                                <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
-                                <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
-                                <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
-                                <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
                             </div>
                         </div>
                     </div>
 
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="light-bg-d9d9d9 w-full">
+                                <tr>
+                                    <th scope="col"
+                                        class="px-6 py-3 w-1/3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                        <div class="flex items-center">
+                                            NAME
 
-                    <!-- Right Section -->
-                    <div id="rightSection" style="display: none;">
-                        <div class="flex gap-2 text-xs mb-10">
-                            <div id="backToLeft">
-                                <span>Settings</span>
-                                <span>/</span>
-                                <span>Team Access</span>
-                                <span>/</span>
+                                        </div>
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 w-1/3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                        <div class="flex items-center justify-between">
+                                            EMAIL
+
+                                        </div>
+                                    </th>
+
+                                    <th scope="col"
+                                        class="px-6 py-3 w-1/3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                        <div class="flex items-center justify-between">
+                                            ROLE
+
+                                        </div>
+                                    </th>
+
+                                    <th scope="col"
+                                        class="px-6 py-3 w-1/6 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                        ACTION
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="light-bg-white light-bg-seo divide-y divide-gray-200">
+                                <!-- Row 1 -->
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
+                                        John Doe</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium light-text-gray-900">abc123@email.com</div>
+                                    </td>
+
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex  items-center ">
+
+                                            <span
+                                                class="ml-2 text-sm items-center text-orange-500 bg-red-500/30 px-2 py-1 rounded-full ">Admin</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <div class="flex gap-2 justify-end items-center">
+                                            <!-- Eye Button -->
+                                            <button
+                                                class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                </svg>
+                                            </button>
+
+                                            <!-- Edit Button -->
+                                            <button
+                                                class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                </svg>
+                                            </button>
+
+                                            <!-- Trash Button -->
+                                            <button
+                                                class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Row 2 -->
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Table Pagination -->
+                    <div
+                        class="flex items-center p-6 justify-between mt-4 text-sm light-text-gray-600 flex-wrap gap-2">
+                        <div>
+                            <span>Showing 1 to 3 of 100 entries</span>
+                            <div class="relative inline-block">
+                                <!-- Button -->
+                                <button id="filterButton2"
+                                    class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
+                                    <div class="flex">
+                                        <span>Filters</span>
+                                        <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                        </svg>
+                                    </div>
+                                </button>
+
+                                <!-- Dropdown Content -->
+                                <div id="filterDropdown"
+                                    class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
+                                    <div class="py-1" role="menu" aria-orientation="vertical">
+                                        <a href="#"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            role="menuitem">1</a>
+                                        <a href="#"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            role="menuitem">2</a>
+                                        <a href="#"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            role="menuitem">3</a>
+                                        <div class="border-t border-gray-100"></div>
+                                        <a href="#"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            role="menuitem">Reset Filters</a>
+                                    </div>
+                                </div>
                             </div>
-                            <span>View Team Member</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Right Section -->
+                <div id="rightSection" style="display: none; " >
+                    <div class="flex gap-2 text-xs mb-10 ">
+                        <div id="backToLeft">
+                            <span>Settings</span>
+                            <span>/</span>
+                            <span>Team Access</span>
+                            <span>/</span>
+                        </div>
+                        <span>View Team Member</span>
+                    </div>
+
+                    <div class="flex gap-6">
+                        <!-- First Column (40%) -->
+                        <div class="w-[30%] h-[30%] p-4 light-bg-d9d9d9 rounded-md">
+                            <div class="flex flex-col pb-4 items-center border-b light-border-black">
+                                <img src="AvatarTeam.png" class="pb-4" alt="">
+                                <h3 class="text-2xl">Violet Mendoza</h3>
+                            </div>
+
+                            <div class="flex flex-col border-b light-border-black gap-4 mt-4 ">
+                                <div class="text-sm light-text-gray-600">Details</div>
+                                <div class="text-md gap-2 text-white"><span
+                                        class="text-md light-text-gray-600">Username: </span>John Doe</div>
+                                <div class="text-md gap-2 text-white"><span class="text-md light-text-gray-600">Email:
+                                    </span>abc123@gmail.com</div>
+                                <div class="text-md gap-2 text-white"><span class="text-md light-text-gray-600">Role:
+                                    </span>Designer</div>
+                                <div class="text-md flex items-center gap-2 text-white mb-4"><span
+                                        class="text-md light-text-gray-600">Role Permission: </span>
+                                    <div class="bg-green-900/50 py-1 px-4 rounded-full">
+                                        <p class="text-green-500">Edit</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="flex justify-end gap-4 mt-4">
+                                <button
+                                    class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">Edit</button>
+                                <button
+                                    class="px-4 py-2 bg-red-900/50 text-red-500 rounded-lg hover:bg-red-600">Remove</button>
+                            </div>
                         </div>
 
-                        <div class="flex gap-6">
-                            <!-- First Column (40%) -->
-                            <div class="w-[30%] h-[30%] p-4 light-bg-d9d9d9 rounded-md">
-                                <div class="flex flex-col pb-4 items-center border-b light-border-black">
-                                    <img src="AvatarTeam.png" class="pb-4" alt="">
-                                    <h3 class="text-2xl">Violet Mendoza</h3>
-                                </div>
-
-                                <div class="flex flex-col border-b light-border-black gap-4 mt-4 ">
-                                    <div class="text-sm light-text-gray-600">Details</div>
-                                    <div class="text-md gap-2 text-white"><span
-                                            class="text-md light-text-gray-600">Username: </span>John Doe</div>
-                                    <div class="text-md gap-2 text-white"><span
-                                            class="text-md light-text-gray-600">Email: </span>abc123@gmail.com</div>
-                                    <div class="text-md gap-2 text-white"><span
-                                            class="text-md light-text-gray-600">Role: </span>Designer</div>
-                                    <div class="text-md flex items-center gap-2 text-white mb-4"><span
-                                            class="text-md light-text-gray-600">Role Permission: </span>
-                                        <div class="bg-green-900/50 py-1 px-4 rounded-full">
-                                            <p class="text-green-500">Edit</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="flex justify-end gap-4 mt-4">
-                                    <button
-                                        class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">Edit</button>
-                                    <button
-                                        class="px-4 py-2 bg-red-900/50 text-red-500 rounded-lg hover:bg-red-600">Remove</button>
-                                </div>
-                            </div>
-
-                            <!-- Second Column (60%) -->
-                            <div class="w-[70%]  rounded-md">
-                                <div class="lg:col-span-2 light-bg-f5f5f5 light-bg-seo mb-7 rounded-xl shadow-sm">
-                                    <div class="flex items-center justify-between  p-6 flex-wrap gap-3">
-                                        <h2 class="text-xl font-semibold light-text-gray-800">Projects Lists</h2>
-                                        <div class="flex items-center space-x-3">
-                                            <div class="relative">
-                                                <input type="text" placeholder="Search here"
-                                                    class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500">
-                                                <div
-                                                    class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                    <svg class="icon text-gray-400" viewBox="0 0 24 24">
-                                                        <circle cx="11" cy="11" r="8"></circle>
-                                                        <line x1="21" y1="21" x2="16.65"
-                                                            y2="16.65"></line>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                            <div class="relative inline-block">
-                                                <div class="flex gap-3">
-                                                    <!-- Button -->
-                                                    <button id="filterButton"
-                                                        class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
-                                                        <div class="flex">
-                                                            <span>Filters</span>
-                                                            <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24"
-                                                                fill="none" stroke="currentColor"
-                                                                stroke-width="1.5" stroke-linecap="round"
-                                                                stroke-linejoin="round">
-                                                                <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                                            </svg>
-                                                        </div>
-                                                    </button>
-
-                                                </div>
-
-                                                <!-- Dropdown Content -->
-                                                <div id="filterDropdown"
-                                                    class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                                    <div class="py-1" role="menu" aria-orientation="vertical">
-                                                        <a href="#"
-                                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                            role="menuitem">Filter Option 1</a>
-                                                        <a href="#"
-                                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                            role="menuitem">Filter Option 2</a>
-                                                        <a href="#"
-                                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                            role="menuitem">Filter Option 3</a>
-                                                        <div class="border-t border-gray-100"></div>
-                                                        <a href="#"
-                                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                            role="menuitem">Reset Filters</a>
-                                                    </div>
-                                                </div>
+                        <!-- Second Column (60%) -->
+                        <div class="w-[70%]  rounded-md">
+                            <div class="lg:col-span-2 light-bg-f5f5f5 light-bg-seo mb-7 rounded-xl shadow-sm">
+                                <div class="flex items-center justify-between  p-6 flex-wrap gap-3">
+                                    <h2 class="text-xl font-semibold light-text-gray-800">Projects Lists</h2>
+                                    <div class="flex items-center space-x-3">
+                                        <div class="relative">
+                                            <input type="text" placeholder="Search here"
+                                                class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                            <div
+                                                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <svg class="icon text-gray-400" viewBox="0 0 24 24">
+                                                    <circle cx="11" cy="11" r="8"></circle>
+                                                    <line x1="21" y1="21" x2="16.65"
+                                                        y2="16.65"></line>
+                                                </svg>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="overflow-x-auto">
-                                        <table class="min-w-full divide-y divide-gray-200">
-                                            <thead class="light-bg-d9d9d9">
-                                                <tr>
-                                                    <th scope="col"
-                                                        class="px-9 py-3  text-left text-xs
-    font-medium light-text-gray-500 uppercase tracking-wider">
-                                                        <div class="flex items-center w-full justify-between">
-                                                            <div style="width: 80%">PROJECTS</div>
-                                                            <div style="width: 20%;">
-                                                                <svg class=" w-8 h-4" viewBox="0 0 24 24"
-                                                                    fill="none" stroke="currentColor"
-                                                                    stroke-width="1.5" stroke-linecap="round"
-                                                                    stroke-linejoin="round">
-                                                                    <path d="M7 8 L12 3 L17 8" /> <!-- Up chevron -->
-                                                                    <path d="M7 16 L12 21 L17 16" />
-                                                                    <!-- Down chevron -->
-                                                                </svg>
-                                                            </div>
-                                                        </div>
-                                                    </th>
-                                                    <th scope="col"
-                                                        class="px-6 py-3 text-left text-xs  font-medium light-text-gray-500 uppercase ">
-                                                        <div class="flex items-center">
-                                                            CLIENT
-                                                            <svg class="ml-10 w-4 h-4" viewBox="0 0 24 24"
-                                                                fill="none" stroke="currentColor"
-                                                                stroke-width="1.5" stroke-linecap="round"
-                                                                stroke-linejoin="round">
-                                                                <!-- Up chevron (positioned higher) -->
-                                                                <path d="M7 8 L12 3 L17 8" />
-                                                                <!-- Down chevron (positioned lower with gap) -->
-                                                                <path d="M7 16 L12 21 L17 16" />
-                                                            </svg>
-                                                        </div>
-                                                    </th>
-                                                    <th scope="col"
-                                                        class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
-                                                        <div class="flex items-center">
-                                                            PROGRESS
-                                                            <svg class="ml-10 w-4 h-4" viewBox="0 0 24 24"
-                                                                fill="none" stroke="currentColor"
-                                                                stroke-width="1.5" stroke-linecap="round"
-                                                                stroke-linejoin="round">
-                                                                <!-- Up chevron (positioned higher) -->
-                                                                <path d="M7 8 L12 3 L17 8" />
-                                                                <!-- Down chevron (positioned lower with gap) -->
-                                                                <path d="M7 16 L12 21 L17 16" />
-                                                            </svg>
-                                                        </div>
-                                                    </th>
-
-
-                                                    <th scope="col"
-                                                        class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider min-w-[120px]">
-                                                        <div class="flex items-center justify-between">
-                                                            <span class="whitespace-nowrap">Status</span>
-                                                            <div class="flex flex-col ml-10">
-
-                                                            </div>
-                                                        </div>
-                                                    </th>
-
-
-                                                    <th scope="col"
-                                                        class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
-                                                        <div class="flex items-center">
-                                                            <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24"
-                                                                fill="none" stroke="currentColor"
-                                                                stroke-width="1.5" stroke-linecap="round"
-                                                                stroke-linejoin="round">
-                                                                <!-- Up chevron (positioned higher) -->
-                                                                <path d="M7 8 L12 3 L17 8" />
-                                                                <!-- Down chevron (positioned lower with gap) -->
-                                                                <path d="M7 16 L12 21 L17 16" />
-                                                            </svg>
-                                                            ACTION
-                                                        </div>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="light-bg-white light-bg-seo divide-y divide-gray-200">
-                                                <!-- Row 1 -->
-                                                <tr>
-                                                    <td
-                                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-black">
-                                                        <div class="flex flex-col">
-                                                            <div class="flex flex-col">
-                                                                <p class="mb-1">Website SEO</p>
-                                                                <div class="flex items-center">
-                                                                    <div
-                                                                        class="rounded-sm text-center w-20 light-bg-ea54547a">
-                                                                        <div class="text-xs light-text-ff0000">High
-                                                                            Priority</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <div class="flex items-center gap-2">
-                                                            <div><img src="Avatar (3).svg" alt=""></div>
-                                                            <div>
-                                                                <p class="text-sm">John Doe</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <span
-                                                            class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">(000)00000000</span>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm  text-gray-400">
-                                                        <button id="filterButton"
-                                                            class="flex items-center justify-center px-4 py-2 rounded-lg light-text-gray-700  text-gray-700 hover:bg-gray-200 bg-green-900/50 transition-colors">
-                                                            <div
-                                                                class="w-32 flex items-center justify-center text-green-500  justify-between ">
-                                                                <span>Converted</span>
-                                                                <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24"
-                                                                    fill="none" stroke="currentColor"
-                                                                    stroke-width="1.5" stroke-linecap="round"
-                                                                    stroke-linejoin="round">
-                                                                    <path d="M7 16 L12 21 L17 16" />
-                                                                    <!-- Down chevron -->
-                                                                </svg>
-                                                            </div>
-                                                        </button>
-                                                        <!-- Dropdown Content -->
-                                                        <div id="filterDropdown"
-                                                            class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                                            <div class="py-1" role="menu"
-                                                                aria-orientation="vertical">
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Filter Option 1</a>
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Filter Option 2</a>
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Filter Option 3</a>
-                                                                <div class="border-t border-gray-100"></div>
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Reset Filters</a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-
-                                                    <td
-                                                        class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                        <div class="flex justify-end gap-2">
-                                                            <button
-                                                                class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
-                                                                data-action="view-project">
-                                                                <img src="eye-DARK.svg" alt="icon"
-                                                                    class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
-                                                            </button>
-                                                        </div>
-
-                                                    </td>
-                                                </tr>
-                                                <!-- Row 2 -->
-                                                <tr>
-                                                    <td
-                                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-black">
-                                                        <p>Website SEO</p>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <div class="flex items-center gap-2">
-                                                            <div><img src="Avatar (3).svg" alt=""></div>
-                                                            <div>
-                                                                <p class="text-sm">John Doe</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <span
-                                                            class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">(000)00000000</span>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                        <button id="filterButton"
-                                                            class="flex items-center justify-center px-4 py-2 rounded-lg bg-cyan-900/50 light-text-gray-700 text-gray-700 hover:bg-gray-200 transition-colors">
-                                                            <div
-                                                                class="w-32 flex items-center text-cyan-500 justify-between ">
-                                                                <span>In Process</span>
-                                                                <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24"
-                                                                    fill="none" stroke="currentColor"
-                                                                    stroke-width="1.5" stroke-linecap="round"
-                                                                    stroke-linejoin="round">
-                                                                    <path d="M7 16 L12 21 L17 16" />
-                                                                    <!-- Down chevron -->
-                                                                </svg>
-                                                            </div>
-                                                        </button>
-                                                        <!-- Dropdown Content -->
-                                                        <div id="filterDropdown"
-                                                            class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                                            <div class="py-1" role="menu"
-                                                                aria-orientation="vertical">
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Filter Option 1</a>
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Filter Option 2</a>
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Filter Option 3</a>
-                                                                <div class="border-t border-gray-100"></div>
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Reset Filters</a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-
-                                                    <td
-                                                        class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                        <div class="flex justify-end gap-2">
-
-                                                            <button
-                                                                class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
-                                                                data-action="view-project">
-                                                                <img src="eye-DARK.svg" alt="icon"
-                                                                    class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
-                                                            </button>
-                                                        </div>
-
-                                                    </td>
-                                                </tr>
-                                                <!-- Row 3 -->
-                                                <tr>
-                                                    <td
-                                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-black">
-                                                        <div class="flex flex-col">
-                                                            <div class="flex flex-col">
-                                                                <p class="mb-1">Website SEO</p>
-                                                                <div class="flex items-center">
-                                                                    <div
-                                                                        class="rounded-sm text-center w-20 light-bg-ea54547a">
-                                                                        <div class="text-xs light-text-ff0000">High
-                                                                            Priority</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <div class="flex items-center gap-2">
-                                                            <div><img src="Avatar (3).svg" alt=""></div>
-                                                            <div>
-                                                                <p class="text-sm">John Doe</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <span
-                                                            class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">(000)00000000</span>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                        <button id="filterButton"
-                                                            class="flex items-center justify-center px-4 py-2 rounded-lg bg-red-900/50 light-text-gray-700 text-gray-700 hover:bg-gray-200 transition-colors">
-                                                            <div
-                                                                class="w-32 flex items-center text-red-500 justify-between ">
-                                                                <span>Not Converted</span>
-                                                                <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24"
-                                                                    fill="none" stroke="currentColor"
-                                                                    stroke-width="1.5" stroke-linecap="round"
-                                                                    stroke-linejoin="round">
-                                                                    <path d="M7 16 L12 21 L17 16" />
-                                                                    <!-- Down chevron -->
-                                                                </svg>
-                                                            </div>
-                                                        </button>
-                                                        <!-- Dropdown Content -->
-                                                        <div id="filterDropdown"
-                                                            class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                                            <div class="py-1" role="menu"
-                                                                aria-orientation="vertical">
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Filter Option 1</a>
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Filter Option 2</a>
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Filter Option 3</a>
-                                                                <div class="border-t border-gray-100"></div>
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Reset Filters</a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-
-                                                    <td
-                                                        class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                        <div class="flex justify-end gap-2">
-
-                                                            <button
-                                                                class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
-                                                                data-action="view-project">
-                                                                <img src="eye-DARK.svg" alt="icon"
-                                                                    class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
-                                                            </button>
-                                                        </div>
-
-                                                    </td>
-                                                </tr>
-                                                <!-- Row 4 -->
-                                                <tr>
-                                                    <td
-                                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-black">
-                                                        <p>Website SEO</p>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <div class="flex items-center gap-2">
-                                                            <div><img src="Avatar (3).svg" alt=""></div>
-                                                            <div>
-                                                                <p class="text-sm">John Doe</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <span
-                                                            class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">(000)00000000</span>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                        <button id="filterButton"
-                                                            class="flex items-center justify-center px-4 py-2 rounded-lg light-text-gray-700  text-gray-700 hover:bg-gray-200 bg-green-900/50 transition-colors">
-                                                            <div
-                                                                class="w-32 flex items-center justify-center text-green-500  justify-between ">
-                                                                <span>Converted</span>
-                                                                <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24"
-                                                                    fill="none" stroke="currentColor"
-                                                                    stroke-width="1.5" stroke-linecap="round"
-                                                                    stroke-linejoin="round">
-                                                                    <path d="M7 16 L12 21 L17 16" />
-                                                                    <!-- Down chevron -->
-                                                                </svg>
-                                                            </div>
-                                                        </button>
-                                                        <!-- Dropdown Content -->
-                                                        <div id="filterDropdown"
-                                                            class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                                            <div class="py-1" role="menu"
-                                                                aria-orientation="vertical">
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Filter Option 1</a>
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Filter Option 2</a>
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Filter Option 3</a>
-                                                                <div class="border-t border-gray-100"></div>
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Reset Filters</a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-
-                                                    <td
-                                                        class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                        <div class="flex justify-end gap-2">
-
-                                                            <button
-                                                                class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
-                                                                data-action="view-project">
-                                                                <img src="eye-DARK.svg" alt="icon"
-                                                                    class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
-                                                            </button>
-                                                        </div>
-
-                                                    </td>
-                                                </tr>
-                                                <!-- Row 5 -->
-                                                <tr>
-                                                    <td
-                                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-black">
-                                                        <p>Website SEO</p>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <div class="flex items-center gap-2">
-                                                            <div><img src="Avatar (3).svg" alt=""></div>
-                                                            <div>
-                                                                <p class="text-sm">John Doe</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <span
-                                                            class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">(000)00000000</span>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                        <button id="filterButton"
-                                                            class="flex items-center justify-center px-4 py-2 rounded-lg bg-cyan-900/50 light-text-gray-700 text-gray-700 hover:bg-gray-200 transition-colors">
-                                                            <div
-                                                                class="w-32 flex items-center text-cyan-500 justify-between ">
-                                                                <span>In Process</span>
-                                                                <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24"
-                                                                    fill="none" stroke="currentColor"
-                                                                    stroke-width="1.5" stroke-linecap="round"
-                                                                    stroke-linejoin="round">
-                                                                    <path d="M7 16 L12 21 L17 16" />
-                                                                    <!-- Down chevron -->
-                                                                </svg>
-                                                            </div>
-                                                        </button>
-                                                        <!-- Dropdown Content -->
-                                                        <div id="filterDropdown"
-                                                            class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                                            <div class="py-1" role="menu"
-                                                                aria-orientation="vertical">
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Filter Option 1</a>
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Filter Option 2</a>
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Filter Option 3</a>
-                                                                <div class="border-t border-gray-100"></div>
-                                                                <a href="#"
-                                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                    role="menuitem">Reset Filters</a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-
-                                                    <td
-                                                        class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                        <div class="flex justify-end gap-2">
-
-                                                            <button
-                                                                class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
-                                                                data-action="view-project">
-                                                                <img src="eye-DARK.svg" alt="icon"
-                                                                    class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
-                                                            </button>
-                                                        </div>
-
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <!-- Table Pagination -->
-                                    <div
-                                        class="flex items-center justify-between mt-4 p-6 text-sm light-text-gray-600 flex-wrap gap-4">
-                                        <div>
-
-                                            <span>Showing 1 to 3 of 100 entries </span>
-                                            <div class="relative inline-block">
+                                        <div class="relative inline-block">
+                                            <div class="flex gap-3">
                                                 <!-- Button -->
-                                                <button id="filterButton2"
-                                                    class="flex items-center justify-center ml-2 px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
+                                                <button id="filterButton"
+                                                    class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
                                                     <div class="flex">
                                                         <span>Filters</span>
-                                                        <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24"
-                                                            fill="none" stroke="currentColor"
-                                                            stroke-width="1.5" stroke-linecap="round"
-                                                            stroke-linejoin="round">
+                                                        <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="1.5"
+                                                            stroke-linecap="round" stroke-linejoin="round">
                                                             <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
                                                         </svg>
                                                     </div>
                                                 </button>
 
-                                                <!-- Dropdown Content -->
-                                                <div id="filterDropdown"
-                                                    class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9  light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                                    <div class="py-1" role="menu"
-                                                        aria-orientation="vertical">
-                                                        <a href="#"
-                                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                            role="menuitem">1</a>
-                                                        <a href="#"
-                                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                            role="menuitem">2</a>
-                                                        <a href="#"
-                                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                            role="menuitem">3</a>
-                                                        <div class="border-t border-gray-100"></div>
-                                                        <a href="#"
-                                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                            role="menuitem">Reset Filters</a>
-                                                    </div>
+                                            </div>
+
+                                            <!-- Dropdown Content -->
+                                            <div id="filterDropdown"
+                                                class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
+                                                <div class="py-1" role="menu" aria-orientation="vertical">
+                                                    <a href="#"
+                                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                        role="menuitem">Filter Option 1</a>
+                                                    <a href="#"
+                                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                        role="menuitem">Filter Option 2</a>
+                                                    <a href="#"
+                                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                        role="menuitem">Filter Option 3</a>
+                                                    <div class="border-t border-gray-100"></div>
+                                                    <a href="#"
+                                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                        role="menuitem">Reset Filters</a>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="flex space-x-2">
-                                            <button
-                                                class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors light-bg-d9d9d9 light-text-gray-700">Previous</button>
-                                            <button
-                                                class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200 bg-orange-600 light-bg-orange-600 text-white font-semibold light-bg-d9d9d9 light-text-gray-700">1</button>
-                                            <button
-                                                class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">2</button>
-                                            <button
-                                                class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">3</button>
-                                            <button
-                                                class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">4</button>
-                                            <button
-                                                class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">5</button>
-                                            <button
-                                                class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">Next</button>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="light-bg-f5f5f5 light-bg-seo  rounded-xl shadow-sm">
-                                    <!-- Bottom Cards: Need Help & Free Consulting -->
-                                    <div class="flex flex-col md:flex-row gap-4">
-                                        <div
-                                            class="flex-1 bg-white light-bg-f5f5f5 light-bg-seo rounded-lg shadow-sm ">
-
-                                            <div
-                                                class="bg-gray-800 light-bg-f5f5f5 light-bg-seo text-white p-6 rounded-lg shadow-lg">
-                                                <h2 class="text-lg font-semibold mb-4">Activity Log</h2>
-                                                <div class="relative border-l border-gray-700 ml-3">
-                                                    <div class="mb-8 relative pl-6">
-                                                        <span
-                                                            class="absolute -left-1.5 top-1/2 -translate-y-2/3 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
-                                                        <div>
-                                                            <p class="font-medium">Project status updated</p>
-                                                            <p class="text-gray-400 text-sm">WooCommerce iOS App
-                                                                Completed</p>
-                                                            <span
-                                                                class="absolute right-0 top-0 text-gray-400 text-sm">10
-                                                                Days Ago</span>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead class="light-bg-d9d9d9">
+                                            <tr>
+                                                <th scope="col"
+                                                    class="px-9 py-3  text-left text-xs
+    font-medium light-text-gray-500 uppercase tracking-wider">
+                                                    <div class="flex items-center w-full justify-between">
+                                                        <div style="width: 80%">PROJECTS</div>
+                                                        <div style="width: 20%;">
+                                                            <svg class=" w-8 h-4" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="1.5"
+                                                                stroke-linecap="round" stroke-linejoin="round">
+                                                                <path d="M7 8 L12 3 L17 8" /> <!-- Up chevron -->
+                                                                <path d="M7 16 L12 21 L17 16" />
+                                                                <!-- Down chevron -->
+                                                            </svg>
                                                         </div>
                                                     </div>
+                                                </th>
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs  font-medium light-text-gray-500 uppercase ">
+                                                    <div class="flex items-center">
+                                                        CLIENT
+                                                        <svg class="ml-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="1.5"
+                                                            stroke-linecap="round" stroke-linejoin="round">
+                                                            <!-- Up chevron (positioned higher) -->
+                                                            <path d="M7 8 L12 3 L17 8" />
+                                                            <!-- Down chevron (positioned lower with gap) -->
+                                                            <path d="M7 16 L12 21 L17 16" />
+                                                        </svg>
+                                                    </div>
+                                                </th>
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                                    <div class="flex items-center">
+                                                        PROGRESS
+                                                        <svg class="ml-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="1.5"
+                                                            stroke-linecap="round" stroke-linejoin="round">
+                                                            <!-- Up chevron (positioned higher) -->
+                                                            <path d="M7 8 L12 3 L17 8" />
+                                                            <!-- Down chevron (positioned lower with gap) -->
+                                                            <path d="M7 16 L12 21 L17 16" />
+                                                        </svg>
+                                                    </div>
+                                                </th>
 
-                                                    <div class="mb-8 relative pl-6">
-                                                        <span
-                                                            class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
-                                                        <div>
-                                                            <p class="font-medium">Project status updated</p>
-                                                            <p class="text-gray-400 text-sm">WooCommerce iOS App
-                                                                Completed</p>
-                                                            <span
-                                                                class="absolute right-0 top-0 text-gray-400 text-sm">3
-                                                                hours ago</span>
+
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider min-w-[120px]">
+                                                    <div class="flex items-center justify-between">
+                                                        <span class="whitespace-nowrap">Status</span>
+                                                        <div class="flex flex-col ml-10">
+
                                                         </div>
                                                     </div>
+                                                </th>
 
-                                                    <div class="mb-8 relative pl-6">
-                                                        <span
-                                                            class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
-                                                        <div>
-                                                            <p class="font-medium">Project status updated</p>
-                                                            <p class="text-gray-400 text-sm">WooCommerce iOS App
-                                                                Completed</p>
-                                                            <span
-                                                                class="absolute right-0 top-0 text-gray-400 text-sm">10
-                                                                mins ago</span>
+
+                                                <th scope="col"
+                                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                                    <div class="flex items-center">
+                                                        <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24"
+                                                            fill="none" stroke="currentColor" stroke-width="1.5"
+                                                            stroke-linecap="round" stroke-linejoin="round">
+                                                            <!-- Up chevron (positioned higher) -->
+                                                            <path d="M7 8 L12 3 L17 8" />
+                                                            <!-- Down chevron (positioned lower with gap) -->
+                                                            <path d="M7 16 L12 21 L17 16" />
+                                                        </svg>
+                                                        ACTION
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="light-bg-white light-bg-seo divide-y divide-gray-200">
+                                            <!-- Row 1 -->
+                                            <tr>
+                                                <td
+                                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-black">
+                                                    <div class="flex flex-col">
+                                                        <div class="flex flex-col">
+                                                            <p class="mb-1">Website SEO</p>
+                                                            <div class="flex items-center">
+                                                                <div
+                                                                    class="rounded-sm text-center w-20 light-bg-ea54547a">
+                                                                    <div class="text-xs light-text-ff0000">High
+                                                                        Priority</div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-
-                                                    <div class="mb-8 relative pl-6">
-                                                        <span
-                                                            class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center gap-2">
+                                                        <div><img src="Avatar (3).svg" alt=""></div>
                                                         <div>
-                                                            <p class="font-medium">Project status updated</p>
-                                                            <p class="text-gray-400 text-sm">WooCommerce iOS App
-                                                                Completed</p>
-                                                            <span
-                                                                class="absolute right-0 top-0 text-gray-400 text-sm">10
-                                                                mins ago</span>
+                                                            <p class="text-sm">John Doe</p>
                                                         </div>
                                                     </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <span
+                                                        class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">(000)00000000</span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm  text-gray-400">
+                                                    <button id="filterButton"
+                                                        class="flex items-center justify-center px-4 py-2 rounded-lg light-text-gray-700  text-gray-700 hover:bg-gray-200 bg-green-900/50 transition-colors">
+                                                        <div
+                                                            class="w-32 flex items-center justify-center text-green-500  justify-between ">
+                                                            <span>Converted</span>
+                                                            <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24"
+                                                                fill="none" stroke="currentColor"
+                                                                stroke-width="1.5" stroke-linecap="round"
+                                                                stroke-linejoin="round">
+                                                                <path d="M7 16 L12 21 L17 16" />
+                                                                <!-- Down chevron -->
+                                                            </svg>
+                                                        </div>
+                                                    </button>
+                                                    <!-- Dropdown Content -->
+                                                    <div id="filterDropdown"
+                                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
+                                                        <div class="py-1" role="menu"
+                                                            aria-orientation="vertical">
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Filter Option 1</a>
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Filter Option 2</a>
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Filter Option 3</a>
+                                                            <div class="border-t border-gray-100"></div>
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Reset Filters</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                    <div class="flex justify-end gap-2">
+                                                        <button
+                                                            class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
+                                                            data-action="view-project">
+                                                            <img src="eye-DARK.svg" alt="icon"
+                                                                class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
+                                                        </button>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                            <!-- Row 2 -->
+                                            <tr>
+                                                <td
+                                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-black">
+                                                    <p>Website SEO</p>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center gap-2">
+                                                        <div><img src="Avatar (3).svg" alt=""></div>
+                                                        <div>
+                                                            <p class="text-sm">John Doe</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <span
+                                                        class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">(000)00000000</span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                                    <button id="filterButton"
+                                                        class="flex items-center justify-center px-4 py-2 rounded-lg bg-cyan-900/50 light-text-gray-700 text-gray-700 hover:bg-gray-200 transition-colors">
+                                                        <div
+                                                            class="w-32 flex items-center text-cyan-500 justify-between ">
+                                                            <span>In Process</span>
+                                                            <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24"
+                                                                fill="none" stroke="currentColor"
+                                                                stroke-width="1.5" stroke-linecap="round"
+                                                                stroke-linejoin="round">
+                                                                <path d="M7 16 L12 21 L17 16" />
+                                                                <!-- Down chevron -->
+                                                            </svg>
+                                                        </div>
+                                                    </button>
+                                                    <!-- Dropdown Content -->
+                                                    <div id="filterDropdown"
+                                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
+                                                        <div class="py-1" role="menu"
+                                                            aria-orientation="vertical">
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Filter Option 1</a>
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Filter Option 2</a>
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Filter Option 3</a>
+                                                            <div class="border-t border-gray-100"></div>
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Reset Filters</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                    <div class="flex justify-end gap-2">
+
+                                                        <button
+                                                            class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
+                                                            data-action="view-project">
+                                                            <img src="eye-DARK.svg" alt="icon"
+                                                                class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
+                                                        </button>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                            <!-- Row 3 -->
+                                            <tr>
+                                                <td
+                                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-black">
+                                                    <div class="flex flex-col">
+                                                        <div class="flex flex-col">
+                                                            <p class="mb-1">Website SEO</p>
+                                                            <div class="flex items-center">
+                                                                <div
+                                                                    class="rounded-sm text-center w-20 light-bg-ea54547a">
+                                                                    <div class="text-xs light-text-ff0000">High
+                                                                        Priority</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center gap-2">
+                                                        <div><img src="Avatar (3).svg" alt=""></div>
+                                                        <div>
+                                                            <p class="text-sm">John Doe</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <span
+                                                        class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">(000)00000000</span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                                    <button id="filterButton"
+                                                        class="flex items-center justify-center px-4 py-2 rounded-lg bg-red-900/50 light-text-gray-700 text-gray-700 hover:bg-gray-200 transition-colors">
+                                                        <div
+                                                            class="w-32 flex items-center text-red-500 justify-between ">
+                                                            <span>Not Converted</span>
+                                                            <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24"
+                                                                fill="none" stroke="currentColor"
+                                                                stroke-width="1.5" stroke-linecap="round"
+                                                                stroke-linejoin="round">
+                                                                <path d="M7 16 L12 21 L17 16" />
+                                                                <!-- Down chevron -->
+                                                            </svg>
+                                                        </div>
+                                                    </button>
+                                                    <!-- Dropdown Content -->
+                                                    <div id="filterDropdown"
+                                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
+                                                        <div class="py-1" role="menu"
+                                                            aria-orientation="vertical">
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Filter Option 1</a>
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Filter Option 2</a>
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Filter Option 3</a>
+                                                            <div class="border-t border-gray-100"></div>
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Reset Filters</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                    <div class="flex justify-end gap-2">
+
+                                                        <button
+                                                            class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
+                                                            data-action="view-project">
+                                                            <img src="eye-DARK.svg" alt="icon"
+                                                                class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
+                                                        </button>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                            <!-- Row 4 -->
+                                            <tr>
+                                                <td
+                                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-black">
+                                                    <p>Website SEO</p>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center gap-2">
+                                                        <div><img src="Avatar (3).svg" alt=""></div>
+                                                        <div>
+                                                            <p class="text-sm">John Doe</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <span
+                                                        class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">(000)00000000</span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                                    <button id="filterButton"
+                                                        class="flex items-center justify-center px-4 py-2 rounded-lg light-text-gray-700  text-gray-700 hover:bg-gray-200 bg-green-900/50 transition-colors">
+                                                        <div
+                                                            class="w-32 flex items-center justify-center text-green-500  justify-between ">
+                                                            <span>Converted</span>
+                                                            <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24"
+                                                                fill="none" stroke="currentColor"
+                                                                stroke-width="1.5" stroke-linecap="round"
+                                                                stroke-linejoin="round">
+                                                                <path d="M7 16 L12 21 L17 16" />
+                                                                <!-- Down chevron -->
+                                                            </svg>
+                                                        </div>
+                                                    </button>
+                                                    <!-- Dropdown Content -->
+                                                    <div id="filterDropdown"
+                                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
+                                                        <div class="py-1" role="menu"
+                                                            aria-orientation="vertical">
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Filter Option 1</a>
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Filter Option 2</a>
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Filter Option 3</a>
+                                                            <div class="border-t border-gray-100"></div>
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Reset Filters</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                    <div class="flex justify-end gap-2">
+
+                                                        <button
+                                                            class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
+                                                            data-action="view-project">
+                                                            <img src="eye-DARK.svg" alt="icon"
+                                                                class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
+                                                        </button>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                            <!-- Row 5 -->
+                                            <tr>
+                                                <td
+                                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-black">
+                                                    <p>Website SEO</p>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center gap-2">
+                                                        <div><img src="Avatar (3).svg" alt=""></div>
+                                                        <div>
+                                                            <p class="text-sm">John Doe</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <span
+                                                        class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">(000)00000000</span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                                    <button id="filterButton"
+                                                        class="flex items-center justify-center px-4 py-2 rounded-lg bg-cyan-900/50 light-text-gray-700 text-gray-700 hover:bg-gray-200 transition-colors">
+                                                        <div
+                                                            class="w-32 flex items-center text-cyan-500 justify-between ">
+                                                            <span>In Process</span>
+                                                            <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24"
+                                                                fill="none" stroke="currentColor"
+                                                                stroke-width="1.5" stroke-linecap="round"
+                                                                stroke-linejoin="round">
+                                                                <path d="M7 16 L12 21 L17 16" />
+                                                                <!-- Down chevron -->
+                                                            </svg>
+                                                        </div>
+                                                    </button>
+                                                    <!-- Dropdown Content -->
+                                                    <div id="filterDropdown"
+                                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
+                                                        <div class="py-1" role="menu"
+                                                            aria-orientation="vertical">
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Filter Option 1</a>
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Filter Option 2</a>
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Filter Option 3</a>
+                                                            <div class="border-t border-gray-100"></div>
+                                                            <a href="#"
+                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                                role="menuitem">Reset Filters</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                    <div class="flex justify-end gap-2">
+
+                                                        <button
+                                                            class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
+                                                            data-action="view-project">
+                                                            <img src="eye-DARK.svg" alt="icon"
+                                                                class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
+                                                        </button>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Table Pagination -->
+                                <div
+                                    class="flex items-center justify-between mt-4 p-6 text-sm light-text-gray-600 flex-wrap gap-4">
+                                    <div>
+
+                                        <span>Showing 1 to 3 of 100 entries </span>
+                                        <div class="relative inline-block">
+                                            <!-- Button -->
+                                            <button id="filterButton2"
+                                                class="flex items-center justify-center ml-2 px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
+                                                <div class="flex">
+                                                    <span>Filters</span>
+                                                    <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor" stroke-width="1.5"
+                                                        stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                                    </svg>
+                                                </div>
+                                            </button>
+
+                                            <!-- Dropdown Content -->
+                                            <div id="filterDropdown"
+                                                class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9  light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
+                                                <div class="py-1" role="menu" aria-orientation="vertical">
+                                                    <a href="#"
+                                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                        role="menuitem">1</a>
+                                                    <a href="#"
+                                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                        role="menuitem">2</a>
+                                                    <a href="#"
+                                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                        role="menuitem">3</a>
+                                                    <div class="border-t border-gray-100"></div>
+                                                    <a href="#"
+                                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                        role="menuitem">Reset Filters</a>
                                                 </div>
                                             </div>
                                         </div>
-
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <button
+                                            class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors light-bg-d9d9d9 light-text-gray-700">Previous</button>
+                                        <button
+                                            class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200 bg-orange-600 light-bg-orange-600 text-white font-semibold light-bg-d9d9d9 light-text-gray-700">1</button>
+                                        <button
+                                            class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">2</button>
+                                        <button
+                                            class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">3</button>
+                                        <button
+                                            class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">4</button>
+                                        <button
+                                            class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">5</button>
+                                        <button
+                                            class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">Next</button>
                                     </div>
                                 </div>
                             </div>
 
+                            <div class="light-bg-f5f5f5 light-bg-seo  rounded-xl shadow-sm">
+                                <!-- Bottom Cards: Need Help & Free Consulting -->
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <div class="flex-1 bg-white light-bg-f5f5f5 light-bg-seo rounded-lg shadow-sm ">
+
+                                        <div
+                                            class="bg-gray-800 light-bg-f5f5f5 light-bg-seo text-white p-6 rounded-lg shadow-lg">
+                                            <h2 class="text-lg font-semibold mb-4">Activity Log</h2>
+                                            <div class="relative border-l border-gray-700 ml-3">
+                                                <div class="mb-8 relative pl-6">
+                                                    <span
+                                                        class="absolute -left-1.5 top-1/2 -translate-y-2/3 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
+                                                    <div>
+                                                        <p class="font-medium">Project status updated</p>
+                                                        <p class="text-gray-400 text-sm">WooCommerce iOS App
+                                                            Completed</p>
+                                                        <span class="absolute right-0 top-0 text-gray-400 text-sm">10
+                                                            Days Ago</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-8 relative pl-6">
+                                                    <span
+                                                        class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
+                                                    <div>
+                                                        <p class="font-medium">Project status updated</p>
+                                                        <p class="text-gray-400 text-sm">WooCommerce iOS App
+                                                            Completed</p>
+                                                        <span class="absolute right-0 top-0 text-gray-400 text-sm">3
+                                                            hours ago</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-8 relative pl-6">
+                                                    <span
+                                                        class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
+                                                    <div>
+                                                        <p class="font-medium">Project status updated</p>
+                                                        <p class="text-gray-400 text-sm">WooCommerce iOS App
+                                                            Completed</p>
+                                                        <span class="absolute right-0 top-0 text-gray-400 text-sm">10
+                                                            mins ago</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-8 relative pl-6">
+                                                    <span
+                                                        class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
+                                                    <div>
+                                                        <p class="font-medium">Project status updated</p>
+                                                        <p class="text-gray-400 text-sm">WooCommerce iOS App
+                                                            Completed</p>
+                                                        <span class="absolute right-0 top-0 text-gray-400 text-sm">10
+                                                            mins ago</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
-                        <!-- Bottom Cards: Need Help & Free Consulting -->
 
                     </div>
-
-
+                    <!-- Bottom Cards: Need Help & Free Consulting -->
 
                 </div>
 
-                <div id="rolesAndContent" class="tab-content hidden">
-                    <!-- Uploaded Document content here -->
 
 
-                    <div class="flex gap-2 text-xs mb-10">
-                        <div id="backToLeft">
-                            <span class="text-gray-400">Settings</span>
-                            <span></span>
-                            <span>/</span>
-                        </div>
-                        <span>Roles & Permission</span>
+            </div>
+
+            <div id="rolesAndContent" class="tab-content hidden ml-8 mr-5  -mt-8">
+                <!-- Uploaded Document content here -->
+
+
+                <div class="flex gap-2 text-xs mb-10">
+                    <div id="backToLeft">
+                        <span class="text-gray-400">Settings</span>
+                        <span></span>
+                        <span>/</span>
                     </div>
+                    <span>Roles & Permission</span>
+                </div>
 
-                    <div class="light-bg-f5f5f5 light-bg-seo px-5 py-8 rounded-lg">
-                        <div class="flex items-center justify-between">
-                            <div>Roles</div>
-                            <div><button id="openRolePopup" class="bg-gray-500 rounded-md p-2">Add New Role</button>
-                            </div>
+                <div class="light-bg-f5f5f5 light-bg-seo px-5 py-8 rounded-lg">
+                    <div class="flex items-center justify-between">
+                        <div>Roles</div>
+                        <div><button id="openRolePopup" class="bg-gray-500 rounded-md p-2">Add New Role</button>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
-                           @foreach ($roles as $role)
-                                <div class="bg-gray-500 rounded-md p-2">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+                        @foreach ($roles as $role)
+                            <div class="bg-gray-500 rounded-md p-2">
                                 <div class="flex justify-between items-center p-2 mb-1">
                                     <div class="felx flex-col">
                                         <img src="{{ asset('assets/ADmin.svg') }}" alt="">
                                     </div>
-                                    <img src="{{ asset('assets/dots-vertical.svg') }}" alt="Menu" class="h-4 w-4 mt-0.5">
+                                    <img src="{{ asset('assets/dots-vertical.svg') }}" alt="Menu"
+                                        class="h-4 w-4 mt-0.5">
                                 </div>
                                 <h3 class="text-lg font-medium px-2 light-text-gray-800">{{ $role->name }} </h3>
 
                             </div>
-                         
-                           @endforeach  
+                        @endforeach
 
-                        </div>
                     </div>
-
-
-
-
-
-
-                    <!-- SEO Plan Cards -->
-
-
-
-
-
-                    <!-- Bottom Cards: Need Help & Free Consulting -->
-
                 </div>
+
+
+
+
+
+
+                <!-- SEO Plan Cards -->
+
+
+
+
+
+                <!-- Bottom Cards: Need Help & Free Consulting -->
+
+            </div>
 
         </main>
     </div>
@@ -2816,8 +2800,7 @@
                         <!-- State Selection -->
                         <div>
                             <label class="block text-sm mb-1 light-text-black">Role</label>
-                            <select
-                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                            <select class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="">Select Role</option>
                                 <option value="KPK">KPK</option>
                                 <option value="Punjab">Punjab</option>
@@ -2830,8 +2813,7 @@
                         <!-- State Selection -->
                         <div>
                             <label class="block text-sm mb-1 light-text-black">Permission</label>
-                            <select
-                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                            <select class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="">Select Permission (View or Edit)</option>
                                 <option value="KPK">KPK</option>
                                 <option value="Punjab">Punjab</option>
@@ -2842,8 +2824,7 @@
                         <!-- State Selection -->
                         <div>
                             <label class="block text-sm mb-1 light-text-black">Assign Project</label>
-                            <select
-                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                            <select class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="">Select Project</option>
                                 <option value="KPK">KPK</option>
                                 <option value="Punjab">Punjab</option>
@@ -2901,21 +2882,23 @@
             </div>
 
             <div class="flex justify-start items-center p-6 gap-10">
-                            <form id="ticketForm" method='POST' action="{{ route('roles.add') }}" enctype="multipart/form-data" class="space-y-4 p-6">
-@csrf
-                <img class="rounded-xl" src="Avatar-Icon.svg" alt="">
-                <div class="flex flex-col gap-2">
-                    <span class="text-white text-xs">Upload Icon</span>
-                    <div>
-                        <input type='file' name='file' class="bg-gray-200 p-2 mb-2 rounded-lg border dark-border-gray-500"/>
+                <form id="ticketForm" method='POST' action="{{ route('roles.add') }}"
+                    enctype="multipart/form-data" class="space-y-4 p-6">
+                    @csrf
+                    <img class="rounded-xl" src="Avatar-Icon.svg" alt="">
+                    <div class="flex flex-col gap-2">
+                        <span class="text-white text-xs">Upload Icon</span>
+                        <div>
+                            <input type='file' name='file'
+                                class="bg-gray-200 p-2 mb-2 rounded-lg border dark-border-gray-500" />
+                        </div>
+                        <p>Allowed JPG, GIF or PNG. Max size of 800K</p>
                     </div>
-                    <p>Allowed JPG, GIF or PNG. Max size of 800K</p>
-                </div>
             </div>
 
             <!-- Ticket Form -->
             <div id="ticketForm" class="space-y-4 p-6">
-   <div class="grid grid-cols-1 gap-4">
+                <div class="grid grid-cols-1 gap-4">
 
                     <div>
                         <label class="block text-sm mb-1 light-text-black">Role Name</label>
@@ -2985,24 +2968,24 @@
 
 
             </div>
-                <!-- Title, Project Name, Priority -->
-             
+            <!-- Title, Project Name, Priority -->
 
 
-                <!-- Buttons -->
-                <div class="flex justify-end items-center">
 
-                    <div class="flex justify-end gap-3 pt-3">
-                        <button type="button" id="rolePopupClose"
-                            class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
-                            Cancel
-                        </button>
-                        <button type="submit" id="confirmPopup"
-                            class="px-4 py-2 btn-orange text-white rounded-lg hover:bg-orange-600">
-                            Save
-                        </button>
-                    </div>
+            <!-- Buttons -->
+            <div class="flex justify-end items-center">
+
+                <div class="flex justify-end gap-3 pt-3">
+                    <button type="button" id="rolePopupClose"
+                        class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                        Cancel
+                    </button>
+                    <button type="submit" id="confirmPopup"
+                        class="px-4 py-2 btn-orange text-white rounded-lg hover:bg-orange-600">
+                        Save
+                    </button>
                 </div>
+            </div>
             </form>
         </div>
     </div>

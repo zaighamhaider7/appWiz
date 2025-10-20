@@ -1,3 +1,6 @@
+<?php
+    use App\Models\TaskManagment;
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -768,19 +771,28 @@
             <div class="p-6 light-bg-bill lg:p-8">
 
                 <!-- Projects Title -->
-                <div class="flex justify-between ">
+                {{-- <div class="flex justify-between ">
                     <div>
                         <h1 class="text-3xl font-bold light-text-gray-800 mb-10">Task Management</h1>
                     </div>
                     <div>
                         <img src="{{ asset('assets/Switch.svg') }}" alt="Switch View" id="switchBtn">
                     </div>
-                </div>
+                </div> --}}
 
                 <!-- Connect Domain Section -->
 
                 <section class=" main-section show">
-
+                    <div class="flex justify-between ">
+                        <div>
+                            <h1 class="text-3xl font-bold light-text-gray-800 mb-10">Task Management</h1>
+                        </div>
+                        <div>
+                            {{-- <a href="{{route('task.data')}}"> --}}
+                                <img src="{{ asset('assets/Switch.svg') }}" alt="Switch View" id="switchBtn">
+                            {{-- </a> --}}
+                        </div>
+                    </div>
                     <div class="flex justify-between items-center w-full mb-10">
                         <!-- Search Box -->
                         <div class="relative max-w-md w-full">
@@ -1118,6 +1130,14 @@
                 <!-- Overview Cards -->
 
                 <section class="alt-section hide">
+                    <div class="flex justify-between ">
+                        <div>
+                            <h1 class="text-3xl font-bold light-text-gray-800 mb-10">Task Management</h1>
+                        </div>
+                        <div>
+                            <img src="{{ asset('assets/Switch.svg') }}" alt="Switch View" id="switchBtn2">
+                        </div>
+                    </div>
                     <div class="grid grid-cols-1 lg:grid-cols-1 gap-6 mb-6">
                         <!-- User's Projects List Table -->
                         <div class="lg:col-span-2 light-bg-f5f5f5 light-bg-seo  rounded-xl shadow-sm">
@@ -1586,6 +1606,7 @@
                                     </tbody>
                                 </table>
                             </div>
+
                             <div id="filterDropdown-1"
                                 class="hidden absolute w-32 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
                                 <div class="py-1" role="menu" aria-orientation="vertical">
@@ -2243,13 +2264,32 @@
             console.log('All event listeners set up');
         });
 
-        document.getElementById("switchBtn").addEventListener("click", function() {
-            document.querySelector(".main-section").classList.toggle("hide");
-            document.querySelector(".main-section").classList.toggle("show");
+        // document.getElementById("switchBtn").addEventListener("click", function() {
+        //     document.querySelector(".main-section").classList.toggle("hide");
+        //     document.querySelector(".alt-section").classList.toggle("show");
+        // });
 
-            document.querySelector(".alt-section").classList.toggle("hide");
-            document.querySelector(".alt-section").classList.toggle("show");
+        // document.getElementById("switchBtn2").addEventListener("click", function() {
+        //     document.querySelector(".alt-section").classList.toggle("hide");
+        //     document.querySelector(".main-section").classList.toggle("show");
+        // });
+
+        document.getElementById("switchBtn").addEventListener("click", function () {
+            document.querySelector(".main-section").classList.add("hide");
+            document.querySelector(".main-section").classList.remove("show");
+
+            document.querySelector(".alt-section").classList.remove("hide");
+            document.querySelector(".alt-section").classList.add("show");
         });
+
+        document.getElementById("switchBtn2").addEventListener("click", function () {
+            document.querySelector(".alt-section").classList.add("hide");
+            document.querySelector(".alt-section").classList.remove("show");
+
+            document.querySelector(".main-section").classList.remove("hide");
+            document.querySelector(".main-section").classList.add("show");
+        });
+
 
         document.addEventListener('DOMContentLoaded', () => {
             // Ticket Modal Elements
@@ -3775,6 +3815,7 @@
             </form>
         </div>
     </div>
+
     <div id="newTaskModal"
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
         <div
@@ -3793,55 +3834,67 @@
             <div class="border-t border-gray-700 mb-4"></div>
 
             <!-- Task Form -->
-            <form id="ticketForm" class="space-y-4 px-6 pb-6">
+            <form id="ticketForm" class="space-y-4 px-6 pb-6" method="POST" action="{{route('task.store')}}">
+                @csrf
                 <div class="grid grid-cols-2 gap-4">
                     <!-- Task Name -->
                     <div>
                         <label class="block text-sm mb-1 light-text-white">Task Name</label>
-                        <input type="text" placeholder="John Doe"
+                        <input type="text" placeholder="John Doe" name="task_name" value="{{old('task_name')}}"
                             class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                     </div>
 
                     <!-- Task Category -->
                     <div>
                         <label class="block text-sm mb-1 light-text-white">Task Category</label>
-                        <select class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
-                            <option>Select Category</option>
-                            <option>Design</option>
-                            <option>Development</option>
+                        <select name="task_category"  class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                            <option selected hidden>Select Category</option>
+                            <option value="design" {{old('task_category') == 'design' ? 'selected' : '' }}>Design</option>
+                            <option value="development" {{old('task_category') == 'development' ? 'selected' : '' }}>Development</option>
                         </select>
                     </div>
 
                     <!-- Project -->
                     <div>
                         <label class="block text-sm mb-1 light-text-white">Project</label>
-                        <select class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
-                            <option>Select Project</option>
-                            <option>Website Revamp</option>
+                        <select name="project" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                            <option selected hidden>Select Project</option>
+                            @if(count($projects) > 0)
+                            @foreach ($projects as $project)
+                                <option value="{{$project->id}}" {{old('project') == $project->id ? 'selected' : ''}}>{{$project->project_name}}</option>
+                            @endforeach
+                            @else
+                                <option selected hidden>No Project Found</option>
+                            @endif
                         </select>
                     </div>
 
                     <!-- Assign to -->
                     <div>
                         <label class="block text-sm mb-1 light-text-white">Assign to</label>
-                        <select class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
-                            <option>Select members</option>
-                            <option>John</option>
-                            <option>Sam</option>
+                        <select name="assign_to" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                            <option selected hidden>Select Members</option>
+                            @if(count($users) > 0)
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}" {{ old('assign_to') == $user->id ? 'selected' : ''}}>{{$user->name}}</option>
+                                @endforeach
+                            @else
+                                <option selected hidden>No User Found</option>
+                            @endif
                         </select>
                     </div>
 
                     <!-- Start Date -->
                     <div>
                         <label class="block text-sm mb-1 light-text-white">Start Date</label>
-                        <input type="text" placeholder="dd / mm / yy"
+                        <input type="date" placeholder="dd / mm / yy" name="start_date" value="{{old('start_date')}}"
                             class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                     </div>
 
                     <!-- Due Date -->
                     <div>
                         <label class="block text-sm mb-1 light-text-white">Due Date</label>
-                        <input type="text" placeholder="dd / mm / yy"
+                        <input type="date" placeholder="dd / mm / yy" name="due_date" value="{{old('due_date')}}"
                             class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                     </div>
                 </div>
@@ -3849,8 +3902,10 @@
                 <!-- Description -->
                 <div>
                     <label class="block text-sm mb-1 light-text-white">Description</label>
-                    <textarea placeholder="Description here" rows="4"
-                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none"></textarea>
+                    <textarea placeholder="Description here" rows="4" name="description" 
+                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                        {{old('descripiton')}}
+                    </textarea>
                 </div>
 
                 <!-- Buttons -->
@@ -4032,6 +4087,7 @@
             </div>
         </div>
     </div>
+    
 </body>
 
 </html>

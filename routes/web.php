@@ -84,3 +84,5 @@ Route::delete('leads/{id}', [LeadsController::class, 'LeadsDelete'])->name('lead
 
 
 Route::get('/task_management',[TaskManagmentController::class,'TaskView'])->name('task.view');
+Route::post('/task_management',[TaskManagmentController::class,'TaskStore'])->name('task.store');
+// Route::post('/task_management',[TaskManagmentController::class,'TaskData'])->name('task.data');

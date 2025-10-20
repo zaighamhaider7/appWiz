@@ -1112,21 +1112,14 @@
                                     {{-- <span>Showing 1 to 3 of 100 entries </span> --}}
                                     <span class="dt-info" aria-live="polite" id="myTable_info" role="status" bis_skin_checked="1">Showing 1 to 2 of 2 entries</span>
                                 </div>
-                                <div class="flex space-x-2">
-                                    <button
-                                        class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors light-bg-d9d9d9 light-text-gray-700">Previous</button>
-                                    <button
-                                        class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200 bg-orange-600 light-bg-orange-600 text-white font-semibold light-bg-d9d9d9 light-text-gray-700">1</button>
-                                    <button
-                                        class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">2</button>
-                                    <button
-                                        class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">3</button>
-                                    <button
-                                        class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">4</button>
-                                    <button
-                                        class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">5</button>
-                                    <button
-                                        class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">Next</button>
+                                <div id="custom-pagination" class="flex space-x-2 mt-4">
+                                    <button id="prev-btn" class="px-4 py-2 rounded-md border border-gray-300 text-white hover:bg-orange-600  transition-colors">Previous</button>
+                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">1</button>
+                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">2</button>
+                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">3</button>
+                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">4</button>
+                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">5</button>
+                                    <button id="next-btn" class="px-4 py-2 rounded-md border border-gray-300 text-white hover:bg-orange-600  transition-colors">Next</button>
                                 </div>
                             </div>
                         </div>
@@ -2305,6 +2298,11 @@
             class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
             {{ session('AddLeads') }}
         </div>
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
     @endif
 
     @if (session('UpdateLead'))
@@ -2312,6 +2310,11 @@
             class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
             {{ session('UpdateLead') }}
         </div>
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
     @endif
 
     @if (session('DeleteLead'))
@@ -2319,6 +2322,11 @@
             class="success-message fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
             {{ session('DeleteLead') }}
         </div>
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
     @endif
 
     @if ($errors->any())
@@ -2330,6 +2338,11 @@
                 @endforeach
             </ul>
         </div>
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
     @endif
 
 
@@ -2376,8 +2389,45 @@
         document.addEventListener('DOMContentLoaded', function () {
             // Initialize DataTable
             const table = new DataTable('#myTable',{
-                dom: 'p',
-                ordering: false
+                dom: 't',
+                ordering: false,
+                pageLength: 5,
+                drawCallback: function(settings) {
+                    var api = this.api();
+                    var pageInfo = api.page.info();
+                    var currentPage = pageInfo.page; // zero-based page index
+                    var totalPages = pageInfo.pages;
+
+                    // Enable/disable Previous button
+                    $('#prev-btn').prop('disabled', currentPage === 0);
+                    // Enable/disable Next button
+                    $('#next-btn').prop('disabled', currentPage === (totalPages - 1));
+
+                    // Update page buttons active style
+                    $('.page-btn').each(function(index) {
+                        if (index === currentPage) {
+                        $(this).addClass('bg-orange-600 text-white font-semibold').removeClass('hover:bg-orange-600 text-white');
+                        } else {
+                        $(this).removeClass('bg-orange-600 text-white font-semibold').addClass('hover:bg-orange-600 text-white');
+                        }
+                    });
+                }
+            });
+
+            // Page button clicks
+            $('.page-btn').on('click', function() {
+                var pageNum = parseInt($(this).text()) - 1; // convert to zero-based index
+                table.page(pageNum).draw('page');
+            });
+
+            // Previous button click
+            $('#prev-btn').on('click', function() {
+                table.page('previous').draw('page');
+            });
+
+            // Next button click
+            $('#next-btn').on('click', function() {
+                table.page('next').draw('page');
             });
 
             // Custom search input
@@ -2402,6 +2452,8 @@
                 document.getElementById('myTable_info').textContent =
                 `Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`;
             });
+
+
             
         });
     </script>

@@ -14,16 +14,19 @@
         padding: 0;
         margin: 0;
         display: none;
-        /* Hidden by default */
         position: absolute;
         top: 100%;
         left: 0;
         right: 0;
-        background: white;
+        background: #171717;
         z-index: 10;
         border: 1px solid #171717;
         max-height: 200px;
         overflow-y: auto;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 8px;
+        border-bottom-left-radius: 8px;
     }
 
     #myUL li a {
@@ -34,6 +37,10 @@
         font-size: 18px;
         color: white;
         display: flex;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 8px;
+        border-bottom-left-radius: 8px;
     }
 
     #myUL li a:hover:not(.header) {
@@ -52,7 +59,7 @@
         <!-- Search Input -->
         <input type="text" id="myInput" onkeyup="myFunction()"
             class="w-full pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-            placeholder="Search for names.." />
+            placeholder="Search..." />
 
         <!-- Search Icon -->
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -165,6 +172,7 @@
                     <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
                 </a>
             </li>
+            <li class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] hover:bg-[#191919] group " id="noResultsItem" style="display: none;">No results found.</li>
         </ul>
 
 
@@ -189,8 +197,8 @@
 
         <!-- User Profile & Dropdown -->
         <div class="flex items-center p-1 space-x-3 rounded-full border-2 light-border-gray-300">
-            <img src="{{asset('assets/Ellipse 3.png')}}" alt="User Avatar" class="w-10 h-10 rounded-full">
-            <span class="font-semibold light-text-gray-500 hidden sm:block">John Wick</span>
+            <img src="{{ asset(Auth::user()->image ?? 'assets/default-prf.png') }}" alt="User Avatar" class="w-10 h-10 rounded-full">
+            <span class="font-semibold light-text-gray-500 ">{{Auth::user()->name}}</span>
 
             <div class="relative inline-block text-left">
                 <!-- Dropdown Toggle -->
@@ -238,17 +246,45 @@
 
 
     // Search filter function
+    // function myFunction() {
+    //     const input = document.getElementById('myInput');
+    //     const filter = input.value.toUpperCase();
+    //     const ul = document.getElementById('myUL');
+    //     const li = ul.getElementsByTagName('li');
+
+    //     let hasResults = false;
+
+    //     for (let i = 0; i < li.length; i++) {
+    //         const a = li[i].getElementsByTagName("a")[0];
+    //         const txtValue = a.textContent || a.innerText;
+    //         if (txtValue.toUpperCase().indexOf(filter) > -1) {
+    //             li[i].style.display = "";
+    //             hasResults = true;
+    //         } else {
+    //             li[i].style.display = "none";
+    //         }
+    //     }
+
+    //     ul.style.display = hasResults && input.value.trim() !== "" ? "block" : "none";
+    // }
+
+
     function myFunction() {
         const input = document.getElementById('myInput');
         const filter = input.value.toUpperCase();
         const ul = document.getElementById('myUL');
         const li = ul.getElementsByTagName('li');
+        const noResultsItem = document.getElementById('noResultsItem');
 
         let hasResults = false;
 
         for (let i = 0; i < li.length; i++) {
+            // Skip the "no results" <li> when checking for matches
+            if (li[i].id === "noResultsItem") continue;
+
             const a = li[i].getElementsByTagName("a")[0];
             const txtValue = a.textContent || a.innerText;
+
             if (txtValue.toUpperCase().indexOf(filter) > -1) {
                 li[i].style.display = "";
                 hasResults = true;
@@ -257,6 +293,13 @@
             }
         }
 
-        ul.style.display = hasResults && input.value.trim() !== "" ? "block" : "none";
+        if (input.value.trim() === "") {
+            ul.style.display = "none";
+            noResultsItem.style.display = "none";
+        } else {
+            ul.style.display = "block";
+            noResultsItem.style.display = hasResults ? "none" : "list-item";
+        }
     }
+
 </script>

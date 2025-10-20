@@ -1,5 +1,5 @@
 <?php
-use App\Models\User;
+    use App\Models\User;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,6 +13,7 @@ use App\Models\User;
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="//cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css">
     <style>
         :root {
             --btn-bg: #EA580C;
@@ -833,8 +834,8 @@ use App\Models\User;
                             <h2 class="text-xl font-semibold light-text-gray-800">Client</h2>
                             <div class="flex items-center space-x-3">
                                 <div class="relative">
-                                    <input type="text" placeholder="Search here"
-                                        class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                    <input type="search" placeholder="Search here"
+                                            class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500 dt-input" id="dt-search-0"  aria-controls="myTable">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <svg class="icon text-gray-400" viewBox="0 0 24 24">
                                             <circle cx="11" cy="11" r="8"></circle>
@@ -844,37 +845,18 @@ use App\Models\User;
                                 </div>
                                 <div class="relative inline-block">
                                     <!-- Button -->
-                                    <button id="filterButton"
-                                        class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
-                                        <div class="flex">
-                                            <span>Filters</span>
-                                            <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                            </svg>
-                                        </div>
-                                    </button>
+                                    <select aria-controls="myTable" id="dt-length-0" fdprocessedid="9gl4x"
+                                                class="dt-input w-20 px-3 py-2 rounded-md text-sm
+                                                bg-white text-gray-800 border border-gray-300
+                                                dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600
+                                                focus:outline-none focus:ring-2 focus:ring-orange-500">
+                                                <option value="Filter" selected hidden>Filter</option>
+                                                <option value="1">1</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                            </select>
 
-                                    <!-- Dropdown Content -->
-                                    <div id="filterDropdown"
-                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                        <div class="py-1" role="menu" aria-orientation="vertical">
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Filter Option 1</a>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Filter Option 2</a>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Filter Option 3</a>
-                                            <div class="border-t border-gray-100"></div>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Reset Filters</a>
-                                        </div>
-                                    </div>
+                     
                                 </div>
                                 <div>
                                     <button
@@ -887,7 +869,7 @@ use App\Models\User;
                         </div>
 
                         <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
+                            <table id="myTable" class="min-w-full divide-y divide-gray-200">
                                 <thead class="light-bg-d9d9d9">
                                     <tr>
                                         <th scope="col"
@@ -1016,7 +998,7 @@ use App\Models\User;
                                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                     <button
                                                         class="light-text-orange-500 light-hover-text-orange-700 toggle-btn"
-                                                        data-target="expand-0{{ $loop->iteration }}">
+                                                        data-target="expand-0{{ $loop->iteration }}" >
                                                         <img class="icon w-full h-full"
                                                             src="{{ asset('assets/Frame 2147224370.svg') }}" />
                                                     </button>
@@ -1136,14 +1118,6 @@ use App\Models\User;
                                                                 </button>
                                                             </form>
 
-                                                            {{-- <a href="https://zaigham.vercel.app/">
-                                                                <button class=" rounded-full ">
-                                                                    <img src="{{ asset('assets/eye-DARK.svg') }}"
-                                                                        alt="View"
-                                                                        class="w-6 h-6 switchRight rounded-full p-1 bg-gray-500" />
-                                                                </button>
-                                                            </a> --}}
-
                                                             <form action="{{ route('clients.delete', $client->id) }}"
                                                                 method="POST"
                                                                 style="display:inline; padding-top:7px;">
@@ -1178,53 +1152,17 @@ use App\Models\User;
                         <div
                             class="flex items-center justify-between mt-4 text-sm p-6 light-text-gray-600 flex-wrap gap-2">
                             <div>
-                                <span>Showing 1 to 3 of 100 entries</span>
-                                <div class="relative inline-block">
-                                    <!-- Button -->
-                                    <button id="filterButton2"
-                                        class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
-                                        <div class="flex">
-                                            <span>Filters</span>
-                                            <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                            </svg>
-                                        </div>
-                                    </button>
-
-                                    <!-- Dropdown Content -->
-                                    <div id="filterDropdown"
-                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                        <div class="py-1" role="menu" aria-orientation="vertical">
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">1</a>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">2</a>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">3</a>
-                                            <div class="border-t border-gray-100"></div>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Reset Filters</a>
-                                        </div>
-                                    </div>
-                                </div>
+                                <span class="dt-info" aria-live="polite" id="myTable_info" role="status" bis_skin_checked="1">Showing 1 to 2 of 2 entries</span>
+        
                             </div>
-                            <div class="flex space-x-2">
-                                <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
-                                <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
-                                <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
-                                <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
-                                <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                            <div id="custom-pagination" class="flex space-x-2 mt-4">
+                                    <button id="prev-btn" class="px-4 py-2 rounded-md border border-gray-300 text-white hover:bg-orange-600  transition-colors">Previous</button>
+                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">1</button>
+                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">2</button>
+                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">3</button>
+                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">4</button>
+                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">5</button>
+                                    <button id="next-btn" class="px-4 py-2 rounded-md border border-gray-300 text-white hover:bg-orange-600  transition-colors">Next</button>
                             </div>
                         </div>
                     </div>
@@ -1832,6 +1770,12 @@ use App\Models\User;
                 @endforeach
             </ul>
         </div>
+
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
     @endif
 
     @if (session('AddClient'))
@@ -1839,6 +1783,12 @@ use App\Models\User;
             class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
             {{ session('AddClient') }}
         </div>
+
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
     @endif
 
     @if (session('DeleteClient'))
@@ -1846,6 +1796,12 @@ use App\Models\User;
             class="success-message fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
             {{ session('DeleteClient') }}
         </div>
+
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
     @endif
 
 
@@ -1861,8 +1817,84 @@ use App\Models\User;
         </script>
     @endif
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+  {{-- <script src="//cdn.datatables.net/2.3.4/js/dataTables.min.js"></script> --}}
 
-<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize DataTable
+            const table = new DataTable('#myTable',{
+                dom: 't',
+                ordering: false,
+                pageLength: 1,
+                drawCallback: function(settings) {
+                    var api = this.api();
+                    var pageInfo = api.page.info();
+                    var currentPage = pageInfo.page; // zero-based page index
+                    var totalPages = pageInfo.pages;
+
+                    // Enable/disable Previous button
+                    $('#prev-btn').prop('disabled', currentPage === 0);
+                    // Enable/disable Next button
+                    $('#next-btn').prop('disabled', currentPage === (totalPages - 1));
+
+                    // Update page buttons active style
+                    $('.page-btn').each(function(index) {
+                        if (index === currentPage) {
+                        $(this).addClass('bg-orange-600 text-white font-semibold').removeClass('hover:bg-orange-600 text-white');
+                        } else {
+                        $(this).removeClass('bg-orange-600 text-white font-semibold').addClass('hover:bg-orange-600 text-white');
+                        }
+                    });
+                }
+            });
+
+            // Page button clicks
+            $('.page-btn').on('click', function() {
+                var pageNum = parseInt($(this).text()) - 1; // convert to zero-based index
+                table.page(pageNum).draw('page');
+            });
+
+            // Previous button click
+            $('#prev-btn').on('click', function() {
+                table.page('previous').draw('page');
+            });
+
+            // Next button click
+            $('#next-btn').on('click', function() {
+                table.page('next').draw('page');
+            });
+            
+
+            // Custom search input
+            const customSearch = document.getElementById('dt-search-0');
+
+            customSearch.addEventListener('input', function () {    
+                table.search(this.value).draw();
+            });
+
+            // ✅ Custom page length selector
+            const customLength = document.getElementById('dt-length-0');
+            customLength.addEventListener('change', function () {
+            const val = parseInt(this.value);
+            if (!isNaN(val)) {
+                table.page.len(val).draw();
+            }
+            });
+
+            // ✅ Custom Info Updater
+            table.on('draw', function () {
+                const info = table.page.info();
+                document.getElementById('myTable_info').textContent =
+                `Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`;
+            });
+
+
+            
+        });
+    </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
