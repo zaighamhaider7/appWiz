@@ -8,6 +8,7 @@ use App\Http\Controllers\analyticsController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\LeadsController;
 use App\Http\Controllers\TaskManagmentController;
+use App\Http\Controllers\taskChatController;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home;
@@ -85,4 +86,19 @@ Route::delete('leads/{id}', [LeadsController::class, 'LeadsDelete'])->name('lead
 
 Route::get('/task_management',[TaskManagmentController::class,'TaskView'])->name('task.view');
 Route::post('/task_management',[TaskManagmentController::class,'TaskStore'])->name('task.store');
-// Route::post('/task_management',[TaskManagmentController::class,'TaskData'])->name('task.data');
+Route::post('task_management/update-task', [TaskManagmentController::class, 'singletaskUpdate'])->name('single.update');
+Route::post('/task_management/task_status',[TaskManagmentController::class, 'taskStatus_store'])->name('taskStatus.store');
+
+Route::delete('task_management/{id}', [TaskManagmentController::class, 'TaskDelete'])->name('task.delete');
+Route::post('task_management/update/{id}', [TaskManagmentController::class, 'taskUpdate'])->name('task.update');
+Route::get('/task_management/edit/{id}', [TaskManagmentController::class, 'taskEdit'])->name('task.edit');
+
+Route::post('/task_management/task_status',[TaskManagmentController::class, 'taskStatus_store'])->name('taskStatus.store');
+
+
+
+Route::post('/task_management/taskChats', [taskChatController::class, 'taskId'])->name('task.id');
+Route::post('/task/chat/upload-image', [TaskChatController::class, 'uploadImage'])->name('task.chat.upload_image');
+Route::post('/task_management/taskChatsStore', [taskChatController::class, 'taskChat'])->name('task.chat');
+Route::get('/task_management/getTaskChats/{taskId}', [TaskChatController::class, 'getTaskChats']);
+// Route::get('/task_management/chatsCount', [TaskChatController::class, 'chatsCount']);

@@ -1,5 +1,5 @@
 <?php
-    use App\Models\User;
+use App\Models\User;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +12,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="//cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css">
     <style>
         :root {
@@ -754,7 +756,7 @@
         .choices__list--dropdown {
             max-height: 180px;
             overflow-y: auto;
-            background-color:black !important;
+            background-color: black !important;
         }
 
         .choices__list--dropdown .choices__item--selectable {
@@ -762,45 +764,46 @@
             font-size: 14px;
             line-height: 1.2;
             background-color: black !important;
-            color: white !important; /* Optional: make text visible on dark background */
+            color: white !important;
+            /* Optional: make text visible on dark background */
         }
 
         .choices__list--dropdown .choices__item--selectable:hover {
-            background-color: #1a1a1a !important; /* Slightly lighter black or just black */
+            background-color: #1a1a1a !important;
+            /* Slightly lighter black or just black */
             color: white !important;
         }
 
         /* Optional: tighter spacing between options */
         .choices_list--dropdown .choices_item {
-        padding: 6px 10px;
-        font-size: 14px;
-        line-height: 1.2;
-        background-color:black !important;
+            padding: 6px 10px;
+            font-size: 14px;
+            line-height: 1.2;
+            background-color: black !important;
         }
 
         label {
-        display: block;
-        margin-bottom: 0.7rem;
+            display: block;
+            margin-bottom: 0.7rem;
         }
 
         /* === Main select wrapper === */
-        #mySelect + .choices {
-        background-color: black !important;
-        border: 1px solid black !important;
-        border-radius: 0.5rem;        
+        #mySelect+.choices {
+            background-color: black !important;
+            border: 1px solid black !important;
+            border-radius: 0.5rem;
         }
 
 
-        .choices__inner{
+        .choices__inner {
             height: 40px !important;
             min-height: 41px !important;
-            line-height: 41px !important;    
-            background-color: #3f3f3f !important; 
+            line-height: 41px !important;
+            background-color: #3f3f3f !important;
             display: flex;
-            align-items: center;   
-            border-color: #374151 !important; 
+            align-items: center;
+            border-color: #374151 !important;
         }
-
     </style>
 
 </head>
@@ -835,7 +838,8 @@
                             <div class="flex items-center space-x-3">
                                 <div class="relative">
                                     <input type="search" placeholder="Search here"
-                                            class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500 dt-input" id="dt-search-0"  aria-controls="myTable">
+                                        class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500 dt-input"
+                                        id="dt-search-0" aria-controls="myTable">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <svg class="icon text-gray-400" viewBox="0 0 24 24">
                                             <circle cx="11" cy="11" r="8"></circle>
@@ -846,17 +850,17 @@
                                 <div class="relative inline-block">
                                     <!-- Button -->
                                     <select aria-controls="myTable" id="dt-length-0" fdprocessedid="9gl4x"
-                                                class="dt-input w-20 px-3 py-2 rounded-md text-sm
+                                        class="dt-input w-20 px-3 py-2 rounded-md text-sm
                                                 bg-white text-gray-800 border border-gray-300
                                                 dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600
                                                 focus:outline-none focus:ring-2 focus:ring-orange-500">
-                                                <option value="Filter" selected hidden>Filter</option>
-                                                <option value="1">1</option>
-                                                <option value="25">25</option>
-                                                <option value="50">50</option>
-                                            </select>
+                                        <option value="Filter" selected hidden>Filter</option>
+                                        <option value="1">1</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                    </select>
 
-                     
+
                                 </div>
                                 <div>
                                     <button
@@ -917,9 +921,9 @@
                                             <div class="flex items-center justify-between">
                                                 <span class="whitespace-nowrap">PHONE #</span>
                                                 <div class="flex flex-col ml-10">
-                                                    <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24"
-                                                        fill="none" stroke="currentColor" stroke-width="1.5"
-                                                        stroke-linecap="round" stroke-linejoin="round">
+                                                    <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                        stroke-linejoin="round">
                                                         <!-- Up chevron (positioned higher) -->
                                                         <path d="M7 8 L12 3 L17 8" />
                                                         <!-- Down chevron (positioned lower with gap) -->
@@ -980,25 +984,25 @@
                                                         <div
                                                             class="text-sm flex items-center gap-2 font-medium light-text-gray-900">
                                                             <img src="Avatar.svg" alt="">
-                                                            <p class="light-text-black">{{ $client->name }}</p>
+                                                            <p class="light-text-black">{{ $client->name ?? 'N/A' }}</p>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                    {{ $client->email }}</td>
+                                                    {{ $client->email ?? "N/A"}}</td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                    {{ $client->phone }}
+                                                    {{ $client->phone ?? "N/A" }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                    {{ $client->business_name }}
+                                                    {{ $client->business_name ?? "N/A" }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                    {{ $client->country }}</td>
+                                                    {{ $client->country ?? "N/A" }}</td>
 
                                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                     <button
                                                         class="light-text-orange-500 light-hover-text-orange-700 toggle-btn"
-                                                        data-target="expand-0{{ $loop->iteration }}" >
+                                                        data-target="expand-0{{ $loop->iteration }}">
                                                         <img class="icon w-full h-full"
                                                             src="{{ asset('assets/Frame 2147224370.svg') }}" />
                                                     </button>
@@ -1076,7 +1080,7 @@
                                                         @endif
 
                                                         <!-- Lead Source -->
-                                                        <div class="text-gray-400 text-sm">{{ $client->leads }}</div>
+                                                        <div class="text-gray-400 text-sm">{{ $client->leads ?? "N/A" }}</div>
 
                                                         <!-- Current Project -->
 
@@ -1091,7 +1095,7 @@
 
 
                                                         <!-- Membership Tags -->
-                                                        <div class="text-gray-400 text-sm">{{ $client->membership }}
+                                                        <div class="text-gray-400 text-sm">{{ $client->membership ?? "N/A" }}
                                                         </div>
                                                         {{-- <div class="flex flex-wrap gap-1">
                                                     <span
@@ -1104,7 +1108,7 @@
 
                                                         <!-- Action Buttons -->
                                                         <div class="flex items-center justify-end gap-2">
-                                                            
+
 
                                                             <form action="{{ route('clients.details', $client->id) }}"
                                                                 method="POST"
@@ -1112,9 +1116,9 @@
                                                                 @csrf
                                                                 @method('POST')
                                                                 <button type="submit" class=" rounded-full ">
-                                                                   <img src="{{ asset('assets/eye-DARK.svg') }}"
-                                                                    alt="View"
-                                                                    class="w-6 h-6 switchRight rounded-full p-1 bg-gray-500" />
+                                                                    <img src="{{ asset('assets/eye-DARK.svg') }}"
+                                                                        alt="View"
+                                                                        class="w-6 h-6 switchRight rounded-full p-1 bg-gray-500" />
                                                                 </button>
                                                             </form>
 
@@ -1152,17 +1156,25 @@
                         <div
                             class="flex items-center justify-between mt-4 text-sm p-6 light-text-gray-600 flex-wrap gap-2">
                             <div>
-                                <span class="dt-info" aria-live="polite" id="myTable_info" role="status" bis_skin_checked="1">Showing 1 to 2 of 2 entries</span>
-        
+                                <span class="dt-info" aria-live="polite" id="myTable_info" role="status"
+                                    bis_skin_checked="1">Showing 1 to 2 of 2 entries</span>
+
                             </div>
                             <div id="custom-pagination" class="flex space-x-2 mt-4">
-                                    <button id="prev-btn" class="px-4 py-2 rounded-md border border-gray-300 text-white hover:bg-orange-600  transition-colors">Previous</button>
-                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">1</button>
-                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">2</button>
-                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">3</button>
-                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">4</button>
-                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">5</button>
-                                    <button id="next-btn" class="px-4 py-2 rounded-md border border-gray-300 text-white hover:bg-orange-600  transition-colors">Next</button>
+                                <button id="prev-btn"
+                                    class="px-4 py-2 rounded-md border border-gray-300 text-white hover:bg-orange-600  transition-colors">Previous</button>
+                                <button
+                                    class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">1</button>
+                                <button
+                                    class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">2</button>
+                                <button
+                                    class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">3</button>
+                                <button
+                                    class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">4</button>
+                                <button
+                                    class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">5</button>
+                                <button id="next-btn"
+                                    class="px-4 py-2 rounded-md border border-gray-300 text-white hover:bg-orange-600  transition-colors">Next</button>
                             </div>
                         </div>
                     </div>
@@ -1173,14 +1185,15 @@
                 <!-- Right Section -->
                 <div id="rightSection" class="z-10 relative  {{ isset($singleClientData) ? '' : 'hidden' }}">
                     <div class="flex gap-2 text-xs mb-10">
-                        <a class="underline" href="{{route('clients')}}">
+                        <a class="underline" href="{{ route('clients') }}">
                             <div id="backToLeft" class="backLeft" style="cursor: pointer">
-                                <span style="font-size: 20px !important"><i class="fa-solid  fa-angles-left" ></i>Back</span>
+                                <span style="font-size: 20px !important"><i
+                                        class="fa-solid  fa-angles-left"></i>Back</span>
                             </div>
                         </a>
                     </div>
                     <div class="flex gap-2 text-xs mt-10 mb-10">
-   
+
                     </div>
 
                     <div class="flex gap-6">
@@ -1189,11 +1202,12 @@
                             <div class="flex flex-col  mt-5 pb-4 items-center border-b light-border-black">
                                 @if ($singleClientData)
                                     <img class="pb-4 rounded" height="150" width="150"
-                                     src="{{ asset($singleClientData->image) }}" />
+                                        src="{{ asset($singleClientData->image) }}" />
                                 @else
-                                    <img height="150" width="150" src="{{ asset('assets/AvatarTeam.png') }}" class="pb-4 rounded" alt="">
+                                    <img height="150" width="150" src="{{ asset('assets/AvatarTeam.png') }}"
+                                        class="pb-4 rounded" alt="">
                                 @endif
-                                
+
                                 @if ($singleClientData)
                                     <h3 class="text-2xl">{{ $singleClientData->name }}</h3>
                                 @else
@@ -1205,7 +1219,7 @@
                                         <div><img class="w-10 h-10" src="{{ asset('assets/client-tick.svg') }}" />
                                         </div>
                                         <div>
-                                            <p class="text-sm">{{$totalProjectPrice}}</p>
+                                            <p class="text-sm">{{ $totalProjectPrice }}</p>
                                             <p class="text-gray-400 text-xs">Dollar Paid</p>
                                         </div>
                                     </div>
@@ -1215,7 +1229,7 @@
                                             <img class="w-10 h-10" src="{{ asset('assets/client-breif.svg') }}" />
                                         </div>
                                         <div>
-                                            <p class="text-sm">{{$totalProjects}}</p>
+                                            <p class="text-sm">{{ $totalProjects }}</p>
                                             <p class="text-gray-400 text-xs">Projects Done</p>
                                         </div>
                                     </div>
@@ -1232,12 +1246,12 @@
                                         {{ $singleClientData->name }}
                                     @endif
                                 </div>
-                                <div class="text-md gap-2 text-white"><span
-                                        class="text-md light-client">Email: </span>
+                                <div class="text-md gap-2 text-white"><span class="text-md light-client">Email:
+                                    </span>
                                     @if ($singleClientData)
                                         {{ $singleClientData->email }}
                                     @endif
-                                    </div>
+                                </div>
                                 <div class="text-md gap-2 text-white"><span class="text-md light-client">Phone Number:
                                     </span>
                                     @if ($singleClientData)
@@ -1247,14 +1261,14 @@
                                 <div class="text-md flex items-center gap-2 text-white "><span
                                         class="text-md light-client">Status: </span>
                                     @if ($singleClientData)
-                                       @if( $singleClientData->status === 'Active')
-                                          <div class="bg-green-900/50 py-1 px-4 rounded-full">
-                                            <p class="text-green-500">{{ $singleClientData->status }}</p>
-                                        </div>
+                                        @if ($singleClientData->status === 'Active')
+                                            <div class="bg-green-900/50 py-1 px-4 rounded-full">
+                                                <p class="text-green-500">{{ $singleClientData->status }}</p>
+                                            </div>
                                         @else
-                                        <div class="bg-red-900/50 py-1 px-4 rounded-full">
-                                            <p class="text-red-500">{{ $singleClientData->status }}</p>
-                                        </div>
+                                            <div class="bg-red-900/50 py-1 px-4 rounded-full">
+                                                <p class="text-red-500">{{ $singleClientData->status }}</p>
+                                            </div>
                                         @endif
                                     @endif
 
@@ -1263,13 +1277,13 @@
                                     </span>
                                     @if ($singleClientData)
                                         {{ $singleClientData->country }}
-                                    @endif   
+                                    @endif
                                 </div>
-                                <div class="text-md gap-2 text-white mb-4"><span
-                                        class="text-md light-client">City: </span>
+                                <div class="text-md gap-2 text-white mb-4"><span class="text-md light-client">City:
+                                    </span>
                                     @if ($singleClientData)
                                         {{ $singleClientData->city }}
-                                    @endif    
+                                    @endif
                                 </div>
 
                             </div>
@@ -1283,7 +1297,7 @@
                         </div>
 
                         <!-- Second Column (60%) -->
-                        <div class="w-[65%] h-[680px] overflow-x-auto rounded-md">
+                        <div class="w-[65%] h-[680px] overflow-x-auto rounded-md" >
 
                             <div class="light-bg-f5f5f5 light-bg-seo  rounded-xl shadow-sm">
                                 <!-- Bottom Cards: Need Help & Free Consulting -->
@@ -1296,27 +1310,31 @@
 
                                             <div class="relative border-l border-gray-700 ml-3">
 
-                                                @if(!empty($activity_logs) && count($activity_logs) > 0)
-                                                    @forEach($activity_logs as $log)
+                                                @if (!empty($activity_logs) && count($activity_logs) > 0)
+                                                    @foreach ($activity_logs as $log)
                                                         <div class="mb-8 relative pl-6">
                                                             <span
                                                                 class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
                                                             <div>
-                                                                <p class="font-medium">{{$log->action}}</p>
-                                                                <p class="text-gray-400 text-sm">{{$log->description}}
+                                                                <p class="font-medium">{{ $log->action }}</p>
+                                                                <p class="text-gray-400 text-sm">
+                                                                    {{ $log->description }}
                                                                 </p>
-                                                                <span class="absolute right-0 top-0 text-gray-400 text-sm">{{ $log->created_at->diffForHumans() }}</span>
+                                                                <span
+                                                                    class="absolute right-0 top-0 text-gray-400 text-sm">{{ $log->created_at->diffForHumans() }}</span>
                                                             </div>
                                                         </div>
-                                                    @endforEach 
-                                                @else                                              <div class="mb-8 relative pl-6">
-                                                      <span
-                                                                class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
+                                                    @endforEach
+                                                @else
+                                                    <div class="mb-8 relative pl-6">
+                                                        <span
+                                                            class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
                                                         <div>
-                                                             <p class="text-gray-400 text-sm">No activity logs found.</p>
+                                                            <p class="text-gray-400 text-sm">No activity logs found.
+                                                            </p>
                                                         </div>
                                                     </div>
-                                                @endif                         
+                                                @endif
 
                                             </div>
                                         </div>
@@ -1442,16 +1460,18 @@
 
                                 <tbody class="light-bg-white divide-y divide-gray-200">
 
-                                    @if(!empty($clientProjects) && count($clientProjects) > 0)
-                                        @foreach($clientProjects as $project)
+                                    @if (!empty($clientProjects) && count($clientProjects) > 0)
+                                        @foreach ($clientProjects as $project)
                                             <tr>
                                                 <!-- PROJECTS -->
                                                 <td class="px-6 py-4 text-sm light-text-gray-900 min-w-[180px]">
                                                     <div class="flex items-center gap-2">
-                                                        <img class="w-8 h-8 rounded-full" src="Avatar.svg" alt="">
+                                                        <img class="w-8 h-8 rounded-full" src="Avatar.svg"
+                                                            alt="">
                                                         <div>
-                                                            <p class="text-md">{{$project->project_name}}</p>
-                                                            <p class="text-xs text-gray-400">{{$project->created_at->format('d-m-Y')}}</p>
+                                                            <p class="text-md">{{ $project->project_name ?? "N/A" }}</p>
+                                                            <p class="text-xs text-gray-400">
+                                                                {{ $project->created_at->format('d-m-Y') ?? "N/A" }}</p>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -1465,20 +1485,21 @@
                                                             class="light-bg-d7d7d7 text-gray-400 px-2 py-1 rounded-md text-xs">Hosting</span>
                                                         <span
                                                             class="light-bg-d7d7d7 text-gray-400 px-2 py-1 rounded-md text-xs">+3</span> --}}
-                                                        {{ $project->membership }}
+                                                        {{ $project->membership ?? "N/A" }}
                                                     </div>
                                                 </td>
 
                                                 <!-- PRICE -->
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm">{{ $project->price }}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm">{{ $project->price ?? "N/A" }}
+                                                </td>
 
                                                 <!-- ASSIGNED TO -->
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm">
                                                     <div class="flex items-center -space-x-2">
-                                                        @foreach($assignedUsers as $assignment)
-                                                            @if($assignment->project_id === $project->id)
+                                                        @foreach ($assignedUsers as $assignment)
+                                                            @if ($assignment->project_id === $project->id)
                                                                 <img class="w-10 h-10 rounded-full border-2 border-black"
-                                                                    src="{{ asset($assignment->user->image) }}"
+                                                                    src="{{ asset($assignment->user->image) ?? asset('assets/default-prf.png') }}"
                                                                     alt="{{ $assignment->user->name }}">
                                                             @endif
                                                         @endforeach
@@ -1494,8 +1515,10 @@
                                                 <!-- PROGRESS -->
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     <div class="w-full flex justify-between items-center">
-                                                        <div class="bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 w-full">
-                                                            <div class="bg-orange-500 h-2.5 rounded-full" style="width: 78%;">
+                                                        <div
+                                                            class="bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 w-full">
+                                                            <div class="bg-orange-500 h-2.5 rounded-full"
+                                                                style="width: 78%;">
                                                             </div>
                                                         </div>
                                                         <div class="text-xs mt-1">78%</div>
@@ -1505,11 +1528,13 @@
                                                 <!-- ACTION -->
                                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                     <div class="flex justify-end gap-2">
-                                                        <button class="bg-gray-200 p-1 rounded-full hover:text-orange-700">
-                                                            <img src="{{ asset('assets/eye-DARK.svg') }}" alt="View"
-                                                                class="w-5 h-5">
+                                                        <button
+                                                            class="bg-gray-200 p-1 rounded-full hover:text-orange-700">
+                                                            <img src="{{ asset('assets/eye-DARK.svg') }}"
+                                                                alt="View" class="w-5 h-5">
                                                         </button>
-                                                        <button class="bg-gray-200 p-1 rounded-full hover:text-orange-700">
+                                                        <button
+                                                            class="bg-gray-200 p-1 rounded-full hover:text-orange-700">
                                                             <img src="{{ asset('assets/Frame 2147224372.svg') }}"
                                                                 alt="Edit" class="w-5 h-5">
                                                         </button>
@@ -1519,10 +1544,11 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="6" class="px-6 py-4 text-left text-sm light-text-gray-900">
+                                            <td colspan="6"
+                                                class="px-6 py-4 text-left text-sm light-text-gray-900">
                                                 No projects found for this client.
                                             </td>
-                                        </tr> 
+                                        </tr>
                                     @endif
 
                                 </tbody>
@@ -1664,7 +1690,8 @@
                         <div>
                             <label class="block text-sm light-text-black" style="margin-bottom:5px">Country</label>
 
-                            <select id="mySelect" name="country"  class=" w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                            <select id="mySelect" name="country"
+                                class=" w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value=""selected hidden style="color: #fff">Choose Country</option>
                             </select>
                         </div>
@@ -1697,7 +1724,8 @@
                                 </option>
                                 <option value="Active" {{ old('status') == 'Active' ? 'selected' : '' }}>Active
                                 </option>
-                                <option value="In Active" {{ old('status') == 'In Active' ? 'selected' : '' }}>In Active
+                                <option value="In Active" {{ old('status') == 'In Active' ? 'selected' : '' }}>In
+                                    Active
                                 </option>
                             </select>
                         </div>
@@ -1817,14 +1845,16 @@
         </script>
     @endif
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
-  {{-- <script src="//cdn.datatables.net/2.3.4/js/dataTables.min.js"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    {{-- <script src="//cdn.datatables.net/2.3.4/js/dataTables.min.js"></script> --}}
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // Initialize DataTable
-            const table = new DataTable('#myTable',{
+            const table = new DataTable('#myTable', {
                 dom: 't',
                 ordering: false,
                 pageLength: 1,
@@ -1842,9 +1872,11 @@
                     // Update page buttons active style
                     $('.page-btn').each(function(index) {
                         if (index === currentPage) {
-                        $(this).addClass('bg-orange-600 text-white font-semibold').removeClass('hover:bg-orange-600 text-white');
+                            $(this).addClass('bg-orange-600 text-white font-semibold')
+                                .removeClass('hover:bg-orange-600 text-white');
                         } else {
-                        $(this).removeClass('bg-orange-600 text-white font-semibold').addClass('hover:bg-orange-600 text-white');
+                            $(this).removeClass('bg-orange-600 text-white font-semibold')
+                                .addClass('hover:bg-orange-600 text-white');
                         }
                     });
                 }
@@ -1865,33 +1897,33 @@
             $('#next-btn').on('click', function() {
                 table.page('next').draw('page');
             });
-            
+
 
             // Custom search input
             const customSearch = document.getElementById('dt-search-0');
 
-            customSearch.addEventListener('input', function () {    
+            customSearch.addEventListener('input', function() {
                 table.search(this.value).draw();
             });
 
             // ✅ Custom page length selector
             const customLength = document.getElementById('dt-length-0');
-            customLength.addEventListener('change', function () {
-            const val = parseInt(this.value);
-            if (!isNaN(val)) {
-                table.page.len(val).draw();
-            }
+            customLength.addEventListener('change', function() {
+                const val = parseInt(this.value);
+                if (!isNaN(val)) {
+                    table.page.len(val).draw();
+                }
             });
 
             // ✅ Custom Info Updater
-            table.on('draw', function () {
+            table.on('draw', function() {
                 const info = table.page.info();
                 document.getElementById('myTable_info').textContent =
-                `Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`;
+                    `Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`;
             });
 
 
-            
+
         });
     </script>
 
@@ -1902,30 +1934,30 @@
 
             // Fetch country data first
             fetch('https://restcountries.com/v3.1/all?fields=name')
-            .then(res => res.json())
-            .then(data => {
-                // Sort alphabetically
-                data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+                .then(res => res.json())
+                .then(data => {
+                    // Sort alphabetically
+                    data.sort((a, b) => a.name.common.localeCompare(b.name.common));
 
-                // Add each country as an option
-                data.forEach(country => {
-                const option = document.createElement('option');
-                option.value = country.name.common;
-                option.textContent = country.name.common;
-                select.appendChild(option);
+                    // Add each country as an option
+                    data.forEach(country => {
+                        const option = document.createElement('option');
+                        option.value = country.name.common;
+                        option.textContent = country.name.common;
+                        select.appendChild(option);
+                    });
+
+                    // THEN initialize Choices.js after options are in place
+                    new Choices(select, {
+                        searchEnabled: true,
+                        itemSelectText: '',
+                        shouldSort: false,
+                    });
+                })
+                .catch(err => {
+                    console.error('Error fetching countries:', err);
                 });
 
-                // THEN initialize Choices.js after options are in place
-                new Choices(select, {
-                searchEnabled: true,
-                itemSelectText: '',
-                shouldSort: false,
-                });
-            })
-            .catch(err => {
-                console.error('Error fetching countries:', err);
-            });
-            
 
             setTimeout(function() {
                 const messages = document.querySelectorAll('.success-message');
@@ -2459,7 +2491,7 @@
 
 
 
-    {{-- <div id="projectModal"
+{{-- <div id="projectModal"
         class="fixed inset-0 bg-black light-bg-000000 bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="light-bg-white  rounded-xl  w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-xl">
 

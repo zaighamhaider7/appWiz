@@ -7,10 +7,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>WIZSPEED Dashboard</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- Quill CSS -->
+    <link
+      href="https://cdn.quilljs.com/1.3.7/quill.snow.css"
+      rel="stylesheet"
+    />
+    <!-- Emoji Plugin -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/quill-emoji@0.2.0/dist/quill-emoji.css"
+      rel="stylesheet"
+    />
     <style>
         :root {
             --btn-bg: #EA580C;
@@ -751,13 +765,18 @@
         .openTicketChatModal {
             cursor: pointer;
         }
+
+        .ql-snow .ql-editor.ql-blank::before {
+            color: #616060; /* orange placeholder */
+            font-style: italic;
+        }
     </style>
 
 </head>
 
 <body>
 
-    @include('layouts.loader')
+    {{-- @include('layouts.loader') --}}
 
     <div class="flex min-h-screen light-bg-white">
         <!-- Sidebar -->
@@ -782,7 +801,7 @@
 
                 <!-- Connect Domain Section -->
 
-                <section class=" main-section show">
+                <section class=" main-section ">
                     <div class="flex justify-between ">
                         <div>
                             <h1 class="text-3xl font-bold light-text-gray-800 mb-10">Task Management</h1>
@@ -822,8 +841,8 @@
                             </select>
 
                             <!-- Add Button -->
-                            <button
-                                class="px-4 py-2 rounded-lg light-bg-d7d7d7 text-white font-semibold hover:bg-orange-700 transition-colors openTicketModal">
+                            <button id="add-task-status"
+                                class="px-4 py-2 rounded-lg light-bg-d7d7d7 text-white font-semibold hover:bg-orange-700 transition-colors ">
                                 Add New Status </button>
                         </div>
                     </div>
@@ -833,298 +852,67 @@
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
-                        <!-- User's Projects List Table -->
-                        <div>
-                            <div class="flex justify-between items-center mb-10">
-                                <h3>To Do</h3>
-                                <div class="dropdown-wrapper" style="position: relative; display: inline-block;">
-                                    <img src="{{ asset('assets/dots-vertical.svg') }}" class="dots-toggle"
-                                        style="cursor: pointer; width: 24px;" />
-                                    <div class="custom-dropdown"
-                                        style="display: none; position:absolute; width: 120px; right: 35; background: #282828;  border-radius: 4px;">
-                                        <div class="openPaymentModal dropdown-option"
-                                            style="padding: 8px; cursor: pointer;">New Page</div>
-                                        <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Edit</div>
-                                        <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Delete</div>
+                        @foreach($statuses as $status)
+                            <div>
+                                <!-- Column Header -->
+                                <div class="flex justify-between items-center mb-10">
+                                    <h3>{{ $status }}</h3>
+                                    <div class="dropdown-wrapper" style="position: relative; display: inline-block;">
+                                        <img src="{{ asset('assets/dots-vertical.svg') }}" class="dots-toggle" style="cursor: pointer; width: 24px;" />
+                                        <div class="custom-dropdown" style="display: none; position:absolute; width: 120px; right: 35px; background: #282828; border-radius: 4px;">
+                                            <div class="openPaymentModal dropdown-option" style="padding: 8px; cursor: pointer;">New Page</div>
+                                            <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Edit</div>
+                                            <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Delete</div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="light-bg-d9d9d9 h-32 rounded-md mb-7">
-                                <div class="flex items-center p-3 justify-between">
-                                    <div class="bg-green-900 py-1 px-3 bg-opacity-30 rounded-full">
-                                        <p class="text-green-400 text-sm">UX</p>
-                                    </div>
-                                    <div class="">
-                                        <div class="dropdown-wrapper"
-                                            style="position: relative; display: inline-block;">
-                                            <img src="{{asset('assets/dots-vertical.svg')}}" class="dots-toggle"
-                                                style="cursor: pointer; width: 24px;" />
-                                            <div class="custom-dropdown"
-                                                style="display: none; position: absolute; width: 120px; right: 35; background: #282828; border-radius: 4px;">
-                                                <div class="dropdown-option" style="padding: 8px; cursor: pointer;">
-                                                    Edit</div>
-                                                <div class="dropdown-option" style="padding: 8px; cursor: pointer;">
-                                                    Delete</div>
+                                <!-- Tasks for this status -->
+                                @forelse($tasksByStatus[$status] as $task)
+                                    <div class="light-bg-d9d9d9 h-32 rounded-md mb-7">
+                                        <div class="flex items-center p-3 justify-between">
+                                            <div class="bg-green-900 py-1 px-3 bg-opacity-30 rounded-full">
+                                                <p class="text-green-400 text-sm">{{ $task->task_category ?? 'N/A' }}</p>
+                                            </div>
+                                            <div class="dropdown-wrapper" style="position: relative; display: inline-block;">
+                                                <img src="{{ asset('assets/dots-vertical.svg') }}" class="dots-toggle" style="cursor: pointer; width: 24px;" />
+                                                <div class="custom-dropdown" style="display: none; position: absolute; width: 120px; right: 30px; background: #282828; border-radius: 4px;">
+                                                    <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Edit</div>
+                                                    <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Delete</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="px-3">
+                                            <p class="text-sm text-gray-400">{{ $task->task_name ?? 'N/A' }}</p>
+                                        </div>
+
+                                        <div class="flex items-center p-3 justify-between">
+                                            <div class="flex openTicketChatModal gap-1 items-center text-sm text-gray-300">
+                                                <img class="task-comment" src="{{ asset('assets/message-dots.svg') }}" data-task-id="{{$task->id}}"> {{ $taskCommentsCount[$task->id] ?? 0 }}
+                                            </div>
+                                            <div class="flex items-center -space-x-2">
+                                                <img src="{{ $task->assignedUser->image ?? asset('assets/default-prf.png') }}" 
+                                                    alt="{{ $task->assignedUser->name }}" 
+                                                    class="w-8 h-8 rounded-full border-2 border-black">
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="px-3">
-                                    <p class="text-sm text-gray-400">Research FAQ page UX</p>
-                                </div>
-                                <div class="flex items-center p-3 justify-between">
-                                    <div class="flex openTicketChatModal gap-1 items-center text-sm text-gray-300"><img
-                                            src="{{asset('assets/message-dots.svg')}}">12</div>
-                                    <div><img src="{{asset('assets/Avatar (4).svg')}}" alt=""></div>
-                                </div>
-                            </div>
+                                @empty
+                                    <div class="light-bg-d9d9d9 h-32 rounded-md mb-7 flex items-center justify-center">
+                                        <p class="text-gray-400 text-sm ">No tasks available</p>
+                                    </div>
+                                @endforelse
 
-                            <div class="light-bg-d9d9d9 h-32 rounded-md">
-                                <div class="flex items-center p-3 justify-between">
-                                    <div class="bg-red-900 py-1 px-3 bg-opacity-30 rounded-full">
-                                        <p class="text-red-400 text-sm">Code Review</p>
-                                    </div>
-                                    <div class="">
-                                        <div class="dropdown-wrapper"
-                                            style="position: relative; display: inline-block;">
-                                            <img src="{{asset('assets/dots-vertical.svg')}}" class="dots-toggle"
-                                                style="cursor: pointer; width: 24px;" />
-                                            <div class="custom-dropdown"
-                                                style="display: none; position: absolute; width: 120px; right: 35; background: #282828; border-radius: 4px;">
-                                                <div class="dropdown-option" style="padding: 8px; cursor: pointer;">
-                                                    Edit</div>
-                                                <div class="dropdown-option" style="padding: 8px; cursor: pointer;">
-                                                    Delete</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="px-3">
-                                    <p class="text-sm text-gray-400">Review Javascript code</p>
-                                </div>
-                                <div class="flex items-center p-3 justify-between">
-                                    <div class="openTicketChatModal flex gap-1 items-center text-sm text-gray-300"><img
-                                            src="{{asset('assets/message-dots.svg')}}">12</div>
-                                    <div><img src="{{asset('assets/Avatar (4).svg')}}" alt=""></div>
+                                <div class="p-3">
+                                    <p class="openPaymentModal text-sm text-gray-400 cursor-pointer">+ Add New Page</p>
                                 </div>
                             </div>
-
-                            <div class="p-3">
-                                <p class="openPaymentModal text-sm text-gray-400">+ Add New Page</p>
-                            </div>
-
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between items-center mb-10">
-                                <h3>In Progress</h3>
-                                <div class="dropdown-wrapper" style="position: relative; display: inline-block;">
-                                    <img src="{{asset('assets/dots-vertical.svg')}}" class="dots-toggle"
-                                        style="cursor: pointer; width: 24px;" />
-                                    <div class="custom-dropdown"
-                                        style="display: none; position:absolute; width: 120px; right: 35; background: #282828;  border-radius: 4px;">
-                                        <div class="openPaymentModal dropdown-option"
-                                            style="padding: 8px; cursor: pointer;">New Page</div>
-                                        <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Edit</div>
-                                        <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Delete
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="light-bg-d9d9d9 h-32 rounded-md mb-7">
-                                <div class="flex items-center p-3 justify-between">
-                                    <div class="bg-cyan-900 py-1 px-3 bg-opacity-30 rounded-full">
-                                        <p class="text-cyan-400 text-sm">Dashboard</p>
-                                    </div>
-                                    <div class="">
-                                        <div class="dropdown-wrapper"
-                                            style="position: relative; display: inline-block;">
-                                            <img src="{{asset('assets/dots-vertical.svg')}}" class="dots-toggle"
-                                                style="cursor: pointer; width: 24px;" />
-                                            <div class="custom-dropdown"
-                                                style="display: none; position: absolute; width: 120px; right: 35; background: #282828; border-radius: 4px;">
-                                                <div class="dropdown-option" style="padding: 8px; cursor: pointer;">
-                                                    Edit</div>
-                                                <div class="dropdown-option" style="padding: 8px; cursor: pointer;">
-                                                    Delete</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="px-3">
-                                    <p class="text-sm text-gray-400">Review completed Apps</p>
-                                </div>
-                                <div class="flex items-center p-3 justify-between">
-                                    <div class="openTicketChatModal flex gap-1 items-center text-sm text-gray-300"><img
-                                            src="{{asset('assets/message-dots.svg')}}">12</div>
-                                    <div><img src="{{asset('assets/Avatar (4).svg')}}" alt=""></div>
-                                </div>
-                            </div>
-                            <div class="light-bg-d9d9d9 h-32 rounded-md">
-                                <div class="flex items-center p-3 justify-between">
-                                    <div class="bg-yellow-900 py-1 px-3 bg-opacity-30 rounded-full">
-                                        <p class="text-yellow-500 text-sm">Image</p>
-                                    </div>
-                                    <div class="">
-                                        <div class="dropdown-wrapper"
-                                            style="position: relative; display: inline-block;">
-                                            <img src="{{asset('assets/dots-vertical.svg')}}" class="dots-toggle"
-                                                style="cursor: pointer; width: 24px;" />
-                                            <div class="custom-dropdown"
-                                                style="display: none; position: absolute; width: 120px; right: 35; background: #282828; border-radius: 4px;">
-                                                <div class="dropdown-option" style="padding: 8px; cursor: pointer;">
-                                                    Edit</div>
-                                                <div class="dropdown-option" style="padding: 8px; cursor: pointer;">
-                                                    Delete</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="px-3">
-                                    <p class="text-sm text-gray-400">Research FAQ page UX</p>
-                                </div>
-                                <div class="flex items-center p-3 justify-between">
-                                    <div class="openTicketChatModal flex gap-1 items-center text-sm text-gray-300"><img
-                                            src="{{asset('assets/message-dots.svg')}}">12</div>
-                                    <div><img src="{{asset('assets/Avatar (4).svg')}}" alt=""></div>
-                                </div>
-                            </div>
-                            <div class="p-3">
-                                <p class="openPaymentModal text-sm text-gray-400">+ Add New Page</p>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between items-center mb-10">
-                                <h3>In Review</h3>
-                                <div class="dropdown-wrapper" style="position: relative; display: inline-block;">
-                                    <img src="{{asset('assets/dots-vertical.svg')}}" class="dots-toggle"
-                                        style="cursor: pointer; width: 24px;" />
-                                    <div class="custom-dropdown"
-                                        style="display: none; position:absolute; width: 120px; right: 35; background: #282828;  border-radius: 4px;">
-                                        <div class="openPaymentModal dropdown-option"
-                                            style="padding: 8px; cursor: pointer;">New Page</div>
-                                        <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Edit</div>
-                                        <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Delete
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="light-bg-d9d9d9 h-32 rounded-md mb-7">
-                                <div class="flex items-center p-3 justify-between">
-                                    <div class="bg-gray-400 py-1 px-3 bg-opacity-10 rounded-full">
-                                        <p class="text-gray-400 text-sm">App</p>
-                                    </div>
-                                    <div class="">
-                                        <div class="dropdown-wrapper"
-                                            style="position: relative; display: inline-block;">
-                                            <img src="{{asset('assets/dots-vertical.svg')}}" class="dots-toggle"
-                                                style="cursor: pointer; width: 24px;" />
-                                            <div class="custom-dropdown"
-                                                style="display: none; position: absolute; width: 120px; right: 35; background: #282828; border-radius: 4px;">
-                                                <div class="dropdown-option" style="padding: 8px; cursor: pointer;">
-                                                    Edit</div>
-                                                <div class="dropdown-option" style="padding: 8px; cursor: pointer;">
-                                                    Delete</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="px-3">
-                                    <p class="text-sm text-gray-400">Forms & tables section</p>
-                                </div>
-                                <div class="flex items-center p-3 justify-between">
-                                    <div class="openTicketChatModal flex gap-1 items-center text-sm text-gray-300"><img
-                                            src="{{asset('assets/message-dots.svg')}}">12</div>
-                                    <div><img src="{{asset('assets/Avatar (4).svg')}}" alt=""></div>
-                                </div>
-                            </div>
-                            <div class="light-bg-d9d9d9 h-32 rounded-md">
-                                <div class="flex items-center p-3 justify-between">
-                                    <div class="bg-violet-900 py-1 px-3 bg-opacity-30 rounded-full">
-                                        <p class="text-violet-400 text-sm">Charts & Map</p>
-                                    </div>
-                                    <div class="">
-                                        <div class="dropdown-wrapper"
-                                            style="position: relative; display: inline-block;">
-                                            <img src="{{asset('assets/dots-vertical.svg')}}" class="dots-toggle"
-                                                style="cursor: pointer; width: 24px;" />
-                                            <div class="custom-dropdown"
-                                                style="display: none; position: absolute; width: 120px; right: 35; background: #282828; border-radius: 4px;">
-                                                <div class="dropdown-option" style="padding: 8px; cursor: pointer;">
-                                                    Edit</div>
-                                                <div class="dropdown-option" style="padding: 8px; cursor: pointer;">
-                                                    Delete</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="px-3">
-                                    <p class="text-sm text-gray-400">Completed charts & maps</p>
-                                </div>
-                                <div class="flex items-center p-3 justify-between">
-                                    <div class="openTicketChatModal flex gap-1 items-center text-sm text-gray-300"><img
-                                            src="{{asset('assets/message-dots.svg')}}">12</div>
-                                    <div><img src="{{ asset('assets/Avatar (4).svg') }}" alt=""></div>
-                                </div>
-                            </div>
-                            <div class="p-3">
-                                <p class="openPaymentModal text-sm text-gray-400">+ Add New Page</p>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between items-center mb-10">
-                                <h3>Done</h3>
-                                <div class="dropdown-wrapper" style="position: relative; display: inline-block;">
-                                    <img src="{{ asset('assets/dots-vertical.svg') }}" class="dots-toggle"
-                                        style="cursor: pointer; width: 24px;" />
-                                    <div class="custom-dropdown"
-                                        style="display: none; position:absolute; width: 120px; right: 0; background: #282828;  border-radius: 4px;">
-                                        <div class="openPaymentModal dropdown-option"
-                                            style="padding: 8px; cursor: pointer;">New Page</div>
-                                        <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Edit</div>
-                                        <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Delete
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="light-bg-d9d9d9 h-32 rounded-md">
-                                <div class="flex items-center p-3 justify-between">
-                                    <div class="bg-green-900 py-1 px-3 bg-opacity-30 rounded-full">
-                                        <p class="text-green-500 text-sm">IOS App</p>
-                                    </div>
-                                    <div class="">
-                                        <div class="dropdown-wrapper"
-                                            style="position: relative; display: inline-block;">
-                                            <img src="{{asset('assets/dots-vertical.svg')}}" class="dots-toggle"
-                                                style="cursor: pointer; width: 24px;" />
-                                            <div class="custom-dropdown"
-                                                style="display: none; position: absolute; width: 120px; right: 0; background: #282828; border-radius: 4px;">
-                                                <div class="dropdown-option" style="padding: 8px; cursor: pointer;">
-                                                    Edit</div>
-                                                <div class="dropdown-option" style="padding: 8px; cursor: pointer;">
-                                                    Delete</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="px-3">
-                                    <p class="text-sm text-gray-400">Food delivery ios app</p>
-                                </div>
-                                <div class="flex items-center p-3 justify-between">
-                                    <div class="openTicketChatModal flex gap-1 items-center text-sm text-gray-300"><img
-                                            src="{{asset('assets/message-dots.svg')}}">12</div>
-                                    <div><img src="{{asset('assets/Avatar (4).svg')}}" alt=""></div>
-                                </div>
-                            </div>
-                            <div class="p-3">
-                                <p class="openPaymentModal text-sm text-gray-400">+ Add New Page</p>
-                            </div>
-                        </div>
-
+                        @endforeach
                     </div>
+
+
+
                 </section>
 
                 <!-- Overview Cards -->
@@ -1240,8 +1028,8 @@
                                                     <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
                                                         stroke="currentColor" stroke-width="1.5"
                                                         stroke-linecap="round" stroke-linejoin="round">
-                                                        <path d="M7 8 L12 3 L17 8" /> <!-- Up chevron -->
-                                                        <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                                        <path d="M7 8 L12 3 L17 8" /> 
+                                                        <path d="M7 16 L12 21 L17 16" /> 
                                                     </svg>
                                                 </div>
                                             </th>
@@ -1272,336 +1060,149 @@
                                         </tr>
                                     </thead>
                                     <tbody class="light-bg-white light-bg-seo divide-y divide-gray-200">
-                                        <!-- Row 1 -->
-                                        <tr>
-                                            <td
-                                                class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                                01</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-medium light-text-gray-900">Website SEO</div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
-                                                <div class="flex items-center gap-1">
-                                                    <p>05-7-2024</p>
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
-                                                <div class="flex items-center gap-1">
-                                                    <p>05-7-2024</p>
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div>
-                                                    <p>05-7-2024</p>
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                <!-- <select class="status-select px-4 py-2 rounded-lg transition-colors w-32 text-green-500 bg-green-900 hover:bg-green-900">
-                                                <option value="complete" selected>Complete</option>
-                                                <option value="in process">In Process</option>
-                                                <option value="delayed">Delayed</option>
-                                                <option value="cancelled">Cancelled</option>
-                                            </select> -->
-                                                <p>10h 30mins</p>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
-                                                <div class="flex items-center gap-1">
-                                                    <img class="w-20 h-10" src="{{asset('assets/Avatar Group.svg')}}" alt="">
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                <button
-                                                    class="light-text-orange-500  rounded-full p-1 light-hover-text-orange-700 toggle-btn"
-                                                    data-target="expand-01">
-                                                    <svg width="20" height="20" viewBox="0 0 100 100"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <!-- Circular dark background -->
-                                                        <circle cx="50" cy="50" r="50"
-                                                            fill="#1c1c1c" />
-
-                                                        <!-- Upward-facing chevron arrow -->
-                                                        <path d="M40 55 L50 45 L60 55" fill="none" stroke="white"
-                                                            stroke-width="4" stroke-linecap="round" />
-                                                    </svg>
-
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <!-- Expandable Row (Sub-Header + Sub-Row) -->
-                                        <tr id="expand-01" class="hidden light-text-black">
-                                            <td colspan="7" class="px-6 py-4 ">
-                                                <!-- Sub-table Head -->
-                                                <div class="grid grid-cols-6  font-semibold light-text-black">
-                                                    <div class="w-1/2">#</div>
-                                                    <div class="flex items-center text-xs">
-                                                        STATUS
-                                                        <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24"
-                                                            fill="none" stroke="currentColor" stroke-width="1.5"
-                                                            stroke-linecap="round" stroke-linejoin="round">
-                                                            <path d="M7 8 L12 3 L17 8" />
-                                                            <path d="M7 16 L12 21 L17 16" />
-                                                        </svg>
+                                    @php
+                                        $count = 1;
+                                    @endphp
+                                        @if(count($tasks) > 0)
+                                        @foreach ($tasks as $task)
+                                            <!-- Row 1 -->
+                                            <tr>
+                                                <td
+                                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
+                                                    {{$count++}}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="text-sm font-medium light-text-gray-900">{{$task->task_name ?? "N/A" }}</div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
+                                                    <div class="flex items-center gap-1">
+                                                        <p>{{$task->start_date ?? "N/A"}}</p>
                                                     </div>
-                                                    <div class="flex items-center text-xs">
-                                                        ACTION
-                                                        <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24"
-                                                            fill="none" stroke="currentColor" stroke-width="1.5"
-                                                            stroke-linecap="round" stroke-linejoin="round">
-                                                            <path d="M7 8 L12 3 L17 8" />
-                                                            <path d="M7 16 L12 21 L17 16" />
-                                                        </svg>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
+                                                    <div class="flex items-center gap-1">
+                                                        <p>{{{$task->due_date ?? "N/A" }}}</p>
                                                     </div>
-                                                </div>
-
-
-
-                                                <!-- Sub-table Row -->
-                                                <div class="grid grid-cols-6 pt-2 mt-2 light-text-black">
-                                                    <div class="w-1/2"></div>
-
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
                                                     <div>
-                                                        <select
-                                                            class="status-select px-4 py-2 rounded-lg transition-colors w-32 text-green-500 bg-green-900 hover:bg-green-900">
-                                                            <option value="complete" selected>Complete</option>
-                                                            <option value="in process">In Process</option>
-                                                            <option value="delayed">Delayed</option>
-                                                            <option value="cancelled">Cancelled</option>
-                                                        </select>
+                                                        @if($task->completed_on)
+                                                            <p>{{ date('Y-m-d', strtotime($task->completed_on)) }}</p>
+                                                        @else
+                                                            <p><small>Not Completed Yet</small></p>
+                                                        @endif
                                                     </div>
-                                                    <div class="flex items-center gap-2">
-
-                                                        <img src="{{asset('assets/edit.svg')}}" alt="Action 2"
-                                                            class="w-6 h-6  rounded-full p-1 bg-gray-500"
-                                                            data-action="view-project" />
-
-                                                        <img src="{{asset('assets/trash.svg')}}" alt="Action 3"
-                                                            class="w-6 h-6 rounded-full p-1 bg-gray-500" />
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                                    <p>{{$task->created_at->diffForHumans() ?? "N/A"}}</p>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
+                                                    <div class="flex items-center -space-x-2">
+                                                        <img src="
+                                                            @if($task->assignedUser->image)
+                                                            {{$task->assignedUser->image}}
+                                                            @else
+                                                            {{asset('assets/default-prf.png')}}
+                                                            @endif
+                                                        " 
+                                                        alt="{{$task->assignedUser->name;}}" class="w-10 h-10 rounded-full border-2 border-black">
                                                     </div>
-                                                </div>
+                                                </td>
+                                                <td class="">
+                                                    <button
+                                                        class="light-text-orange-500 light-hover-text-orange-700 toggle-btn"
+                                                        data-target="expand-0{{ $loop->iteration }}" >
+                                                        <img class="icon w-full h-full"
+                                                            src="{{ asset('assets/Frame 2147224370.svg') }}" />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <!-- Expandable Row (Sub-Header + Sub-Row) -->
+                                            <tr id="expand-0{{ $loop->iteration }}" class="hidden light-text-black">
+                                                <td colspan="7" class="px-6 py-4 ">
+                                                    <!-- Sub-table Head -->
+                                                    <div class="grid grid-cols-6  font-semibold light-text-black">
+                                                        <div class="w-1/2">#</div>
+                                                        <div class="flex items-center text-xs">
+                                                            STATUS
+                                                            <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24"
+                                                                fill="none" stroke="currentColor" stroke-width="1.5"
+                                                                stroke-linecap="round" stroke-linejoin="round">
+                                                                <path d="M7 8 L12 3 L17 8" />
+                                                                <path d="M7 16 L12 21 L17 16" />
+                                                            </svg>
+                                                        </div>
+                                                        <div class="flex items-center text-xs">
+                                                            ACTION
+                                                            <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24"
+                                                                fill="none" stroke="currentColor" stroke-width="1.5"
+                                                                stroke-linecap="round" stroke-linejoin="round">
+                                                                <path d="M7 8 L12 3 L17 8" />
+                                                                <path d="M7 16 L12 21 L17 16" />
+                                                            </svg>
+                                                        </div>
+                                                    </div>
 
+
+
+                                                    <!-- Sub-table Row -->
+                                                    <div class="grid grid-cols-6 pt-2 mt-2 light-text-black">
+                                                        <div class="w-1/2"></div>
+
+                                                        <div>
+                                                            <form action="{{route('task.update', $task->id)}}" method="POST">
+                                                                @csrf
+                                                                @method('POST')
+                                                               <select class="statusDropdown" name="task_status"
+                                                                    onchange="this.form.submit(); updateDropdownStyle(this)"
+                                                                    style="width: 150px; padding: 8px; border-radius: 8px; text-align: left;">
+                                                                    <option value="{{$task->task_status}}" selected hidden>{{$task->task_status}}</option>
+                                                                    @foreach($taskStatus as $statusOption)
+                                                                        @if($statusOption->task_status != $task->task_status)
+                                                                            <option value="{{ $statusOption->task_status }}" 
+                                                                                style="color: black; background-color: #fff;">
+                                                                                {{ $statusOption->task_status }}
+                                                                            </option>
+                                                                        @endif
+                                                                    @endforeach
+                                                                    {{-- <option value="In Process" style="color: black; background-color: #fff;">In Process</option>
+                                                                    <option value="Delayed" style="color: black; background-color: #fff;">Delayed</option>
+                                                                    <option value="Completed" style="color: black; background-color: #fff;">Completed</option>
+                                                                    <option value="Cancelled" style="color: black; background-color: #fff;">Cancelled</option> --}}
+                                                                </select>
+                                                            </form>
+                                                        </div>
+                                                        <div class="flex items-center gap-2">
+
+                                                            <a href="{{route('task.edit', $task->id)}}">
+                                                                <img id="openEditTaskModalBtn" src="{{asset('assets/edit.svg')}}" alt="Action 2"
+                                                                class="w-6 h-6  rounded-full p-1 bg-gray-500"
+                                                                data-action="view-project" />
+                                                            </a>
+
+
+                                                            <form action="{{route('task.delete', $task->id)}}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button
+                                                                    class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
+                                                                    data-action="view-project">
+                                                                    <img src="{{asset('assets/trash.svg')}}" alt="icon"
+                                                                        class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+
+                                        @endforeach
+                                        @else
+                                            <td colspan="7"
+                                                class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
+                                                No Tasks found.
                                             </td>
-                                        </tr>
-                                        <!-- Row 2 -->
-                                        <!-- <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">01</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium light-text-gray-900">Website SEO</div>
-                                            <div class="rounded-sm text-center w-20 light-bg-ea54547a">
-                                                <div class="text-xs light-text-ff0000">High Priority</div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
-                                            <div class="flex items-center gap-1">
-                                                <img class="w-6 h-6" src="Avatar (2).svg" alt="">
-                                                <p>John Doe</p>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
-                                            <div class="flex items-center -space-x-2">
-                                        <img class="w-8 h-8 rounded-full border-2 border-black" src="Avatar (3).svg" alt="Avatar 1">
-                                        <img class="w-8 h-8 rounded-full border-2 border-black" src="Avatar (2).svg" alt="Avatar 2">
-                                        <img class="w-8 h-8 rounded-full border-2 border-black" src="Avatar (1).svg" alt="Avatar 3">
-                                        
-                                        </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div class="w-52 bg-gray-200 rounded-full h-2.5">
-                                                    <div class="bg-cyan-400 h-2.5 rounded-full" style="width: 69%"></div>
-                                                </div>
-                                                <span class="ml-2 text-sm light-text-gray-700">69%</span>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                            <select class="status-select px-4 py-2 rounded-lg transition-colors w-32 text-green-500 bg-green-900 hover:bg-green-900">
-                                                <option value="complete" selected>Complete</option>
-                                                <option value="in process">In Process</option>
-                                                <option value="delayed">Delayed</option>
-                                                <option value="cancelled">Cancelled</option>
-                                            </select>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <button class="light-text-orange-500  rounded-full p-1 light-hover-text-orange-700 toggle-btn" data-target="expand-02">
-                                                <svg width="20" height="20" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                                    Circular dark background -->
-                                        <!-- <circle cx="50" cy="50" r="50" fill="#1c1c1c" />
-
-                                                    Upward-facing chevron arrow
-                                                    <path d="M40 55 L50 45 L60 55" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" />
-                                                </svg>
-
-                                            </button>
-                                        </td>
-                                    </tr> -->
-                                        <!-- Expandable Row (Sub-Header + Sub-Row) -->
-                                        <!-- <tr id="expand-02" class="hidden light-text-black">
-                                        <td colspan="7" class="px-6 py-4 "> -->
-                                        <!-- Sub-table Head -->
-                                        <!-- <div class="grid grid-cols-6  font-semibold light-text-black border-b border-gray-300">
-                                                <div class="w-1/2">#</div>
-                                                <div class="flex items-center text-xs">
-                                                    AMOUNT
-                                                    <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path d="M7 8 L12 3 L17 8" />
-                                                        <path d="M7 16 L12 21 L17 16" />
-                                                    </svg>
-                                                </div>
-                                                <div class="flex items-center text-xs">
-                                                    LEAD SOURCE
-                                                    <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path d="M7 8 L12 3 L17 8" />
-                                                        <path d="M7 16 L12 21 L17 16" />
-                                                    </svg>
-                                                </div>
-                                                <div class="flex items-center text-xs">
-                                                    CURRENT PROJECT
-                                                    <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path d="M7 8 L12 3 L17 8" />
-                                                        <path d="M7 16 L12 21 L17 16" />
-                                                    </svg>
-                                                </div>
-                                                <div class="flex items-center text-xs">
-                                                    MEMBERSHIP
-                                                    <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path d="M7 8 L12 3 L17 8" />
-                                                        <path d="M7 16 L12 21 L17 16" />
-                                                    </svg>
-                                                </div>
-                                                <div class="flex items-center text-xs">ACTION</div>
-                                            </div> -->
-
-
-                                        <!-- Sub-table Row -->
-                                        <!-- <div class="grid grid-cols-6 pt-2 mt-2 light-text-black">
-                                                <div class="w-1/2"></div>
-                                                <div>$10,000</div>
-                                                <div>Email Marketing</div>
-                                                <div>Wiz speed Dashboard</div>
-                                                <div>
-                                                    <span class="light-bg-d7d7d7 px-2 py-1 rounded-md text-xs">Domain</span>
-                                                    <span class="light-bg-d7d7d7 px-2 py-1 rounded-md text-xs">Hosting</span>
-                                                    <span class="light-bg-d7d7d7 px-2 py-1 rounded-md text-xs">+3</span>
-                                                </div>
-                                                <div class="flex items-center gap-2">
-
-                                                    <img src="document-download-DARK.svg" alt="Action 1" class="openModalBtn w-6 h-6 rounded-full p-1 bg-gray-500" />
-
-                                                    <img src="edit.svg" alt="Action 2" class="w-6 h-6  rounded-full p-1 bg-gray-500" data-action="view-project" />
-
-                                                    <img src="trash.svg" alt="Action 3" class="w-6 h-6 rounded-full p-1 bg-gray-500" />
-                                                </div>
-                                            </div>
-
-                                        </td>
-                                    </tr> -->
-                                        <!-- Row 3 -->
-                                        <!-- <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">01</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium light-text-gray-900">Website SEO</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
-                                            <div class="flex items-center gap-1">
-                                                <img class="w-6 h-6" src="Avatar (3).svg" alt="">
-                                                <p>John Doe</p>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
-                                            <div class="flex items-center gap-1">
-                                                <img class="w-20 h-10" src="Avatar Group.svg" alt="">
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div class="w-52 bg-gray-200 rounded-full h-2.5">
-                                                    <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 43%"></div>
-                                                </div>
-                                                <span class="ml-2 text-sm light-text-gray-700">43%</span>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                            <select class="status-select px-4 py-2 rounded-lg transition-colors w-32 text-green-500 bg-green-900 hover:bg-green-900">
-                                                <option value="complete" selected>Complete</option>
-                                                <option value="in process">In Process</option>
-                                                <option value="delayed">Delayed</option>
-                                                <option value="cancelled">Cancelled</option>
-                                            </select>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <button class="light-text-orange-500  rounded-full p-1 light-hover-text-orange-700 toggle-btn" data-target="expand-03">
-                                                <svg width="20" height="20" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                                    Circular dark background -->
-                                        <!-- <circle cx="50" cy="50" r="50" fill="#1c1c1c" /> -->
-
-                                        <!-- Upward-facing chevron arrow -->
-                                        <!-- <path d="M40 55 L50 45 L60 55" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" />
-                                                </svg>
-
-                                            </button>
-                                        </td>
-                                    </tr> -->
-                                        <!-- Expandable Row (Sub-Header + Sub-Row) -->
-                                        <!-- <tr id="expand-03" class="hidden light-text-black">
-                                        <td colspan="7" class="px-6 py-4 "> -->
-                                        <!-- Sub-table Head -->
-                                        <!-- <div class="grid grid-cols-6  font-semibold light-text-black border-b border-gray-300">
-                                                <div class="w-1/2">#</div>
-                                                <div class="flex items-center text-xs">
-                                                    AMOUNT
-                                                    <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path d="M7 8 L12 3 L17 8" />
-                                                        <path d="M7 16 L12 21 L17 16" />
-                                                    </svg>
-                                                </div>
-                                                <div class="flex items-center text-xs">
-                                                    LEAD SOURCE
-                                                    <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path d="M7 8 L12 3 L17 8" />
-                                                        <path d="M7 16 L12 21 L17 16" />
-                                                    </svg>
-                                                </div>
-                                                <div class="flex items-center text-xs">
-                                                    CURRENT PROJECT
-                                                    <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path d="M7 8 L12 3 L17 8" />
-                                                        <path d="M7 16 L12 21 L17 16" />
-                                                    </svg>
-                                                </div>
-                                                <div class="flex items-center text-xs">
-                                                    MEMBERSHIP
-                                                    <svg class="icon ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path d="M7 8 L12 3 L17 8" />
-                                                        <path d="M7 16 L12 21 L17 16" />
-                                                    </svg>
-                                                </div>
-                                                <div class="flex items-center text-xs">ACTION</div>
-                                            </div> -->
-
-
-                                        <!-- Sub-table Row -->
-                                        <!-- <div class="grid grid-cols-6 pt-2 mt-2 light-text-black">
-                                                <div class="w-1/2"></div>
-                                                <div>$10,000</div>
-                                                <div>Email Marketing</div>
-                                                <div>Wiz speed Dashboard</div>
-                                                <div>
-                                                    <span class="light-bg-d7d7d7 px-2 py-1 rounded-md text-xs">Domain</span>
-                                                    <span class="light-bg-d7d7d7 px-2 py-1 rounded-md text-xs">Hosting</span>
-                                                    <span class="light-bg-d7d7d7 px-2 py-1 rounded-md text-xs">+3</span>
-                                                </div>
-                                                <div class="flex items-center gap-2">
-
-                                                    <img src="document-download-DARK.svg" alt="Action 1" class="openModalBtn w-6 h-6 rounded-full p-1 bg-gray-500" />
-
-                                                    <img src="edit.svg" alt="Action 2" class="w-6 h-6  rounded-full p-1 bg-gray-500" data-action="view-project" />
-
-                                                    <img src="trash.svg" alt="Action 3" class="w-6 h-6 rounded-full p-1 bg-gray-500" />
-                                                </div>
-                                            </div>
-
-                                        </td>
-                                    </tr> -->
-
+                                        @endif
 
                                     </tbody>
                                 </table>
@@ -1745,8 +1346,483 @@
         </main>
     </div>
 
+
+    @if(isset($singleTask))
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                document.querySelector(".main-section").classList.add("hide");
+                document.querySelector(".main-section").classList.remove("show");
+
+                document.querySelector(".alt-section").classList.remove("hide");
+                document.querySelector(".alt-section").classList.add("show");
+
+                const ticketModal = document.getElementById('edit-task-form');
+                if (ticketModal) {
+                    ticketModal.classList.remove('hidden');
+                }
+            });
+        </script>
+    @endif
+
+    @if ($errors->any())
+        <div style="z-index: 9999 !important;"
+            class="success-message fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                document.querySelector(".main-section").classList.add("hide");
+                document.querySelector(".main-section").classList.remove("show");
+
+                document.querySelector(".alt-section").classList.remove("hide");
+                document.querySelector(".alt-section").classList.add("show");
+
+                const ticketModal = document.getElementById('task-form');
+                if (ticketModal) {
+                    ticketModal.classList.remove('hidden');
+                }
+            });
+        </script>
+    @endif
+
+    @if ($errors->TaskAddError->any())
+        <div style="z-index: 9999 !important;"
+            class="success-message fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
+            <ul>
+                @foreach ($errors->TaskAddError->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                taskstatusform.classList.remove('hidden');
+            });
+        </script>
+    @endif
+
+    @if (session('TaskStatusAdd'))
+        <div style="z-index: 9999 !important;"
+            class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+            {{ session('TaskStatusAdd') }}
+        </div>
+
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
+    @endif
+
+    @if (session('AddTask'))
+        <div style="z-index: 9999 !important;"
+            class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+            {{ session('AddTask') }}
+        </div>
+
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                document.querySelector(".main-section").classList.add("hide");
+                document.querySelector(".main-section").classList.remove("show");
+
+                document.querySelector(".alt-section").classList.remove("hide");
+                document.querySelector(".alt-section").classList.add("show");
+            });
+        </script>
+    @endif
+
+    @if (session('UpdateTask'))
+        <div style="z-index: 9999 !important;"
+            class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+            {{ session('UpdateTask') }}
+        </div>
+
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                document.querySelector(".main-section").classList.add("hide");
+                document.querySelector(".main-section").classList.remove("show");
+
+                document.querySelector(".alt-section").classList.remove("hide");
+                document.querySelector(".alt-section").classList.add("show");
+            });
+        </script>
+    @endif
+
+    @if (session('DeleteTask'))
+        <div style="z-index: 9999 !important;"
+            class="success-message fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
+            {{ session('DeleteTask') }}
+        </div>
+
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                document.querySelector(".main-section").classList.add("hide");
+                document.querySelector(".main-section").classList.remove("show");
+
+                document.querySelector(".alt-section").classList.remove("hide");
+                document.querySelector(".alt-section").classList.add("show");
+            });
+        </script>
+    @endif
+
+
+    @if (session('UpdateSingleTask'))
+        <div style="z-index: 9999 !important;"
+            class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+            {{ session('UpdateSingleTask') }}
+        </div>
+
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
+
+    @endif
+
+    <!-- Quill JS -->
+    <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill-emoji@0.2.0/dist/quill-emoji.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
+        <script>
+            function loadTaskChats(taskId) {
+                $.ajax({
+                    url: `/task_management/getTaskChats/${taskId}`, // adjust route
+                    method: 'GET',
+                    success: function(response) {
+                        var chatContainer = $('#chatMessages'); // container div
+                        chatContainer.html(''); 
+
+                        response.chats.forEach(function(chat) {
+                            // Format date for separator if needed
+                            let chatDate = new Date(chat.created_at);
+                            let dateString = chatDate.toLocaleDateString('en-US', {
+                                weekday: 'long', month: 'long', day: 'numeric'
+                            });
+
+                            // Render chat message
+                            chatContainer.append(`
+                                <div class="flex items-start space-x-3">
+                                    <img src="${chat.sender.image || '{{asset('assets/Photos.png')}}'}" 
+                                        class="w-10 h-10 rounded-md" alt="user" />
+                                    <div>
+                                        <p class="text-sm light-text-black font-semibold">
+                                            ${chat.sender.name} 
+                                            <span class="text-xs light-text-black ml-1">
+                                                ${chatDate.getHours()}:${chatDate.getMinutes().toString().padStart(2,'0')} 
+                                            </span>
+                                        </p>
+                                        <pre class="text-sm light-text-black">${chat.message}</pre>
+                                        <div class="flex space-x-2 mt-1 text-xs">
+                                            <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl">❤️ 0</button>
+                                            <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl">
+                                                <img src="Icon (12).svg" alt="">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `);
+                        });
+                    },
+                    error: function(err) {
+                        console.error("Error loading chats:", err);
+                    }
+                });
+            }
+
+            $(document).ready(function() {
+                    $(document).on('click', '.task-comment', function() {
+                        var taskId = $(this).data('task-id');
+                        console.log("Task ki id hai: " + taskId);
+
+                            $.ajax({
+                                url: "{{ route('task.id') }}",
+                                method: 'POST',
+                                data: {
+                                    id: taskId,
+                                    _token: $('meta[name="csrf-token"]').attr('content')
+                                },
+                                success: function(response) {
+                                    console.log(response);
+                                    $('#modal-task-name').text(response.taskdata.task_name);
+                                    $('#modal-task-category').text(response.taskdata.task_category);
+
+                                    $('#chat-task-id').val(response.taskdata.id);
+                                    $('#chat-receiver-id').val(response.taskdata.assign_to);
+
+                                    loadTaskChats(response.taskdata.id);
+                                },
+                                error: function(xhr) {
+                                    console.error("Error fetching comments:", xhr.responseText);
+                                }
+                            });
+                    })
+            });
+            
+        </script>
+
+    <script>
+      // Initialize hidden Quill (no default toolbar)
+      document.addEventListener('DOMContentLoaded', function() {
+          const quill = new Quill("#editor", {
+                theme: "snow",
+                placeholder: '@type here',
+                modules: {
+                toolbar: '#hidden-toolbar',
+                "emoji-toolbar": true,
+                "emoji-textarea": false,
+                "emoji-shortname": true,
+                },
+            });
+
+
+            // Toolbar button actions
+            document.getElementById("btn-bold").onclick = () =>
+                quill.format("bold", !quill.getFormat().bold);
+            document.getElementById("btn-italic").onclick = () =>
+                quill.format("italic", !quill.getFormat().italic);
+            document.getElementById("btn-underline").onclick = () =>
+                quill.format("underline", !quill.getFormat().underline);
+            document.getElementById("btn-bullet").onclick = () =>
+                quill.format("list", "bullet");
+            document.getElementById("btn-ordered").onclick = () =>
+                quill.format("list", "ordered");
+            document.getElementById("btn-code").onclick = () =>
+                quill.format("code-block", !quill.getFormat()["code-block"]);
+
+            document.getElementById('btn-left').onclick = () => {
+                const range = quill.getSelection();
+                if (range) {
+                    quill.format('align', 'left');
+                }
+            };
+
+
+            // Simple link & image handler
+            document.getElementById("btn-link").onclick = () => {
+                const url = prompt("Enter link URL:");
+                if (url) {
+                quill.format("link", url);
+                }
+            };
+
+
+            document.getElementById("btn-image").onclick = () => {
+             
+                const input = document.createElement("input");
+                input.setAttribute("type", "file");
+                input.setAttribute("accept", "image/*"); 
+                input.click(); 
+
+                // When the file is selected
+                input.onchange = () => {
+                    const file = input.files[0];  
+                    if (file) {
+                        const reader = new FileReader();  // Create a new FileReader to read the file
+                        reader.onload = (e) => {
+                            const range = quill.getSelection();  // Get the current selection or cursor position in the editor
+                            quill.insertEmbed(range.index, 'image', e.target.result);  // Insert the image at the current cursor position
+                        };
+                        reader.readAsDataURL(file);  // Convert the file to Base64 format (so it can be embedded directly)
+                    }
+                };
+            };
+
+
+            // Emoji button (just focuses to use emoji plugin)
+            // document.getElementById("btn-emoji").onclick = () =>
+            //     quill.theme.tooltip.edit("emoji");
+
+            
+
+            document.getElementById("btn-emoji").onclick = () => {
+                
+                const emojiButton = document.querySelector('.ql-emoji');
+                if (emojiButton) {
+                    emojiButton.click();  
+                }
+            };
+
+
+        // document.getElementById("send-btn").onclick = (e) => {
+        //     e.preventDefault();
+
+        //     var chatMessage = quill.root.innerHTML;
+        //     var taskId = $('#chat-task-id').val();
+        //     var senderId = $('#chat-sender-id').val();
+        //     var receiverId = $('#chat-receiver-id').val();
+
+        //     $.ajax({
+        //         url: "{{ route('task.chat') }}", 
+        //         method: "POST",
+        //         data: {
+        //             task_id: taskId,
+        //             sender_id: senderId,
+        //             receiver_id: receiverId,
+        //             message: chatMessage,
+        //             _token: $('meta[name="csrf-token"]').attr('content')
+        //         },
+        //         success: function(response) {
+        //             console.log("Chat saved successfully", response);
+        //             quill.setContents([]);
+        //             loadTaskChats(taskId);
+                
+        //         },
+        //         error: function(xhr) {
+        //             console.error("Error sending chat:", xhr.responseText);
+        //         }
+        //     });
+        // };
+
+        document.getElementById("send-btn").onclick = async (e) => {
+            e.preventDefault();
+
+            var chatMessage = quill.root.innerHTML; // Text + temporary <img> tags
+            var taskId = $('#chat-task-id').val();
+            var senderId = $('#chat-sender-id').val();
+            var receiverId = $('#chat-receiver-id').val();
+
+            // Collect image files from an <input type="file"> if using separate image input
+            // OR convert <img src="data:image/..."> to file objects if using Base64 in Quill
+            let imageFiles = [];
+            quill.root.querySelectorAll('img').forEach(img => {
+                if (img.src.startsWith("data:")) {
+                    let blob = dataURLtoBlob(img.src);
+                    let file = new File([blob], "image.png", { type: blob.type });
+                    imageFiles.push({ file: file, element: img });
+                }
+            });
+
+            // Upload images one by one and replace <img> src with URL
+            for (let i = 0; i < imageFiles.length; i++) {
+                let formData = new FormData();
+                formData.append('image', imageFiles[i].file);
+                formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+                let response = await fetch("{{ route('task.chat.upload_image') }}", {
+                    method: "POST",
+                    body: formData
+                });
+                let data = await response.json();
+                // Replace Base64 in Quill HTML with uploaded URL
+                imageFiles[i].element.src = data.url;
+            }
+
+            // After all images uploaded, get final HTML
+            chatMessage = quill.root.innerHTML;
+
+            // Send message to backend
+            $.ajax({
+                url: "{{ route('task.chat') }}",
+                method: "POST",
+                data: {
+                    task_id: taskId,
+                    sender_id: senderId,
+                    receiver_id: receiverId,
+                    message: chatMessage,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    console.log("Chat saved successfully", response);
+                    quill.setContents([]); // Clear editor
+                    loadTaskChats(taskId); // Reload chats
+                },
+                error: function(xhr) {
+                    console.error("Error sending chat:", xhr.responseText);
+                }
+            });
+        };
+
+        // Helper function to convert Base64 -> Blob
+        function dataURLtoBlob(dataurl) {
+            let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while(n--){
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], {type:mime});
+        }
+
+      });
+    </script>
+
+
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+
+        function updateDropdownStyle(select) {
+            const value = select.value;
+
+            if (value === 'In Process') {
+                select.style.backgroundColor = '#00CFE826';
+                select.style.color = 'white';
+            } else if (value === 'Delayed') {
+                select.style.backgroundColor = 'orange';
+                select.style.color = 'white';
+            } else if (value === 'Completed') {
+                select.style.backgroundColor = 'green';
+                select.style.color = 'white';
+            } else if (value === 'Cancelled') {
+                select.style.backgroundColor = 'red';
+                select.style.color = 'white';
+            }
+        }
+
+        const selects = document.querySelectorAll(".statusDropdown");
+        selects.forEach(select => updateDropdownStyle(select));
+
+        setTimeout(function() {
+            const messages = document.querySelectorAll('.success-message');
+            messages.forEach(function(el) {
+                el.style.display = 'none';
+            });
+        }, 5000);
+
+
             const body = document.body;
             const knowledgeButton = document.getElementById('knowledgeButton');
             const filterButton = document.getElementById('filterButton');
@@ -1913,10 +1989,28 @@
             const htmlElement = document.documentElement; // This is the <html> tag
 
             const newTaskModal = document.getElementById('newTaskModal');
+            const task_form = document.getElementById('task-form');
+            const edit_task_form = document.getElementById('edit-task-form');
+            const close_task_form = document.getElementById('close-task-form');
             const closeNewTaskModal = document.getElementById('closeNewTaskModal');
             const cancelTask = document.getElementById('cancelTask');
             const taskForm = document.getElementById('taskForm');
             const openTaskButtons = document.querySelectorAll('.openTaskModal');
+
+            document.getElementById("openTaskModalBtn").addEventListener("click", () => {
+                task_form.classList.remove('hidden');
+            });
+            document.getElementById("openEditTaskModalBtn").addEventListener("click", () => {
+                edit_task_form.classList.remove('hidden');
+            });
+
+            document.getElementById("close-task-form").addEventListener("click", () => {
+                task_form.classList.add('hidden');
+            });
+            document.getElementById("close-edit-task-form").addEventListener("click", () => {
+                edit_task_form.classList.add('hidden');
+            });
+
 
             // Ticket Modal Handlers
             openTaskButtons.forEach(btn => {
@@ -2297,6 +2391,7 @@
             const closeTicketModal = document.getElementById('closeTicketModal');
             const cancelTicket = document.getElementById('cancelTicket');
             const ticketForm = document.getElementById('ticketForm');
+            const taskstatusform = document.getElementById('taskstatusform');
             const openTicketButtons = document.querySelectorAll('.openTicketModal');
 
             // Payment Modal Elements
@@ -2316,6 +2411,10 @@
             const ticketChatModal = document.getElementById('ticketChatModal');
             const openTicketChatButtons = document.querySelectorAll('.openTicketChatModal');
             const closeTicketChatModal = document.getElementById('closeTicketChatModal');
+
+            document.getElementById("add-task-status").addEventListener("click", () => {
+                taskstatusform.classList.remove('hidden');
+            })
 
             // Open chat modal from multiple triggers
             openTicketChatButtons.forEach(btn => {
@@ -2346,20 +2445,21 @@
 
             // Close Ticket Modal
             closeTicketModal?.addEventListener('click', () => ticketModal.classList.add('hidden'));
+            closeTicketModal?.addEventListener('click', () => taskstatusform.classList.add('hidden'));
             cancelTicket?.addEventListener('click', () => ticketModal.classList.add('hidden'));
 
             // Ticket Form Submit -> Close Ticket Modal, Open Payment Modal
-            ticketForm?.addEventListener('submit', (e) => {
-                e.preventDefault();
-                console.log('Ticket form submitted');
+            // ticketForm?.addEventListener('submit', (e) => {
+            //     e.preventDefault();
+            //     console.log('Ticket form submitted');
 
-                // Close ticket modal
-                ticketModal.classList.add('hidden');
+            //     // Close ticket modal
+            //     ticketModal.classList.add('hidden');
 
-                // Open payment modal
-                paymentModal.classList.remove('hidden');
-                paymentModal.classList.add('flex'); // optional
-            });
+            //     // Open payment modal
+            //     paymentModal.classList.remove('hidden');
+            //     paymentModal.classList.add('flex'); // optional
+            // });
 
             // Open Payment Modal (directly from any element with class .openPaymentModal)
             openPaymentButtons.forEach(button => {
@@ -3682,7 +3782,7 @@
     </div>
 
     <!-- New Ticket Modal -->
-    <div id="ticketModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
+    <div id="taskstatusform" class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
         <div
             class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto  relative">
             <!-- Close Button -->
@@ -3698,13 +3798,14 @@
             </div>
 
             <!-- Ticket Form -->
-            <form id="ticketForm" class="space-y-4 p-6">
+            <form id="ticketForm" class="space-y-4 p-6" action="{{route('taskStatus.store')}}" method="POST">
+                @csrf
                 <!-- Title, Project Name, Priority -->
                 <div class="grid grid-cols-1 gap-4">
                     <div class="grid grid-cols-1 gap-2">
                         <div>
-                            <label class="block text-sm mb-1 light-text-black">Title</label>
-                            <input type="text" name="title" placeholder="Enter Task Title"
+                            <label class="block text-sm mb-1 light-text-black">Task Status</label>
+                            <input type="text" name="task_status" placeholder="Enter Task Status"
                                 class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                         </div>
 
@@ -3722,13 +3823,14 @@
                             Cancel
                         </button>
                         <button type="submit" class="px-4 py-2 bg-orange-500 rounded-lg hover:bg-orange-600">
-                            Confirm
+                            Save
                         </button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+    
     <!-- New Ticket Modal -->
     <div id="paymentModal"
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
@@ -3816,13 +3918,13 @@
         </div>
     </div>
 
-    <div id="newTaskModal"
+    <div id="task-form"
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
         <div
             class="light-bg-d9d9d9 bg-[#1c1c1c] text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto relative">
 
             <!-- Close Button -->
-            <button id="closeNewTaskModal" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+            <button id="close-task-form" class="absolute top-3 right-3 text-gray-400 hover:text-white">
                 ✕
             </button>
 
@@ -3848,7 +3950,7 @@
                     <div>
                         <label class="block text-sm mb-1 light-text-white">Task Category</label>
                         <select name="task_category"  class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
-                            <option selected hidden>Select Category</option>
+                            <option value="" selected hidden >Select Category</option>
                             <option value="design" {{old('task_category') == 'design' ? 'selected' : '' }}>Design</option>
                             <option value="development" {{old('task_category') == 'development' ? 'selected' : '' }}>Development</option>
                         </select>
@@ -3858,7 +3960,7 @@
                     <div>
                         <label class="block text-sm mb-1 light-text-white">Project</label>
                         <select name="project" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
-                            <option selected hidden>Select Project</option>
+                            <option value="" selected hidden>Select Project</option>
                             @if(count($projects) > 0)
                             @foreach ($projects as $project)
                                 <option value="{{$project->id}}" {{old('project') == $project->id ? 'selected' : ''}}>{{$project->project_name}}</option>
@@ -3873,7 +3975,7 @@
                     <div>
                         <label class="block text-sm mb-1 light-text-white">Assign to</label>
                         <select name="assign_to" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
-                            <option selected hidden>Select Members</option>
+                            <option value="" selected hidden>Select Members</option>
                             @if(count($users) > 0)
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id }}" {{ old('assign_to') == $user->id ? 'selected' : ''}}>{{$user->name}}</option>
@@ -3919,6 +4021,114 @@
                     </button>
                 </div>
             </form>
+
+        </div>
+    </div>
+
+    <div id="edit-task-form"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
+        <div
+            class="light-bg-d9d9d9 bg-[#1c1c1c] text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto relative">
+
+            <!-- Close Button -->
+            <button id="close-edit-task-form" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+                ✕
+            </button>
+
+            <!-- Header -->
+            <div class="px-6 pt-5 pb-2">
+                <h2 class="text-lg font-semibold light-text-white">Edit New Task</h2>
+            </div>
+
+            <div class="border-t border-gray-700 mb-4"></div>
+
+            <!-- Task Form -->
+            <form id="ticketForm" class="space-y-4 px-6 pb-6" action="{{ route('single.update') }}" method="POST">
+                @csrf
+                @method('POST')
+                <div class="grid grid-cols-2 gap-4">
+
+                    <input name="task_id" type="hidden" value="{{$singleTask->id ?? ''}}">
+                    <!-- Task Name -->
+                    <div>
+                        <label class="block text-sm mb-1 light-text-white">Task Name</label>
+                        <input type="text" placeholder="John Doe" value="{{$singleTask->task_name ?? ''}}" name="task_name"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                    </div>
+
+                    <!-- Task Category -->
+                    <div>
+                        <label class="block text-sm mb-1 light-text-white">Task Category</label>
+                        <select name="task_category"  class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                            <option selected value="{{$singleTask->task_category ?? ''}}">{{$singleTask->task_category ?? ''}}</option>
+                            <option value="design" {{old('task_category') == 'design' ? 'selected' : '' }}>Design</option>
+                            <option value="development" {{old('task_category') == 'development' ? 'selected' : '' }}>Development</option>
+                        </select>
+                    </div>
+
+                    <!-- Project -->
+                    <div>
+                        <label class="block text-sm mb-1 light-text-white">Project</label>
+                        <select name="project" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                            <option selected value="{{$singleTask->project ?? ''}}" selected>{{$singleTask->taskProject->project_name ?? ''}}</option>
+                            @if(count($projects) > 0)
+                            @foreach ($projects as $project)
+                                <option value="{{$project->id}}" {{old('project') == $project->id ? 'selected' : ''}}>{{$project->project_name}}</option>
+                            @endforeach
+                            @else
+                                <option selected hidden>No Project Found</option>
+                            @endif
+                        </select>
+                    </div>
+
+                    <!-- Assign to -->
+                    <div>
+                        <label class="block text-sm mb-1 light-text-white">Assign to</label>
+                        <select name="assign_to" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                            <option value="{{$singleTask->assign_to ?? ''}}" selected >{{$singleTask->assignedUser->name ?? ''}}</option>
+                            @if(count($users) > 0)
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}" {{ old('assign_to') == $user->id ? 'selected' : ''}}>{{$user->name}}</option>
+                                @endforeach
+                            @else
+                                <option selected hidden>No User Found</option>
+                            @endif
+                        </select>
+                    </div>
+
+                    <!-- Start Date -->
+                    <div>
+                        <label class="block text-sm mb-1 light-text-white">Start Date</label>
+                        <input type="date" placeholder="dd / mm / yy" name="start_date" value="{{$singleTask->start_date ?? ''}}"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                    </div>
+
+                    <!-- Due Date -->
+                    <div>
+                        <label class="block text-sm mb-1 light-text-white">Due Date</label>
+                        <input type="date" placeholder="dd / mm / yy" name="due_date" value="{{$singleTask->due_date ?? ''}}"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div>
+                    <label class="block text-sm mb-1 light-text-white">Description</label>
+                    <textarea placeholder="Description here" rows="4" name="description" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">{{$singleTask->description ?? ''}}</textarea>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex justify-end gap-3 pt-4">
+                    {{-- <button type="button" id="cancelTicket"
+                        class="px-4 py-2 light-text-white light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                        Cancel
+                    </button> --}}
+                    <button type="submit" class="px-4 py-2 bg-orange-500 rounded-lg hover:bg-orange-600">
+                        Edit
+                    </button>
+                </div>
+            </form>
+
         </div>
     </div>
 
@@ -3932,12 +4142,12 @@
             <div class="flex justify-between items-center px-6 py-4 border-b border-gray-300 dark:border-gray-700">
                 <div>
                     <div class="flex items-center space-x-3">
-                        <h2 class="text-lg light-text-black font-semibold">Research FAQ page UX</h2>
+                        <h2 id="modal-task-name" class="text-lg light-text-black font-semibold">Research FAQ page UX</h2>
                         <div><img src="{{asset('assets/dots-vertical.svg')}}"></div>
                     </div>
                     <div class="mt-2 flex items-center space-x-3">
                         <div class="bg-green-900 w-10 py-1 px-3 bg-opacity-30 rounded-full">
-                            <p class="text-green-400 text-sm">UX</p>
+                            <p id="modal-task-category" class="text-green-400 text-sm">UX</p>
                         </div>
                     </div>
                 </div>
@@ -3968,120 +4178,57 @@
                         </div>
                     </div>
 
-                    <!-- Date Separator with Line Through -->
-                    <div class="relative flex items-center px-6 my-6">
-                        <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
-                        <span class="flex-shrink-0 mx-3 text-xs bg-gray-300 dark:bg-gray-700 px-3 py-1 rounded-full">
-                            Tuesday, July 20th
-                        </span>
-                        <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
+                    <div id="chatMessages" class="space-y-4">
+                        
                     </div>
 
-                    <!-- Message - User 1 -->
-                    <div class="flex items-start space-x-3">
-                        <img src="Photos.png" class="w-10 h-10 rounded-md" alt="user" />
-                        <div>
-                            <p class="text-sm light-text-black font-semibold">
-                                Chan <span class="text-xs  light-text-black ml-1">4:49 PM</span>
-                            </p>
-                            <p class="text-sm light-text-black">Anyone in Boston?</p>
-                            <div class="flex space-x-2 mt-1 text-xs">
-                                <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl">❤️ 2</button>
-                                <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl"><img
-                                        src="Icon (12).svg" alt=""></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Message - User 2 -->
-                    <div class="flex items-start space-x-3">
-                        <img src="Rectangle 220.png" class="w-10 h-10 rounded-md" alt="user" />
-                        <div>
-                            <p class="text-sm light-text-black font-semibold">
-                                Tommy Lee <span class="text-xs light-text-black ml-1">4:49 PM</span>
-                            </p>
-                            <p class="text-sm light-text-black">Anyone in Boston?</p>
-                            <div class="flex space-x-2 mt-1 text-xs">
-                                <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl">❤️ 1</button>
-                                <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl"><img
-                                        src="Icon (12).svg" alt=""></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Date Separator with Line Through -->
-                    <div class="relative flex items-center px-6 my-6">
-                        <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
-                        <span class="flex-shrink-0 mx-3 text-xs bg-gray-300 dark:bg-gray-700 px-3 py-1 rounded-full">
-                            Tuesday, July 20th
-                        </span>
-                        <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
-                    </div>
-
-
-                    <!-- Message - User 1 -->
-                    <div class="flex items-start space-x-3">
-                        <img src="Photos.png" class="w-10 h-10 rounded-md" alt="user" />
-                        <div>
-                            <p class="text-sm light-text-black font-semibold">
-                                Chan <span class="text-xs light-text-black text-gray-400 ml-1">4:49 PM</span>
-                            </p>
-                            <p class="text-sm light-text-black">Anyone in Boston?</p>
-                            <div class="flex space-x-2 mt-1 text-xs">
-                                <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl">❤️ 2</button>
-                                <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl"><img
-                                        src="Icon (12).svg" alt=""></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Message - User 2 -->
-                    <div class="flex items-start space-x-3">
-                        <img src="Rectangle 220.png" class="w-10 h-10 rounded-md" alt="user" />
-                        <div>
-                            <p class="text-sm light-text-black font-semibold">
-                                Tommy Lee <span class="text-xs light-text-black text-gray-400 ml-1">4:49 PM</span>
-                            </p>
-                            <p class="text-sm light-text-black">Anyone in Boston?</p>
-                            <div class="flex space-x-2 mt-1 text-xs">
-                                <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl">❤️ 1</button>
-                                <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl"><img
-                                        src="Icon (12).svg" alt=""></button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
             <!-- Input -->
             <div
                 class="border-t rounded-b-lg rounded-t-lg  border-gray-300 dark:border-gray-700 bg-black light-bg-d7d7d7 ">
-                <div class="flex items-center  px-4"><span class="flex items-center gap-1"><img
-                            class=" w-full h-full" src="Icon (1).svg" alt=""><img class=" w-full h-full"
-                            src="Icon.svg" alt=""><img class=" w-full h-full" src="Icon (2).svg"
-                            alt=""><img class=" w-full h-full" src="Rectangle 226.svg"
-                            alt=""><img class=" w-full h-full" src="Icon (6).svg" alt=""><img
-                            class=" w-full h-full" src="Rectangle 226.svg" alt=""><img
-                            class=" w-full h-full" src="Icon (7).svg" alt=""><img class=" w-full h-full"
-                            src="Icon (8).svg" alt=""><img class=" w-full h-full"
-                            src="Rectangle 226.svg" alt=""><img class=" w-full h-full"
-                            src="Icon (9).svg" alt=""><img class=" w-full h-full"
-                            src="Rectangle 226.svg" alt=""><img class=" w-full h-full"
-                            src="Icon (10).svg" alt=""><img class=" w-full h-full" src="Icon (11).svg"
-                            alt=""></span></div>
-                <div class="flex   light-bg-d7d7d7">
-                    <input type="text" placeholder="@type here"
+                <div class="flex items-center  px-4"><span class="flex items-center gap-1">
+                    <img class=" w-full h-full" src="{{asset('assets/Icon (1).svg')}}" alt="bold" id="btn-bold">
+                            <img class=" w-full h-full" src="{{asset('assets/Icon.svg')}}" alt="italic" id="btn-italic">
+                            <img class=" w-full h-full" src="{{asset('assets/Icon (2).svg')}}" alt="underline"  >
+                            <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line" >
+                            <img class=" w-full h-full" src="{{asset('assets/Icon (6).svg')}}" alt="link" id="btn-link" >
+                            <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line" >
+                            <img class=" w-full h-full" src="{{asset('assets/Icon (7).svg')}}" alt="ordered" id="btn-ordered" >
+                            <img class=" w-full h-full" src="{{asset('assets/Icon (8).svg')}}" alt="bullet" id="btn-bullet">
+                            <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line"  >
+                            <img class=" w-full h-full" src="{{asset('assets/Icon (9).svg')}}" alt="left" id="btn-left">
+                            <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line">
+                            <img class=" w-full h-full" src="{{asset('assets/Icon (10).svg')}}" alt="code" id="btn-code">
+                            <img class=" w-full h-full" src="{{asset('assets/Icon (11).svg')}}" alt="">
+                        </span>
+                        </div>
+                {{-- <div class="flex   light-bg-d7d7d7">
+                    <input id="editor" type="text" placeholder="@type here"
                         class="w-full p-4  light-bg-d9d9d9 light-text-black  focus:outline-none text-sm placeholder-gray-500" />
-                </div>
-                <div class="flex rounded-b-lg light-bg-d9d9d9 items-center justify-between px-4"><span
-                        class="flex items-center gap-1"><img class="pb-2 w-full h-full" src="Group 216.svg"
-                            alt=""><img class="pb-2 w-full h-full" src="Icon (3).svg"
-                            alt=""><img class="pb-2 w-full h-full" src="Icon (4).svg"
-                            alt=""><img class="pb-2 w-full h-full" src="Icon (5).svg"
-                            alt=""></span>
-                    <button class="light-bg-d9d9d9 hover:bg-orange-600 pt-10 rounded-r text-white relative">
+                </div> --}}
+                <div class="flex items-center light-bg-d7d7d7">
+                        <input type="hidden" id="chat-task-id" name="task_id" value="">
+                        <input type="hidden" id="chat-sender-id" name="sender_id" value="{{ auth()->id() }}">
+                        <input type="hidden" id="chat-receiver-id" name="receiver_id" value="">
+                    <div id="editor" class="w-full p-4 light-bg-d9d9d9 light-text-black text-sm" style="height:80px !important;"></div>
+                    <button id="send-btn" class="light-bg-d9d9d9 hover:bg-orange-600 pt-10 rounded-r text-white relative">
                         <span class="absolute bottom-2 right-3 text-lg">➤</span>
                     </button>
+                </div>
+
+                <div class="flex rounded-b-lg light-bg-d9d9d9 items-center justify-between px-4"><span
+                        class="flex items-center gap-1">
+                            <img class="pb-2 w-full h-full" src="{{asset('assets/Group 216.svg')}}"alt="img" id="btn-image">
+                            <img class="pb-2 w-full h-full" src="{{asset('assets/Icon (3).svg')}}" alt="" id="btn-underline">
+                            <img class="pb-2 w-full h-full" src="{{asset('assets/Icon (4).svg')}}" alt="emoji" id="btn-emoji">
+                            <div id="hidden-toolbar" style="display:none">
+                                <button class="ql-emoji"></button>
+                            </div>
+                            <img class="pb-2 w-full h-full" src="{{asset('assets/Icon (5).svg')}}" alt="">
+                        </span>
+
                 </div>
 
             </div>

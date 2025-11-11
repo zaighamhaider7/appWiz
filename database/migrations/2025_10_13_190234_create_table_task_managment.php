@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('due_date');
             $table->string('description');
             $table->string('task_status')->default('In Process');
+            $table->date('completed_on')->nullable();
             $table->timestamps();
         });
     }

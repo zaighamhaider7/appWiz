@@ -15,8 +15,22 @@ class TaskManagment extends Model
         'start_date',
         'due_date',
         'description',
-        'task_status'
+        'task_status',
+        'completed_on'
     ];
+
+    public function assignedUser()
+    {
+        return $this->belongsTo(User::class, 'assign_to');
+    }
+
+    public function taskProject()
+    {
+        return $this->belongsTo(Project::class, 'project');
+    }
+
+    
+
 }
 
 ?>

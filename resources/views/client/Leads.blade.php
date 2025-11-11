@@ -860,7 +860,7 @@
                                                 dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600
                                                 focus:outline-none focus:ring-2 focus:ring-orange-500">
                                                 <option value="Filter" selected hidden>Filter</option>
-                                                <option value="1">1</option>
+                                                <option value="5">5</option>
                                                 <option value="25">25</option>
                                                 <option value="50">50</option>
                                             </select>
@@ -1004,24 +1004,24 @@
                                                 <div class="flex items-center gap-2">
                                                     <div><img src="Avatar (3).svg" alt=""></div>
                                                     <div>
-                                                        <p>{{$lead->lead_name}}</p>
+                                                        <p>{{$lead->lead_name ?? "N/A"}}</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-thin text-gray-400"> {{$lead->email}} </div>
+                                                <div class="text-sm font-thin text-gray-400"> {{$lead->email ?? "N/A"}} </div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <span
-                                                    class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">{{$lead->phone}}</span>
+                                                    class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">{{$lead->phone ?? "N/A" }}</span>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <span
-                                                    class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">{{$lead->lead_source}}</span>
+                                                    class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">{{$lead->lead_source ?? "N/A"}}</span>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <span
-                                                    class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">{{$lead->business_name}}
+                                                    class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">{{$lead->business_name ?? "N/A" }}
                                                     </span>
                                             </td>
 
@@ -2364,7 +2364,7 @@
             const value = select.value;
 
             if (value === 'In Process') {
-                select.style.backgroundColor = 'orange';
+                select.style.backgroundColor = '#00CFE826';
                 select.style.color = 'white';
             } else if (value === 'Converted') {
                 select.style.backgroundColor = 'green';
