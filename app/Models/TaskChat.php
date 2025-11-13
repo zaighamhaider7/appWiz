@@ -17,4 +17,10 @@ class TaskChat extends Model
     {
         return $this->belongsTo(User::class, 'sender_id');
     }
+
+    public function likes()
+    {
+        return $this->hasMany(ChatLike::class, 'chat_id', 'id');
+    }
+
 }

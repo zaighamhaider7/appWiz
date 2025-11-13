@@ -852,23 +852,34 @@
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
-                        @foreach($statuses as $status)
+                        @foreach($taskStatus  as $status)
                             <div>
                                 <!-- Column Header -->
                                 <div class="flex justify-between items-center mb-10">
-                                    <h3>{{ $status }}</h3>
+                                    <h3>{{ $status->task_status }}</h3>
                                     <div class="dropdown-wrapper" style="position: relative; display: inline-block;">
                                         <img src="{{ asset('assets/dots-vertical.svg') }}" class="dots-toggle" style="cursor: pointer; width: 24px;" />
                                         <div class="custom-dropdown" style="display: none; position:absolute; width: 120px; right: 35px; background: #282828; border-radius: 4px;">
                                             <div class="openPaymentModal dropdown-option" style="padding: 8px; cursor: pointer;">New Page</div>
-                                            <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Edit</div>
-                                            <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Delete</div>
+                                            {{-- <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Edit</div> --}}
+                                            <a href="{{route('taskStatus.edit', $status->id)}}">
+                                                <div id="edit-task-status" class="dropdown-option" style="padding: 8px; cursor: pointer;">Edit</div>
+                                            </a>
+                                            {{-- <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Delete</div> --}}
+                                            <form action="{{ route('taskStatus.delete', $status->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                <button type="submit" 
+                                                        class="dropdown-option" 
+                                                        style="padding: 8px; cursor: pointer; border: none; background: none;">
+                                                    Delete
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Tasks for this status -->
-                                @forelse($tasksByStatus[$status] as $task)
+                                @forelse($tasksByStatus[$status->task_status] as $task)
                                     <div class="light-bg-d9d9d9 h-32 rounded-md mb-7">
                                         <div class="flex items-center p-3 justify-between">
                                             <div class="bg-green-900 py-1 px-3 bg-opacity-30 rounded-full">
@@ -1164,10 +1175,7 @@
                                                                             </option>
                                                                         @endif
                                                                     @endforeach
-                                                                    {{-- <option value="In Process" style="color: black; background-color: #fff;">In Process</option>
-                                                                    <option value="Delayed" style="color: black; background-color: #fff;">Delayed</option>
-                                                                    <option value="Completed" style="color: black; background-color: #fff;">Completed</option>
-                                                                    <option value="Cancelled" style="color: black; background-color: #fff;">Cancelled</option> --}}
+                                                                 
                                                                 </select>
                                                             </form>
                                                         </div>
@@ -1370,6 +1378,24 @@
         </script>
     @endif
 
+    @if(isset($singleStatus))
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const ticketModal = document.getElementById('edittaskstatusform');
+                if (ticketModal) {
+                    ticketModal.classList.remove('hidden');
+                }
+            });
+        </script>
+    @endif
+
     @if ($errors->any())
         <div style="z-index: 9999 !important;"
             class="success-message fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
@@ -1428,6 +1454,32 @@
         <div style="z-index: 9999 !important;"
             class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
             {{ session('TaskStatusAdd') }}
+        </div>
+
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
+    @endif
+
+    @if (session('TaskStatusUpdate'))
+        <div style="z-index: 9999 !important;"
+            class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+            {{ session('TaskStatusUpdate') }}
+        </div>
+
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
+    @endif
+
+    @if (session('TaskStatusDelete'))
+        <div style="z-index: 9999 !important;"
+            class="success-message fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
+            {{ session('TaskStatusDelete') }}
         </div>
 
         <style>
@@ -1506,7 +1558,6 @@
         </script>
     @endif
 
-
     @if (session('UpdateSingleTask'))
         <div style="z-index: 9999 !important;"
             class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
@@ -1530,20 +1581,20 @@
         <script>
             function loadTaskChats(taskId) {
                 $.ajax({
-                    url: `/task_management/getTaskChats/${taskId}`, // adjust route
+                    url: `/task_management/getTaskChats/${taskId}`, 
                     method: 'GET',
                     success: function(response) {
-                        var chatContainer = $('#chatMessages'); // container div
+                        var chatContainer = $('#chatMessages');
                         chatContainer.html(''); 
 
                         response.chats.forEach(function(chat) {
-                            // Format date for separator if needed
+
                             let chatDate = new Date(chat.created_at);
                             let dateString = chatDate.toLocaleDateString('en-US', {
                                 weekday: 'long', month: 'long', day: 'numeric'
                             });
 
-                            // Render chat message
+                            
                             chatContainer.append(`
                                 <div class="flex items-start space-x-3">
                                     <img src="${chat.sender.image || '{{asset('assets/Photos.png')}}'}" 
@@ -1557,7 +1608,9 @@
                                         </p>
                                         <pre class="text-sm light-text-black">${chat.message}</pre>
                                         <div class="flex space-x-2 mt-1 text-xs">
-                                            <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl">❤️ 0</button>
+                                            <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl like-btn" data-chat-id="${chat.id}">❤️ 
+                                                <span class="like-count">${chat.likes_count || 0}</span>
+                                            </button>
                                             <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl">
                                                 <img src="Icon (12).svg" alt="">
                                             </button>
@@ -1576,7 +1629,6 @@
             $(document).ready(function() {
                     $(document).on('click', '.task-comment', function() {
                         var taskId = $(this).data('task-id');
-                        console.log("Task ki id hai: " + taskId);
 
                             $.ajax({
                                 url: "{{ route('task.id') }}",
@@ -1586,7 +1638,6 @@
                                     _token: $('meta[name="csrf-token"]').attr('content')
                                 },
                                 success: function(response) {
-                                    console.log(response);
                                     $('#modal-task-name').text(response.taskdata.task_name);
                                     $('#modal-task-category').text(response.taskdata.task_category);
 
@@ -1601,7 +1652,24 @@
                             });
                     })
             });
-            
+
+
+            $(document).on('click', '.like-btn', function() {
+                let btn = $(this);
+                let chatId = btn.data('chat-id');
+
+                $.ajax({
+                    url: `/task_management/chat/${chatId}/like`,
+                    method: 'POST',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(res) {
+                        btn.find('.like-count').text(res.count);
+                    }
+                });
+            });
+ 
         </script>
 
     <script>
@@ -1672,12 +1740,6 @@
             };
 
 
-            // Emoji button (just focuses to use emoji plugin)
-            // document.getElementById("btn-emoji").onclick = () =>
-            //     quill.theme.tooltip.edit("emoji");
-
-            
-
             document.getElementById("btn-emoji").onclick = () => {
                 
                 const emojiButton = document.querySelector('.ql-emoji');
@@ -1720,13 +1782,11 @@
         document.getElementById("send-btn").onclick = async (e) => {
             e.preventDefault();
 
-            var chatMessage = quill.root.innerHTML; // Text + temporary <img> tags
+            var chatMessage = quill.root.innerHTML; 
             var taskId = $('#chat-task-id').val();
             var senderId = $('#chat-sender-id').val();
             var receiverId = $('#chat-receiver-id').val();
 
-            // Collect image files from an <input type="file"> if using separate image input
-            // OR convert <img src="data:image/..."> to file objects if using Base64 in Quill
             let imageFiles = [];
             quill.root.querySelectorAll('img').forEach(img => {
                 if (img.src.startsWith("data:")) {
@@ -1736,7 +1796,6 @@
                 }
             });
 
-            // Upload images one by one and replace <img> src with URL
             for (let i = 0; i < imageFiles.length; i++) {
                 let formData = new FormData();
                 formData.append('image', imageFiles[i].file);
@@ -1747,14 +1806,11 @@
                     body: formData
                 });
                 let data = await response.json();
-                // Replace Base64 in Quill HTML with uploaded URL
                 imageFiles[i].element.src = data.url;
             }
 
-            // After all images uploaded, get final HTML
             chatMessage = quill.root.innerHTML;
 
-            // Send message to backend
             $.ajax({
                 url: "{{ route('task.chat') }}",
                 method: "POST",
@@ -1766,9 +1822,8 @@
                     _token: $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    console.log("Chat saved successfully", response);
-                    quill.setContents([]); // Clear editor
-                    loadTaskChats(taskId); // Reload chats
+                    quill.setContents([]); 
+                    loadTaskChats(taskId); 
                 },
                 error: function(xhr) {
                     console.error("Error sending chat:", xhr.responseText);
@@ -1776,7 +1831,6 @@
             });
         };
 
-        // Helper function to convert Base64 -> Blob
         function dataURLtoBlob(dataurl) {
             let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
                 bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
@@ -1797,16 +1851,20 @@
         function updateDropdownStyle(select) {
             const value = select.value;
 
-            if (value === 'In Process') {
+            if (value === 'To Do') {
+                select.style.backgroundColor = '#95A5A6';
+                select.style.color = 'white';
+            } else if (value === 'In Progress') {
                 select.style.backgroundColor = '#00CFE826';
                 select.style.color = 'white';
-            } else if (value === 'Delayed') {
-                select.style.backgroundColor = 'orange';
+            } else if (value === 'In Review') {
+                select.style.backgroundColor = '#F39C12';
                 select.style.color = 'white';
-            } else if (value === 'Completed') {
+            } else if (value === 'Done') {
                 select.style.backgroundColor = 'green';
                 select.style.color = 'white';
-            } else if (value === 'Cancelled') {
+            }
+            else if (value === 'Cancelled') {
                 select.style.backgroundColor = 'red';
                 select.style.color = 'white';
             }
@@ -2392,6 +2450,7 @@
             const cancelTicket = document.getElementById('cancelTicket');
             const ticketForm = document.getElementById('ticketForm');
             const taskstatusform = document.getElementById('taskstatusform');
+            const edittaskstatusform = document.getElementById('edittaskstatusform');
             const openTicketButtons = document.querySelectorAll('.openTicketModal');
 
             // Payment Modal Elements
@@ -2415,6 +2474,13 @@
             document.getElementById("add-task-status").addEventListener("click", () => {
                 taskstatusform.classList.remove('hidden');
             })
+
+            document.getElementById("edit-task-status").addEventListener("click", () => {
+                edittaskstatusform.classList.remove('hidden');
+            })
+
+            const edittaskstatusclose = document.getElementById('edittaskstatusformbtn');
+            edittaskstatusclose?.addEventListener('click', () => edittaskstatusform.classList.add('hidden'));
 
             // Open chat modal from multiple triggers
             openTicketChatButtons.forEach(btn => {
@@ -3828,6 +3894,57 @@
                     </div>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <div id="edittaskstatusform" class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
+        <div
+            class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto  relative">
+            <!-- Close Button -->
+            <button id="edittaskstatusformbtn" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+                ✕
+            </button>
+
+            <div class="px-6 py-3"> <!-- Container for heading + divider -->
+                <h2 class="text-lg light-text-black  font-semibold">Add New Status</h2>
+            </div>
+            <div class=""> <!-- Container for heading + divider -->
+                <div class="border-t border-gray-600 w-full mt-4"></div>
+            </div>
+
+            <!-- Ticket Form -->
+            <form id="ticketForm" class="space-y-4 p-6" action="{{route('taskStatus.update')}}"  method="POST">
+                @csrf
+                <!-- Title, Project Name, Priority -->
+                <input type="text" name="status_id" value="{{$singleStatus->id ?? ''}}" hidden>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="grid grid-cols-1 gap-2">
+                        <div>
+                            <label class="block text-sm mb-1 light-text-black">Task Status</label>
+                            <input type="text" name="task_status" value="{{$singleStatus->task_status ?? ''}}" placeholder="Enter Task Status"
+                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Buttons -->
+                <div class="flex justify-end items-center">
+
+                    <div class="flex justify-end gap-3 pt-3">
+                        <button type="button" id="cancelTicket"
+                            class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-orange-500 rounded-lg hover:bg-orange-600">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </form>
+
         </div>
     </div>
     

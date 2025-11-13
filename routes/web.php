@@ -93,12 +93,15 @@ Route::delete('task_management/{id}', [TaskManagmentController::class, 'TaskDele
 Route::post('task_management/update/{id}', [TaskManagmentController::class, 'taskUpdate'])->name('task.update');
 Route::get('/task_management/edit/{id}', [TaskManagmentController::class, 'taskEdit'])->name('task.edit');
 
+Route::post('task_management/update-task_status', [TaskManagmentController::class, 'taskStatusUpdate'])->name('taskStatus.update');
 Route::post('/task_management/task_status',[TaskManagmentController::class, 'taskStatus_store'])->name('taskStatus.store');
-
+Route::post('/task_management/task_status/delete/{id}',[TaskManagmentController::class, 'taskStatus_delete'])->name('taskStatus.delete');
+Route::get('/task_management/task_status/edit/{id}',[TaskManagmentController::class, 'taskStatus_edit'])->name('taskStatus.edit');
 
 
 Route::post('/task_management/taskChats', [taskChatController::class, 'taskId'])->name('task.id');
 Route::post('/task/chat/upload-image', [TaskChatController::class, 'uploadImage'])->name('task.chat.upload_image');
 Route::post('/task_management/taskChatsStore', [taskChatController::class, 'taskChat'])->name('task.chat');
 Route::get('/task_management/getTaskChats/{taskId}', [TaskChatController::class, 'getTaskChats']);
-// Route::get('/task_management/chatsCount', [TaskChatController::class, 'chatsCount']);
+Route::post('/task_management/chat/{chatId}/like', [TaskChatController::class, 'toggleLike']);
+

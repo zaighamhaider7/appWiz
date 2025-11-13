@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\TaskManagment;
 use App\Models\taskChat;
+use App\Models\ChatLike;
 
 class taskChatController extends Controller
 {
@@ -62,27 +63,38 @@ class taskChatController extends Controller
     {
         $chats = TaskChat::where('task_id', $taskId)
             ->with('sender') 
+            ->withCount('likes')
             ->orderBy('created_at', 'asc')
             ->get();
+
 
         return response()->json([
             'chats' => $chats,
         ]);
     }
 
-    // public function chatsCount()
-    // {
-    //     $tasks = TaskManagment::all();
-    //     $taskCommentsCount = [];
+    public function toggleLike($chatId)
+    {
+        $userId = auth()->id();
 
-    //     foreach ($tasks as $task) {
-    //         $taskCommentsCount[$task->id] = TaskChat::where('task_id', $task->id)->count();
-    //     }
+        $like = ChatLike::where('chat_id', $chatId)->where('user_id', $userId)->first();
 
-    //     return response()->json([
-    //         'taskCommentsCount' => $taskCommentsCount,
-    //     ]);
-    // }
+        if ($like) {
+            $like->delete();
+            $liked = false;
+        } else {
+            ChatLike::create(['chat_id' => $chatId, 'user_id' => $userId]);
+            $liked = true;
+        }
+
+        $count = ChatLike::where('chat_id', $chatId)->count();
+
+        return response()->json([
+            'liked' => $liked,
+            'count' => $count,
+        ]);
+    }
+
 
 
 }
