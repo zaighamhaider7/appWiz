@@ -8,6 +8,9 @@ use Google\Analytics\Data\V1beta\Dimension;
 use Google\Analytics\Data\V1beta\Metric;
 use Google\Analytics\Data\V1beta\RunReportRequest;
 use App\Models\Role;
+use App\Models\Project;
+use App\Models\User;
+use App\Models\Ticket;
 
 class AnalyticsController extends Controller
 {
@@ -16,10 +19,10 @@ class AnalyticsController extends Controller
         $propertyId = '398445627';
         $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
 
-        // GA4 Client
         $client = new BetaAnalyticsDataClient([
             'credentials' => $credentials,
         ]);
+
 
         // --- All Dimensions ---
         $dimensions = [
@@ -147,10 +150,36 @@ class AnalyticsController extends Controller
     //    $id = auth()->user()->id;
     //    $check = Role::where('userId');
     //    dd($id);
+
+        // counts
+        $ticketData = Ticket::with('project', 'user')->get();
+        $ticketCount = $ticketData->count();
+        $projectCount = Project::all()->count();
+        $clientCount = User::where('name', '!=' ,'admin')->get()->count();
+
+        $thisMonthClients = User::where('name', '!=' ,'admin')->whereMonth('created_at', now()->month)
+                        ->whereYear('created_at', now()->year)
+                        ->count();
+
+        $thisMonthTickets = Ticket::whereMonth('created_at', now()->month)
+                         ->whereYear('created_at', now()->year)
+                         ->count();
+
+        $thisMonthProjects = Project::whereMonth('created_at', now()->month)
+                         ->whereYear('created_at', now()->year)
+                         ->count();
+
      return view('client.analytics')->with([
             'data' => $currentData,
             'summary' => $results,
             'source' => $sources,
+            'ticketData' => $ticketData,
+            'ticketCount' => $ticketCount,
+            'projectCount' => $projectCount,
+            'clientCount' => $clientCount,
+            'thisMonthClients' => $thisMonthClients,
+            'thisMonthTickets' => $thisMonthTickets,
+            'thisMonthProjects' => $thisMonthProjects,
         ]);
     }
 

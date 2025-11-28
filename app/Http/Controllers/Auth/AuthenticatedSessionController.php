@@ -43,3 +43,26 @@ class AuthenticatedSessionController extends Controller
         return redirect('/');
     }
 }
+
+
+// public function store(LoginRequest $request): RedirectResponse
+// {
+//     $request->authenticate();
+//     $request->session()->regenerate();
+
+//     // Admin credentials
+//     $adminEmail = 'admin@example.com';
+//     $adminPassword = 'password123'; 
+
+//     $user = auth()->user();
+
+//     if (
+//         $user->email === $adminEmail &&
+//         Hash::check($adminPassword, $user->password)
+//     ) {
+//         return redirect()->route('admin.dashboard');
+//     }
+
+//     return redirect()->route('user.dashboard');
+// }
+

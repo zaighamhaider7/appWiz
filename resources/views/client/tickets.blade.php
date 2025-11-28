@@ -39,6 +39,15 @@
             /* gray-500 */
         }
 
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
         button.custom-btn {
             background-color: var(--btn-bg);
             border-color: var(--btn-border);
@@ -57,6 +66,7 @@
             /* Prevent horizontal scrolling */
             transition: background-color 0.3s ease, color 0.3s ease;
             /* Smooth transition for dark mode */
+            background-color: #121212;
         }
 
         /* Custom scrollbar for better aesthetics */
@@ -102,6 +112,12 @@
             display: none;
         }
 
+
+        .dark-mode .light-bg-bill {
+            background-color: #121212 !important;
+        }
+
+
         .dark-mode .light-mode-item {
             display: none;
         }
@@ -146,16 +162,24 @@
             color: #111827;
         }
 
+        .light-text-white {
+            color: #FFFFFF;
+        }
+
         .light-text-black {
             color: #000000;
         }
 
         .light-border-gray-300 {
-            border-color: #D1D5DB;
+            border-color: #4e4e4e;
         }
 
         .light-hover-bg-gray-200:hover {
             background-color: #E5E7EB;
+        }
+
+        .light-hover-bg-gray-300:hover {
+            background-color: #323232;
         }
 
         .light-bg-orange-600 {
@@ -194,10 +218,6 @@
             color: #F97316;
         }
 
-        .light-text-gray-x {
-            color: #D2D2D2;
-        }
-
         .light-hover-text-orange-700:hover {
             color: #C2410C;
         }
@@ -229,6 +249,10 @@
             background-color: #D9D9D9;
         }
 
+
+        .row-span {
+            color: white;
+        }
 
 
         /* DARK MODE STYLES */
@@ -308,10 +332,6 @@
             filter: invert(1);
         }
 
-        .dark-mode .light-bg-bill {
-            background-color: #121212 !important;
-        }
-
         /* Sidebar specific dark mode styles */
         .dark-mode aside {
             background-color: #171717 !important;
@@ -373,6 +393,8 @@
             background-color: #333333 !important;
             /* Darker hover for header buttons */
         }
+
+
 
 
         /* Connect Domain Section */
@@ -483,6 +505,11 @@
             /* gray-700 */
         }
 
+        .dark-mode .light-border-gray2 {
+            border-color: #1C1C1C !important;
+            /* gray-700 */
+        }
+
         .dark-mode .light-hover-bg-gray-200:hover {
             background-color: #333333 !important;
             /* Adjusted hover for dark mode table buttons */
@@ -511,6 +538,25 @@
             color: #FC5E14 !important;
             /* Orange hover for action icon */
         }
+
+        /* Remove background color from upload button */
+        .file-input::-webkit-file-upload-button {
+            background: none;
+            color: inherit;
+            padding: 4px 10px;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* For Firefox */
+        .file-input::file-selector-button {
+            background: none;
+            color: inherit;
+            padding: 4px 10px;
+            cursor: pointer;
+            border: none;
+        }
+
 
         /* Progress bars */
         .dark-mode .bg-gray-200 {
@@ -570,7 +616,8 @@
 
         /* --- RESPONSIVENESS (MEDIA QUERIES) --- */
 
-        /* === Base Sidebar (Mobile First) === */
+        /* Mobile-first approach */
+        /* Sidebar is hidden by default on mobile */
         aside {
             position: fixed;
             top: 0;
@@ -586,64 +633,72 @@
             overflow-y: auto;
         }
 
-        /* Show Sidebar when open */
+        /* Sidebar when open */
         aside.open {
-            transform: translateX(0);
+            left: 0;
+            /* Slide in when open */
         }
 
-        /* === Overlay === */
+        /* Overlay for when sidebar is open on mobile */
         .sidebar-overlay {
             position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 40;
             display: none;
-            z-index: 90;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .sidebar-overlay.open {
             display: block;
+            opacity: 1;
         }
 
-        /* Prevent scrolling when sidebar is open */
+        /* Hide the main content overflow when sidebar is open */
         body.sidebar-open {
             overflow: hidden;
         }
 
-        /* === Hamburger === */
+        /* Hamburger menu - visible only on smaller screens */
         .hamburger-menu {
             display: block;
+            /* Visible by default on mobile */
             cursor: pointer;
             padding: 0.5rem;
-            background: none;
-            border: none;
+            border-radius: 9999px;
+            transition: background-color 0.3s ease;
+            z-index: 60;
+            /* Ensure it's above other elements */
         }
 
-        /* === Media Queries === */
 
-        /* Small screens (max-width: 640px) */
+
+        /* Hide John Wick name on small screens */
+        .header .sm\:block {
+            display: none;
+        }
+
+        /* Small screens (sm) - 640px and up */
         @media (max-width: 640px) {
             .header .sm\:block {
                 display: block;
             }
 
+            /* Show John Wick name on sm and up */
             aside {
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100dvh;
-                width: 16rem;
-                /* 256px */
-                background-color: #fff;
-                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-                z-index: 100;
-                overflow-y: auto;
+                display: none !important;
             }
 
             table th,
             table td {
-                padding: 1rem 1.5rem;
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+                padding-top: 1rem;
+                padding-bottom: 1rem;
             }
 
             table th .icon.mr-2 {
@@ -655,75 +710,39 @@
             }
         }
 
-        /* Medium screens (min-width: 768px) */
+        /* Medium screens (md) - 768px and up */
         @media (min-width: 768px) {
             table th .icon.mr-10 {
                 margin-right: 2.5rem;
             }
         }
 
-        /* Large screens (min-width: 1024px) */
+        /* Large screens (lg) - 1024px and up */
         @media (min-width: 1024px) {
+
+            /* Sidebar becomes part of the normal layout */
             aside {
                 position: sticky;
-                top: 0;
                 left: 0;
-                height: auto;
                 width: 16rem;
-                transform: none !important;
                 flex-shrink: 0;
+                transform: none !important;
+                /* Prevent any transform from mobile state */
             }
 
+            /* Hide hamburger menu on desktop */
             .hamburger-menu {
-                display: none !important;
+                display: block;
             }
 
+            /* Hide overlay on desktop */
             .sidebar-overlay {
                 display: none !important;
             }
 
+            /* Remove overflow hidden from body on desktop */
             body.sidebar-open {
                 overflow: visible;
-            }
-        }
-
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            width: 16rem;
-            background: #fff;
-            z-index: 50;
-            transform: translateX(-100%);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .sidebar.open {
-            transform: translateX(0);
-        }
-
-        .sidebar-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 40;
-        }
-
-        .sidebar-overlay.hidden {
-            display: none;
-        }
-
-        @media (min-width: 1024px) {
-            .sidebar {
-                position: static;
-                transform: none !important;
-                height: auto;
-            }
-
-            .sidebar-overlay,
-            #hamburger {
-                display: none !important;
             }
         }
 
@@ -741,393 +760,73 @@
 
 <body>
     <div class="flex min-h-screen light-bg-white">
-
+        <!-- Sidebar -->
         @include('layouts.sidebar')
 
-        <div id="overlay" class="sidebar-overlay fixed inset-0 bg-black bg-opacity-50 hidden z-40"></div>
-
         <!-- Main Content Area -->
-        <main class="flex-1  overflow-y-auto">
-            <!-- Header -->
+        <main class="flex-1 light-bg-bill ">
+
             @include('layouts.header')
 
-            <div class="p-6 light-bg-bill -mt-7 lg:p-8">
+            <div class="p-6 light-bg-bill h-screen -mt-5 lg:p-8">
 
-                <!-- Dashboard Title -->
-                <h1 class="text-3xl font-bold light-text-gray-800 mb-6">Dashboard</h1>
-
-
-                <!-- Overview Cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-                    <!-- Card 1: Total Projects -->
-                    <div class="p-6 rounded-xl shadow-sm flex  items-center justify-between"
-                        style="background-color: #D6F7FB;">
-                        <div class="w-full max-w-xs"> <!-- Adjust width as needed -->
-                            <!-- Label + Icon Row -->
-                            <div class="flex justify-between items-start mb-1">
-                                <p class="light-text-gray-700 mb-5 text-xs"><span style="color:#AFAFAF;">Total
-                                        Clients<span></p>
-                                <img src="{{asset('assets/more.svg')}}" alt="Menu" class="h-4 w-4 mt-0.5">
-                            </div>
-
-                            <!-- "000" Row (if shown) -->
-                            <p class="text-md text-4xl font-medium light-text-gray-800 mb-2">{{$clientCount}}</p>
-                            <!-- Light gray, subtle -->
-                            <div
-                                class="bg-green-900 px-1 justify-center bg-opacity-50 hover:opacity-100 flex rounded-sm w-28">
-                                <p class="text-xs text-green-500"> +{{$thisMonthClients}} This Month</p>
-                            </div>
-
-
-                        </div>
-
-                    </div>
-                    <!-- Card 2: In-Process Projects -->
-                    <div class="p-6 rounded-xl shadow-sm flex items-center justify-between"
-                        style="background-color: #DDF6E8;">
-                        <div class="w-full max-w-xs">
-                            <div class="flex justify-between items-start mb-1">
-                                <p class="light-text-gray-700 mb-5 text-xs"><span style="color:#AFAFAF;">Total
-                                        Projects<span></p>
-                                <img src="{{asset('assets/more.svg')}}" alt="Menu" class="h-4 w-4 mt-0.5">
-                            </div>
-                            <p class="text-4xl font-medium mb-2 light-text-gray-800">{{$projectCount}}</p>
-                            <div
-                                class="bg-green-900 px-1 bg-opacity-50 hover:opacity-100 justify-center flex rounded-sm w-28">
-                                <p class="text-xs text-green-500"> +{{$thisMonthProjects}} This Month</p>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- Card 3: Open Tickets -->
-                    <div class="p-6 rounded-xl shadow-sm flex items-center justify-between"
-                        style="background-color: #FCE4E4;">
-                        <div class="w-full max-w-xs">
-                            <div class="flex justify-between items-start mb-1">
-                                <p class="light-text-gray-700 mb-5 text-xs"><span style="color:#AFAFAF;">Total
-                                        Tickets</span></p>
-                                <img src="{{asset('assets/more.svg')}}" alt="Menu" class="h-4 w-4 mt-0.5">
-                            </div>
-                            <p class="text-4xl font-medium mb-2 light-text-gray-800">{{$ticketCount}}</p>
-                            <div
-                                class="bg-green-900 bg-opacity-50 hover:opacity-100 px-1 justify-center flex rounded-sm w-28">
-                                <p class="text-xs  text-green-500"> +{{$thisMonthTickets}} This Month</p>
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- Card 4: Unread Messages -->
-                    <div class="p-6 rounded-xl shadow-sm flex items-center justify-between"
-                        style="background-color: #FFF0E1;">
-                        <div class="w-full max-w-xs">
-                            <div class="flex justify-between items-start mb-1">
-                                <p class="light-text-gray-100 mb-5 text-xs"><span style="color:#AFAFAF;">Most
-                                        Requested Service</span></p>
-                                <img src="{{asset('assets/more.svg')}}" alt="Menu" class="h-4 w-4 mt-0.5">
-                            </div>
-                            <p class="text-4xl font-medium mb-2 light-text-gray-800">SEO</p>
-                            <div
-                                class="bg-green-900 px-1 bg-opacity-50 hover:opacity-100 justify-center flex rounded-sm w-28">
-                                <p class="text-xs text-green-500">+605 This Month</p>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- SEO Plan Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6" id="seo-cards">
-
-                    <!-- Traffic by Countries Box (40% width) -->
-                    <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm">
-                        <div class="mb-6">
-                            <div class="flex justify-between items-start mb-1">
-                                <h3 class="text-lg font-medium light-text-gray-800">Visitor geo-locations </h3>
-                                <img src="{{asset('assets/more.svg')}}" alt="Menu" class="h-4 w-4 mt-0.5">
-                            </div>
-                            <p class="text-sm text-gray-400">Monthly Visitors Overview</p>
-                        </div>
-
-                        <div class="space-y-4">
-                            <!-- Country 1 -->
-                            @foreach ($summary as $row)
-                                @php
-                                    // filter $data rows for this country
-                                    $first = collect($currentData)->where('country', $row['country']);
-                                    $d = $first->first();
-
-                                @endphp
-                                <div class="flex justify-between items-center">
-                                    <div class="flex items-center">
-                                        <div
-                                            class="w-8 h-8 rounded-full bg-cyan-100 flex items-center justify-center mr-3">
-                                            <img src="{{asset('assets/cn 1.png')}}" class="rounded-full" alt="">
-                                        </div>
-                                        <div>
-                                            <p class="text-sm font-medium">{{ $d['totalUsers'] }}</p>
-                                            <p class="text-xs text-gray-500">{{ $d['country'] }}</p>
-                                        </div>
-                                    </div>
-                                    @php
-                                        $change = $row['percentage_change'];
-                                    @endphp
-                                    @if ($change >= 0)
-                                        <span class="flex items-center text-sm font-semibold text-green-500">
-                                            <svg class="w-4 h-4 text-green-500" fill="currentColor"
-                                                viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd"
-                                                    d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-                                                    clip-rule="evenodd"></path>
-                                            </svg>
-                                            {{ $change }}%
-                                        </span>
-                                    @else
-                                        <span class="flex items-center text-sm font-semibold text-red-500">
-                                            <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20"
-                                                style="transform:rotate(180deg)">
-                                                <path fill-rule="evenodd"
-                                                    d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-                                                    clip-rule="evenodd"></path>
-                                            </svg>
-                                            {{ $change }}%
-                                        </span>
-                                    @endif
-                                </div>
-                            @endforeach
-
-                        </div>
-                    </div>
-                    <!-- Traffic by Countries Box (40% width) -->
-                    <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm">
-                        <div class="mb-6">
-                            <h3 class="text-lg font-medium light-text-gray-800">Source Visits</h3>
-                            <p class="text-sm text-gray-400">Monthly Visitors Source</p>
-                        </div>
-
-                        <div class="space-y-4">
-                            <!-- Country 1 -->
-                            @foreach ($sources as $ss)
-                                <div class="flex justify-between items-center">
-                                    <div class="flex items-center">
-                                        <div
-                                            class="w-8 h-8 rounded-md bg-[#282828] flex items-center justify-center mr-3">
-
-                                            <img src="{{asset('assets/Icon (13).svg')}}" class="rounded-full" alt="">
-                                        </div>
-                                        <div>
-                                            <p class="text-md font-medium">{{ $ss['sessionSource'] }}</p>
-                                            <p class="text-xs text-gray-500">{{ $ss['sessionMedium'] }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex gap-2">
-                                        <p>{{ $ss['sessions'] }}</p>
-                                        <div class="bg-green-900 bg-opacity-50 justify-center flex  rounded-sm">
-                                            <span
-                                                class="flex items-center text-sm font-semibold px-2 text-green-500">+4.2%</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <!-- Traffic by Countries Box (40% width) -->
-                    <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm">
-                        <div class="mb-6">
-                            <h3 class="text-lg font-medium light-text-gray-800">Most clicked packages </h3>
-                            <p class="text-sm text-gray-400">Monthly Overview</p>
-                        </div>
-
-                        <div class="space-y-4">
-                            <!-- Country 1 -->
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center mb-2">
-                                    <div class="w-8 h-8  flex items-center justify-center mr-3">
-
-                                        <img src="{{asset('assets/Icon (19).svg')}}" class="" alt="">
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-medium">SEO Optimization</p>
-                                    </div>
-                                </div>
-                                <div class="flex justify-center gap-2">
-                                    <span class="flex items-center gap-2 text-sm font-semibold">
-                                        <div>
-                                            <p class="light-text-black">31.5k</p>
-                                            <p class="text-gray-500 font-thin text-xs">Clicks</p>
-                                        </div>
-                                    </span>
-                                    <div>
-                                        <p class="light-text-black text-sm">300</p>
-                                        <p class="text-gray-500 font-thin text-xs">Orders</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Country 2 -->
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center mb-2">
-                                    <div class="w-8 h-8  flex items-center justify-center mr-3">
-
-                                        <img src="{{asset('assets/Icon (19).svg')}}" class="" alt="">
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-medium">Social Media Ads</p>
-                                    </div>
-                                </div>
-                                <div class="flex justify-center gap-2">
-                                    <span class="flex items-center gap-2 text-sm font-semibold">
-                                        <div>
-                                            <p class="light-text-black">31.5k</p>
-                                            <p class="text-gray-500 font-thin text-xs">Clicks</p>
-                                        </div>
-                                    </span>
-                                    <div>
-                                        <p class="light-text-black text-sm">300</p>
-                                        <p class="text-gray-500 font-thin text-xs">Orders</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Country 3 -->
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center mb-2">
-                                    <div class="w-8 h-8  flex items-center justify-center mr-3">
-
-                                        <img src="{{asset('assets/Icon (19).svg')}}" class="" alt="">
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-medium">Content Marketing</p>
-                                    </div>
-                                </div>
-
-                                <div class="flex justify-center gap-2">
-                                    <span class="flex items-center gap-2 text-sm font-semibold">
-                                        <div>
-                                            <p class="light-text-black">31.5k</p>
-                                            <p class="text-gray-500 font-thin text-xs">Clicks</p>
-                                        </div>
-                                    </span>
-                                    <div>
-                                        <p class="light-text-black text-sm">300</p>
-                                        <p class="text-gray-500 font-thin text-xs">Orders</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Country 4 -->
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center mb-2">
-                                    <div class="w-8 h-8  flex items-center justify-center mr-3">
-
-                                        <img src="{{asset('assets/Icon (19).svg')}}" class="" alt="">
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-medium">Content Marketing</p>
-                                    </div>
-                                </div>
-                                <div class="flex justify-center gap-2">
-                                    <span class="flex items-center gap-2 text-sm font-semibold">
-                                        <div>
-                                            <p class="light-text-black">31.5k</p>
-                                            <p class="text-gray-500 font-thin text-xs">Clicks</p>
-                                        </div>
-                                    </span>
-                                    <div>
-                                        <p class="light-text-black text-sm">300</p>
-                                        <p class="text-gray-500 font-thin text-xs">Orders</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Country 5 -->
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center mb-2">
-                                    <div class="w-8 h-8  flex items-center justify-center mr-3">
-
-                                        <img src="{{asset('assets/Icon (19).svg')}}" class="" alt="">
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-medium">Affiliate Mktg</p>
-                                    </div>
-                                </div>
-                                <div class="flex justify-center gap-2">
-                                    <span class="flex items-center gap-2 text-sm font-semibold">
-                                        <div>
-                                            <p class="light-text-black">31.5k</p>
-                                            <p class="text-gray-500 font-thin text-xs">Clicks</p>
-                                        </div>
-                                    </span>
-                                    <div>
-                                        <p class="light-text-black text-sm">300</p>
-                                        <p class="text-gray-500 font-thin text-xs">Orders</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Country 6 -->
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8  flex items-center justify-center mr-3">
-
-                                        <img src="{{asset('assets/Icon (19).svg')}}" class="" alt="">
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-medium">Influencer Mktg </p>
-                                    </div>
-                                </div>
-                                <div class="flex justify-center gap-2">
-                                    <span class="flex items-center gap-2 text-sm font-semibold">
-                                        <div>
-                                            <p class="light-text-black">31.5k</p>
-                                            <p class="text-gray-500 font-thin text-xs">Clicks</p>
-                                        </div>
-                                    </span>
-                                    <div>
-                                        <p class="light-text-black text-sm">300</p>
-                                        <p class="text-gray-500 font-thin text-xs">Orders</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+                <!-- Projects Title -->
+                <h1 class="text-3xl font-bold light-text-gray-800 mb-10">Tickets</h1>
 
 
                 <div class="grid grid-cols-1 lg:grid-cols-1 gap-6 mb-6">
                     <!-- User's Projects List Table -->
                     <div class="lg:col-span-2 light-bg-f5f5f5 light-bg-seo  rounded-xl shadow-sm">
                         <div class="flex items-center justify-between  p-6 flex-wrap gap-3">
-                            <h2 class="text-xl font-semibold light-text-gray-800">Latest Tickets</h2>
+                            <h2 class="text-xl font-semibold light-text-gray-800">Tickets List</h2>
                             <div class="flex items-center space-x-3">
-                                <div class="relative flex gap-2">
-                                    <button id="filterButton"
-                                        class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
-                                        <div class="flex">
-                                            <span class="light-text-gray-x">Projects</span>
-                                            <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                            </svg>
-                                        </div>
-                                    </button>
-                                    <div class="relative flex items-center w-full max-w-xs">
-                                        <!-- SVG icon -->
-                                        <svg class="absolute left-3 w-5 h-5 text-gray-400" viewBox="0 0 24 24"
-                                            fill="none" stroke="currentColor" stroke-width="2">
-                                            <circle cx="11" cy="11" r="8"></circle>
-                                            <line x1="21" y1="21" x2="16.65" y2="16.65">
-                                            </line>
-                                        </svg>
+                                <div class="relative inline-block">
+                                    <div class="flex gap-3">
+                                        <!-- Button -->
+                                        <button id="filterButton"
+                                            class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
+                                            <div class="flex">
+                                                <span>Projects</span>
+                                                <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                                </svg>
+                                            </div>
+                                        </button>
 
-                                        <!-- Input field -->
-                                        <input type="text" placeholder="Search here"
-                                            class="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500 w-full">
                                     </div>
 
+                                    <!-- Dropdown Content -->
+                                    <div id="filterDropdown"
+                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
+                                        <div class="py-1" role="menu" aria-orientation="vertical">
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">Filter Option 1</a>
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">Filter Option 2</a>
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">Filter Option 3</a>
+                                            <div class="border-t border-gray-100"></div>
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">Reset Filters</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="relative">
+                                    <input type="text" placeholder="Search here"
+                                        class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg class="icon text-gray-400" viewBox="0 0 24 24">
+                                            <circle cx="11" cy="11" r="8"></circle>
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                        </svg>
+                                    </div>
                                 </div>
                                 <div class="relative inline-block">
                                     <div class="flex gap-3">
@@ -1135,7 +834,7 @@
                                         <button id="filterButton"
                                             class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
                                             <div class="flex">
-                                                <span class="light-text-gray-x">Filters</span>
+                                                <span>Filters</span>
                                                 <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
                                                     stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                                     stroke-linejoin="round">
@@ -1170,152 +869,165 @@
                         </div>
 
                         <div class="overflow-x-auto">
-                            <table class="min-w-full border-b-4 light-border-gray-300">
-                                <thead class="light-bg-d9d9d9 border-b-4 light-border-gray-300">
+                            <table class="min-w-full border-b-2 light-border-gray-300">
+                                <thead class="light-bg-d9d9d9 border-b-2 light-border-gray-300">
                                     <tr>
                                         <th scope="col"
-                                            class="px-6 py-3  text-left text-xs
-                                                font-medium light-text-gray-500 uppercase tracking-wider">
+                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider whitespace-nowrap">
                                             <div class="flex items-center w-full justify-between">
-                                                <div style="width: 80%">TICKET ID</div>
-                                                <div style="width: 20%;">
-                                                    <svg class=" w-8 h-4" viewBox="0 0 24 24" fill="none"
+                                                <div class="w-4/5">TICKET ID</div>
+                                                <div class="w-1/5">
+                                                    <svg class="w-8 h-4" viewBox="0 0 24 24" fill="none"
                                                         stroke="currentColor" stroke-width="1.5"
                                                         stroke-linecap="round" stroke-linejoin="round">
-                                                        <path d="M7 8 L12 3 L17 8" /> <!-- Up chevron -->
-                                                        <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                                        <path d="M7 8 L12 3 L17 8" />
+                                                        <path d="M7 16 L12 21 L17 16" />
                                                     </svg>
                                                 </div>
                                             </div>
                                         </th>
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs  font-medium light-text-gray-500 uppercase ">
-                                            <div class="flex justify-between items-center">
-                                                Ticket Details
-                                                <svg class="ml-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <!-- Up chevron (positioned higher) -->
-                                                    <path d="M7 8 L12 3 L17 8" />
-                                                    <!-- Down chevron (positioned lower with gap) -->
-                                                    <path d="M7 16 L12 21 L17 16" />
-                                                </svg>
-                                            </div>
-                                        </th>
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider whitespace-nowrap">
-                                            <div class="flex items-center gap-2">
-                                                Client/Project Name
-                                                <svg class="w-4 h-4 ml-10 flex-shrink-0" viewBox="0 0 24 24"
-                                                    fill="none" stroke="currentColor" stroke-width="1.5"
-                                                    stroke-linecap="round" stroke-linejoin="round">
-                                                    <!-- Up chevron -->
-                                                    <path d="M7 8 L12 3 L17 8" />
-                                                    <!-- Down chevron -->
-                                                    <path d="M7 16 L12 21 L17 16" />
-                                                </svg>
-                                            </div>
-                                        </th>
 
                                         <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider min-w-[120px]">
-                                            <div class="flex items-center justify-between">
-                                                <span class="whitespace-nowrap">DATE</span>
-                                                <div class="flex flex-col ml-10">
-
-                                                </div>
-                                            </div>
-                                        </th>
-
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase whitespace-nowrap">
                                             <div class="flex items-center">
-                                                <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                <span>Client name</span>
+                                                <svg class="ml-2 w-4 h-4" viewBox="0 0 24 24" fill="none"
                                                     stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                                     stroke-linejoin="round">
-                                                    <!-- Up chevron (positioned higher) -->
                                                     <path d="M7 8 L12 3 L17 8" />
-                                                    <!-- Down chevron (positioned lower with gap) -->
                                                     <path d="M7 16 L12 21 L17 16" />
                                                 </svg>
-                                                status
                                             </div>
                                         </th>
+
                                         <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <span>Project name</span>
+                                                <svg class="ml-2 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path d="M7 8 L12 3 L17 8" />
+                                                    <path d="M7 16 L12 21 L17 16" />
+                                                </svg>
+                                            </div>
+                                        </th>
+
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase whitespace-nowrap">
+                                            <div class="flex items-center justify-between">
+                                                <span>Ticket detail</span>
+                                            </div>
+                                        </th>
+
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase whitespace-nowrap">
+                                            <div class="flex items-center justify-between">
+                                                <svg class="mr-2 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path d="M7 8 L12 3 L17 8" />
+                                                    <path d="M7 16 L12 21 L17 16" />
+                                                </svg>
+                                                <span>Priority</span>
+                                            </div>
+                                        </th>
+
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <svg class="mr-2 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path d="M7 8 L12 3 L17 8" />
+                                                    <path d="M7 16 L12 21 L17 16" />
+                                                </svg>
+                                                <span>Status</span>
+                                            </div>
+                                        </th>
+
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase whitespace-nowrap">
                                             <div class="flex items-center">
                                                 ACTION
                                             </div>
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody class="light-bg-white light-bg-seo border-b-4 light-border-gray-300">
-                                    @php
-                                        $count = 1;   
-                                    @endphp
-                                @if($ticketData->count() > 0)
+
+
+                                @php
+                                 $count = 1;
+                                @endphp
+                                <tbody class="light-bg-white light-bg-seo divide-y divide-gray-200">
+                                 @if($ticketData->count() > 0)
                                     @foreach($ticketData as $ticket)
-                                        <tr class="border-b-4 light-border-gray-300">
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-400">
-                                                Ticket {{$count++}}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-thin light-text-gray-900">{{$ticket->description}}</div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="flex gap-2">
-                                                    <div>
-                                                        <img class="w-8 h-8 rounded-full" src="{{ asset($ticket->user->image ?? 'assets/default-prf.png') }}" alt="">
-                                                    </div>
-                                                    <div>
-                                                        <p class="text-sm">{{$ticket->user->name}}</p>
-                                                        <p class="text-xs text-gray-400">{{$ticket->project->project_name}}</p>
-                                                    </div>
+                                    <tr class="border-b-2 light-border-gray-300">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-400">
+                                          Ticket  {{$count++}}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center  gap-2">
+                                                <div>
+                                                    <img class="w-8 h-8 rounded-full" src="{{ asset($ticket->user->image ?? 'assets/default-prf.png') }}" alt="">
                                                 </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">{{ date('d-m-Y h:i a', strtotime($ticket->created_at)) }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                @if($ticket->status == 'In Progress')                                       
-                                                    <div class="flex ml-8 items-center ">
-                                                        <div class="bg-gray-200 rounded-full w-2.5 h-2.5">
-                                                            <div class="bg-cyan-400 h-2.5 rounded-full w-full"></div>
-                                                        </div>
-                                                        <span class="ml-2 text-sm items-center text-gray-400">In Progress</span>
-                                                    </div>
-                                                    @elseif($ticket->status == 'Resolved')
-                                                    <div class="flex ml-8 items-center ">
-                                                        <div class="bg-gray-200 rounded-full w-2.5 h-2.5">
-                                                            <div class="bg-green-500 h-2.5 rounded-full w-full"></div>
-                                                        </div>
-                                                        <span class="ml-2 text-sm items-center text-gray-400">{{$ticket->status}}</span>
-                                                    </div>
-                                                    @elseif($ticket->status == 'Cancelled')
-                                                    <div class="flex ml-8 items-center ">
-                                                        <div class="bg-gray-200 rounded-full w-2.5 h-2.5">
-                                                            <div class="bg-red-500 h-2.5 rounded-full w-full"></div>
-                                                        </div>
-                                                        <span class="ml-2 text-sm items-center text-gray-400">Cancelled</span>
-                                                    </div>
-                                                @endif
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                                <button
-                                                    class="light-text-orange-500 light-hover-text-orange-700 open-chat-modal"
-                                                    data-action="view-project">
-                                                    <img  src="{{asset('assets/message.svg')}}" alt="icon" data-ticket-id="{{$ticket->id}}"
-                                                        class="ticket-chat w-6 h-6 light-text-gray-900 rounded-full  light-mode-icon"
-                                                        data-dark-src="{{asset('assets/message-DARK.svg')}}">
-                                                </button>
-                                            </td>
-                                        </tr>
+                                                <div>
+                                                    <p class="text-sm">{{$ticket->user->name}}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-thin light-text-gray-900"> {{$ticket->project->project_name}}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-thin light-text-gray-900"> {{$ticket->description}}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+
+                                            @if($ticket->priority == 'Low')
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-900 text-green-400 bg-opacity-50">Low</span>
+                                            @elseif($ticket->priority == 'Medium')
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-cyan-900 bg-opacity-50 text-cyan-400">Medium</span>
+                                            @elseif($ticket->priority == 'High')
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-900 bg-opacity-50 text-red-400">High</span>
+                                            @endif            
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                          <form action="{{route('ticketStatus.update', $ticket->id)}}" method="POST">
+                                            @csrf
+                                            @method('POST')
+                                                <select class="statusDropdown" name="status"
+                                                    onchange="this.form.submit(); updateDropdownStyle(this)"
+                                                    style="width: 150px; padding: 8px; border-radius: 8px; text-align: left; color:black;">
+                                                    <option value="{{$ticket->status}}" selected hidden>{{$ticket->status}}</option>
+                                                    <option value="In Progress" style="color: black; background-color: #fff;">In Progress</option>
+                                                    <option value="Resolved" style="color: black; background-color: #fff;">Resolved</option>
+                                                    <option value="Cancelled" style="color: black; background-color: #fff;">Cancelled</option>
+                                                </select>
+                                            </form>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                            <button
+                                                class="light-text-orange-500 light-hover-text-orange-700 open-chat-modal"
+                                                id="openChatModal" data-action="view-project">
+                                                <img  src="{{asset('assets/message.svg')}}" alt="icon" data-ticket-id="{{$ticket->id}}"
+                                                    class="ticket-chat w-6 h-6 light-text-gray-900 rounded-full  light-mode-icon"
+                                                    data-dark-src="{{asset('assets/message-DARK.svg')}}">
+                                            </button>
+                                        </td>
+                                    </tr>
                                     @endforeach
-                                @else
+                                    @else
                                     <tr>
-                                        <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-400 text-center">
+                                        <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-400 text-center">
                                             No tickets found.
                                         </td>
                                     </tr>
-                                @endif
+                                    @endif
                                 </tbody>
+
                             </table>
                         </div>
 
@@ -1382,12 +1094,104 @@
 
                 </div>
 
-
             </div>
-            
         </main>
     </div>
 
+    <!-- New Ticket Modal -->
+    <div id="newTicketModal"
+        {{-- class="flex items-center  justify-center"> --}}
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden ">
+        <div class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[900px]  relative">
+            <!-- Close Button -->
+            <button id="closeTicketModal" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+                ✕
+            </button>
+
+            <div class="px-6 py-3"> <!-- Container for heading + divider -->
+                <h2 class="text-lg light-text-black  font-semibold">New Ticket</h2>
+            </div>
+            <div class=""> <!-- Container for heading + divider -->
+                <div class="border-t border-gray-600 w-full mt-4"></div>
+            </div>
+
+            <!-- Ticket Form -->
+            <form id="ticketForm" class="space-y-4 p-6" method="POST" action="{{route('ticket.store')}}" enctype="multipart/form-data">
+                @csrf
+
+                <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+
+                <!-- Title, Project Name, Priority -->
+                <div class="grid grid-cols-3 gap-4">
+
+                    <div>
+                        <label class="block text-sm mb-1 light-text-black">Title</label>
+                        <input type="text" name="title" value="{{old('title')}}" placeholder="Ticket name here..."
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm mb-1 light-text-black">Project Name</label>
+                        <select name="project_id"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                            <option value="" selected hidden>Select Project</option>
+                            @if($projectData->count() > 0)
+                                @foreach($projectData as $project)
+                                    <option value="{{ $project->id }}">{{ $project->project_name }}</option>
+                                @endforeach
+                            @else
+                                <option value="" selected hidden>No Projects Available</option>
+                            @endif
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm mb-1 light-text-black">Priority</label>
+                        <select name="priority"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                            <option value="" selected hidden>Select Priority</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Details -->
+                <div>
+                    <label class="block text-sm mb-1 light-text-black">Details</label>
+                    <textarea name="description" rows="4" placeholder="Explanation here"
+                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">{{old('description')}}</textarea>
+                </div>
+
+                <!-- File Upload -->
+                <div>
+                    <label class="block text-sm mb-1 light-text-black">Attachment</label>
+                    <input type="file" id="ticketFile" name="attachments"
+                        class="file-input w-full light-text-black light-bg-d7d7d7 p-1 rounded-md focus:outline-none">
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex justify-between items-center">
+                    <div>
+                        <button type="button" id="cancelTicket"
+                            class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                            Upload
+                        </button>
+                    </div>
+
+                    <div class="flex justify-end gap-3 pt-3">
+                        <button type="button" id="cancelTicket"
+                            class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-orange-500  rounded-lg hover:bg-orange-600">
+                            Confirm
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
 
     <!-- Ticket Chat Modal -->
     <div id="ticketChatModal"
@@ -1454,6 +1258,39 @@
 
         </div>
     </div>
+
+
+
+    @if ($errors->any())
+
+            <div style="z-index: 9999 !important;"
+                class="success-message fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+
+            <style>
+                #page-loader {
+                    display: none !important;
+                }
+            </style>
+    @endif
+
+    @if (session('UpdateTicketStatus'))
+        <div style="z-index: 9999 !important;"
+            class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+            {{ session('UpdateTicketStatus') }}
+        </div>
+
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
+    @endif
 
     <!-- Quill JS -->
     <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
@@ -1597,50 +1434,74 @@
 
       });
     </script>
-
+        
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+
+
+        function updateDropdownStyle(select) {
+            const value = select.value;
+
+            if (value === 'To Do') {
+                select.style.backgroundColor = '#95A5A6';
+                select.style.color = 'white';
+            } else if (value === 'In Progress') {
+                select.style.backgroundColor = '#00CFE826';
+                select.style.color = 'white';
+            } else if (value === 'In Review') {
+                select.style.backgroundColor = '#F39C12';
+                select.style.color = 'white';
+            } else if (value === 'Resolved') {
+                select.style.backgroundColor = 'green';
+                select.style.color = 'white';
+            }
+            else if (value === 'Cancelled') {
+                select.style.backgroundColor = 'red';
+                select.style.color = 'white';
+            }
+        }
+
+        const selects = document.querySelectorAll(".statusDropdown");
+        selects.forEach(select => updateDropdownStyle(select));
+
+        setTimeout(function() {
+            const messages = document.querySelectorAll('.success-message');
+            messages.forEach(function(el) {
+                el.style.display = 'none';
+            });
+        }, 5000);
+
+
             const body = document.body;
             const knowledgeButton = document.getElementById('knowledgeButton');
             const filterButton = document.getElementById('filterButton');
             const filterDropdown = document.getElementById('filterDropdown');
-            const hamburgerOpen = document.getElementById('hamburgerOpen');
-            const hamburgerClose = document.getElementById('hamburgerClose');
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
 
             // ✅ Dropdown toggle
-            if (filterButton && filterDropdown) {
-                filterButton.addEventListener('click', (e) => {
+            const filterButtons = document.querySelectorAll('[id^="filterButton"]');
+            const filterDropdowns = document.querySelectorAll('[id^="filterDropdown"]');
+
+            filterButtons.forEach((button, index) => {
+                button.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    filterDropdown.classList.toggle('hidden');
+                    filterDropdowns[index].classList.toggle('hidden');
                 });
+            });
 
-                document.addEventListener('click', () => {
-                    filterDropdown.classList.add('hidden');
+            document.addEventListener('click', () => {
+                filterDropdowns.forEach(dropdown => {
+                    dropdown.classList.add('hidden');
                 });
-            }
+            });
 
-            // ✅ Sidebar toggle
-            function toggleSidebar() {
-                const isOpen = sidebar.classList.contains('translate-x-0');
-
-                if (isOpen) {
-                    sidebar.classList.remove('translate-x-0');
-                    sidebar.classList.add('-translate-x-full');
-                    overlay.classList.add('hidden');
-                    body.classList.remove('overflow-hidden');
-                } else {
-                    sidebar.classList.remove('-translate-x-full');
-                    sidebar.classList.add('translate-x-0');
-                    overlay.classList.remove('hidden');
-                    body.classList.add('overflow-hidden');
+            // ✅ Dropdown color update
+            const updateDropdownColors = () => {
+                const isDarkMode = body.classList.contains('dark-mode');
+                if (filterDropdown) {
+                    filterDropdown.style.color = isDarkMode ? 'white' : 'black';
+                    filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
                 }
-            }
-
-            if (hamburgerOpen) hamburgerOpen.addEventListener('click', toggleSidebar);
-            if (hamburgerClose) hamburgerClose.addEventListener('click', toggleSidebar);
-            if (overlay) overlay.addEventListener('click', toggleSidebar);
+            };
 
             // ✅ Dark mode toggle
             const toggleDarkMode = () => {
@@ -1650,7 +1511,7 @@
                 localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
             };
 
-            // ✅ Update images for dark/light mode
+            // ✅ Update images for dark/light
             const updateImageSources = (isDarkMode) => {
                 const icons = document.querySelectorAll('.light-mode-icon');
                 icons.forEach(icon => {
@@ -1674,15 +1535,6 @@
                 }
             };
 
-            // ✅ Dropdown color update for dark/light
-            const updateDropdownColors = () => {
-                const isDarkMode = body.classList.contains('dark-mode');
-                if (filterDropdown) {
-                    filterDropdown.style.color = isDarkMode ? 'white' : 'black';
-                    filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
-                }
-            };
-
             // ✅ Apply theme from localStorage
             if (localStorage.getItem('theme') === 'dark') {
                 body.classList.add('dark-mode');
@@ -1691,7 +1543,7 @@
             updateImageSources(body.classList.contains('dark-mode'));
             updateDropdownColors();
 
-            // ✅ Attach dark mode toggle
+            // ✅ Dark mode toggle button
             if (knowledgeButton) {
                 knowledgeButton.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -1701,20 +1553,22 @@
 
             // ✅ SEO card "View More" toggle
             const seoCards = document.getElementById('seo-cards');
+
             if (seoCards) {
                 seoCards.addEventListener('click', function(event) {
                     if (event.target.classList.contains('toggle-btn')) {
                         const card = event.target.closest('div[class*="p-10"]');
                         const content = card.querySelector('.card-content');
-                        const icon = event.target.querySelector('img.toggle-icon');
-                        const textNode = event.target.childNodes[0];
+                        const icon = event.target.querySelector('img.toggle-icon'); // Get the icon
+                        const textNode = event.target.childNodes[
+                        0]; // Get the text node (assuming it's first)
 
                         if (!content.style.maxHeight || content.style.maxHeight === '0px') {
                             content.style.maxHeight = content.scrollHeight + 'px';
-                            textNode.textContent = 'View Less ';
+                            textNode.textContent = 'View Less '; // Update text only
                         } else {
                             content.style.maxHeight = '0px';
-                            textNode.textContent = 'View More ';
+                            textNode.textContent = 'View More '; // Update text only
                         }
                     }
                 });
@@ -1823,6 +1677,7 @@
                 }
             });
         });
+
 
     </script>
 

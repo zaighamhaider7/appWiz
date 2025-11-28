@@ -130,7 +130,7 @@
             </li>
 
             <li>
-                <a href="tickets.php"
+                <a href="{{route('ticket.view')}}"
                     class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] border-b border-[#171717] hover:bg-[#191919] group">
                     <div class="flex items-center gap-2">
                         <img class="w-5 h-5 shrink-0" src="{{asset('assets/ticket-svgrepo-com-DARK.svg')}}" alt="Tickets Icon" />
@@ -152,7 +152,7 @@
             </li>
 
             <li>
-                <a href="marketplace.php"
+                <a href="{{route('marketplace.view')}}"
                     class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] border-b border-[#171717] hover:bg-[#191919] group">
                     <div class="flex items-center gap-2">
                         <img class="w-5 h-5 shrink-0" src="{{asset('assets/Frame-DARK.svg')}}" alt="Marketplace Icon" />

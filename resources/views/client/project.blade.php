@@ -2631,7 +2631,7 @@
                                             console.log(users);
                                             assignedUsersHtml += `
                                                     <!-- User avatars -->
-                                                    <img src="${users.user.image}" alt="${users.user.name}" class="w-10 h-10 rounded-full border-2 border-black">
+                                                    <img src="${users.user.image || 'assets/default-prf.png'}" alt="${users.user.name}" class="w-10 h-10 rounded-full border-2 border-black">
                                                 `;
                                         });
                                     } else {
@@ -2878,7 +2878,6 @@
             $(document).on('click', '.edit-project-modal', function() {
                 const currentProjectId = $(this).data('project-id');
 
-                console.log("edit modal clicked" + currentProjectId)
 
                 $('#projectModal').css('display', 'flex');
                 // $('#projectModal').addClass('hidden');

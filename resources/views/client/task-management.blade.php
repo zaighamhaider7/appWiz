@@ -12,7 +12,7 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- Quill CSS -->
@@ -776,7 +776,7 @@
 
 <body>
 
-    {{-- @include('layouts.loader') --}}
+    @include('layouts.loader')
 
     <div class="flex min-h-screen light-bg-white">
         <!-- Sidebar -->
@@ -788,16 +788,6 @@
             @include('layouts.header')
 
             <div class="p-6 light-bg-bill lg:p-8">
-
-                <!-- Projects Title -->
-                {{-- <div class="flex justify-between ">
-                    <div>
-                        <h1 class="text-3xl font-bold light-text-gray-800 mb-10">Task Management</h1>
-                    </div>
-                    <div>
-                        <img src="{{ asset('assets/Switch.svg') }}" alt="Switch View" id="switchBtn">
-                    </div>
-                </div> --}}
 
                 <!-- Connect Domain Section -->
 
@@ -4305,26 +4295,23 @@
             <!-- Input -->
             <div
                 class="border-t rounded-b-lg rounded-t-lg  border-gray-300 dark:border-gray-700 bg-black light-bg-d7d7d7 ">
-                <div class="flex items-center  px-4"><span class="flex items-center gap-1">
-                    <img class=" w-full h-full" src="{{asset('assets/Icon (1).svg')}}" alt="bold" id="btn-bold">
-                            <img class=" w-full h-full" src="{{asset('assets/Icon.svg')}}" alt="italic" id="btn-italic">
-                            <img class=" w-full h-full" src="{{asset('assets/Icon (2).svg')}}" alt="underline"  >
-                            <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line" >
-                            <img class=" w-full h-full" src="{{asset('assets/Icon (6).svg')}}" alt="link" id="btn-link" >
-                            <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line" >
-                            <img class=" w-full h-full" src="{{asset('assets/Icon (7).svg')}}" alt="ordered" id="btn-ordered" >
-                            <img class=" w-full h-full" src="{{asset('assets/Icon (8).svg')}}" alt="bullet" id="btn-bullet">
-                            <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line"  >
-                            <img class=" w-full h-full" src="{{asset('assets/Icon (9).svg')}}" alt="left" id="btn-left">
-                            <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line">
-                            <img class=" w-full h-full" src="{{asset('assets/Icon (10).svg')}}" alt="code" id="btn-code">
-                            <img class=" w-full h-full" src="{{asset('assets/Icon (11).svg')}}" alt="">
-                        </span>
-                        </div>
-                {{-- <div class="flex   light-bg-d7d7d7">
-                    <input id="editor" type="text" placeholder="@type here"
-                        class="w-full p-4  light-bg-d9d9d9 light-text-black  focus:outline-none text-sm placeholder-gray-500" />
-                </div> --}}
+                <div class="flex items-center  px-4">
+                    <span class="flex items-center gap-1">
+                        <img class=" w-full h-full" src="{{asset('assets/Icon (1).svg')}}" alt="bold" id="btn-bold">
+                        <img class=" w-full h-full" src="{{asset('assets/Icon.svg')}}" alt="italic" id="btn-italic">
+                        <img class=" w-full h-full" src="{{asset('assets/Icon (2).svg')}}" alt="underline"  >
+                        <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line" >
+                        <img class=" w-full h-full" src="{{asset('assets/Icon (6).svg')}}" alt="link" id="btn-link" >
+                        <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line" >
+                        <img class=" w-full h-full" src="{{asset('assets/Icon (7).svg')}}" alt="ordered" id="btn-ordered" >
+                        <img class=" w-full h-full" src="{{asset('assets/Icon (8).svg')}}" alt="bullet" id="btn-bullet">
+                        <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line"  >
+                        <img class=" w-full h-full" src="{{asset('assets/Icon (9).svg')}}" alt="left" id="btn-left">
+                        <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line">
+                        <img class=" w-full h-full" src="{{asset('assets/Icon (10).svg')}}" alt="code" id="btn-code">
+                        <img class=" w-full h-full" src="{{asset('assets/Icon (11).svg')}}" alt="">
+                    </span>
+                </div>
                 <div class="flex items-center light-bg-d7d7d7">
                         <input type="hidden" id="chat-task-id" name="task_id" value="">
                         <input type="hidden" id="chat-sender-id" name="sender_id" value="{{ auth()->id() }}">

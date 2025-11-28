@@ -57,6 +57,6 @@
       const loader = document.getElementById('page-loader');
       setTimeout(() => {
         loader.classList.add('hidden');
-      }, 400);
+      }, 0);
     });
   </script>

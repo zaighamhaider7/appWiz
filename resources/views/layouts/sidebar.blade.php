@@ -68,7 +68,7 @@
                         </a>
                     </li>
                      <li class="mb-2">
-                        <a href="tickets.php" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
+                        <a href="{{route('ticket.view')}}" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
                             <img src="{{ asset('assets/ticket-svgrepo-com.svg') }}" alt="icon" class="w-8 h-6 light-mode-icon" data-dark-src="{{asset('assets/ticket-svgrepo-com-DARK.svg')}}">
                             Tickets
                         </a>
@@ -80,7 +80,7 @@
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="marketplace.php" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
+                        <a href="{{route('marketplace.view')}}" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
                             <img src="{{ asset('assets/Frame.svg') }}" alt="icon" class="w-8 h-6 light-mode-icon" data-dark-src="{{asset('assets/Frame-DARK.svg')}}">
                             Marketplace
                         </a>

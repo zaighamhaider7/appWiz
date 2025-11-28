@@ -9,6 +9,10 @@ use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\LeadsController;
 use App\Http\Controllers\TaskManagmentController;
 use App\Http\Controllers\taskChatController;
+use App\Http\Controllers\marketplaceController;
+use App\Http\Controllers\ticketController;
+use App\Http\Controllers\ticketChatsController;
+use App\Http\Controllers\dashboardController;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home;
@@ -27,21 +31,21 @@ Route::middleware('auth')->group(function () {
     Route::post('/settings', [RolesController::class, 'addRoles'])->name('roles.add');
     
 
-Route::get('/projects', [ProjectController::class, 'create'])->name('project.create');
-Route::post('/projects', [ProjectController::class, 'store'])->name('project.store');
-Route::post('/projects/status', [ProjectController::class, 'projectStatus']);
+    Route::get('/projects', [ProjectController::class, 'create'])->name('project.create');
+    Route::post('/projects', [ProjectController::class, 'store'])->name('project.store');
+    Route::post('/projects/status', [ProjectController::class, 'projectStatus']);
 
 
 
-Route::post('/projects/milestone', [ProjectController::class, 'milestoneStore'])->name('milestone.store');
-Route::post('/milestone/status', [ProjectController::class, 'milestoneStatus']);
+    Route::post('/projects/milestone', [ProjectController::class, 'milestoneStore'])->name('milestone.store');
+    Route::post('/milestone/status', [ProjectController::class, 'milestoneStatus']);
 
 
 
-Route::get('/analytics',[analyticsController::class,'index'])->name('analytics');
-Route::get('/earnings-data', [analyticsController::class, 'earningsData']);
-Route::get('/device-type-data',[AnalyticsController::class,'deviceTypeData']);
-Route::get('/traffic-data',[AnalyticsController::class,'traffic']);
+    Route::get('/analytics',[analyticsController::class,'index'])->name('analytics');
+    Route::get('/earnings-data', [analyticsController::class, 'earningsData']);
+    Route::get('/device-type-data',[AnalyticsController::class,'deviceTypeData']);
+    Route::get('/traffic-data',[AnalyticsController::class,'traffic']);
 });
 
 
@@ -54,6 +58,7 @@ Route::get('/view-project/{id}', [ProjectController::class, 'view_edit'])->name(
 Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('project.delete');
 
 
+// project start
 
 Route::post('/projects/project-id', [ProjectController::class, 'projectId']);
 Route::post('/edit-project', [ProjectController::class, 'edit'])->name('project.edit');
@@ -71,18 +76,22 @@ Route::post('document/delete', [ProjectController::class, 'deleteDocument']);
 Route::post('/document/list', [ProjectController::class, 'Documentlist']);
 Route::post('/documents', [ProjectController::class, 'uploadDocument'])->name('document.store');
 
+// client start
 
 Route::get('/clients', [ClientsController::class, 'ClientView'])->name('clients');
 Route::post('/clients', [ClientsController::class, 'ClientStore'])->name('client.store');
 Route::delete('/clients/{id}', [ClientsController::class, 'ClientDelete'])->name('clients.delete');
 Route::post('/clients/{id}', [ClientsController::class, 'ClientDetails'])->name('clients.details');
 
+// leads start 
 
 Route::get('/leads', [LeadsController::class, 'LeadsView'])->name('leads');
 Route::post('/leads', [LeadsController::class, 'LeadsStore'])->name('lead.store');
 Route::post('leads/{id}', [LeadsController::class, 'LeadsUpdate'])->name('lead.update');
 Route::delete('leads/{id}', [LeadsController::class, 'LeadsDelete'])->name('lead.delete');
 
+
+// task management start
 
 Route::get('/task_management',[TaskManagmentController::class,'TaskView'])->name('task.view');
 Route::post('/task_management',[TaskManagmentController::class,'TaskStore'])->name('task.store');
@@ -98,10 +107,46 @@ Route::post('/task_management/task_status',[TaskManagmentController::class, 'tas
 Route::post('/task_management/task_status/delete/{id}',[TaskManagmentController::class, 'taskStatus_delete'])->name('taskStatus.delete');
 Route::get('/task_management/task_status/edit/{id}',[TaskManagmentController::class, 'taskStatus_edit'])->name('taskStatus.edit');
 
-
 Route::post('/task_management/taskChats', [taskChatController::class, 'taskId'])->name('task.id');
 Route::post('/task/chat/upload-image', [TaskChatController::class, 'uploadImage'])->name('task.chat.upload_image');
 Route::post('/task_management/taskChatsStore', [taskChatController::class, 'taskChat'])->name('task.chat');
 Route::get('/task_management/getTaskChats/{taskId}', [TaskChatController::class, 'getTaskChats']);
 Route::post('/task_management/chat/{chatId}/like', [TaskChatController::class, 'toggleLike']);
 
+
+
+
+// market place start
+
+Route::get('/marketplace',[marketplaceController::class, 'marketplaceView'])->name('marketplace.view');
+
+Route::post('/marketplace/subscription',[marketplaceController::class, 'subscriptionStore'])->name('subscription.store');
+
+Route::post('/marketplace/subscription/delete-id',[marketplaceController::class, 'subscriptionDelete'])->name('subscription.delete');
+
+Route::post('/marketplace/subscription/detail-id',[marketplaceController::class, 'subscriptionDetail'])->name('subscription.detail');
+
+Route::post('/marketplace/subscription/edit-id',[marketplaceController::class, 'subscriptionedit'])->name('subscription.edit');
+
+Route::post('/marketplace/subscription/update-id',[marketplaceController::class, 'subscriptionupdate'])->name('subscription.update');
+
+// subscription categorie
+Route::post('/marketplace/category',[marketplaceController::class, 'categoryStore'])->name('category.store');
+
+
+// ticket start
+
+Route::get('/tickets',[ticketController::class,'tickView'])->name('ticket.view');
+Route::post('/tickets',[ticketController::class,'tickStore'])->name('ticket.store');
+Route::post('/tickets/status/{id}',[ticketController::class,'ticketStatusUpdate'])->name('ticketStatus.update');
+
+
+Route::post('/tickets/ticketChatsStore', [ticketChatsController::class, 'ticketChat'])->name('ticket.chat');
+Route::post('/tickets/chat/upload-image', [ticketChatsController::class, 'uploadImage'])->name('ticket.chat.upload_image');
+Route::get('/tickets/getTicketChats/{ticketId}', [ticketChatsController::class, 'getTicketChats']);
+Route::post('/tickets/chat/{chatId}/like', [ticketChatsController::class, 'toggleLike']);
+
+
+// dashboard start
+
+Route::get('/dashboard',[dashboardController::class,'DashboardView'])->name('dashboard');
