@@ -1019,10 +1019,12 @@
             @endphp --}}
 
             @php
-                $currentCategoryId = $currentCategoryId ?? $mainCategories->first()->id;
+                // $currentCategoryId = $currentCategoryId ?? $mainCategories->first()->id;
+                 $currentCategoryId = $currentCategoryId ?? ($mainCategories->first()->id ?? null);
             @endphp
 
             <!-- Tab Contents -->
+            @if($mainCategories->isNotEmpty())
             <div class="tab-contents">
                 @foreach($mainCategories as $index => $category)
                     {{-- <div id="tab-{{ $category->id }}" class="tab-content {{ $activeTab == 'tab-' . $category->id ? '' : 'hidden' }} pl-6 pr-6"> --}}
@@ -1072,9 +1074,10 @@
                     </div>
                 @endforeach
             </div>
-
+            @endif
             </div>
         </main>
+        
     </div>
 
 
