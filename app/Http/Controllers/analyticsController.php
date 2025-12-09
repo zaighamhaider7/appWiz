@@ -10,7 +10,7 @@ use Google\Analytics\Data\V1beta\RunReportRequest;
 use App\Models\Role;
 use App\Models\project;
 use App\Models\User;
-use App\Models\Ticket;
+use App\Models\ticket;
 
 class AnalyticsController extends Controller
 {
@@ -152,7 +152,7 @@ class AnalyticsController extends Controller
     //    dd($id);
 
         // counts
-        $ticketData = Ticket::with('project', 'user')->get();
+        $ticketData = ticket::with('project', 'user')->get();
         $ticketCount = $ticketData->count();
         $projectCount = project::all()->count();
         $clientCount = User::where('name', '!=' ,'admin')->get()->count();
@@ -161,7 +161,7 @@ class AnalyticsController extends Controller
                         ->whereYear('created_at', now()->year)
                         ->count();
 
-        $thisMonthTickets = Ticket::whereMonth('created_at', now()->month)
+        $thisMonthTickets = ticket::whereMonth('created_at', now()->month)
                          ->whereYear('created_at', now()->year)
                          ->count();
 
