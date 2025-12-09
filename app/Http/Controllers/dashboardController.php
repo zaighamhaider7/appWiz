@@ -8,7 +8,7 @@ use Google\Analytics\Data\V1beta\DateRange;
 use Google\Analytics\Data\V1beta\Dimension;
 use Google\Analytics\Data\V1beta\Metric;
 use Google\Analytics\Data\V1beta\RunReportRequest;
-use App\Models\Project;
+use App\Models\project;
 use App\Models\User;
 use App\Models\Ticket;
 
@@ -17,7 +17,7 @@ class dashboardController extends Controller
     public function DashboardView(){
         $ticketData = Ticket::with('project', 'user')->get();
         $ticketCount = $ticketData->count();
-        $projectCount = Project::all()->count();
+        $projectCount = project::all()->count();
         $clientCount = User::where('name', '!=' ,'admin')->get()->count();
         
         $thisMonthClients = User::where('name', '!=' ,'admin')->whereMonth('created_at', now()->month)
@@ -28,7 +28,7 @@ class dashboardController extends Controller
                          ->whereYear('created_at', now()->year)
                          ->count();
 
-        $thisMonthProjects = Project::whereMonth('created_at', now()->month)
+        $thisMonthProjects = project::whereMonth('created_at', now()->month)
                          ->whereYear('created_at', now()->year)
                          ->count();
 

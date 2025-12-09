@@ -8,7 +8,7 @@ use Google\Analytics\Data\V1beta\Dimension;
 use Google\Analytics\Data\V1beta\Metric;
 use Google\Analytics\Data\V1beta\RunReportRequest;
 use App\Models\Role;
-use App\Models\Project;
+use App\Models\project;
 use App\Models\User;
 use App\Models\Ticket;
 
@@ -154,7 +154,7 @@ class AnalyticsController extends Controller
         // counts
         $ticketData = Ticket::with('project', 'user')->get();
         $ticketCount = $ticketData->count();
-        $projectCount = Project::all()->count();
+        $projectCount = project::all()->count();
         $clientCount = User::where('name', '!=' ,'admin')->get()->count();
 
         $thisMonthClients = User::where('name', '!=' ,'admin')->whereMonth('created_at', now()->month)
@@ -165,7 +165,7 @@ class AnalyticsController extends Controller
                          ->whereYear('created_at', now()->year)
                          ->count();
 
-        $thisMonthProjects = Project::whereMonth('created_at', now()->month)
+        $thisMonthProjects = project::whereMonth('created_at', now()->month)
                          ->whereYear('created_at', now()->year)
                          ->count();
 
