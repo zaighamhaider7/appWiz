@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\project;
-use App\Models\assignTo;
+use App\Models\AssignTo;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\ActivityLogger;
 use App\Models\ActivityLog;
