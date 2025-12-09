@@ -8,7 +8,7 @@ use App\Models\project;
 use App\Models\AssignTo;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\ActivityLogger;
-use App\Models\ActivityLog;
+use App\Models\activityLog;
 
 
 class ClientsController extends Controller
