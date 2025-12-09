@@ -79,17 +79,17 @@ class dashboardController extends Controller
             $metricValues = $row->getMetricValues();
 
             $country = $dimensionValues[1]->getValue(); // index 1 = country
-            $currentData[] = [
-                'date' => $dimensionValues[0]->getValue(),
-                'country' => $country,
-                'browser' => $dimensionValues[2]->getValue(),
-                'pagePath' => $dimensionValues[3]->getValue(),
-                'sessions' => (int) $metricValues[0]->getValue(),
-                'totalUsers' => (int) $metricValues[1]->getValue(),
-                'newUsers' => (int) $metricValues[2]->getValue(),
-                'engagedSessions' => (int) $metricValues[3]->getValue(),
-                'screenPageViews' => (int) $metricValues[4]->getValue(),
-            ];
+            // $currentData[] = [
+            //     'date' => $dimensionValues[0]->getValue(),
+            //     'country' => $country,
+            //     'browser' => $dimensionValues[2]->getValue(),
+            //     'pagePath' => $dimensionValues[3]->getValue(),
+            //     'sessions' => (int) $metricValues[0]->getValue(),
+            //     'totalUsers' => (int) $metricValues[1]->getValue(),
+            //     'newUsers' => (int) $metricValues[2]->getValue(),
+            //     'engagedSessions' => (int) $metricValues[3]->getValue(),
+            //     'screenPageViews' => (int) $metricValues[4]->getValue(),
+            // ];
         }
 
         // Aggregate current sessions by country for percentage change
