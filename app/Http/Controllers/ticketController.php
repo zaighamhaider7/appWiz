@@ -12,10 +12,6 @@ class ticketController extends Controller
     public function tickView(){
         $projectData = project::all();
 
-        //$currentUser = auth()->user()->id;
-
-        // $ticketData = Ticket::where('user_id', $currentUser)->with('project', 'user')->get();
-
         $ticketData = ticket::with('project', 'user')->get();
 
         return view('client.tickets', compact('projectData', 'ticketData'));
@@ -38,7 +34,7 @@ class ticketController extends Controller
             $validated['attachments'] = 'assets/ticket_attachments/' . $filename;
         }
 
-        Ticket::create($validated);
+        ticket::create($validated);
 
         return redirect()->route('ticket.view')->with('success', 'Ticket created successfully.');
     }
