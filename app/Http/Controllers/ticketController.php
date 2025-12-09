@@ -18,7 +18,7 @@ class ticketController extends Controller
 
         // $ticketData = Ticket::with('project', 'user')->get();
 
-        $ticketData = null;
+        $ticketData = 0;
 
         return view('client.tickets', compact('projectData', 'ticketData'));
     }
