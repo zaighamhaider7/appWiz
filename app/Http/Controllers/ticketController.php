@@ -16,7 +16,7 @@ class ticketController extends Controller
 
         // $ticketData = Ticket::where('user_id', $currentUser)->with('project', 'user')->get();
 
-        $ticketData = Ticket::with('project', 'user')->get();
+        // $ticketData = Ticket::with('project', 'user')->get();
 
         return view('client.tickets', compact('projectData', 'ticketData'));
     }
