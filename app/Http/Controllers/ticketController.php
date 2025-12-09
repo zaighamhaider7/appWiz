@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Project;
+use App\Models\project;
 use App\Models\User;
 use App\Models\Ticket;
 
 class ticketController extends Controller
 {
     public function tickView(){
-        $projectData = Project::all();
+        $projectData = project::all();
 
         //$currentUser = auth()->user()->id;
 

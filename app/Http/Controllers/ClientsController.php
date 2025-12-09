@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Project;
+use App\Models\project;
 use App\Models\assignTo;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\ActivityLogger;
@@ -21,7 +21,7 @@ class ClientsController extends Controller
         $latestProjectByClient = [];
 
         foreach ($clientData as $client) {
-            $latestProject = Project::where('client_name', $client->name)->latest()->first();
+            $latestProject = project::where('client_name', $client->name)->latest()->first();
             $latestProjectByClient[$client->id] = $latestProject;
         }
 
@@ -86,7 +86,7 @@ class ClientsController extends Controller
         $latestProjectByClient = [];
 
         foreach ($clientData as $client) {
-            $latestProject = Project::where('client_name', $client->name)->latest()->first();
+            $latestProject = project::where('client_name', $client->name)->latest()->first();
             $latestProjectByClient[$client->id] = $latestProject;
         }
 
@@ -94,11 +94,11 @@ class ClientsController extends Controller
 
         // $activity_logs = ActivityLog::where('user_id', $singleClientData->id)->get();
 
-        $clientProjects = Project::where('client_name', $singleClientData->name)->get();
+        $clientProjects = project::where('client_name', $singleClientData->name)->get();
 
         $totalProjects = $clientProjects->count();
 
-        $totalProjectPrice = Project::where('client_name', $singleClientData->name)->sum('price');
+        $totalProjectPrice = project::where('client_name', $singleClientData->name)->sum('price');
 
         $assignedUsers = AssignTo::with(['user', 'project'])->get();
 

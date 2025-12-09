@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use App\Models\project;
 use App\Models\Document;
-use App\Models\assignTo;
+use App\Models\AssignTo;
 use App\Models\User;
-use App\Models\Milestone;
+use App\Models\milestone;
 use App\Models\Test;
 use App\Models\ActivityLog;
 use App\Helpers\ActivityLogger;
@@ -110,9 +110,9 @@ class ProjectController extends Controller
     {
         $projectId = $request->id;
 
-        $projectData = Project::with('creator')->where('id', $projectId)->first();
+        $projectData = project::with('creator')->where('id', $projectId)->first();
 
-        $milestoneData = Milestone::where('project_id', $projectId)->get();
+        $milestoneData = milestone::where('project_id', $projectId)->get();
 
         $assignedUsers = AssignTo::with('user')->where('project_id', $projectId)->get();
 
@@ -165,7 +165,7 @@ class ProjectController extends Controller
     {
         $projectId = $request->input('delete_id');
 
-        $projectData = Project::find($projectId);
+        $projectData = project::find($projectId);
 
         $projectData->Delete();
 
@@ -194,7 +194,7 @@ class ProjectController extends Controller
     }
 
     public function projectList() {
-        $projects = Project::with('creator')->get();
+        $projects = project::with('creator')->get();
         $assignedUsers = AssignTo::with(['user', 'project'])->whereHas('user')->get();
 
         return response()->json([
@@ -215,7 +215,7 @@ class ProjectController extends Controller
             'project_id' => 'required|exists:projects,id'
         ]);
 
-        $data = new Milestone();
+        $data = new milestone();
         $data->milestone_name = $validated['milestone_name'];
         $data->start_date = $validated['milestone_start_date'];
         $data->deadline = $validated['deadline'];
@@ -231,7 +231,7 @@ class ProjectController extends Controller
     {
         $milestoneId = $request->input('milestoneId');
 
-        $milestoneData = Milestone::where('id', $milestoneId)->first();
+        $milestoneData = milestone::where('id', $milestoneId)->first();
 
         return response()->json([
             "milestoneDatafetch" => $milestoneData
@@ -241,7 +241,7 @@ class ProjectController extends Controller
     public function editMilestone(Request $request)
     {
         if($request->milestone_id){
-            $data = Milestone::find($request->milestone_id);
+            $data = milestone::find($request->milestone_id);
             $data->milestone_name = $request->milestone_name;
             $data->start_date = $request->start_date;
             $data->deadline = $request->deadline;
@@ -259,7 +259,7 @@ class ProjectController extends Controller
     {
         $milestoneId = $request->input('delete_id');
 
-        $milestoneData = Milestone::find($milestoneId);
+        $milestoneData = milestone::find($milestoneId);
 
         $milestoneData->Delete();
 
@@ -272,7 +272,7 @@ class ProjectController extends Controller
 
     public function milestoneStatus(Request $request){
         if($request->milestone_status_id){
-            $data = Milestone::find($request->milestone_status_id);
+            $data = milestone::find($request->milestone_status_id);
             $data->status = $request->milestone_status;
             $data->save();
             ActivityLogger::log('Milestone Status Updated', 'The milestone status for "' . $data->milestone_name . '" was updated to "' . $data->status . '" by ' . auth()->user()->name . '.');
@@ -287,7 +287,7 @@ class ProjectController extends Controller
 
     public function list(Request $request)
     {
-        $milestones = Milestone::where('project_id', $request->project_id)->get();
+        $milestones = milestone::where('project_id', $request->project_id)->get();
 
         return response()->json([
             'milestonesData' => $milestones

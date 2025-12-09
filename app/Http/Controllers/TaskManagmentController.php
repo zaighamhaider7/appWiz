@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Project;
+use App\Models\project;
 use App\Models\User;
 use App\Models\TaskManagment;
 use App\Models\task_status;
@@ -14,7 +14,7 @@ class TaskManagmentController extends Controller
 {
 
     public function TaskView(){
-        $projects = Project::all();
+        $projects = project::all();
         $users = User::where('name', '!=', 'Admin')->get();
         $tasks = TaskManagment::all();
         $taskCommentsCount = [];
@@ -75,7 +75,7 @@ class TaskManagmentController extends Controller
     }
 
     public function taskEdit($id){
-        $projects = Project::all();
+        $projects = project::all();
         $users = User::where('name', '!=', 'Admin')->get();
         $tasks = TaskManagment::all();
         $taskCommentsCount = [];
@@ -147,7 +147,7 @@ class TaskManagmentController extends Controller
 
     public function taskStatus_edit($id){
         $singleStatus = task_status::findOrFail($id);
-        $projects = Project::all();
+        $projects = project::all();
         $users = User::where('name', '!=', 'Admin')->get();
         $tasks = TaskManagment::all();
         $taskCommentsCount = [];
