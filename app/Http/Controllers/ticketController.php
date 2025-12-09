@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\project;
 use App\Models\User;
-use App\Models\Ticket;
+use App\Models\ticket;
 
 class ticketController extends Controller
 {
@@ -16,7 +16,7 @@ class ticketController extends Controller
 
         // $ticketData = Ticket::where('user_id', $currentUser)->with('project', 'user')->get();
 
-        $ticketData = Ticket::with('project', 'user')->get();
+        $ticketData = ticket::with('project', 'user')->get();
 
         return view('client.tickets', compact('projectData', 'ticketData'));
     }
@@ -44,7 +44,7 @@ class ticketController extends Controller
     }
 
     public function ticketStatusUpdate(Request $request, $id){
-        $ticket = Ticket::findOrFail($id);
+        $ticket = ticket::findOrFail($id);
         $ticket->status = $request->input('status');
 
         $ticket->save();
