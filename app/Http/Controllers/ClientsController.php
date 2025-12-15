@@ -16,7 +16,7 @@ class ClientsController extends Controller
 
     public function ClientView()
     {
-        $clientData = User::where('role_id', '!=', '1')->get();
+        $clientData = User::where('name', '!=', 'admin')->get();
 
         $latestProjectByClient = [];
 
