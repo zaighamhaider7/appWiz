@@ -24,7 +24,7 @@ class User extends Authenticatable
         'image',
         'company',
         'website',
-        'roleId',
+        'role_id',
         'business_name',
         'phone',
         'country',

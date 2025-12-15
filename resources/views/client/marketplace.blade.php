@@ -1006,12 +1006,16 @@
 
             <!-- Tabs -->
             <div class="hidden md:flex border-b py-3 px-6 gap-2 light-border-gray-200 dark:border-gray-700 mb-10">
-                @foreach($mainCategories as $index => $category)
-                    <div class="flex items-center {{ $index == 0 ? 'active' : '' }} px-2 py-1 justify-center border border-gray-200 rounded-lg hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
-                        <img class="w-4 h-4 mr-2" src="{{ asset($category->category_icon ?? 'default-icon.svg') }}" alt="">
-                        <button class="tab-btn p-1" data-tab="tab-{{ $category->id }}">{{ $category->category_name }}</button>
-                    </div>
-                @endforeach
+                @if($mainCategories->isNotEmpty())
+                    @foreach($mainCategories as $index => $category)
+                        <div class="flex items-center {{ $index == 0 ? 'active' : '' }} px-2 py-1 justify-center border border-gray-200 rounded-lg hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                            <img class="w-4 h-4 mr-2" src="{{ asset($category->category_icon ?? 'default-icon.svg') }}" alt="">
+                            <button class="tab-btn p-1" data-tab="tab-{{ $category->id }}">{{ $category->category_name }}</button>
+                        </div>
+                    @endforeach
+                @else
+                    <p>No categories found.</p>
+                @endif
             </div>
 
             {{-- @php
@@ -1034,42 +1038,46 @@
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            @foreach($subscriptions[$category->id] as $subscription)
-                                <div id="subscription-card-{{ $subscription->id }}"class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm flex flex-col relative overflow-hidden mb-8 subscription-card">
-                                    <div class="flex items-center mb-10 justify-between">
-                                        <h3 class="subscription_tag openModal cursor-pointer text-md font-normal text-black w-32 p-3 rounded-full text-center light-bg-d7d7d7 light-text-black" data-sub-detail-id="{{$subscription->id}}">
-                                            {{ $subscription->subscription_tag }}
-                                        </h3>
-                                        <div class="w-16 flex justify-end">
-                                            <label class="toggle-switch">
-                                                <input type="checkbox" disabled class="toggle-input" {{ $subscription->sub_category ? 'checked' : '' }}>
-                                                <span class="toggle-slider"></span>
-                                            </label>
+                            @if(isset($subscriptions[$category->id]) && count($subscriptions[$category->id]) > 0)
+                                @foreach($subscriptions[$category->id] as $subscription)
+                                    <div id="subscription-card-{{ $subscription->id }}"class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm flex flex-col relative overflow-hidden mb-8 subscription-card">
+                                        <div class="flex items-center mb-10 justify-between">
+                                            <h3 class="subscription_tag openModal cursor-pointer text-md font-normal text-black w-32 p-3 rounded-full text-center light-bg-d7d7d7 light-text-black" data-sub-detail-id="{{$subscription->id}}">
+                                                {{ $subscription->subscription_tag }}
+                                            </h3>
+                                            <div class="w-16 flex justify-end">
+                                                <label class="toggle-switch">
+                                                    <input type="checkbox" disabled class="toggle-input" {{ $subscription->sub_category ? 'checked' : '' }}>
+                                                    <span class="toggle-slider"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <p class=" text-5xl font-medium light-text-black mb-2 flex items-center">
+                                    
+                                            $<span class="price text-5xl font-medium">{{ number_format($subscription->price, 0) }}</span>
+
+                                            <span class="light-text-black ml-1 text-sm font-light" style="color:#AFAFAF;">/month</span>
+                                        </p>
+
+                                        <p class="subscription_name light-text-black text-sm font-bold mb-2" style="font-size: 12px; font-weight: 600;">{{ $subscription->subscription_name }}</p>
+                                        <p class="tagline text-xs text-gray-400 font-medium mb-6">{{ $subscription->tagline }}</p>
+
+                                        <div class="flex items-center justify-between border-t dark-border-gray-500 pt-5">
+                                            <div class="w-1/2 pr-2">
+
+                                                <button data-sub-id="{{$subscription->id}}" class="w-full bg-[#E600020D] border border-orange-800 px-5 py-1 text-white rounded-md text-md delete-sub">Delete</button>
+                                                
+                                            </div>
+                                            <div  class="w-1/2 pl-2">
+                                                <button class="openEditSubscriptionModal w-full px-5 py-1 light-text-black light-bg-d7d7d7 border border-gray-200 dark:border-gray-500 bg-transparent rounded-md text-md edit-sub" data-edit-id="{{$subscription->id}}">Edit</button>
+                                            </div>
                                         </div>
                                     </div>
-
-                                    <p class=" text-5xl font-medium light-text-black mb-2 flex items-center">
-                                
-                                        $<span class="price text-5xl font-medium">{{ number_format($subscription->price, 0) }}</span>
-
-                                        <span class="light-text-black ml-1 text-sm font-light" style="color:#AFAFAF;">/month</span>
-                                    </p>
-
-                                    <p class="subscription_name light-text-black text-sm font-bold mb-2" style="font-size: 12px; font-weight: 600;">{{ $subscription->subscription_name }}</p>
-                                    <p class="tagline text-xs text-gray-400 font-medium mb-6">{{ $subscription->tagline }}</p>
-
-                                    <div class="flex items-center justify-between border-t dark-border-gray-500 pt-5">
-                                        <div class="w-1/2 pr-2">
-
-                                            <button data-sub-id="{{$subscription->id}}" class="w-full bg-[#E600020D] border border-orange-800 px-5 py-1 text-white rounded-md text-md delete-sub">Delete</button>
-                                            
-                                        </div>
-                                        <div  class="w-1/2 pl-2">
-                                            <button class="openEditSubscriptionModal w-full px-5 py-1 light-text-black light-bg-d7d7d7 border border-gray-200 dark:border-gray-500 bg-transparent rounded-md text-md edit-sub" data-edit-id="{{$subscription->id}}">Edit</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            @else
+                                <p>No subscriptions found.</p>
+                            @endif
                         </div>
                     </div>
                 @endforeach
@@ -1082,7 +1090,6 @@
 
 
     <!-- Modal Background -->
-
     <div id="modal" class="hidden modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 overflow-y-auto max-h-screen">
         <div class="light-bg-seo text-white rounded-lg w-[90%] md:w-[850px] relative p-6 md:flex max-h-[90vh] overflow-y-auto">
             

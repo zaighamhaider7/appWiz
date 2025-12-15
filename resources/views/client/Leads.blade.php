@@ -1095,7 +1095,7 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-black text-center">
+                                            <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-black text-left">
                                                 No leads found.
                                             </td>
                                         </tr>

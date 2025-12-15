@@ -1,26 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In</title>
     <!-- Tailwind CSS CDN for basic styling matching the design -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
-        @media (max-width: 1024px) { /* Tablets and small laptops */ }
-        @media (max-width: 768px) { /* Large phones and tablets */ }
-        @media (max-width: 480px) { /* Small phones */ }
+        @media (max-width: 1024px) {
+            /* Tablets and small laptops */
+        }
 
-        html, body {
-            height: 100%; /* Ensure html and body take full height */
-            margin: 0; /* Remove default body margin */
+        @media (max-width: 768px) {
+            /* Large phones and tablets */
+        }
+
+        @media (max-width: 480px) {
+            /* Small phones */
+        }
+
+        html,
+        body {
+            height: 100%;
+            /* Ensure html and body take full height */
+            margin: 0;
+            /* Remove default body margin */
             background-color: #000000;
         }
+
         body {
             font-family: "Space Grotesk", sans-serif;
-            background-color: #1a1a1a; /* Dark background similar to the image */
+            background-color: #1a1a1a;
+            /* Dark background similar to the image */
         }
+
         .container-wrapper {
             display: flex;
             min-height: 100vh;
@@ -28,6 +44,7 @@
             align-items: center;
             height: 100%;
         }
+
         .sign-in-container {
             display: flex;
             background-color: #000000;
@@ -35,22 +52,26 @@
             overflow-x: hidden;
             box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
             /*max-width: 1000px;  Adjust as needed */
-            width: 100%; /* Fluid width */
+            width: 100%;
+            /* Fluid width */
             height: 100vh;
-            
+
         }
+
         .left-panel {
             flex: 1;
             padding: 2.5rem;
-            padding-top:3rem; 
+            padding-top: 3rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
         }
+
         .right-panel {
             flex: 1;
-            background-color: #000000; /* Orange background */
+            background-color: #000000;
+            /* Orange background */
             color: #fff;
             padding: 2.5rem;
             display: flex;
@@ -61,26 +82,31 @@
             position: relative;
             overflow: hidden;
         }
+
         .right-panel::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-image: url("{{ asset('assets/hc.png') }}"); /* Update the path */
-        background-repeat: repeat;
-        opacity: 1;
-        z-index: 0;
-    }
-        .right-panel > * {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("{{ asset('assets/hc.png') }}");
+            /* Update the path */
+            background-repeat: repeat;
+            opacity: 1;
+            z-index: 0;
+        }
+
+        .right-panel>* {
             position: relative;
             z-index: 1;
         }
+
         .input-field {
             width: 100%;
             padding: 0.75rem 1rem;
-            border: 1px solid #8C8C8C; /* Light gray border */
+            border: 1px solid #8C8C8C;
+            /* Light gray border */
             background-color: transparent;
             border-radius: 0.5rem;
             margin-bottom: 1rem;
@@ -89,18 +115,25 @@
             color: #ffffff;
             transition: border-color 0.2s;
         }
+
         .input-field:focus {
-            border-color: #ff6600; /* Orange focus border */
+            border-color: #ff6600;
+            /* Orange focus border */
             color: #ffffff;
         }
-          .input-field:active {
-            border-color: #ff6600; /* Orange focus border */
+
+        .input-field:active {
+            border-color: #ff6600;
+            /* Orange focus border */
             color: #ffffff;
         }
+
         .input-field::-ms-value {
-            border-color: #ff6600; /* Orange focus border */
+            border-color: #ff6600;
+            /* Orange focus border */
             color: #ffffff;
         }
+
         .btn-primary {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -113,9 +146,11 @@
             cursor: pointer;
             transition: background-color 0.2s;
         }
+
         .btn-primary:hover {
             background-color: #e65c00;
         }
+
         .btn-social {
             display: flex;
             align-items: center;
@@ -126,53 +161,66 @@
             border-radius: 0.5rem;
             margin-bottom: 0.75rem;
             background-color: transparent;
-            color: #ffffff; /* Dark gray text */
+            color: #ffffff;
+            /* Dark gray text */
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.2s, border-color 0.2s;
         }
+
         .btn-social:hover {
             background-color: #FC5E14;
             border-color: #e65c00;
             color: #ffffff;
         }
+
         .btn-social img {
             margin-right: 0.75rem;
-            height: 1.25rem; /* Icon size */
+            height: 1.25rem;
+            /* Icon size */
             width: 1.25rem;
-            
+
         }
+
         .divider {
             display: flex;
             align-items: center;
             text-align: center;
             margin: 1.5rem 0;
-            color: #8C8C8C; /* Light gray text */
+            color: #8C8C8C;
+            /* Light gray text */
         }
+
         .divider::before,
         .divider::after {
             content: '';
             flex: 1;
             border-bottom: 2px solid #000000;
         }
+
         .divider:not(:empty)::before {
             margin-right: 0.75rem;
         }
+
         .divider:not(:empty)::after {
             margin-left: 0.75rem;
         }
+
         .error-message {
-            color: #ef4444; /* Red color for error */
+            color: #ef4444;
+            /* Red color for error */
             margin-bottom: 1rem;
             text-align: center;
             font-size: 0.875rem;
         }
+
         @media (max-width: 768px) {
             .sign-in-container {
                 flex-direction: column-reverse;
                 max-width: 400px;
             }
+
             .right-panel {
                 padding: 2rem;
                 border-top-left-radius: 0;
@@ -180,54 +228,64 @@
                 border-bottom-left-radius: 1rem;
                 border-bottom-right-radius: 1rem;
             }
+
             .left-panel {
-                 padding: 2rem;
+                padding: 2rem;
             }
         }
+
         /* REVISED WIZSPEED ANIMATION - Two Streaks - Cross-browser Compatible */
         .wiz-speed-container-outer {
-    position: relative;
-    display: inline-block;
-    padding: 2px; /* Border thickness */
-    border-radius: 1rem;
-    background-color: rgba(80, 80, 80, 0.7); /* Static gray background */
-    overflow: hidden;
-}
+            position: relative;
+            display: inline-block;
+            padding: 2px;
+            /* Border thickness */
+            border-radius: 1rem;
+            background-color: rgba(80, 80, 80, 0.7);
+            /* Static gray background */
+            overflow: hidden;
+        }
 
-.wiz-speed-gradient-layer {
-    position: absolute;
-    top: -150%;
-    left: -150%;
-    width: 400%;
-    height: 400%;
-    background: conic-gradient(
-        #fc5e14 0deg, #fc5e14 70deg,
-        transparent 70deg, transparent 180deg,
-        #fc5e14 180deg, #fc5e14 250deg,
-        transparent 250deg, transparent 360deg
-    );
-    animation: rotate-streaks 3s linear infinite;
-    z-index: 0;
-    filter: blur(10px);
-    border-radius: 1.2rem;
-}
+        .wiz-speed-gradient-layer {
+            position: absolute;
+            top: -150%;
+            left: -150%;
+            width: 400%;
+            height: 400%;
+            background: conic-gradient(#fc5e14 0deg, #fc5e14 70deg,
+                    transparent 70deg, transparent 180deg,
+                    #fc5e14 180deg, #fc5e14 250deg,
+                    transparent 250deg, transparent 360deg);
+            animation: rotate-streaks 3s linear infinite;
+            z-index: 0;
+            filter: blur(10px);
+            border-radius: 1.2rem;
+        }
 
-.wiz-speed-content-inner {
-    position: relative;
-    background-color: #000; /* Inner black background */
-    border-radius: 0.9rem;
-    padding: 1rem 1rem; /* Slightly larger padding for better spacing */
-    z-index: 1;
-    /* Optional: Add subtle white text shadow for better readability */
-    text-shadow: 0 0 2px rgba(255, 255, 255, 0.2);
-}
+        .wiz-speed-content-inner {
+            position: relative;
+            background-color: #000;
+            /* Inner black background */
+            border-radius: 0.9rem;
+            padding: 1rem 1rem;
+            /* Slightly larger padding for better spacing */
+            z-index: 1;
+            /* Optional: Add subtle white text shadow for better readability */
+            text-shadow: 0 0 2px rgba(255, 255, 255, 0.2);
+        }
 
-@keyframes rotate-streaks {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(-360deg); }
-}
-</style>
+        @keyframes rotate-streaks {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+    </style>
 </head>
+
 <body>
     <div class="container-wrapper">
         <div class="sign-in-container">
@@ -237,69 +295,59 @@
                 <!-- Placeholder for error messages. You can use JavaScript to populate this. -->
                 <div id="error-message" class="error-message hidden"></div>
 
-                <form id="signinForm" action="{{route('register')}}" method="POST" class="w-full max-w-sm">
+                <form id="signinForm" action="{{ route('register') }}" method="POST" class="w-full max-w-sm">
                     @csrf
                     <div class="relative mb-0">
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            class="input-field pl-10"
-                            placeholder="Enter Your name"
-                            required
-                        />
+                        <input type="text" id="name" name="name" class="input-field pl-10"
+                            placeholder="Enter Your name" required />
                         <div class="absolute inset-y-0 left-0 pl-3 pb-3 flex items-center pointer-events-none">
-                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 0112 15a9 9 0 016.879 2.804M15 11a3 3 0 10-6 0 3 3 0 006 0z" />
-                        </svg>
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5.121 17.804A9 9 0 0112 15a9 9 0 016.879 2.804M15 11a3 3 0 10-6 0 3 3 0 006 0z" />
+                            </svg>
                         </div>
 
                     </div>
                     <div class="relative mb-0">
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            class="input-field pl-10 "
-                            placeholder="Enter Your Email"
-                            required
-                        />
+                        <input type="email" id="email" name="email" class="input-field pl-10 "
+                            placeholder="Enter Your Email" required />
                         <div class="absolute inset-y-0 left-0 pl-3 pb-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                </path>
                             </svg>
                         </div>
                     </div>
                     <div class="relative mb-2">
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            class="input-field pl-10"
-                            placeholder="Enter Your Password"
-                            required
-                        />
+                        <input type="password" id="password" name="password" class="input-field pl-10"
+                            placeholder="Enter Your Password" required />
                         <div class="absolute inset-y-0 left-0 pl-3 pb-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v3h8z"></path>
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v3h8z">
+                                </path>
                             </svg>
                         </div>
                     </div>
-                     @if ($errors->any())
-    <div id="error-message" class="error-message">
-        <ul class="list-none">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+                    @if ($errors->any())
+                        <div id="error-message" class="error-message">
+                            <ul class="list-none">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
-@if (session('status'))
-    <div id="error-message" class="error-message">
-        {{ session('status') }}
-    </div>
-@endif
+                    @if (session('status'))
+                        <div id="error-message" class="error-message">
+                            {{ session('status') }}
+                        </div>
+                    @endif
 
                     <button type="submit" class="btn-primary mb-0">
                         Continue with email
@@ -309,7 +357,7 @@
                 <div class="divider w-full max-w-sm before:border-t-2 after:border-t-2">or</div>
 
                 <div class="w-full max-w-sm">
-                   <button type="button" class="btn-social">
+                    <button type="button" class="btn-social">
                         <img src="{{ asset('assets/Googleicon.svg') }}" alt="Google icon" />
                         Continue with Google
                     </button>
@@ -317,41 +365,42 @@
                         <img src="{{ asset('assets/Appleicon.svg') }}" alt="Apple icon" />
                         Continue with Apple
                     </button>
-                    
+
                 </div>
                 <!-- Laravel error messages -->
 
                 <p class="text-gray-500 text-md mt-6">
-                    Already have an account? <a href="{{route('login')}}" class="text-orange-500 hover:underline">Sign in</a>
+                    Already have an account? <a href="{{ route('login') }}" class="text-orange-500 hover:underline">Sign
+                        in</a>
                 </p>
             </div>
-            
+
 
             <div class="right-panel">
                 <div class="w-full">
-                <!-- Logo section - centered on mobile, right-aligned on desktop -->
-                <div class="flex justify-center lg:justify-start lg:mt-20">
-                                      <img src="{{ asset('assets/wizspeed-white2-2-1 1.png') }}" alt="WIZSPEED Logo" 
-                        class="h-16 sm:h-20 md:h-24 lg:h-16" />
+                    <!-- Logo section - centered on mobile, right-aligned on desktop -->
+                    <div class="flex justify-center lg:justify-start lg:mt-20">
+                        <img src="{{ asset('assets/wizspeed-white2-2-1 1.png') }}" alt="WIZSPEED Logo"
+                            class="h-16 sm:h-20 md:h-24 lg:h-16" />
 
-                </div>
+                    </div>
 
-                <!-- Welcome text - appears below logo on desktop -->
-                <div class="text-center lg:text-left lg:justify-start lg:mt-4 lg:mb-80">
-                    <h1 class="text-5xl sm:text-5xl md:text-6xl">Welcome to</h1>
-                    <div class="relative inline-block lg:mt-4">
-                        <div class="wiz-speed-container-outer">
-                            <div class="wiz-speed-gradient-layer"></div>
-                            <div class="wiz-speed-content-inner">
-                                <div class="text-5xl sm:text-6xl md:text-7xl font-bold text-orange-500">
-                                    WIZ SPEED
+                    <!-- Welcome text - appears below logo on desktop -->
+                    <div class="text-center lg:text-left lg:justify-start lg:mt-4 lg:mb-80">
+                        <h1 class="text-5xl sm:text-5xl md:text-6xl">Welcome to</h1>
+                        <div class="relative inline-block lg:mt-4">
+                            <div class="wiz-speed-container-outer">
+                                <div class="wiz-speed-gradient-layer"></div>
+                                <div class="wiz-speed-content-inner">
+                                    <div class="text-5xl sm:text-6xl md:text-7xl font-bold text-orange-500">
+                                        WIZ SPEED
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 
@@ -394,4 +443,5 @@
         // });
     </script>
 </body>
+
 </html>

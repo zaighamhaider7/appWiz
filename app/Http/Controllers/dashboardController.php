@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 use Google\Analytics\Data\V1beta\Client\BetaAnalyticsDataClient;
@@ -15,6 +16,12 @@ use App\Models\ticket;
 class dashboardController extends Controller
 {
     public function DashboardView(){
+        // $user = Auth::user()->role_id;
+
+        // if ($user != 1) {
+        //     return view('auth.login');
+        // }
+        
         $ticketData = ticket::with('project', 'user')->get();
         $ticketCount = $ticketData->count();
         $projectCount = project::all()->count();

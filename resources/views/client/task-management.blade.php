@@ -771,7 +771,6 @@
             font-style: italic;
         }
     </style>
-
 </head>
 
 <body>
@@ -842,6 +841,7 @@
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
+                    @if($taskStatus->isNotEmpty())
                         @foreach($taskStatus  as $status)
                             <div>
                                 <!-- Column Header -->
@@ -910,6 +910,9 @@
                                 </div>
                             </div>
                         @endforeach
+                    @else
+                        <p class="text-gray-400">No task status available.</p>
+                    @endif
                     </div>
 
 
@@ -1342,6 +1345,7 @@
             </div>
 
         </main>
+        
     </div>
 
 

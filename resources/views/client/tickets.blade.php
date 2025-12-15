@@ -1021,7 +1021,7 @@
                                     @endforeach
                                     @else
                                     <tr>
-                                        <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-400 text-center">
+                                        <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-400 text-left">
                                             No tickets found.
                                         </td>
                                     </tr>

@@ -3046,7 +3046,7 @@
                             <span></span>
                             <span>/</span>
                         </div>
-                        <span>Roles & Permission</span>
+                        <span>Roles & Permission </span>
                     </div>
 
                     <div class="light-bg-f5f5f5 light-bg-seo px-5 py-8 rounded-lg">
