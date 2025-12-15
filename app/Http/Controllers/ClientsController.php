@@ -16,7 +16,7 @@ class ClientsController extends Controller
 
     public function ClientView()
     {
-        $clientData = User::where('name', '!=', 'Admin')->get();
+        $clientData = User::where('role_id', '!=', '1')->get();
 
         $latestProjectByClient = [];
 
@@ -106,5 +106,18 @@ class ClientsController extends Controller
 
         return view('client.clients', compact('clientData', 'latestProjectByClient', 'singleClientData', 'clientProjects', 'assignedUsers', 'totalProjects', 'totalProjectPrice', 'activity_logs'));
     }
+
+    public function suspend($id)
+    {
+        $user = User::findOrFail($id);
+
+        // Toggle suspended status
+        $user->is_suspended = !$user->is_suspended;
+        $user->save();
+
+        $status = $user->is_suspended ? 'suspended' : 'unsuspended';
+        return redirect()->back()->with('success', "User has been $status successfully.");
+    }
+
 }
 

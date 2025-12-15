@@ -1269,7 +1269,7 @@ use App\Models\User;
                                                         <div class="flex items-center justify-end gap-2">
 
 
-                                                            <form action="{{ route('clients.details', $client->id) }}"
+                                                            {{-- <form action="{{ route('clients.details', $client->id) }}"
                                                                 method="POST"
                                                                 style="display:inline; padding-top:7px;">
                                                                 @csrf
@@ -1279,7 +1279,13 @@ use App\Models\User;
                                                                         alt="View"
                                                                         class="w-6 h-6 switchRight rounded-full p-1 bg-gray-500" />
                                                                 </button>
-                                                            </form>
+                                                            </form> --}}
+                                                            <a href="{{ route('clients.details', $client->id) }}"
+                                                            class="inline-block pt-[7px]">
+                                                                <img src="{{ asset('assets/eye-DARK.svg') }}"
+                                                                    alt="View"
+                                                                    class="w-6 h-6 switchRight rounded-full p-1 bg-gray-500" />
+                                                            </a>
 
                                                             <form action="{{ route('clients.delete', $client->id) }}"
                                                                 method="POST"
@@ -1361,7 +1367,7 @@ use App\Models\User;
                             <div class="flex flex-col  mt-5 pb-4 items-center border-b light-border-black">
                                 @if ($singleClientData)
                                     <img class="pb-4 rounded" height="150" width="150"
-                                        src="{{ asset($singleClientData->image) }}" />
+                                        src="{{ asset($singleClientData->image ?? 'assets/default-prf.png') }}" />
                                 @else
                                     <img height="150" width="150" src="{{ asset('assets/AvatarTeam.png') }}"
                                         class="pb-4 rounded" alt="">
@@ -1414,13 +1420,13 @@ use App\Models\User;
                                 <div class="text-md gap-2 text-white"><span class="text-md light-client">Phone Number:
                                     </span>
                                     @if ($singleClientData)
-                                        {{ $singleClientData->phone }}
+                                        {{ $singleClientData->phone ?? 'No phone number available.' }}
                                     @endif
                                 </div>
                                 <div class="text-md flex items-center gap-2 text-white "><span
                                         class="text-md light-client">Status: </span>
                                     @if ($singleClientData)
-                                        @if ($singleClientData->status === 'Active')
+                                        @if ($singleClientData->status === 'active')
                                             <div class="bg-green-900/50 py-1 px-4 rounded-full">
                                                 <p class="text-green-500">{{ $singleClientData->status }}</p>
                                             </div>
@@ -1435,13 +1441,13 @@ use App\Models\User;
                                 <div class="text-md gap-2 text-white"><span class="text-md light-client">Country:
                                     </span>
                                     @if ($singleClientData)
-                                        {{ $singleClientData->country }}
+                                        {{ $singleClientData->country ?? 'No country available.' }}
                                     @endif
                                 </div>
                                 <div class="text-md gap-2 text-white mb-4"><span class="text-md light-client">City:
                                     </span>
                                     @if ($singleClientData)
-                                        {{ $singleClientData->city }}
+                                        {{ $singleClientData->city ?? 'No city available.' }}
                                     @endif
                                 </div>
 
@@ -1450,8 +1456,13 @@ use App\Models\User;
                             <div class="flex justify-center gap-4 mt-4">
                                 <button onclick="openStatusModal('Inactive')"
                                     class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">Edit</button>
-                                <button
-                                    class="px-4 py-2 bg-red-900/50 text-red-500 rounded-lg hover:bg-red-600">Suspended</button>
+                                @if($singleClientData)
+                                    <form action="{{ route('client.suspend', $singleClientData->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                        <button type="submit"
+                                            class="px-4 py-2 bg-red-900/50 text-red-500 rounded-lg hover:bg-red-600">{{$singleClientData->is_suspended == 0 ? 'Suspended' : 'Unsuspended'}}</button>
+                                    </form>
+                                @endif
                             </div>
                         </div>
 

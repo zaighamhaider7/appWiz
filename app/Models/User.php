@@ -31,8 +31,8 @@ class User extends Authenticatable
         'city',
         'status',
         'leads',
-        'membership'
-        
+        'membership',
+        'is_suspended'
     ];
       public function roles()
     {
