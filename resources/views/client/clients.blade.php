@@ -688,69 +688,228 @@ use App\Models\User;
             display: none;
         }
 
-        /* Small screens (sm) - 640px and up */
-        @media (max-width: 640px) {
-            .header .sm\:block {
-                display: block;
-            }
+/* Extra small screens (xs) - 480px and below */
+@media (max-width: 480px) {
 
-            /* Show John Wick name on sm and up */
-            aside {
-                display: none !important;
-            }
+    /* ================= HEADER / GLOBAL ================= */
+    .header {
+        padding: 0 0.5rem;
+        font-size: 14px;
+    }
 
-            table th,
-            table td {
-                padding-left: 1.5rem;
-                padding-right: 1.5rem;
-                padding-top: 1rem;
-                padding-bottom: 1rem;
-            }
+    aside {
+        display: none !important;
+    }
 
-            table th .icon.mr-2 {
-                margin-right: 0.5rem;
-            }
+    .hamburger-menu {
+        display: block;
+    }
 
-            table th .icon.mr-10 {
-                margin-right: 1rem;
-            }
-        }
+    .container {
+        width: 100%;
+        padding: 0 0.5rem;
+    }
 
-        /* Medium screens (md) - 768px and up */
-        @media (min-width: 768px) {
-            table th .icon.mr-10 {
-                margin-right: 2.5rem;
-            }
-        }
+    img {
+        max-width: 100%;
+        height: auto;
+    }
 
-        /* Large screens (lg) - 1024px and up */
-        @media (min-width: 1024px) {
+    /* ================= TABLES (LEFT + RIGHT) ================= */
+    table th,
+    table td {
+        padding: 0.5rem;
+        font-size: 12px;
+    }
 
-            /* Sidebar becomes part of the normal layout */
-            aside {
-                position: sticky;
-                left: 0;
-                width: 16rem;
-                flex-shrink: 0;
-                transform: none !important;
-                /* Prevent any transform from mobile state */
-            }
+    table th .icon.mr-2 {
+        margin-right: 0.25rem;
+    }
 
-            /* Hide hamburger menu on desktop */
-            .hamburger-menu {
-                display: block;
-            }
+    table th .icon.mr-10 {
+        margin-right: 0.5rem;
+    }
 
-            /* Hide overlay on desktop */
-            .sidebar-overlay {
-                display: none !important;
-            }
+    /* ================= PROJECT LIST HEADER ================= */
+    .flex.items-center.justify-between.mb-4.p-6.flex-wrap.gap-3 {
+        flex-direction: column;
+        justify-content: center !important;
+        align-items: flex-start;
+        gap: 1rem;
+    }
 
-            /* Remove overflow hidden from body on desktop */
-            body.sidebar-open {
-                overflow: visible;
-            }
-        }
+    .flex.items-center.space-x-3 {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+        width: 100%;
+    }
+
+    input[type="search"],
+    select.dt-input,
+    button.openTicketModal {
+        width: 100% !important;
+    }
+
+    /* ================= RIGHT SECTION (NEW – SAFE) ================= */
+    #rightSection {
+        width: 100%;
+        padding: 0;
+    }
+
+    /* Stack 35% / 65% columns */
+    #rightSection > .flex.gap-6 {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    #rightSection .w-\[35\%\],
+    #rightSection .w-\[65\%\] {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* Remove fixed heights on mobile */
+    #rightSection [class*="h-["] {
+        height: auto !important;
+    }
+
+    /* Center client stats */
+    #rightSection .flex.justify-between.gap-10 {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    /* Tables scroll instead of breaking */
+    #rightSection table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    /* Pagination */
+    #custom-pagination {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    #custom-pagination::-webkit-scrollbar {
+        display: none;
+    }
+
+    #rightSection
+    .flex.items-center.justify-between.mt-4.p-6.flex-wrap.gap-4 {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+
+    #rightSection .flex.space-x-2 {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+}
+/* Small screens (sm) - 640px and below */
+@media (max-width: 640px) {
+
+    .header .sm\:block {
+        display: block;
+    }
+
+    aside {
+        display: none !important;
+    }
+
+    table th,
+    table td {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    table th .icon.mr-2 {
+        margin-right: 0.5rem;
+    }
+
+    table th .icon.mr-10 {
+        margin-right: 1rem;
+    }
+
+    /* Right section spacing only */
+    #rightSection {
+        padding: 0.5rem;
+    }
+}
+/* Medium screens (md) - 768px and up */
+@media (min-width: 768px) {
+
+    table th .icon.mr-10 {
+        margin-right: 2.5rem;
+    }
+
+    .openTicketModal {
+        font-size: 12px;
+        padding: 0.5rem 1rem;
+    }
+
+    select.dt-input,
+    button.openTicketModal {
+        width: 100% !important;
+        white-space: nowrap;
+    }
+
+    input[type="search"] {
+        width: 100%;
+    }
+
+    /* Restore right section layout */
+    #rightSection > .flex.gap-6 {
+        flex-direction: row;
+    }
+
+    #rightSection .w-\[35\%\] {
+        width: 35%;
+        height: 680px;
+    }
+
+    #rightSection .w-\[65\%\] {
+        width: 65%;
+        height: 680px;
+    }
+}
+/* Large screens (lg) - 1024px and up */
+@media (min-width: 1024px) {
+
+    aside {
+        position: sticky;
+        left: 0;
+        width: 16rem;
+        flex-shrink: 0;
+        transform: none !important;
+    }
+
+    .hamburger-menu {
+        display: none;
+    }
+
+    .sidebar-overlay {
+        display: none !important;
+    }
+
+    body.sidebar-open {
+        overflow: visible;
+    }
+
+    #rightSection {
+        padding-left: 1rem;
+    }
+}
+
 
         /* Limit dropdown height to show 5 items */
         .choices__list--dropdown {
@@ -1289,7 +1448,7 @@ use App\Models\User;
                             </div>
 
                             <div class="flex justify-center gap-4 mt-4">
-                                <button
+                                <button onclick="openStatusModal('Inactive')"
                                     class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">Edit</button>
                                 <button
                                     class="px-4 py-2 bg-red-900/50 text-red-500 rounded-lg hover:bg-red-600">Suspended</button>
@@ -1787,6 +1946,57 @@ use App\Models\User;
 
         </div>
     </div>
+
+    <!-- Status Update Modal -->
+<div id="statusModal"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
+
+    <div
+        class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[400px] max-h-[90vh] overflow-y-auto relative">
+
+        <!-- Close Button -->
+        <button id="closeStatusModal" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+            ✕
+        </button>
+
+        <!-- Heading -->
+        <div class="px-6 py-3">
+            <h2 class="text-lg light-text-black font-semibold">Update Status</h2>
+        </div>
+
+        <!-- Divider -->
+        <div class="border-t border-gray-600 w-full mt-2"></div>
+
+        <!-- Form -->
+        <form id="statusForm" class="space-y-4 p-6">
+            @csrf
+
+            <!-- Status Dropdown -->
+            <div>
+                <label class="block text-sm mb-1 light-text-black">Status</label>
+                <select id="statusSelect" name="status"
+                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex justify-end gap-3 pt-3">
+                <button type="button" id="cancelStatusModal"
+                    class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                    Cancel
+                </button>
+
+                <button type="submit"
+                    class="px-4 py-2 bg-orange-500 rounded-lg hover:bg-orange-600">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 
     @if ($errors->any())
@@ -2484,7 +2694,46 @@ use App\Models\User;
             });
         });
     </script>
+<script>
+    const statusModal = document.getElementById('statusModal');
+    const closeStatusModal = document.getElementById('closeStatusModal');
+    const cancelStatusModal = document.getElementById('cancelStatusModal');
+    const statusForm = document.getElementById('statusForm');
+    const statusSelect = document.getElementById('statusSelect');
 
+    // Open modal
+    function openStatusModal(currentStatus = 'Active') {
+        statusSelect.value = currentStatus;
+        statusModal.classList.remove('hidden');
+    }
+
+    // Close modal
+    function hideStatusModal() {
+        statusModal.classList.add('hidden');
+    }
+
+    closeStatusModal.addEventListener('click', hideStatusModal);
+    cancelStatusModal.addEventListener('click', hideStatusModal);
+
+    // Close when clicking outside
+    statusModal.addEventListener('click', (e) => {
+        if (e.target === statusModal) {
+            hideStatusModal();
+        }
+    });
+
+    // Submit
+    statusForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const status = statusSelect.value;
+        console.log('Selected Status:', status);
+
+        // 👉 send via fetch / axios / form submit here
+
+        hideStatusModal();
+    });
+</script>
 </body>
 
 </html>
