@@ -812,6 +812,37 @@ use App\Models\User;
         flex-wrap: wrap;
         gap: 0.5rem;
     }
+
+
+    /* Modal width adjustment */
+    #ticketModal .w-[900px] {
+        width: 95% !important;
+        max-width: 95% !important;
+    }
+
+    /* Stack all grid rows into single column */
+    #ticketModal form#ticketForm .grid {
+        grid-template-columns: 1fr !important; /* force single column */
+        gap: 0.5rem !important; /* smaller vertical gap */
+    }
+
+    /* Inner grids (like grid-cols-2 / grid-cols-3) also stack */
+    #ticketModal form#ticketForm .grid > .grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.5rem !important;
+    }
+
+    /* Inputs, selects, buttons full width */
+    #ticketModal form#ticketForm input,
+    #ticketModal form#ticketForm select,
+    #ticketModal form#ticketForm button {
+        width: 100% !important;
+    }
+
+    /* Reduce modal padding for small screens */
+    #ticketModal form#ticketForm {
+        padding: 1rem !important;
+    }
 }
 /* Small screens (sm) - 640px and below */
 @media (max-width: 640px) {
