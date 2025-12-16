@@ -1407,11 +1407,10 @@
                                 <!-- Notification Item with Toggle -->
                                 <li class="flex items-center border-b justify-between py-4 gap-8">
                                     <div class="w-1/4 min-w-[160px]">
-                                        <span class="text-gray-400 font-medium">Email Notifications</span>
+                                        <span class="text-gray-400 font-medium">Ticket Received</span>
                                     </div>
                                     <div class="flex-1">
-                                        <span class="text-gray-400 text-left">Turn email alerts on or off for
-                                            account updates.</span>
+                                        <span class="text-gray-400 text-left">Notify when a new support ticket is submitted.</span>
                                     </div>
                                     <div class="w-16 flex justify-end">
                                         <label class="toggle-switch">
@@ -1424,11 +1423,10 @@
                                 <!-- Notification Item with Toggle -->
                                 <li class="flex items-center border-b justify-between py-4 gap-8">
                                     <div class="w-1/4 min-w-[160px]">
-                                        <span class="text-gray-400 font-medium">In-App Notifications</span>
+                                        <span class="text-gray-400 font-medium">Payment Received</span>
                                     </div>
                                     <div class="flex-1">
-                                        <span class="text-gray-400 text-left">Turn on or off in-app notifications
-                                            for updates.</span>
+                                        <span class="text-gray-400 text-left">Alert when a payment is made by a user.</span>
                                     </div>
                                     <div class="w-16 flex justify-end">
                                         <label class="toggle-switch">
@@ -1441,11 +1439,10 @@
                                 <!-- File Upload/Download Alerts -->
                                 <li class="flex items-center border-b justify-between py-4 gap-8">
                                     <div class="w-1/4 min-w-[160px]">
-                                        <span class="text-gray-400 font-medium">File Upload/Download Alerts</span>
+                                        <span class="text-gray-400 font-medium">Subscription Renewal Reminder</span>
                                     </div>
                                     <div class="flex-1">
-                                        <span class="text-gray-400 text-left">Choose which service updates you want
-                                            to be alerted about.</span>
+                                        <span class="text-gray-400 text-left">Notify when a subscription is about to renew.</span>
                                     </div>
                                     <div class="w-16 flex justify-end">
                                         <label class="toggle-switch">
@@ -1458,11 +1455,10 @@
                                 <!-- Ticket Updates -->
                                 <li class="flex items-center border-b justify-between py-4 gap-8">
                                     <div class="w-1/4 min-w-[160px]">
-                                        <span class="text-gray-400 font-medium">Ticket Updates</span>
+                                        <span class="text-gray-400 font-medium">New User Registration</span>
                                     </div>
                                     <div class="flex-1">
-                                        <span class="text-gray-400 text-left">Get notified when files are uploaded
-                                            or downloaded.</span>
+                                        <span class="text-gray-400 text-left">Notify when a new user registers.</span>
                                     </div>
                                     <div class="w-16 flex justify-end">
                                         <label class="toggle-switch">
@@ -1475,11 +1471,10 @@
                                 <!-- Billing/Invoice Alerts -->
                                 <li class="flex items-center border-b justify-between py-4 gap-8">
                                     <div class="w-1/4 min-w-[160px]">
-                                        <span class="text-gray-400 font-medium">Billing/Invoice Alerts</span>
+                                        <span class="text-gray-400 font-medium">Payment Failure Alerts</span>
                                     </div>
                                     <div class="flex-1">
-                                        <span class="text-gray-400 text-left">Get alerts when your ticket status
-                                            changes.</span>
+                                        <span class="text-gray-400 text-left">Notify when a payment fails.</span>
                                     </div>
                                     <div class="w-16 flex justify-end">
                                         <label class="toggle-switch">
@@ -1489,27 +1484,7 @@
                                     </div>
                                 </li>
 
-                                <!-- Customize Alerts by Service -->
-                                <li class="flex border-b justify-between py-4">
-                                    <div class="w-1/4 min-w-[160px]">
-                                        <span class="text-gray-400 font-medium">Customize Alerts by Service</span>
-                                    </div>
-                                    <div class="flex-1 flex justify-between items-center">
-                                        <span class="pl-8 py-1 text-gray-400 rounded-full text-sm flex items-center">
-                                            Web Design <input type="checkbox" class="ml-2">
-                                        </span>
-                                        <span class="px-3 py-1 text-gray-400 rounded-full text-sm flex items-center">
-                                            SEO <input type="checkbox" class="ml-2">
-                                        </span>
-                                        <span class="px-3 py-1 text-gray-400 rounded-full text-sm flex items-center">
-                                            PPC <input type="checkbox" class="ml-2">
-                                        </span>
-                                        <span class="px-3 py-1 text-gray-400 rounded-full text-sm flex items-center">
-                                            PPC <input type="checkbox" class="ml-2">
-                                        </span>
-                                    </div>
-                                    <div class="w-16"></div> <!-- Spacer to match other rows -->
-                                </li>
+
                             </ul>
                         </div>
 

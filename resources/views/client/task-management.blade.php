@@ -850,7 +850,6 @@
                                     <div class="dropdown-wrapper" style="position: relative; display: inline-block;">
                                         <img src="{{ asset('assets/dots-vertical.svg') }}" class="dots-toggle" style="cursor: pointer; width: 24px;" />
                                         <div class="custom-dropdown" style="display: none; position:absolute; width: 120px; right: 35px; background: #282828; border-radius: 4px;">
-                                            <div class="openPaymentModal dropdown-option" style="padding: 8px; cursor: pointer;">New Page</div>
                                             {{-- <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Edit</div> --}}
                                             <a href="{{route('taskStatus.edit', $status->id)}}">
                                                 <div id="edit-task-status" class="dropdown-option" style="padding: 8px; cursor: pointer;">Edit</div>

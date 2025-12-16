@@ -1425,14 +1425,14 @@ use App\Models\User;
                                 </div>
                                 <div class="text-md flex items-center gap-2 text-white "><span
                                         class="text-md light-client">Status: </span>
-                                    @if ($singleClientData)
-                                        @if ($singleClientData->status === 'active')
-                                            <div class="bg-green-900/50 py-1 px-4 rounded-full">
-                                                <p class="text-green-500">{{ $singleClientData->status }}</p>
+                                        @if ($singleClientData)
+                                            @if ($singleClientData->status === 'active')
+                                            <div class="client_status_wrapper bg-green-900/50 py-1 px-4 rounded-full">
+                                                <p class="client_status_text text-green-500">{{ $singleClientData->status }}</p>
                                             </div>
                                         @else
-                                            <div class="bg-red-900/50 py-1 px-4 rounded-full">
-                                                <p class="text-red-500">{{ $singleClientData->status }}</p>
+                                            <div class="client_status_wrapper bg-red-900/50 py-1 px-4 rounded-full">
+                                                <p class="client_status_text text-red-500">{{ $singleClientData->status }}</p>
                                             </div>
                                         @endif
                                     @endif
@@ -1454,10 +1454,12 @@ use App\Models\User;
                             </div>
 
                             <div class="flex justify-center gap-4 mt-4">
-                                <button onclick="openStatusModal('Inactive')"
-                                    class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">Edit</button>
                                 @if($singleClientData)
-                                    <form action="{{ route('client.suspend', $singleClientData->id) }}" method="POST" style="display:inline;">
+                                <button data-client-id="{{$singleClientData->id}}" onclick="openStatusModal()"
+                                    class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 edit-client">Edit</button>
+                                @endif
+                                @if($singleClientData)
+                                    <form action="{{ route('client.suspend', $singleClientData->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('{{ $singleClientData->is_suspended == 0 ? 'Are you sure you want to suspend this client?' : 'Are you sure you want to unsuspend this client?' }}')">
                                     @csrf
                                         <button type="submit"
                                             class="px-4 py-2 bg-red-900/50 text-red-500 rounded-lg hover:bg-red-600">{{$singleClientData->is_suspended == 0 ? 'Suspended' : 'Unsuspended'}}</button>
@@ -1636,7 +1638,7 @@ use App\Models\User;
                                                 <!-- PROJECTS -->
                                                 <td class="px-6 py-4 text-sm light-text-gray-900 min-w-[180px]">
                                                     <div class="flex items-center gap-2">
-                                                        <img class="w-8 h-8 rounded-full" src="Avatar.svg"
+                                                        <img class="w-8 h-8 rounded-full" src="{{asset('assets/default-prf.png')}}"
                                                             alt="">
                                                         <div>
                                                             <p class="text-md">{{ $project->project_name ?? "N/A" }}</p>
@@ -1669,7 +1671,7 @@ use App\Models\User;
                                                         @foreach ($assignedUsers as $assignment)
                                                             @if ($assignment->project_id === $project->id)
                                                                 <img class="w-10 h-10 rounded-full border-2 border-black"
-                                                                    src="{{ asset($assignment->user->image) ?? asset('assets/default-prf.png') }}"
+                                                                    src="{{ asset($assignment->user->image ?? 'assets/default-prf.png' ) }}"
                                                                     alt="{{ $assignment->user->name }}">
                                                             @endif
                                                         @endforeach
@@ -1981,14 +1983,15 @@ use App\Models\User;
         <!-- Form -->
         <form id="statusForm" class="space-y-4 p-6">
             @csrf
-
             <!-- Status Dropdown -->
+            <input type="hidden" id="modal-client-id" value="">
             <div>
                 <label class="block text-sm mb-1 light-text-black">Status</label>
                 <select id="statusSelect" name="status"
                     class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
+                    <option value="">Select Status</option>
+                    <option value="active">Active</option>
+                    <option value="In Active">In Active</option>
                 </select>
             </div>
 
@@ -1999,12 +2002,13 @@ use App\Models\User;
                     Cancel
                 </button>
 
-                <button type="submit"
+                <button type="submit" id="update-status-btn"
                     class="px-4 py-2 bg-orange-500 rounded-lg hover:bg-orange-600">
                     Save
                 </button>
             </div>
         </form>
+
     </div>
 </div>
 
@@ -2053,8 +2057,6 @@ use App\Models\User;
         </style>
     @endif
 
-
-
     @if ($errors->any())
         <script>
             document.addEventListener("DOMContentLoaded", function() {
@@ -2074,6 +2076,79 @@ use App\Models\User;
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+
+
+            $(document).on('click', '.edit-client', function() {
+                let clientId = $(this).data('client-id');
+                console.log("Client ID:", clientId);
+
+                $('#modal-client-id').val(clientId);
+
+                $.ajax({
+                    url: '/get-client-status/' + clientId,
+                    method: 'GET',
+                    success: function(res) {
+                        $('#statusSelect').val(res.status);
+                    },
+                    error: function(err) {
+                        console.log("Error fetching client status:", err);
+                    }
+                });
+
+                });
+
+                $('#update-status-btn').on('click', function() {
+                    let clientId = $('#modal-client-id').val();
+                    let newStatus = $('#statusSelect').val();
+
+                    $.ajax({
+                        url: '/update-client-status', 
+                        method: 'POST',
+                        data: {
+                            client_id: clientId,
+                            status: newStatus,
+                            _token: '{{ csrf_token() }}' 
+                        },
+                        success: function(res) {
+                            console.log("Status updated:", res.status);
+
+                            let wrapper = $('.client_status_wrapper'); 
+                            let text = $('.client_status_text');
+
+                            let status = res.status.toLowerCase(); 
+
+                            text.text(status);
+
+                            if(status === 'active'){
+                                wrapper
+                                    .removeClass('bg-red-900/50')
+                                    .addClass('bg-green-900/50');
+
+                                text
+                                    .removeClass('text-red-500')
+                                    .addClass('text-green-500');
+                            } else {
+                                wrapper
+                                    .removeClass('bg-green-900/50')
+                                    .addClass('bg-red-900/50');
+
+                                text
+                                    .removeClass('text-green-500')
+                                    .addClass('text-red-500');
+                            }
+
+                            $('#statusModal').addClass('hidden');
+                        },
+                        error: function(err) {
+                            console.log("Error updating status:", err);
+                        }
+                    });
+                    });
+
+
+
+
+
             // Initialize DataTable
             const table = new DataTable('#myTable', {
                 dom: 't',
@@ -2142,6 +2217,9 @@ use App\Models\User;
                 document.getElementById('myTable_info').textContent =
                     `Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`;
             });
+
+
+
 
 
 
@@ -2705,6 +2783,7 @@ use App\Models\User;
             });
         });
     </script>
+
 <script>
     const statusModal = document.getElementById('statusModal');
     const closeStatusModal = document.getElementById('closeStatusModal');
@@ -2713,8 +2792,7 @@ use App\Models\User;
     const statusSelect = document.getElementById('statusSelect');
 
     // Open modal
-    function openStatusModal(currentStatus = 'Active') {
-        statusSelect.value = currentStatus;
+    function openStatusModal() {
         statusModal.classList.remove('hidden');
     }
 

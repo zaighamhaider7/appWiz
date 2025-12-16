@@ -16,7 +16,7 @@ class ClientsController extends Controller
 
     public function ClientView()
     {
-        $clientData = User::where('name', '!=', 'admin')->get();
+        $clientData = User::where('role_id', '!=', 1)->get();
 
         $latestProjectByClient = [];
 
@@ -61,6 +61,7 @@ class ClientsController extends Controller
             'status' => $validated['status'],
             'leads' => $validated['leads'],
             'membership' => $validated['membership'],
+            'role_id' => 2
         ]);
 
         ActivityLogger::log('New Client Added', 'A new client "' . $validated['name'] . '" was successfully added by ' . auth()->user()->name . '.');
@@ -117,6 +118,21 @@ class ClientsController extends Controller
 
         $status = $user->is_suspended ? 'suspended' : 'unsuspended';
         return redirect()->back()->with('success', "User has been $status successfully.");
+    }
+
+    public function getStatus($id) {
+        $client = User::find($id);
+        return response()->json(['status' => $client->status]);
+    }
+
+    public function updateStatus(Request $request) {
+        $client = User::find($request->client_id);
+        $client->status = $request->status;
+        $client->save();
+        return response()->json([
+            'success' => true,
+            'status' => $client->status
+        ]);
     }
 
 }

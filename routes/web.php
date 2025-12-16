@@ -73,6 +73,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/clients/{id}', [ClientsController::class, 'ClientDelete'])->name('clients.delete');
     Route::get('/clients/{id}', [ClientsController::class, 'ClientDetails'])->name('clients.details');
     Route::post('/clients/suspend/{id}', [ClientsController::class, 'suspend'])->name('client.suspend');
+    Route::get('/get-client-status/{id}', [ClientsController::class, 'getStatus']);
+    Route::post('/update-client-status', [ClientsController::class, 'updateStatus']);
 
     // leads start 
 

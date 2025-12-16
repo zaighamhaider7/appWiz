@@ -11,15 +11,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Quill CSS -->
-    <link
-      href="https://cdn.quilljs.com/1.3.7/quill.snow.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet" />
     <!-- Emoji Plugin -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/quill-emoji@0.2.0/dist/quill-emoji.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/quill-emoji@0.2.0/dist/quill-emoji.css" rel="stylesheet" />
     <style>
         :root {
             --btn-bg: #EA580C;
@@ -722,12 +716,14 @@
                 overflow: visible;
             }
         }
-                .openTicketChatModal {
+
+        .openTicketChatModal {
             cursor: pointer;
         }
 
         .ql-snow .ql-editor.ql-blank::before {
-            color: #616060; /* orange placeholder */
+            color: #616060;
+            /* orange placeholder */
             font-style: italic;
         }
     </style>
@@ -853,15 +849,15 @@
                             <div class="flex justify-between items-start mb-1">
                                 <p class="light-text-gray-700 mb-5 text-xs"><span style="color:#AFAFAF;">Total
                                         Clients<span></p>
-                                <img src="{{asset('assets/more.svg')}}" alt="Menu" class="h-4 w-4 mt-0.5">
+                                <img src="{{ asset('assets/more.svg') }}" alt="Menu" class="h-4 w-4 mt-0.5">
                             </div>
 
                             <!-- "000" Row (if shown) -->
-                            <p class="text-md text-4xl font-medium light-text-gray-800 mb-2">{{$clientCount}}</p>
+                            <p class="text-md text-4xl font-medium light-text-gray-800 mb-2">{{ $clientCount }}</p>
                             <!-- Light gray, subtle -->
                             <div
                                 class="bg-green-900 px-1 justify-center bg-opacity-50 hover:opacity-100 flex rounded-sm w-28">
-                                <p class="text-xs text-green-500"> +{{$thisMonthClients}} This Month</p>
+                                <p class="text-xs text-green-500"> +{{ $thisMonthClients }} This Month</p>
                             </div>
 
 
@@ -875,12 +871,12 @@
                             <div class="flex justify-between items-start mb-1">
                                 <p class="light-text-gray-700 mb-5 text-xs"><span style="color:#AFAFAF;">Total
                                         Projects<span></p>
-                                <img src="{{asset('assets/more.svg')}}" alt="Menu" class="h-4 w-4 mt-0.5">
+                                <img src="{{ asset('assets/more.svg') }}" alt="Menu" class="h-4 w-4 mt-0.5">
                             </div>
-                            <p class="text-4xl font-medium mb-2 light-text-gray-800">{{$projectCount}}</p>
+                            <p class="text-4xl font-medium mb-2 light-text-gray-800">{{ $projectCount }}</p>
                             <div
                                 class="bg-green-900 px-1 bg-opacity-50 hover:opacity-100 justify-center flex rounded-sm w-28">
-                                <p class="text-xs text-green-500"> +{{$thisMonthProjects}} This Month</p>
+                                <p class="text-xs text-green-500"> +{{ $thisMonthProjects }} This Month</p>
                             </div>
 
                         </div>
@@ -892,12 +888,12 @@
                             <div class="flex justify-between items-start mb-1">
                                 <p class="light-text-gray-700 mb-5 text-xs"><span style="color:#AFAFAF;">Total
                                         Tickets</span></p>
-                                <img src="{{asset('assets/more.svg')}}" alt="Menu" class="h-4 w-4 mt-0.5">
+                                <img src="{{ asset('assets/more.svg') }}" alt="Menu" class="h-4 w-4 mt-0.5">
                             </div>
-                            <p class="text-4xl font-medium mb-2 light-text-gray-800">{{$ticketCount}}</p>
+                            <p class="text-4xl font-medium mb-2 light-text-gray-800">{{ $ticketCount }}</p>
                             <div
                                 class="bg-green-900 bg-opacity-50 hover:opacity-100 px-1 justify-center flex rounded-sm w-28">
-                                <p class="text-xs  text-green-500"> +{{$thisMonthTickets}} This Month</p>
+                                <p class="text-xs  text-green-500"> +{{ $thisMonthTickets }} This Month</p>
                             </div>
 
                         </div>
@@ -909,7 +905,7 @@
                             <div class="flex justify-between items-start mb-1">
                                 <p class="light-text-gray-100 mb-5 text-xs"><span style="color:#AFAFAF;">Most
                                         Requested Service</span></p>
-                                <img src="{{asset('assets/more.svg')}}" alt="Menu" class="h-4 w-4 mt-0.5">
+                                <img src="{{ asset('assets/more.svg') }}" alt="Menu" class="h-4 w-4 mt-0.5">
                             </div>
                             <p class="text-4xl font-medium mb-2 light-text-gray-800">SEO</p>
                             <div
@@ -929,7 +925,7 @@
                         <div class="mb-6">
                             <div class="flex justify-between items-start mb-1">
                                 <h3 class="text-lg font-medium light-text-gray-800">Visitor geo-locations </h3>
-                                <img src="{{asset('assets/more.svg')}}" alt="Menu" class="h-4 w-4 mt-0.5">
+                                <img src="{{ asset('assets/more.svg') }}" alt="Menu" class="h-4 w-4 mt-0.5">
                             </div>
                             <p class="text-sm text-gray-400">Monthly Visitors Overview</p>
                         </div>
@@ -947,7 +943,8 @@
                                     <div class="flex items-center">
                                         <div
                                             class="w-8 h-8 rounded-full bg-cyan-100 flex items-center justify-center mr-3">
-                                            <img src="{{asset('assets/cn 1.png')}}" class="rounded-full" alt="">
+                                            <img src="{{ asset('assets/cn 1.png') }}" class="rounded-full"
+                                                alt="">
                                         </div>
                                         <div>
                                             <p class="text-sm font-medium">{{ $d['totalUsers'] }}</p>
@@ -998,7 +995,8 @@
                                         <div
                                             class="w-8 h-8 rounded-md bg-[#282828] flex items-center justify-center mr-3">
 
-                                            <img src="{{asset('assets/Icon (13).svg')}}" class="rounded-full" alt="">
+                                            <img src="{{ asset('assets/Icon (13).svg') }}" class="rounded-full"
+                                                alt="">
                                         </div>
                                         <div>
                                             <p class="text-md font-medium">{{ $ss['sessionSource'] }}</p>
@@ -1030,7 +1028,8 @@
                                 <div class="flex items-center mb-2">
                                     <div class="w-8 h-8  flex items-center justify-center mr-3">
 
-                                        <img src="{{asset('assets/Icon (19).svg')}}" class="" alt="">
+                                        <img src="{{ asset('assets/Icon (19).svg') }}" class=""
+                                            alt="">
                                     </div>
                                     <div>
                                         <p class="text-sm font-medium">SEO Optimization</p>
@@ -1055,7 +1054,8 @@
                                 <div class="flex items-center mb-2">
                                     <div class="w-8 h-8  flex items-center justify-center mr-3">
 
-                                        <img src="{{asset('assets/Icon (19).svg')}}" class="" alt="">
+                                        <img src="{{ asset('assets/Icon (19).svg') }}" class=""
+                                            alt="">
                                     </div>
                                     <div>
                                         <p class="text-sm font-medium">Social Media Ads</p>
@@ -1080,7 +1080,8 @@
                                 <div class="flex items-center mb-2">
                                     <div class="w-8 h-8  flex items-center justify-center mr-3">
 
-                                        <img src="{{asset('assets/Icon (19).svg')}}" class="" alt="">
+                                        <img src="{{ asset('assets/Icon (19).svg') }}" class=""
+                                            alt="">
                                     </div>
                                     <div>
                                         <p class="text-sm font-medium">Content Marketing</p>
@@ -1106,7 +1107,8 @@
                                 <div class="flex items-center mb-2">
                                     <div class="w-8 h-8  flex items-center justify-center mr-3">
 
-                                        <img src="{{asset('assets/Icon (19).svg')}}" class="" alt="">
+                                        <img src="{{ asset('assets/Icon (19).svg') }}" class=""
+                                            alt="">
                                     </div>
                                     <div>
                                         <p class="text-sm font-medium">Content Marketing</p>
@@ -1131,7 +1133,8 @@
                                 <div class="flex items-center mb-2">
                                     <div class="w-8 h-8  flex items-center justify-center mr-3">
 
-                                        <img src="{{asset('assets/Icon (19).svg')}}" class="" alt="">
+                                        <img src="{{ asset('assets/Icon (19).svg') }}" class=""
+                                            alt="">
                                     </div>
                                     <div>
                                         <p class="text-sm font-medium">Affiliate Mktg</p>
@@ -1156,7 +1159,8 @@
                                 <div class="flex items-center">
                                     <div class="w-8 h-8  flex items-center justify-center mr-3">
 
-                                        <img src="{{asset('assets/Icon (19).svg')}}" class="" alt="">
+                                        <img src="{{ asset('assets/Icon (19).svg') }}" class=""
+                                            alt="">
                                     </div>
                                     <div>
                                         <p class="text-sm font-medium">Influencer Mktg </p>
@@ -1236,7 +1240,7 @@
 
                     </div>
                 </div>
-                
+
                 <div class="grid grid-cols-1 lg:grid-cols-[50%_50%] gap-6  pr-6">
                     <!-- Average Session Duration Chart (60% width) -->
                     <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm ">
@@ -1284,14 +1288,16 @@
                                 <div class="space-y-4">
                                     <div class="flex justify-between items-center">
                                         <div class="flex items-center">
-                                            <img src="{{asset('assets/digi.svg')}}" class="w-6 h-6 mr-2" alt="SEO Icon">
+                                            <img src="{{ asset('assets/digi.svg') }}" class="w-6 h-6 mr-2"
+                                                alt="SEO Icon">
                                             <div class=" text-sm font-bold">Digital Marketing</div>
                                         </div>
                                         <div class="text-green-500 font-medium">+$298k</div>
                                     </div>
                                     <div class="flex justify-between items-center">
                                         <div class="flex items-center">
-                                            <img src="{{asset('assets/web.svg')}}" class="w-6 h-6 mr-2" alt="Web Development Icon">
+                                            <img src="{{ asset('assets/web.svg') }}" class="w-6 h-6 mr-2"
+                                                alt="Web Development Icon">
                                             <div class="text-sm font-bold">Web Development</div>
 
                                         </div>
@@ -1460,66 +1466,81 @@
                                 </thead>
                                 <tbody class="light-bg-white light-bg-seo border-b-2 light-border-gray-300">
                                     @php
-                                        $count = 1;   
+                                        $count = 1;
                                     @endphp
-                                    @if($ticketData->count() > 0)
-                                        @foreach($ticketData as $ticket)
+                                    @if ($ticketData->count() > 0)
+                                        @foreach ($ticketData as $ticket)
                                             <tr class="border-b-4 light-border-gray-300">
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-400">
-                                                    Ticket {{$count++}}</td>
+                                                <td
+                                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-400">
+                                                    Ticket {{ $count++ }}</td>
                                                 <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="text-sm font-thin light-text-gray-900">{{$ticket->description}}</div>
+                                                    <div class="text-sm font-thin light-text-gray-900">
+                                                        {{ $ticket->description }}</div>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     <div class="flex gap-2">
                                                         <div>
-                                                            <img class="w-8 h-8 rounded-full" src="{{ asset($ticket->user->image ?? 'assets/default-prf.png') }}" alt="">
+                                                            <img class="w-8 h-8 rounded-full"
+                                                                src="{{ asset($ticket->user->image ?? 'assets/default-prf.png') }}"
+                                                                alt="">
                                                         </div>
                                                         <div>
-                                                            <p class="text-sm">{{$ticket->user->name}}</p>
-                                                            <p class="text-xs text-gray-400">{{$ticket->project->project_name}}</p>
+                                                            <p class="text-sm">{{ $ticket->user->name }}</p>
+                                                            <p class="text-xs text-gray-400">
+                                                                {{ $ticket->project->project_name }}</p>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">{{ date('d-m-Y h:i a', strtotime($ticket->created_at)) }}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                                    {{ date('d-m-Y h:i a', strtotime($ticket->created_at)) }}</td>
                                                 <td class="px-6 py-4 whitespace-nowrap">
-                                                    @if($ticket->status == 'In Progress')                                       
+                                                    @if ($ticket->status == 'In Progress')
                                                         <div class="flex ml-8 items-center ">
                                                             <div class="bg-gray-200 rounded-full w-2.5 h-2.5">
-                                                                <div class="bg-cyan-400 h-2.5 rounded-full w-full"></div>
+                                                                <div class="bg-cyan-400 h-2.5 rounded-full w-full">
+                                                                </div>
                                                             </div>
-                                                            <span class="ml-2 text-sm items-center text-gray-400">{{$ticket->status}}</span>
+                                                            <span
+                                                                class="ml-2 text-sm items-center text-gray-400">{{ $ticket->status }}</span>
                                                         </div>
-                                                        @elseif($ticket->status == 'Resolved')
+                                                    @elseif($ticket->status == 'Resolved')
                                                         <div class="flex ml-8 items-center ">
                                                             <div class="bg-gray-200 rounded-full w-2.5 h-2.5">
-                                                                <div class="bg-green-500 h-2.5 rounded-full w-full"></div>
+                                                                <div class="bg-green-500 h-2.5 rounded-full w-full">
+                                                                </div>
                                                             </div>
-                                                            <span class="ml-2 text-sm items-center text-gray-400">{{$ticket->status}}</span>
+                                                            <span
+                                                                class="ml-2 text-sm items-center text-gray-400">{{ $ticket->status }}</span>
                                                         </div>
-                                                        @elseif($ticket->status == 'Cancelled')
+                                                    @elseif($ticket->status == 'Cancelled')
                                                         <div class="flex ml-8 items-center ">
                                                             <div class="bg-gray-200 rounded-full w-2.5 h-2.5">
-                                                                <div class="bg-red-500 h-2.5 rounded-full w-full"></div>
+                                                                <div class="bg-red-500 h-2.5 rounded-full w-full">
+                                                                </div>
                                                             </div>
-                                                            <span class="ml-2 text-sm items-center text-gray-400">{{$ticket->status}}</span>
+                                                            <span
+                                                                class="ml-2 text-sm items-center text-gray-400">{{ $ticket->status }}</span>
                                                         </div>
                                                     @endif
                                                 </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                                <td
+                                                    class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                                     <button
                                                         class="light-text-orange-500 light-hover-text-orange-700 open-chat-modal"
                                                         data-action="view-project">
-                                                        <img  src="{{asset('assets/message.svg')}}" alt="icon" data-ticket-id="{{$ticket->id}}"
-                                                        class="ticket-chat w-6 h-6 light-text-gray-900 rounded-full  light-mode-icon"
-                                                        data-dark-src="{{asset('assets/message-DARK.svg')}}">
+                                                        <img src="{{ asset('assets/message.svg') }}" alt="icon"
+                                                            data-ticket-id="{{ $ticket->id }}"
+                                                            class="ticket-chat w-6 h-6 light-text-gray-900 rounded-full  light-mode-icon"
+                                                            data-dark-src="{{ asset('assets/message-DARK.svg') }}">
                                                     </button>
                                                 </td>
                                             </tr>
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-400 text-center">
+                                            <td colspan="6"
+                                                class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-400 text-center">
                                                 No tickets found.
                                             </td>
                                         </tr>
@@ -1670,7 +1691,7 @@
             </div>
 
             <div id="chatMessages" class="space-y-4 p-10">
-                        
+
             </div>
 
             <!-- Input -->
@@ -1678,40 +1699,52 @@
                 class="border-t rounded-b-lg rounded-t-lg  border-gray-300 dark:border-gray-700 bg-black light-bg-d7d7d7 ">
                 <div class="flex items-center  px-4">
                     <span class="flex items-center gap-1">
-                        <img class=" w-full h-full" src="{{asset('assets/Icon (1).svg')}}" alt="bold" id="btn-bold">
-                        <img class=" w-full h-full" src="{{asset('assets/Icon.svg')}}" alt="italic" id="btn-italic">
-                        <img class=" w-full h-full" src="{{asset('assets/Icon (2).svg')}}" alt="underline"  >
-                        <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line" >
-                        <img class=" w-full h-full" src="{{asset('assets/Icon (6).svg')}}" alt="link" id="btn-link" >
-                        <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line" >
-                        <img class=" w-full h-full" src="{{asset('assets/Icon (7).svg')}}" alt="ordered" id="btn-ordered" >
-                        <img class=" w-full h-full" src="{{asset('assets/Icon (8).svg')}}" alt="bullet" id="btn-bullet">
-                        <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line"  >
-                        <img class=" w-full h-full" src="{{asset('assets/Icon (9).svg')}}" alt="left" id="btn-left">
-                        <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line">
-                        <img class=" w-full h-full" src="{{asset('assets/Icon (10).svg')}}" alt="code" id="btn-code">
-                        <img class=" w-full h-full" src="{{asset('assets/Icon (11).svg')}}" alt="">
+                        <img class=" w-full h-full" src="{{ asset('assets/Icon (1).svg') }}" alt="bold"
+                            id="btn-bold">
+                        <img class=" w-full h-full" src="{{ asset('assets/Icon.svg') }}" alt="italic"
+                            id="btn-italic">
+                        <img class=" w-full h-full" src="{{ asset('assets/Icon (2).svg') }}" alt="underline">
+                        <img class=" w-full h-full" src="{{ asset('assets/Rectangle 226.svg') }}" alt="line">
+                        <img class=" w-full h-full" src="{{ asset('assets/Icon (6).svg') }}" alt="link"
+                            id="btn-link">
+                        <img class=" w-full h-full" src="{{ asset('assets/Rectangle 226.svg') }}" alt="line">
+                        <img class=" w-full h-full" src="{{ asset('assets/Icon (7).svg') }}" alt="ordered"
+                            id="btn-ordered">
+                        <img class=" w-full h-full" src="{{ asset('assets/Icon (8).svg') }}" alt="bullet"
+                            id="btn-bullet">
+                        <img class=" w-full h-full" src="{{ asset('assets/Rectangle 226.svg') }}" alt="line">
+                        <img class=" w-full h-full" src="{{ asset('assets/Icon (9).svg') }}" alt="left"
+                            id="btn-left">
+                        <img class=" w-full h-full" src="{{ asset('assets/Rectangle 226.svg') }}" alt="line">
+                        <img class=" w-full h-full" src="{{ asset('assets/Icon (10).svg') }}" alt="code"
+                            id="btn-code">
+                        <img class=" w-full h-full" src="{{ asset('assets/Icon (11).svg') }}" alt="">
                     </span>
                 </div>
                 <div class="flex items-center light-bg-d7d7d7">
-                        <input type="hidden" id="chat-ticket-id" name="ticket_id" value="">
-                        <input type="hidden"  id="chat-sender-id" name="sender_id" value="{{ auth()->id() }}">
-                    <div id="editor" class="w-full p-4 light-bg-d9d9d9 light-text-black text-sm" style="height:80px !important;"></div>
-                    <button id="send-btn" class="light-bg-d9d9d9 hover:bg-orange-600 pt-10 rounded-r text-white relative">
+                    <input type="hidden" id="chat-ticket-id" name="ticket_id" value="">
+                    <input type="hidden" id="chat-sender-id" name="sender_id" value="{{ auth()->id() }}">
+                    <div id="editor" class="w-full p-4 light-bg-d9d9d9 light-text-black text-sm"
+                        style="height:80px !important;"></div>
+                    <button id="send-btn"
+                        class="light-bg-d9d9d9 hover:bg-orange-600 pt-10 rounded-r text-white relative">
                         <span class="absolute bottom-2 right-3 text-lg">➤</span>
                     </button>
                 </div>
 
                 <div class="flex rounded-b-lg light-bg-d9d9d9 items-center justify-between px-4"><span
                         class="flex items-center gap-1">
-                            <img class="pb-2 w-full h-full" src="{{asset('assets/Group 216.svg')}}"alt="img" id="btn-image">
-                            <img class="pb-2 w-full h-full" src="{{asset('assets/Icon (3).svg')}}" alt="" id="btn-underline">
-                            <img class="pb-2 w-full h-full" src="{{asset('assets/Icon (4).svg')}}" alt="emoji" id="btn-emoji">
-                            <div id="hidden-toolbar" style="display:none">
-                                <button class="ql-emoji"></button>
-                            </div>
-                            <img class="pb-2 w-full h-full" src="{{asset('assets/Icon (5).svg')}}" alt="">
-                        </span>
+                        <img class="pb-2 w-full h-full" src="{{ asset('assets/Group 216.svg') }}"alt="img"
+                            id="btn-image">
+                        <img class="pb-2 w-full h-full" src="{{ asset('assets/Icon (3).svg') }}" alt=""
+                            id="btn-underline">
+                        <img class="pb-2 w-full h-full" src="{{ asset('assets/Icon (4).svg') }}" alt="emoji"
+                            id="btn-emoji">
+                        <div id="hidden-toolbar" style="display:none">
+                            <button class="ql-emoji"></button>
+                        </div>
+                        <img class="pb-2 w-full h-full" src="{{ asset('assets/Icon (5).svg') }}" alt="">
+                    </span>
 
                 </div>
 
@@ -1727,17 +1760,17 @@
     <script src="https://cdn.jsdelivr.net/npm/quill-emoji@0.2.0/dist/quill-emoji.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-        <script>
-      // Initialize hidden Quill (no default toolbar)
-      document.addEventListener('DOMContentLoaded', function() {
-          const quill = new Quill("#editor", {
+    <script>
+        // Initialize hidden Quill (no default toolbar)
+        document.addEventListener('DOMContentLoaded', function() {
+            const quill = new Quill("#editor", {
                 theme: "snow",
                 placeholder: '@type here',
                 modules: {
-                toolbar: '#hidden-toolbar',
-                "emoji-toolbar": true,
-                "emoji-textarea": false,
-                "emoji-shortname": true,
+                    toolbar: '#hidden-toolbar',
+                    "emoji-toolbar": true,
+                    "emoji-textarea": false,
+                    "emoji-shortname": true,
                 },
             });
 
@@ -1768,101 +1801,114 @@
             document.getElementById("btn-link").onclick = () => {
                 const url = prompt("Enter link URL:");
                 if (url) {
-                quill.format("link", url);
+                    quill.format("link", url);
                 }
             };
 
 
             document.getElementById("btn-image").onclick = () => {
-             
+
                 const input = document.createElement("input");
                 input.setAttribute("type", "file");
-                input.setAttribute("accept", "image/*"); 
-                input.click(); 
+                input.setAttribute("accept", "image/*");
+                input.click();
 
                 // When the file is selected
                 input.onchange = () => {
-                    const file = input.files[0];  
+                    const file = input.files[0];
                     if (file) {
-                        const reader = new FileReader();  // Create a new FileReader to read the file
+                        const reader = new FileReader(); // Create a new FileReader to read the file
                         reader.onload = (e) => {
-                            const range = quill.getSelection();  // Get the current selection or cursor position in the editor
-                            quill.insertEmbed(range.index, 'image', e.target.result);  // Insert the image at the current cursor position
+                            const range = quill
+                        .getSelection(); // Get the current selection or cursor position in the editor
+                            quill.insertEmbed(range.index, 'image', e.target
+                            .result); // Insert the image at the current cursor position
                         };
-                        reader.readAsDataURL(file);  // Convert the file to Base64 format (so it can be embedded directly)
+                        reader.readAsDataURL(
+                        file); // Convert the file to Base64 format (so it can be embedded directly)
                     }
                 };
             };
 
 
             document.getElementById("btn-emoji").onclick = () => {
-                
+
                 const emojiButton = document.querySelector('.ql-emoji');
                 if (emojiButton) {
-                    emojiButton.click();  
+                    emojiButton.click();
                 }
             };
 
-        document.getElementById("send-btn").onclick = async (e) => {
-            e.preventDefault();
+            document.getElementById("send-btn").onclick = async (e) => {
+                e.preventDefault();
 
-            var chatMessage = quill.root.innerHTML; 
-            var ticketId = $('#chat-ticket-id').val();
-            var senderId = $('#chat-sender-id').val();
+                var chatMessage = quill.root.innerHTML;
+                var ticketId = $('#chat-ticket-id').val();
+                var senderId = $('#chat-sender-id').val();
 
-            let imageFiles = [];
-            quill.root.querySelectorAll('img').forEach(img => {
-                if (img.src.startsWith("data:")) {
-                    let blob = dataURLtoBlob(img.src);
-                    let file = new File([blob], "image.png", { type: blob.type });
-                    imageFiles.push({ file: file, element: img });
-                }
-            });
-
-            for (let i = 0; i < imageFiles.length; i++) {
-                let formData = new FormData();
-                formData.append('image', imageFiles[i].file);
-                formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
-
-                let response = await fetch("{{ route('ticket.chat.upload_image') }}", {
-                    method: "POST",
-                    body: formData
+                let imageFiles = [];
+                quill.root.querySelectorAll('img').forEach(img => {
+                    if (img.src.startsWith("data:")) {
+                        let blob = dataURLtoBlob(img.src);
+                        let file = new File([blob], "image.png", {
+                            type: blob.type
+                        });
+                        imageFiles.push({
+                            file: file,
+                            element: img
+                        });
+                    }
                 });
-                let data = await response.json();
-                imageFiles[i].element.src = data.url;
-            }
 
-            chatMessage = quill.root.innerHTML;
+                for (let i = 0; i < imageFiles.length; i++) {
+                    let formData = new FormData();
+                    formData.append('image', imageFiles[i].file);
+                    formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
 
-            $.ajax({
-                url: "{{ route('ticket.chat') }}",
-                method: "POST",
-                data: {
-                    ticket_id: ticketId,
-                    sender_id: senderId,
-                    message: chatMessage,
-                    _token: $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    quill.setContents([]); 
-                    loadTaskChats(ticketId); 
-                },
-                error: function(xhr) {
-                    console.error("Error sending chat:", xhr.responseText);
+                    let response = await fetch("{{ route('ticket.chat.upload_image') }}", {
+                        method: "POST",
+                        body: formData
+                    });
+                    let data = await response.json();
+                    imageFiles[i].element.src = data.url;
                 }
-            });
-        };
 
-        function dataURLtoBlob(dataurl) {
-            let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-            while(n--){
-                u8arr[n] = bstr.charCodeAt(n);
+                chatMessage = quill.root.innerHTML;
+
+                $.ajax({
+                    url: "{{ route('ticket.chat') }}",
+                    method: "POST",
+                    data: {
+                        ticket_id: ticketId,
+                        sender_id: senderId,
+                        message: chatMessage,
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        quill.setContents([]);
+                        loadTaskChats(ticketId);
+                    },
+                    error: function(xhr) {
+                        console.error("Error sending chat:", xhr.responseText);
+                    }
+                });
+            };
+
+            function dataURLtoBlob(dataurl) {
+                let arr = dataurl.split(','),
+                    mime = arr[0].match(/:(.*?);/)[1],
+                    bstr = atob(arr[1]),
+                    n = bstr.length,
+                    u8arr = new Uint8Array(n);
+                while (n--) {
+                    u8arr[n] = bstr.charCodeAt(n);
+                }
+                return new Blob([u8arr], {
+                    type: mime
+                });
             }
-            return new Blob([u8arr], {type:mime});
-        }
 
-      });
+        });
     </script>
 
     <script>
@@ -1952,7 +1998,7 @@
                         const content = card.querySelector('.card-content');
                         const icon = event.target.querySelector('img.toggle-icon'); // Get the icon
                         const textNode = event.target.childNodes[
-                        0]; // Get the text node (assuming it's first)
+                            0]; // Get the text node (assuming it's first)
 
                         if (!content.style.maxHeight || content.style.maxHeight === '0px') {
                             content.style.maxHeight = content.scrollHeight + 'px';
@@ -2356,24 +2402,26 @@
 
     <script>
         function loadTaskChats(ticketId) {
-                $.ajax({
-                    url: `/tickets/getTicketChats/${ticketId}`, 
-                    method: 'GET',
-                    success: function(response) {
-                        var chatContainer = $('#chatMessages');
-                        chatContainer.html(''); 
+            $.ajax({
+                url: `/tickets/getTicketChats/${ticketId}`,
+                method: 'GET',
+                success: function(response) {
+                    var chatContainer = $('#chatMessages');
+                    chatContainer.html('');
 
-                        response.chats.forEach(function(chat) {
+                    response.chats.forEach(function(chat) {
 
-                            let chatDate = new Date(chat.created_at);
-                            let dateString = chatDate.toLocaleDateString('en-US', {
-                                weekday: 'long', month: 'long', day: 'numeric'
-                            });
+                        let chatDate = new Date(chat.created_at);
+                        let dateString = chatDate.toLocaleDateString('en-US', {
+                            weekday: 'long',
+                            month: 'long',
+                            day: 'numeric'
+                        });
 
-                            
-                            chatContainer.append(`
+
+                        chatContainer.append(`
                                 <div class="flex items-start space-x-3">
-                                    <img src="${chat.sender.image || '{{asset('assets/Photos.png')}}'}" 
+                                    <img src="${chat.sender.image || '{{ asset('assets/Photos.png') }}'}" 
                                         class="w-10 h-10 rounded-md" alt="user" />
                                     <div>
                                         <p class="text-sm light-text-black font-semibold">
@@ -2394,12 +2442,12 @@
                                     </div>
                                 </div>
                             `);
-                        });
-                    },
-                    error: function(err) {
-                        console.error("Error loading chats:", err);
-                    }
-                });
+                    });
+                },
+                error: function(err) {
+                    console.error("Error loading chats:", err);
+                }
+            });
         }
 
         $(document).ready(function() {
@@ -2425,7 +2473,6 @@
                 }
             });
         });
-
     </script>
 
 </body>
