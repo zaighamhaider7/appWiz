@@ -694,54 +694,242 @@
         .hide {
             display: none;
         }
+/* === 480px (mobile) === */
+/* === 480px (mobile) === */
+@media (max-width: 480px) {
 
-        /* Small screens (sm) - 640px and up */
-        @media (max-width: 640px) {
-            .header .sm\:block {
-                display: block;
-            }
+    /* === Tasks List / Header & Controls Stack === */
+    .flex.items-center.justify-between.mb-4.p-6.flex-wrap.gap-3 {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+    }
 
-            /* Show John Wick name on sm and up */
-            aside {
-                display: none !important;
-            }
+    /* Inner controls container vertical + full width */
+    .flex.items-center.space-x-3 {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+        width: 100% !important;
+    }
 
-            table th,
-            table td {
-                padding-left: 1.5rem;
-                padding-right: 1.5rem;
-                padding-top: 1rem;
-                padding-bottom: 1rem;
-            }
+    /* Stack filter + button vertically */
+    .flex.items-center.space-x-3 > .relative.flex.gap-3 {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 10px !important;
+    }
 
-            table th .icon.mr-2 {
-                margin-right: 0.5rem;
-            }
+    /* Make input, select, button full width */
+    .flex.items-center.space-x-3 > .relative:first-child input,
+    .flex.items-center.space-x-3 > .relative.flex.gap-3 select,
+    .flex.items-center.space-x-3 > .relative.flex.gap-3 button {
+        width: 100% !important;
+    }
 
-            table th .icon.mr-10 {
-                margin-right: 1rem;
-            }
-        }
+    /* Adjust search icon inside input */
+    .flex.items-center.space-x-3 > .relative:first-child .icon {
+        left: 10px !important;
+    }
 
-        /* Medium screens (md) - 768px and up */
-        @media (min-width: 768px) {
-            table th .icon.mr-10 {
-                margin-right: 2.5rem;
-            }
-        }
+    /* === "Before Switch" Header (Task Management) === */
+    .main-section > .flex.justify-between {
+        /* Keep title + switch on one row */
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        margin-bottom: 10px !important;
+    }
 
-        /* Large screens (lg) - 1024px and up */
-        @media (min-width: 1024px) {
+    .main-section > .flex.justify-between.items-center.w-full.mb-10 {
+        /* Stack search + filter + button below title row */
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+    }
 
-            /* Sidebar becomes part of the normal layout */
-            aside {
-                position: sticky;
-                left: 0;
-                width: 16rem;
-                flex-shrink: 0;
-                transform: none !important;
-                /* Prevent any transform from mobile state */
-            }
+    .main-section > .flex.justify-between.items-center.w-full.mb-10 .relative.max-w-md input {
+        width: 100% !important;
+    }
+
+    .main-section > .flex.justify-between.items-center.w-full.mb-10 .flex.items-center.space-x-4.ml-6 {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
+    .main-section > .flex.justify-between.items-center.w-full.mb-10 .flex.items-center.space-x-4.ml-6 select,
+    .main-section > .flex.justify-between.items-center.w-full.mb-10 .flex.items-center.space-x-4.ml-6 button {
+        width: 100% !important;
+    }
+
+    /* === Sections Full Width === */
+    .main-section, .alt-section {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    /* === Dropdowns & Status === */
+    .statusDropdown, .status-select {
+        width: 100% !important;
+        font-size: 14px;
+    }
+
+    /* === Success Messages === */
+    .success-message {
+        right: 1rem;
+        top: 1rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    /* === SEO Cards === */
+    #seo-cards .card-content {
+        max-height: none;
+    }
+
+    /* === Editor === */
+    #editor {
+        width: 100%;
+        min-height: 150px;
+    }
+
+    /* === Tabs === */
+    .tab-content {
+        padding: 0.5rem;
+    }
+
+    /* === Modals === 
+    .modal, #projectModal, #ticketModal, #paymentModal {
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+*/
+    /* Make the grid single-column */
+    .mobile-form .grid {
+        grid-template-columns: 1fr !important; /* single column */
+        gap: 12px; /* optional: smaller gaps on mobile */
+    }
+
+    /* Make inputs & selects full width */
+    .mobile-form input,
+    .mobile-form select,
+    .mobile-form textarea {
+        width: 100% !important;
+        font-size: 14px; /* optional: smaller font for mobile */
+    }
+
+    /* Adjust buttons to stack vertically */
+    .mobile-form .flex.justify-end {
+        flex-direction: column;
+        gap: 8px;
+        align-items: stretch; /* make buttons full width */
+    }
+
+    .mobile-form .flex.justify-end button {
+        width: 100%; /* full width buttons */
+    }
+
+    /* === Toggle Buttons === */
+    .toggle-btn {
+        font-size: 12px;
+    }
+
+    /* === Table & Pagination Scroll === */
+    .table-scroll-container,
+    .pagination-scroll-container {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table-scroll-container table {
+        min-width: 800px; /* adjust according to table content */
+    }
+
+    /* Pagination */
+    #custom-pagination {
+        overflow-x: auto !important;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    #custom-pagination::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+
+
+/* === 640px (small tablet) === */
+@media (min-width: 481px) and (max-width: 640px) {
+    .main-section, .alt-section {
+        width: 95%;
+        padding: 1rem;
+    }
+
+    .statusDropdown, .status-select {
+        width: 80%;
+        font-size: 14px;
+    }
+
+    .success-message {
+        right: 1.5rem;
+        top: 1.5rem;
+        font-size: 0.85rem;
+    }
+
+    #editor {
+        width: 100%;
+        min-height: 180px;
+    }
+
+    .modal, #projectModal, #ticketModal, #paymentModal {
+        width: 85%;
+    }
+}
+
+/* === 768px (tablet) === */
+@media (min-width: 641px) and (max-width: 768px) {
+    .main-section, .alt-section {
+        width: 90%;
+    }
+
+    .statusDropdown, .status-select {
+        width: 70%;
+    }
+
+    .modal, #projectModal, #ticketModal, #paymentModal {
+        width: 70%;
+    }
+
+    #editor {
+        min-height: 220px;
+    }
+}
+
+/* === 1024px (small desktop / large tablet) === */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .main-section, .alt-section {
+        width: 85%;
+    }
+
+    .statusDropdown, .status-select {
+        width: 60%;
+    }
+
+    .modal, #projectModal, #ticketModal, #paymentModal {
+        width: 60%;
+    }
+
+    #editor {
+        min-height: 250px;
+    }
+}
+
+
 
             /* Hide hamburger menu on desktop */
             .hamburger-menu {
@@ -757,7 +945,7 @@
             body.sidebar-open {
                 overflow: visible;
             }
-        }
+        
 
         .openPaymentModal{
             cursor: pointer;
@@ -877,7 +1065,7 @@
                                             <div class="dropdown-wrapper" style="position: relative; display: inline-block;">
                                                 <img src="{{ asset('assets/dots-vertical.svg') }}" class="dots-toggle" style="cursor: pointer; width: 24px;" />
                                                 <div class="custom-dropdown" style="display: none; position: absolute; width: 120px; right: 30px; background: #282828; border-radius: 4px;">
-                                                    <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Edit</div>
+                                                    <div class="dropdown-option edit-task-status" style="padding: 8px; cursor: pointer;">Edit</div>
                                                     <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Delete</div>
                                                 </div>
                                             </div>
@@ -1120,7 +1308,7 @@
                                                 </td>
                                             </tr>
                                             <!-- Expandable Row (Sub-Header + Sub-Row) -->
-                                            <tr id="expand-0{{ $loop->iteration }}" class="hidden light-text-black">
+                                            <tr id="expand-0{{ $loop->iteration }}" class="hidden text-black">
                                                 <td colspan="7" class="px-6 py-4 ">
                                                     <!-- Sub-table Head -->
                                                     <div class="grid grid-cols-6  font-semibold light-text-black">
@@ -1157,12 +1345,12 @@
                                                                 @method('POST')
                                                                <select class="statusDropdown" name="task_status"
                                                                     onchange="this.form.submit(); updateDropdownStyle(this)"
-                                                                    style="width: 150px; padding: 8px; border-radius: 8px; text-align: left;">
+                                                                    style="width: 150px; padding: 8px; border-radius: 8px; text-align: left; background-color:#333333;">
                                                                     <option value="{{$task->task_status}}" selected hidden>{{$task->task_status}}</option>
                                                                     @foreach($taskStatus as $statusOption)
                                                                         @if($statusOption->task_status != $task->task_status)
                                                                             <option value="{{ $statusOption->task_status }}" 
-                                                                                style="color: black; background-color: #fff;">
+                                                                                style="color: black; background-color: #ffffff;">
                                                                                 {{ $statusOption->task_status }}
                                                                             </option>
                                                                         @endif
@@ -1316,7 +1504,7 @@
 
                                     </div>
                                 </div>
-                                <div class="flex space-x-2">
+                                <div class="flex space-x-2" id="custom-pagination">
                                     <button
                                         class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
                                     <button
@@ -2560,6 +2748,38 @@
                 }
             });
         });
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Select all edit buttons
+    const editButtons = document.querySelectorAll(".edit-task-status");
+
+    // Select the modal
+    const editTaskStatusModal = document.getElementById("editTaskStatusModal");
+
+    // Select close button
+    const closeEditModal = document.getElementById("close-edit-task-form");
+
+    if (!editTaskStatusModal || !editButtons.length) return;
+
+    // Open modal when any edit button is clicked
+    editButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            editTaskStatusModal.classList.remove("hidden");
+        });
+    });
+
+    // Close modal when clicking the X
+    closeEditModal.addEventListener("click", () => {
+        editTaskStatusModal.classList.add("hidden");
+    });
+
+    // Close modal if clicking outside the modal content
+    editTaskStatusModal.addEventListener("click", (e) => {
+        if (e.target === editTaskStatusModal) {
+            editTaskStatusModal.classList.add("hidden");
+        }
+    });
+});
 
         function updateSelectStyle(selectElement) {
             const value = selectElement.value;
@@ -3958,71 +4178,90 @@
                 <div class="border-t border-gray-600 w-full mt-4"></div>
             </div>
 
-            <!-- Ticket Form -->
-            <form id="ticketForm" class="space-y-4 p-6">
-                <!-- Title, Project Name, Priority -->
-                <div class="grid grid-cols-1 gap-4">
-                    <div class="grid grid-cols-1 gap-2">
-                        <div>
-                            <label class="block text-sm mb-1 light-text-black">Title</label>
-                            <input type="text" name="title" placeholder="Enter Task Title"
-                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                        </div>
-
+            <!-- Task Form -->
+            <form id="ticketForm" class="space-y-4 mobile-form px-6 pb-6" method="POST" action="{{route('task.store')}}">
+                @csrf
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Task Name -->
+                    <div>
+                        <label class="block text-sm mb-1 light-text-white">Task Name</label>
+                        <input type="text" placeholder="John Doe" name="task_name" value="{{old('task_name')}}"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                     </div>
 
-
-                    <div class="grid grid-cols-3  gap-4">
-                        <div>
-                            <label class="block text-sm mb-1 light-text-black">Tag</label>
-                            <input type="text" name="title" placeholder="Enter Task Title"
-                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                        </div>
-
-                        <!-- State Selection -->
-                        <div>
-                            <label class="block text-sm mb-1 light-text-black">Assign Team Member</label>
-                            <select
-                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
-                                <option value="">Select Team Member</option>
-                                <option value="John">John</option>
-                                <option value="Sam">Sam</option>
-                                <option value="Tom">Tom</option>
-                                <option value="Liam">Liam</option>
-                            </select>
-                        </div>
-
-                        <!-- City Selection -->
-                        <div>
-                            <label class="block text-sm mb-1 light-text-black">Task Status</label>
-                            <select
-                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
-                                <option value="">Select Task Status</option>
-                                <option value="Active">Active</option>
-                                <option value="Cancelled">Cancelled</option>
-                                <option value="InProcess">InProcess</option>
-                                <option value="Pending">Pending</option>
-                            </select>
-                        </div>
-
+                    <!-- Task Category -->
+                    <div>
+                        <label class="block text-sm mb-1 light-text-white">Task Category</label>
+                        <select name="task_category"  class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                            <option value="" selected hidden >Select Category</option>
+                            <option value="design" {{old('task_category') == 'design' ? 'selected' : '' }}>Design</option>
+                            <option value="development" {{old('task_category') == 'development' ? 'selected' : '' }}>Development</option>
+                        </select>
                     </div>
 
+                    <!-- Project -->
+                    <div>
+                        <label class="block text-sm mb-1 light-text-white">Project</label>
+                        <select name="project" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                            <option value="" selected hidden>Select Project</option>
+                            @if(count($projects) > 0)
+                            @foreach ($projects as $project)
+                                <option value="{{$project->id}}" {{old('project') == $project->id ? 'selected' : ''}}>{{$project->project_name}}</option>
+                            @endforeach
+                            @else
+                                <option selected hidden>No Project Found</option>
+                            @endif
+                        </select>
+                    </div>
 
+                    <!-- Assign to -->
+                    <div>
+                        <label class="block text-sm mb-1 light-text-white">Assign to</label>
+                        <select name="assign_to" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                            <option value="" selected hidden>Select Members</option>
+                            @if(count($users) > 0)
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}" {{ old('assign_to') == $user->id ? 'selected' : ''}}>{{$user->name}}</option>
+                                @endforeach
+                            @else
+                                <option selected hidden>No User Found</option>
+                            @endif
+                        </select>
+                    </div>
+
+                    <!-- Start Date -->
+                    <div>
+                        <label class="block text-sm mb-1 light-text-white">Start Date</label>
+                        <input type="date" placeholder="dd / mm / yy" name="start_date" value="{{old('start_date')}}"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                    </div>
+
+                    <!-- Due Date -->
+                    <div>
+                        <label class="block text-sm mb-1 light-text-white">Due Date</label>
+                        <input type="date" placeholder="dd / mm / yy" name="due_date" value="{{old('due_date')}}"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                    </div>
                 </div>
 
+                <!-- Description -->
+                <div>
+                    <label class="block text-sm mb-1 light-text-white">Description</label>
+                    <textarea placeholder="Description here" rows="4" name="description" 
+                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                        {{old('descripiton')}}
+                    </textarea>
+                </div>
 
                 <!-- Buttons -->
-                <div class="flex justify-end items-center">
-
-                    <div class="flex justify-end gap-3 pt-3">
-                        <button type="button" id="cancelTicket"
-                            class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
-                            Cancel
-                        </button>
-                        <button type="submit" class="px-4 py-2 bg-orange-500  rounded-lg hover:bg-orange-600">
-                            Save
-                        </button>
-                    </div>
+                <div class="flex justify-end gap-3 pt-4">
+                    <button type="button" id="cancelTicket"
+                        class="px-4 py-2 light-text-white light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-orange-500 rounded-lg hover:bg-orange-600">
+                        Add
+                    </button>
                 </div>
             </form>
         </div>
@@ -4046,7 +4285,7 @@
             <div class="border-t border-gray-700 mb-4"></div>
 
             <!-- Task Form -->
-            <form id="ticketForm" class="space-y-4 px-6 pb-6" method="POST" action="{{route('task.store')}}">
+            <form id="ticketForm" class="space-y-4 mobile-form px-6 pb-6" method="POST" action="{{route('task.store')}}">
                 @csrf
                 <div class="grid grid-cols-2 gap-4">
                     <!-- Task Name -->
@@ -4136,6 +4375,113 @@
     </div>
 
     <div id="edit-task-form"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
+        <div
+            class="light-bg-d9d9d9 bg-[#1c1c1c] text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto relative">
+
+            <!-- Close Button -->
+            <button id="close-edit-task-form" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+                ✕
+            </button>
+
+            <!-- Header -->
+            <div class="px-6 pt-5 pb-2">
+                <h2 class="text-lg font-semibold light-text-white">Edit New Task</h2>
+            </div>
+
+            <div class="border-t border-gray-700 mb-4"></div>
+
+            <!-- Task Form -->
+            <form id="ticketForm" class="space-y-4 px-6 pb-6" action="{{ route('single.update') }}" method="POST">
+                @csrf
+                @method('POST')
+                <div class="grid grid-cols-2 gap-4">
+
+                    <input name="task_id" type="hidden" value="{{$singleTask->id ?? ''}}">
+                    <!-- Task Name -->
+                    <div>
+                        <label class="block text-sm mb-1 light-text-white">Task Name</label>
+                        <input type="text" placeholder="John Doe" value="{{$singleTask->task_name ?? ''}}" name="task_name"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                    </div>
+
+                    <!-- Task Category -->
+                    <div>
+                        <label class="block text-sm mb-1 light-text-white">Task Category</label>
+                        <select name="task_category"  class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                            <option selected value="{{$singleTask->task_category ?? ''}}">{{$singleTask->task_category ?? ''}}</option>
+                            <option value="design" {{old('task_category') == 'design' ? 'selected' : '' }}>Design</option>
+                            <option value="development" {{old('task_category') == 'development' ? 'selected' : '' }}>Development</option>
+                        </select>
+                    </div>
+
+                    <!-- Project -->
+                    <div>
+                        <label class="block text-sm mb-1 light-text-white">Project</label>
+                        <select name="project" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                            <option selected value="{{$singleTask->project ?? ''}}" selected>{{$singleTask->taskProject->project_name ?? ''}}</option>
+                            @if(count($projects) > 0)
+                            @foreach ($projects as $project)
+                                <option value="{{$project->id}}" {{old('project') == $project->id ? 'selected' : ''}}>{{$project->project_name}}</option>
+                            @endforeach
+                            @else
+                                <option selected hidden>No Project Found</option>
+                            @endif
+                        </select>
+                    </div>
+
+                    <!-- Assign to -->
+                    <div>
+                        <label class="block text-sm mb-1 light-text-white">Assign to</label>
+                        <select name="assign_to" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                            <option value="{{$singleTask->assign_to ?? ''}}" selected >{{$singleTask->assignedUser->name ?? ''}}</option>
+                            @if(count($users) > 0)
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}" {{ old('assign_to') == $user->id ? 'selected' : ''}}>{{$user->name}}</option>
+                                @endforeach
+                            @else
+                                <option selected hidden>No User Found</option>
+                            @endif
+                        </select>
+                    </div>
+
+                    <!-- Start Date -->
+                    <div>
+                        <label class="block text-sm mb-1 light-text-white">Start Date</label>
+                        <input type="date" placeholder="dd / mm / yy" name="start_date" value="{{$singleTask->start_date ?? ''}}"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                    </div>
+
+                    <!-- Due Date -->
+                    <div>
+                        <label class="block text-sm mb-1 light-text-white">Due Date</label>
+                        <input type="date" placeholder="dd / mm / yy" name="due_date" value="{{$singleTask->due_date ?? ''}}"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div>
+                    <label class="block text-sm mb-1 light-text-white">Description</label>
+                    <textarea placeholder="Description here" rows="4" name="description" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">{{$singleTask->description ?? ''}}</textarea>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex justify-end gap-3 pt-4">
+                    {{-- <button type="button" id="cancelTicket"
+                        class="px-4 py-2 light-text-white light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                        Cancel
+                    </button> --}}
+                    <button type="submit" class="px-4 py-2 bg-orange-500 rounded-lg hover:bg-orange-600">
+                        Edit
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    
+    <div id="editTaskStatusModal"
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
         <div
             class="light-bg-d9d9d9 bg-[#1c1c1c] text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto relative">
