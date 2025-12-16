@@ -688,70 +688,173 @@
             display: none;
         }
 
-        /* Small screens (sm) - 640px and up */
-        @media (max-width: 640px) {
-            .header .sm\:block {
-                display: block;
-            }
+        /* ================= Extra small screens (xs) - ≤480px ================= */
+/* Extra small screens (xs) - 480px and below */
+@media (max-width: 480px) {
+    /* ================= HEADER / PROJECT LIST ================= */
+    .flex.items-center.justify-between.p-6.flex-wrap.gap-3 {
+        flex-direction: column;       /* stack title + controls */
+        align-items: flex-start;      /* keep title left-aligned */
+        gap: 0.5rem;                  /* minimal vertical spacing */
+        padding: 0.5rem;              /* minimal left/right padding */
+    }
 
-            /* Show John Wick name on sm and up */
-            aside {
-                display: none !important;
-            }
+    /* Title stays left */
+    .flex.items-center.justify-between.p-6.flex-wrap.gap-3 > h2 {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 0.5rem;
+    }
 
-            table th,
-            table td {
-                padding-left: 1.5rem;
-                padding-right: 1.5rem;
-                padding-top: 1rem;
-                padding-bottom: 1rem;
-            }
+    /* Container for search/filter/button */
+    .flex.items-center.space-x-3 {
+        flex-direction: column !important; /* stack vertically */
+        width: 100%;
+        align-items: stretch;              /* full width children */
+        gap: 0.5rem;
+    }
 
-            table th .icon.mr-2 {
-                margin-right: 0.5rem;
-            }
+    /* Make the inner flex (filter + button) stacked */
+    .flex.items-center.space-x-3 .flex.gap-3 {
+        flex-direction: column !important;
+        width: 100%;
+        gap: 0.5rem;
+    }
 
-            table th .icon.mr-10 {
-                margin-right: 1rem;
-            }
-        }
+    /* Full-width inputs/buttons */
+    input[type="search"],
+    select.dt-input,
+    button.openTicketModal {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
 
-        /* Medium screens (md) - 768px and up */
-        @media (min-width: 768px) {
-            table th .icon.mr-10 {
-                margin-right: 2.5rem;
-            }
-        }
+    /* Pagination */
+    #custom-pagination {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
 
-        /* Large screens (lg) - 1024px and up */
-        @media (min-width: 1024px) {
+    #custom-pagination::-webkit-scrollbar {
+        display: none;
+    }
 
-            /* Sidebar becomes part of the normal layout */
-            aside {
-                position: sticky;
-                left: 0;
-                width: 16rem;
-                flex-shrink: 0;
-                transform: none !important;
-                /* Prevent any transform from mobile state */
-            }
 
-            /* Hide hamburger menu on desktop */
-            .hamburger-menu {
-                display: block;
-            }
+    /* Modal width adjustment */
+    #ticketModal .w-[900px] {
+        width: 95% !important;
+        max-width: 95% !important;
+    }
 
-            /* Hide overlay on desktop */
-            .sidebar-overlay {
-                display: none !important;
-            }
+    /* Stack all grid rows into single column */
+    #ticketModal form#ticketForm .grid {
+        grid-template-columns: 1fr !important; /* force single column */
+        gap: 0.5rem !important; /* smaller vertical gap */
+    }
 
-            /* Remove overflow hidden from body on desktop */
-            body.sidebar-open {
-                overflow: visible;
-            }
+    /* Inner grids (like grid-cols-2 / grid-cols-3) also stack */
+    #ticketModal form#ticketForm .grid > .grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.5rem !important;
+    }
 
-        }
+    /* Inputs, selects, buttons full width */
+    #ticketModal form#ticketForm input,
+    #ticketModal form#ticketForm select,
+    #ticketModal form#ticketForm button {
+        width: 100% !important;
+    }
+
+    /* Reduce modal padding for small screens */
+    #ticketModal form#ticketForm {
+        padding: 1rem !important;
+    }
+}
+
+/* ================= Small screens (sm) - ≤640px ================= */
+@media (max-width: 640px) {
+    aside {
+        display: none !important;
+    }
+
+    .hamburger-menu {
+        display: block !important;
+    }
+
+    table th,
+    table td {
+        padding: 0.75rem !important;
+        font-size: 12px; /* consistent for small screens */
+    }
+
+    table th .icon.mr-2 {
+        margin-right: 0.5rem !important;
+    }
+
+    table th .icon.mr-10 {
+        margin-right: 1rem !important;
+    }
+
+    /* Optional: make table horizontally scrollable on small screens */
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
+
+/* ================= Medium screens (md) - ≥768px ================= */
+@media (min-width: 768px) {
+    table th .icon.mr-10 {
+        margin-right: 2.5rem !important;
+    }
+
+    /* Reset table scroll for medium+ screens */
+    table {
+        display: table;
+        width: 100%;
+        overflow: visible;
+        white-space: normal;
+    }
+}
+
+/* ================= Large screens (lg) - ≥1024px ================= */
+@media (min-width: 1024px) {
+    aside {
+        position: sticky !important;
+        top: 0; /* ensure sticky from top */
+        left: 0;
+        width: 16rem;
+        flex-shrink: 0;
+        transform: none !important;
+    }
+
+    .hamburger-menu {
+        display: none !important; /* hide hamburger on desktop */
+    }
+
+    .sidebar-overlay {
+        display: none !important;
+    }
+
+    body.sidebar-open {
+        overflow: visible !important;
+    }
+
+    main {
+        padding: 1rem;
+    }
+
+    table th,
+    table td {
+        padding: 1rem !important;
+        font-size: 14px; /* reset font size for desktop */
+    }
+}
+
+
 
                 /* Limit dropdown height to show 5 items */
         .choices__list--dropdown {
