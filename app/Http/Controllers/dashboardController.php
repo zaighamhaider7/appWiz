@@ -170,6 +170,6 @@ class dashboardController extends Controller
             ];
         }
 
-        return view('client.dashboard', compact('ticketData', 'ticketCount','projectCount','clientCount', 'thisMonthClients','thisMonthTickets', 'thisMonthProjects', 'summary', 'sources', 'currentData'));
+        return view('admin.dashboard', compact('ticketData', 'ticketCount','projectCount','clientCount', 'thisMonthClients','thisMonthTickets', 'thisMonthProjects', 'summary', 'sources', 'currentData'));
     }
 }

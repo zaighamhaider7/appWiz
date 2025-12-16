@@ -23,7 +23,7 @@ class marketplaceController extends Controller
     
         $subCategories = Category::where('is_sub', 1)->get();
 
-        return view('client.marketplace', compact('mainCategories', 'subCategories', 'subscriptions'));
+        return view('admin.marketplace', compact('mainCategories', 'subCategories', 'subscriptions'));
     }
 
 

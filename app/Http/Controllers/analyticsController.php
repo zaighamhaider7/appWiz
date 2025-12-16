@@ -169,7 +169,7 @@ class AnalyticsController extends Controller
                          ->whereYear('created_at', now()->year)
                          ->count();
 
-     return view('client.analytics')->with([
+     return view('admin.analytics')->with([
             'data' => $currentData,
             'summary' => $results,
             'source' => $sources,

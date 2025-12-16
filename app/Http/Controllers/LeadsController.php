@@ -11,7 +11,7 @@ class LeadsController extends Controller
 {
     public function LeadsView(){
         $leadsData = Leads::all();
-        return view('client.Leads', compact('leadsData'));
+        return view('admin.Leads', compact('leadsData'));
     }
 
     public function LeadsStore(Request $request){

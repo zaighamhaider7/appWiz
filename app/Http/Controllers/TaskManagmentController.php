@@ -15,7 +15,7 @@ class TaskManagmentController extends Controller
 
     public function TaskView(){
         $projects = project::all();
-        $users = User::where('name', '!=', 'Admin')->get();
+        $users = User::where('role_id', '!=', 1)->where('is_suspended', 0)->get();
         $tasks = TaskManagment::all();
         $taskCommentsCount = [];
 
@@ -35,7 +35,7 @@ class TaskManagmentController extends Controller
         $singleTask = null;
         $singleStatus = null;
 
-        return view('client.task-management', compact('projects', 'users', 'tasks', 'assignUser', 'singleTask', 'tasksByStatus','taskStatus', 'taskCommentsCount','singleStatus'));
+        return view('admin.task-management', compact('projects', 'users', 'tasks', 'assignUser', 'singleTask', 'tasksByStatus','taskStatus', 'taskCommentsCount','singleStatus'));
     }
 
     public function TaskStore(request $request){

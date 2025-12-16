@@ -2020,7 +2020,6 @@ use App\Models\User;
                 <label class="block text-sm mb-1 light-text-black">Status</label>
                 <select id="statusSelect" name="status"
                     class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
-                    <option value="">Select Status</option>
                     <option value="active">Active</option>
                     <option value="In Active">In Active</option>
                 </select>
@@ -2120,6 +2119,7 @@ use App\Models\User;
                     method: 'GET',
                     success: function(res) {
                         $('#statusSelect').val(res.status);
+                        console.log("Fetched status:", res.status);
                     },
                     error: function(err) {
                         console.log("Error fetching client status:", err);

@@ -21,9 +21,9 @@ class ProjectController extends Controller
     {
         $userId = Auth::id();
 
-        $users = User::where('name', '!=', 'admin')->get();
+        $users = User::where('role_id', '!=', 1)->where('is_suspended', 0)->get();
         
-        return view('client.project', compact('users', 'userId'));
+        return view('admin.project', compact('users', 'userId'));
     }
 
     public function store(Request $request)

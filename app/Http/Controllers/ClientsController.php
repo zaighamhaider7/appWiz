@@ -31,7 +31,7 @@ class ClientsController extends Controller
         $totalProjectPrice = null;
         $activity_logs = null;
 
-        return view('client.clients', compact('clientData', 'latestProjectByClient', 'singleClientData', 'clientProjects', 'totalProjects', 'totalProjectPrice', 'activity_logs'));
+        return view('admin.clients', compact('clientData', 'latestProjectByClient', 'singleClientData', 'clientProjects', 'totalProjects', 'totalProjectPrice', 'activity_logs'));
     }
 
 
@@ -105,7 +105,7 @@ class ClientsController extends Controller
 
         $activity_logs = ActivityLog::where('user_id', auth()->id())->latest()->get();
 
-        return view('client.clients', compact('clientData', 'latestProjectByClient', 'singleClientData', 'clientProjects', 'assignedUsers', 'totalProjects', 'totalProjectPrice', 'activity_logs'));
+        return view('admin.clients', compact('clientData', 'latestProjectByClient', 'singleClientData', 'clientProjects', 'assignedUsers', 'totalProjects', 'totalProjectPrice', 'activity_logs'));
     }
 
     public function suspend($id)

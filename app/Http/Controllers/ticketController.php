@@ -18,7 +18,7 @@ class ticketController extends Controller
 
         $ticketData = ticket::with('project', 'user')->get();
 
-        return view('client.tickets', compact('projectData', 'ticketData'));
+        return view('admin.tickets', compact('projectData', 'ticketData'));
     }
 
     public function tickStore(Request $request){
