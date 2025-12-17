@@ -2276,7 +2276,7 @@
             const newTaskModal = document.getElementById('newTaskModal');
             const task_form = document.getElementById('task-form');
             const edit_task_form = document.getElementById('edit-task-form');
-            const close_task_form = document.getElementById('close-task-form');
+            const closeTaskForms = document.querySelectorAll('.close-task-form');
             const closeNewTaskModal = document.getElementById('closeNewTaskModal');
             const cancelTask = document.getElementById('cancelTask');
             const taskForm = document.getElementById('taskForm');
@@ -2289,9 +2289,14 @@
                 edit_task_form.classList.remove('hidden');
             });
 
-            document.getElementById("close-task-form").addEventListener("click", () => {
-                task_form.classList.add('hidden');
-            });
+                     document.querySelectorAll('.close-task-form').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const modal = btn.closest('.fixed'); // parent modal wrapper
+        if (modal) {
+            modal.classList.add('hidden');
+        }
+    });
+});
             document.getElementById("close-edit-task-form").addEventListener("click", () => {
                 edit_task_form.classList.add('hidden');
             });
@@ -2708,6 +2713,20 @@
 
             const edittaskstatusclose = document.getElementById('edittaskstatusformbtn');
             edittaskstatusclose?.addEventListener('click', () => edittaskstatusform.classList.add('hidden'));
+
+            // Select the form
+const edittaskstatusforms = document.querySelectorAll('.edittaskstatusform');
+
+// Select all close buttons for this form
+document.querySelectorAll('.edittaskstatus-close-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Find the closest form ancestor and hide it
+        const form = btn.closest('.edittaskstatusform');
+        if (form) form.classList.add('hidden');
+    });
+});
+
+
 
             // Open chat modal from multiple triggers
             openTicketChatButtons.forEach(btn => {
@@ -4160,7 +4179,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div
             class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto  relative">
             <!-- Close Button -->
-            <button id="edittaskstatusformbtn" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+            <button  class="absolute edittaskstatus-close-btn top-3 right-3 text-gray-400 hover:text-white">
                 ✕
             </button>
 
@@ -4304,7 +4323,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <!-- Buttons -->
                 <div class="flex justify-end gap-3 pt-4">
                     <button type="button" id="cancelTicket"
-                        class="px-4 py-2 light-text-white light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                        class="px-4 py-2 edittaskstatus-close-btn light-text-white light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                         Cancel
                     </button>
                     <button type="submit" class="px-4 py-2 bg-orange-500 rounded-lg hover:bg-orange-600">
@@ -4321,7 +4340,7 @@ document.addEventListener("DOMContentLoaded", () => {
             class="light-bg-d9d9d9 bg-[#1c1c1c] text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto relative">
 
             <!-- Close Button -->
-            <button id="close-task-form" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+            <button id="" class="absolute close-task-form top-3 right-3 text-gray-400 hover:text-white">
                 ✕
             </button>
 
@@ -4410,8 +4429,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 <!-- Buttons -->
                 <div class="flex justify-end gap-3 pt-4">
-                    <button type="button" id="cancelTicket"
-                        class="px-4 py-2 light-text-white light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                    <button type="button" id=""
+                        class="px-4 py-2 close-task-form light-text-white light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                         Cancel
                     </button>
                     <button type="submit" class="px-4 py-2 bg-orange-500 rounded-lg hover:bg-orange-600">

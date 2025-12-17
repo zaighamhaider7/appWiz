@@ -790,13 +790,27 @@ use App\Models\User;
     }
 
     /* Pagination */
-    #custom-pagination {
-        overflow-x: auto;
-        flex-wrap: nowrap;
+        /* BOTH paginations – unified fix */
+    #custom-pagination,
+    #custom-pagination-1 {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        max-width: 100% !important;
+        width: 100% !important;
         -webkit-overflow-scrolling: touch;
     }
 
-    #custom-pagination::-webkit-scrollbar {
+    /* Prevent buttons from shrinking */
+    #custom-pagination button,
+    #custom-pagination-1 button {
+        flex: 0 0 auto !important;
+        white-space: nowrap;
+    }
+
+    /* Hide scrollbar */
+    #custom-pagination::-webkit-scrollbar,
+    #custom-pagination-1::-webkit-scrollbar {
         display: none;
     }
 
@@ -813,6 +827,34 @@ use App\Models\User;
         gap: 0.5rem;
     }
 
+    /* ================= RIGHT SECTION – 2nd COLUMN FONT SIZE ================= */
+#rightSection .w-\[65\%\] {
+    font-size: 12px; /* base text smaller */
+}
+
+/* Paragraphs / labels / spans inside 2nd column */
+#rightSection .w-\[65\%\] p,
+#rightSection .w-\[65\%\] span,
+#rightSection .w-\[65\%\] label {
+    font-size: 10px;
+}
+
+/* Headings inside 2nd column */
+#rightSection .w-\[65\%\] h1 {
+    font-size: 16px;
+}
+#rightSection .w-\[65\%\] h2 {
+    font-size: 14px;
+}
+#rightSection .w-\[65\%\] h3 {
+    font-size: 13px;
+}
+
+/* Tables inside 2nd column (if any) */
+#rightSection .w-\[65\%\] table th,
+#rightSection .w-\[65\%\] table td {
+    font-size: 11px;
+}
 
     /* Modal width adjustment */
     #ticketModal .w-[900px] {
@@ -871,13 +913,46 @@ use App\Models\User;
         margin-right: 1rem;
     }
 
-    /* Right section spacing only */
+    /* ================= RIGHT SECTION (NEW – SAFE) ================= */
     #rightSection {
-        padding: 0.5rem;
+        width: 100%;
+        padding: 0;
+    }
+
+    /* Stack 35% / 65% columns */
+    #rightSection > .flex.gap-6 {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    #rightSection .w-\[35\%\],
+    #rightSection .w-\[65\%\] {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* Remove fixed heights on mobile */
+    #rightSection [class*="h-["] {
+        height: auto !important;
+    }
+
+    /* Center client stats */
+    #rightSection .flex.justify-between.gap-10 {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    /* Tables scroll instead of breaking */
+    #rightSection table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
     }
 }
 /* Medium screens (md) - 768px and up */
-@media (min-width: 768px) {
+@media (max-width: 768px) {
 
     table th .icon.mr-10 {
         margin-right: 2.5rem;
@@ -898,19 +973,22 @@ use App\Models\User;
         width: 100%;
     }
 
-    /* Restore right section layout */
+   /* Force main wrapper to stack */
     #rightSection > .flex.gap-6 {
-        flex-direction: row;
+        flex-direction: column !important;
     }
 
-    #rightSection .w-\[35\%\] {
-        width: 35%;
-        height: 680px;
+    /* Kill Tailwind width utilities */
+    #rightSection > .flex.gap-6 > div {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
     }
 
-    #rightSection .w-\[65\%\] {
-        width: 65%;
-        height: 680px;
+    /* Remove fixed heights */
+    #rightSection > .flex.gap-6 > div {
+        height: auto !important;
+        min-height: auto !important;
     }
 }
 /* Large screens (lg) - 1024px and up */
@@ -1800,7 +1878,7 @@ use App\Models\User;
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex space-x-2">
+                            <div class="flex space-x-2" id="custom-pagination-1">
                                 <button
                                     class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors light-bg-d9d9d9 light-text-gray-700">Previous</button>
                                 <button
@@ -1977,10 +2055,10 @@ use App\Models\User;
                 <div class="flex justify-end items-center">
 
                     <div class="flex justify-end gap-3 pt-3">
-                        {{-- <button type="button" id="cancelTicket"
+                        <button type="button" id="cancelTicket"
                             class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                             Cancel
-                        </button> --}}
+                        </button> 
                         <button type="submit" class="px-4 py-2 bg-orange-500  rounded-lg hover:bg-orange-600">
                             Save
                         </button>

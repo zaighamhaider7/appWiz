@@ -2277,10 +2277,10 @@
                 <div class="flex justify-end items-center">
 
                     <div class="flex justify-end gap-3 pt-3">
-                        {{-- <button type="button" id="cancelTicket"
+                         <button type="button" id="cancelTicket"
                             class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                             Cancel
-                        </button> --}}
+                        </button> 
                         <button type="submit" class="px-4 py-2 bg-orange-500  rounded-lg hover:bg-orange-600">
                             Save
                         </button>
