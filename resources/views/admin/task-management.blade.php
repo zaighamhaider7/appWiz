@@ -1065,8 +1065,19 @@
                                             <div class="dropdown-wrapper" style="position: relative; display: inline-block;">
                                                 <img src="{{ asset('assets/dots-vertical.svg') }}" class="dots-toggle" style="cursor: pointer; width: 24px;" />
                                                 <div class="custom-dropdown" style="display: none; position: absolute; width: 120px; right: 30px; background: #282828; border-radius: 4px;">
-                                                    <div class="dropdown-option edit-task-status" style="padding: 8px; cursor: pointer;">Edit</div>
-                                                    <div class="dropdown-option" style="padding: 8px; cursor: pointer;">Delete</div>
+                                                                                                                                                                     <a href="{{route('task.edit', $task->id)}}">
+                                                        <div class="dropdown-option edit-task-status" style="padding: 8px; cursor: pointer;">Edit</div>
+                                                    </a>
+                                                    <form action="{{route('task.delete', $task->id)}}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                        <button type="submit" 
+                                                        class="dropdown-option" 
+                                                        style="padding: 8px; cursor: pointer; border: none; background: none;">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -1670,7 +1681,7 @@
         </style>
     @endif
 
-    @if (session('AddTask'))
+    {{-- @if (session('AddTask'))
         <div style="z-index: 9999 !important;"
             class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
             {{ session('AddTask') }}
@@ -1689,6 +1700,41 @@
 
                 document.querySelector(".alt-section").classList.remove("hide");
                 document.querySelector(".alt-section").classList.add("show");
+            });
+        </script>
+    @endif --}}
+
+    @if (session('AddTask'))
+        <div style="z-index: 9999 !important;"
+            class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+            {{ session('AddTask') }}
+        </div>
+
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+                @if (session('from_section') === 'main')
+                    document.querySelector(".main-section").classList.remove("hide");
+                    document.querySelector(".main-section").classList.add("show");
+
+                    document.querySelector(".alt-section").classList.add("hide");
+                    document.querySelector(".alt-section").classList.remove("show");
+                @endif
+
+                @if (session('from_section') === 'alt')
+                    document.querySelector(".alt-section").classList.remove("hide");
+                    document.querySelector(".alt-section").classList.add("show");
+
+                    document.querySelector(".main-section").classList.add("hide");
+                    document.querySelector(".main-section").classList.remove("show");
+                @endif
+
             });
         </script>
     @endif
@@ -4181,6 +4227,8 @@ document.addEventListener("DOMContentLoaded", () => {
             <!-- Task Form -->
             <form id="ticketForm" class="space-y-4 mobile-form px-6 pb-6" method="POST" action="{{route('task.store')}}">
                 @csrf
+                <input type="hidden" name="from_section" value="main">
+
                 <div class="grid grid-cols-2 gap-4">
                     <!-- Task Name -->
                     <div>
@@ -4287,6 +4335,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <!-- Task Form -->
             <form id="ticketForm" class="space-y-4 mobile-form px-6 pb-6" method="POST" action="{{route('task.store')}}">
                 @csrf
+                <input type="hidden" name="from_section" value="alt">
                 <div class="grid grid-cols-2 gap-4">
                     <!-- Task Name -->
                     <div>

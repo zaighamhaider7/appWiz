@@ -51,7 +51,10 @@ class TaskManagmentController extends Controller
 
         TaskManagment::create($validated);
 
-        return redirect()->back()->with('AddTask', 'Task added successfully.');
+        return redirect()->back()->with([
+            'AddTask' => 'Task added successfully.',
+            'from_section' => $request->from_section,
+        ]);
     }
 
     public function TaskDelete($id){
@@ -76,7 +79,7 @@ class TaskManagmentController extends Controller
 
     public function taskEdit($id){
         $projects = project::all();
-        $users = User::where('name', '!=', 'Admin')->get();
+        $users = User::where('role_id', '!=', 1)->where('is_suspended', 0)->get();
         $tasks = TaskManagment::all();
         $taskCommentsCount = [];
 
@@ -92,7 +95,7 @@ class TaskManagmentController extends Controller
         foreach ($taskStatus as $status) {
             $tasksByStatus[$status->task_status] = TaskManagment::where('task_status', $status->task_status)->get();
         }
-        return view('client.task-management', compact('singleTask', 'projects', 'users', 'tasks', 'assignUser','tasksByStatus','taskStatus', 'taskCommentsCount'));
+        return view('admin.task-management', compact('singleTask', 'projects', 'users', 'tasks', 'assignUser','tasksByStatus','taskStatus', 'taskCommentsCount'));
     }
 
     public function singletaskUpdate(request $request){
@@ -163,7 +166,7 @@ class TaskManagmentController extends Controller
         foreach ($taskStatus as $status) {
             $tasksByStatus[$status->task_status] = TaskManagment::where('task_status', $status->task_status)->get();
         }
-        return view('client.task-management', compact( 'projects', 'users', 'tasks', 'assignUser','tasksByStatus','taskStatus', 'taskCommentsCount', 'singleStatus'));
+        return view('admin.task-management', compact( 'projects', 'users', 'tasks', 'assignUser','tasksByStatus','taskStatus', 'taskCommentsCount', 'singleStatus'));
     }
 
     public function taskStatusUpdate(request $request){
