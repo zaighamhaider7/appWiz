@@ -9,16 +9,20 @@ use App\Models\ticket;
 
 class ticketController extends Controller
 {
-    public function tickView(){
+    public function tickView() {
         $projectData = project::all();
 
-        //$currentUser = auth()->user()->id;
+        $currentUser = auth()->user();
 
-        // $ticketData = Ticket::where('user_id', $currentUser)->with('project', 'user')->get();
+        if($currentUser->role_id == 1) {
+            $ticketData = ticket::with('project', 'user')->get();
+            $view = 'admin.tickets'; 
+        } else {
+            $ticketData = ticket::where('user_id', $currentUser->id)->with('project', 'user')->get();
+            $view = 'user.tickets';  
+        }
 
-        $ticketData = ticket::with('project', 'user')->get();
-
-        return view('admin.tickets', compact('projectData', 'ticketData'));
+        return view($view, compact('projectData', 'ticketData'));
     }
 
     public function tickStore(Request $request){

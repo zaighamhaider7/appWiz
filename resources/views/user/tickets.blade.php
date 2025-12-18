@@ -9,9 +9,6 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Quill CSS -->
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet" />
     <!-- Emoji Plugin -->
@@ -62,7 +59,6 @@
             /* Prevent horizontal scrolling */
             transition: background-color 0.3s ease, color 0.3s ease;
             /* Smooth transition for dark mode */
-            background-color: #121212;
         }
 
         /* Custom scrollbar for better aesthetics */
@@ -108,10 +104,6 @@
             display: none;
         }
 
-
-        .dark-mode .light-bg-bill {
-            background-color: #121212 !important;
-        }
 
 
         .dark-mode .light-mode-item {
@@ -294,6 +286,10 @@
         .dark-mode .text-gray-400 {
             /* Specific override for Misc header and search icon */
             color: #9CA3AF !important;
+        }
+
+        .dark-mode .light-bg-bill {
+            background-color: #121212 !important;
         }
 
         /* DARK MODE BUTTON STYLES */
@@ -615,18 +611,16 @@
         /* Mobile-first approach */
         /* Sidebar is hidden by default on mobile */
         aside {
+            display: block !important;
             position: fixed;
             top: 0;
-            left: 0;
-            height: 100dvh;
+            left: -100%;
+            /* Completely off-screen by default */
+            height: 100vh;
             width: 16rem;
-            /* 256px */
-            background-color: #fff;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
-            z-index: 100;
-            overflow-y: auto;
+            /* Fixed width for mobile overlay */
+            z-index: 50;
+            transition: left 0.3s ease-in-out;
         }
 
         /* Sidebar when open */
@@ -741,16 +735,6 @@
                 overflow: visible;
             }
         }
-
-        .openTicketChatModal {
-            cursor: pointer;
-        }
-
-        .ql-snow .ql-editor.ql-blank::before {
-            color: #616060;
-            /* orange placeholder */
-            font-style: italic;
-        }
     </style>
 
 </head>
@@ -761,14 +745,16 @@
         @include('layouts.sidebar')
 
         <!-- Main Content Area -->
-        <main class="flex-1 light-bg-bill ">
-
+        <main class="flex-1 overflow-y-auto">
+            <!-- Header -->
             @include('layouts.header')
 
-            <div class="p-6 light-bg-bill h-screen -mt-5 lg:p-8">
+            <div class="p-6 light-bg-bill -mt-5 lg:p-8">
 
                 <!-- Projects Title -->
                 <h1 class="text-3xl font-bold light-text-gray-800 mb-10">Tickets</h1>
+
+                <!-- Connect Domain Section -->
 
 
                 <div class="grid grid-cols-1 lg:grid-cols-1 gap-6 mb-6">
@@ -777,44 +763,6 @@
                         <div class="flex items-center justify-between  p-6 flex-wrap gap-3">
                             <h2 class="text-xl font-semibold light-text-gray-800">Tickets List</h2>
                             <div class="flex items-center space-x-3">
-                                <div class="relative inline-block">
-                                    <div class="flex gap-3">
-                                        <!-- Button -->
-                                        <button id="filterButton"
-                                            class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
-                                            <div class="flex">
-                                                <span>Projects</span>
-                                                <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                                </svg>
-                                            </div>
-                                        </button>
-
-                                    </div>
-
-                                    <!-- Dropdown Content -->
-                                    <div id="filterDropdown"
-                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                        <div class="py-1" role="menu" aria-orientation="vertical">
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Filter Option 1</a>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Filter Option 2</a>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Filter Option 3</a>
-                                            <div class="border-t border-gray-100"></div>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Reset Filters</a>
-                                        </div>
-                                    </div>
-
-                                </div>
                                 <div class="relative">
                                     <input type="text" placeholder="Search here"
                                         class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500">
@@ -839,7 +787,12 @@
                                                 </svg>
                                             </div>
                                         </button>
-
+                                        <button id="openTicketButton"
+                                            class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d7d7d7 light-text-gray-700 border light-border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
+                                            <div class="flex">
+                                                <span class="open-ticket-modal">Add New Ticket</span>
+                                            </div>
+                                        </button>
                                     </div>
 
                                     <!-- Dropdown Content -->
@@ -866,92 +819,84 @@
                         </div>
 
                         <div class="overflow-x-auto">
-                            <table class="min-w-full border-b-2 light-border-gray-300">
-                                <thead class="light-bg-d9d9d9 border-b-2 light-border-gray-300">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="light-bg-d9d9d9">
                                     <tr>
                                         <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                                            class="px-6 py-3  text-left text-xs
+    font-medium light-text-gray-500 uppercase tracking-wider">
                                             <div class="flex items-center w-full justify-between">
-                                                <div class="w-4/5">TICKET ID</div>
-                                                <div class="w-1/5">
-                                                    <svg class="w-8 h-4" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="1.5"
-                                                        stroke-linecap="round" stroke-linejoin="round">
-                                                        <path d="M7 8 L12 3 L17 8" />
-                                                        <path d="M7 16 L12 21 L17 16" />
+                                                <div style="width: 80%">TICKET ID</div>
+                                                <div style="width: 20%;">
+                                                    <svg class=" w-8 h-4" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                        stroke-linejoin="round">
+                                                        <path d="M7 8 L12 3 L17 8" /> <!-- Up chevron -->
+                                                        <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
                                                     </svg>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs  font-medium light-text-gray-500 uppercase ">
+                                            <div class="flex items-center">
+                                                TITLE
+                                                <svg class="ml-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <!-- Up chevron (positioned higher) -->
+                                                    <path d="M7 8 L12 3 L17 8" />
+                                                    <!-- Down chevron (positioned lower with gap) -->
+                                                    <path d="M7 16 L12 21 L17 16" />
+                                                </svg>
+                                            </div>
+                                        </th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                            <div class="flex items-center">
+                                                PRIORITY
+                                                <svg class="ml-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <!-- Up chevron (positioned higher) -->
+                                                    <path d="M7 8 L12 3 L17 8" />
+                                                    <!-- Down chevron (positioned lower with gap) -->
+                                                    <path d="M7 16 L12 21 L17 16" />
+                                                </svg>
+                                            </div>
+                                        </th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider min-w-[120px]">
+                                            <div class="flex items-center justify-between">
+                                                <span class="whitespace-nowrap">BILLING DATE</span>
+                                                <div class="flex flex-col ml-10">
+
                                                 </div>
                                             </div>
                                         </th>
 
                                         <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase whitespace-nowrap">
+                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
                                             <div class="flex items-center">
-                                                <span>Client name</span>
-                                                <svg class="ml-2 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
                                                     stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                                     stroke-linejoin="round">
+                                                    <!-- Up chevron (positioned higher) -->
                                                     <path d="M7 8 L12 3 L17 8" />
+                                                    <!-- Down chevron (positioned lower with gap) -->
                                                     <path d="M7 16 L12 21 L17 16" />
                                                 </svg>
+                                                status
                                             </div>
                                         </th>
-
                                         <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <span>Project name</span>
-                                                <svg class="ml-2 w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path d="M7 8 L12 3 L17 8" />
-                                                    <path d="M7 16 L12 21 L17 16" />
-                                                </svg>
-                                            </div>
-                                        </th>
-
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase whitespace-nowrap">
-                                            <div class="flex items-center justify-between">
-                                                <span>Ticket detail</span>
-                                            </div>
-                                        </th>
-
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase whitespace-nowrap">
-                                            <div class="flex items-center justify-between">
-                                                <svg class="mr-2 w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path d="M7 8 L12 3 L17 8" />
-                                                    <path d="M7 16 L12 21 L17 16" />
-                                                </svg>
-                                                <span>Priority</span>
-                                            </div>
-                                        </th>
-
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <svg class="mr-2 w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path d="M7 8 L12 3 L17 8" />
-                                                    <path d="M7 16 L12 21 L17 16" />
-                                                </svg>
-                                                <span>Status</span>
-                                            </div>
-                                        </th>
-
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase whitespace-nowrap">
+                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
                                             <div class="flex items-center">
                                                 ACTION
                                             </div>
                                         </th>
                                     </tr>
                                 </thead>
-
 
                                 @php
                                     $count = 1;
@@ -963,26 +908,12 @@
                                                 <td
                                                     class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-400">
                                                     Ticket {{ $count++ }}</td>
-                                                <td >
-                                                    <div class="flex items-center  gap-2">
-                                                        <div>
-                                                            <img class="w-8 h-8 rounded-full"
-                                                                src="{{ asset($ticket->user->image ?? 'assets/default-prf.png') }}"
-                                                                alt="">
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-sm">{{ $ticket->user->name }}</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
+
                                                 <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="text-sm font-thin light-text-gray-900">
-                                                        {{ $ticket->project->project_name }}</div>
+                                                   <div class="text-sm font-thin light-text-gray-900">
+                                                        {{ $ticket->title }}</div>
                                                 </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="text-sm font-thin light-text-gray-900">
-                                                        {{ $ticket->description }}</div>
-                                                </td>
+
                                                 <td class="px-6 py-4 whitespace-nowrap">
 
                                                     @if ($ticket->priority == 'Low')
@@ -996,28 +927,45 @@
                                                             class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-900 bg-opacity-50 text-red-400">High</span>
                                                     @endif
                                                 </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                    <form action="{{ route('ticketStatus.update', $ticket->id) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('POST')
-                                                        <select class="statusDropdown" name="status"
-                                                            onchange="this.form.submit(); updateDropdownStyle(this)"
-                                                            style="width: 150px; padding: 8px; border-radius: 8px; text-align: left; color:black;">
-                                                            <option value="{{ $ticket->status }}" selected hidden>
-                                                                {{ $ticket->status }}</option>
-                                                            <option value="In Progress"
-                                                                style="color: black; background-color: #fff;">In
-                                                                Progress</option>
-                                                            <option value="Resolved"
-                                                                style="color: black; background-color: #fff;">Resolved
-                                                            </option>
-                                                            <option value="Cancelled"
-                                                                style="color: black; background-color: #fff;">Cancelled
-                                                            </option>
-                                                        </select>
-                                                    </form>
-                                                </td>
+
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="text-sm font-thin light-text-gray-900">
+                                                        {{ $ticket->created_at->calendar() }}</div>
+                                                </td> 
+
+                                                <td class="px-6 py-4 whitespace-nowrap">
+
+                                                    @if ($ticket->status == 'Pending')
+                                                        <div class="flex ml-8 items-center ">
+                                                            <div class="bg-blue-200 rounded-full w-2.5 h-2.5">
+                                                                <div class="bg-yellow-400 h-2.5 rounded-full w-full"></div>
+                                                            </div>
+                                                            <span class="ml-2 text-sm items-center text-gray-400">Pending</span>
+                                                        </div>
+                                                    @elseif($ticket->status == 'In Progress')
+                                                        <div class="flex ml-8 items-center ">
+                                                            <div class="bg-gray-200 rounded-full w-2.5 h-2.5">
+                                                                <div class="bg-cyan-400 h-2.5 rounded-full w-full"></div>
+                                                            </div>
+                                                            <span class="ml-2 text-sm items-center text-gray-400">In Progress</span>
+                                                        </div>
+                                                    @elseif($ticket->status == 'Resolved')
+                                                        <div class="flex ml-8 items-center ">
+                                                            <div class="bg-gray-200 rounded-full w-2.5 h-2.5">
+                                                                <div class="bg-green-500 h-2.5 rounded-full w-full"></div>
+                                                            </div>
+                                                            <span class="ml-2 text-sm items-center text-gray-400">Resolved</span>
+                                                        </div>
+                                                    @elseif($ticket->status == 'Cancelled')
+                                                        <div class="flex ml-8 items-center ">
+                                                            <div class="bg-gray-200 rounded-full w-2.5 h-2.5">
+                                                                <div class="bg-red-500 h-2.5 rounded-full w-full"></div>
+                                                            </div>
+                                                            <span class="ml-2 text-sm items-center text-gray-400">Cancelled</span>
+                                                        </div>
+                                                    @endif
+                                                </td> 
+
                                                 <td
                                                     class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                                     <button
@@ -1107,13 +1055,27 @@
 
                 </div>
 
+                <!-- Overview Cards -->
+
+
+                <!-- SEO Plan Cards -->
+
+
+
+
+
+                <!-- Bottom Cards: Need Help & Free Consulting -->
+
             </div>
         </main>
     </div>
 
+
+
+
     <!-- New Ticket Modal -->
-    <div id="newTicketModal" {{-- class="flex items-center  justify-center"> --}}
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden ">
+    <div id="newTicketModal"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
         <div class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[900px]  relative">
             <!-- Close Button -->
             <button id="closeTicketModal" class="absolute top-3 right-3 text-gray-400 hover:text-white">
@@ -1128,8 +1090,7 @@
             </div>
 
             <!-- Ticket Form -->
-            <form id="ticketForm" class="space-y-4 p-6" method="POST" action="{{ route('ticket.store') }}"
-                enctype="multipart/form-data">
+            <form id="ticketForm" class="space-y-4 p-6" method="POST" action="{{route('ticket.store')}}" enctype="multipart/form-data">
                 @csrf
 
                 <input type="hidden" name="user_id" value="{{ auth()->id() }}">
@@ -1139,8 +1100,7 @@
 
                     <div>
                         <label class="block text-sm mb-1 light-text-black">Title</label>
-                        <input type="text" name="title" value="{{ old('title') }}"
-                            placeholder="Ticket name here..."
+                        <input type="text" name="title" value="{{old('title')}}" placeholder="Ticket name here..."
                             class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                     </div>
                     <div>
@@ -1148,8 +1108,8 @@
                         <select name="project_id"
                             class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                             <option value="" selected hidden>Select Project</option>
-                            @if ($projectData->count() > 0)
-                                @foreach ($projectData as $project)
+                            @if($projectData->count() > 0)
+                                @foreach($projectData as $project)
                                     <option value="{{ $project->id }}">{{ $project->project_name }}</option>
                                 @endforeach
                             @else
@@ -1173,7 +1133,7 @@
                 <div>
                     <label class="block text-sm mb-1 light-text-black">Details</label>
                     <textarea name="description" rows="4" placeholder="Explanation here"
-                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">{{ old('description') }}</textarea>
+                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">{{old('description')}}</textarea>
                 </div>
 
                 <!-- File Upload -->
@@ -1186,10 +1146,10 @@
                 <!-- Buttons -->
                 <div class="flex justify-between items-center">
                     <div>
-                        <button type="button" id="cancelTicket"
+                        {{-- <button type="button" id="cancelTicket"
                             class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                             Upload
-                        </button>
+                        </button> --}}
                     </div>
 
                     <div class="flex justify-end gap-3 pt-3">
@@ -1206,6 +1166,7 @@
 
         </div>
     </div>
+
 
     <!-- Ticket Chat Modal -->
     <div id="ticketChatModal"
@@ -1286,7 +1247,6 @@
     </div>
 
 
-
     @if ($errors->any())
 
         <div style="z-index: 9999 !important;"
@@ -1303,12 +1263,20 @@
                 display: none !important;
             }
         </style>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                // Ticket Modal Elements
+                const newTicketModal = document.getElementById('newTicketModal');
+                newTicketModal.classList.remove('hidden');
+            });
+        </script>
     @endif
 
-    @if (session('UpdateTicketStatus'))
+    @if (session('success'))
         <div style="z-index: 9999 !important;"
             class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
-            {{ session('UpdateTicketStatus') }}
+            {{ session('success') }}
         </div>
 
         <style>
@@ -1316,7 +1284,9 @@
                 display: none !important;
             }
         </style>
+
     @endif
+
 
     <!-- Quill JS -->
     <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
@@ -1474,6 +1444,82 @@
         });
     </script>
 
+    {{-- ajax --}}
+    <script>
+        function loadTaskChats(ticketId) {
+            $.ajax({
+                url: `/tickets/getTicketChats/${ticketId}`,
+                method: 'GET',
+                success: function(response) {
+                    var chatContainer = $('#chatMessages');
+                    chatContainer.html('');
+
+                    response.chats.forEach(function(chat) {
+
+                        let chatDate = new Date(chat.created_at);
+                        let dateString = chatDate.toLocaleDateString('en-US', {
+                            weekday: 'long',
+                            month: 'long',
+                            day: 'numeric'
+                        });
+
+
+                        chatContainer.append(`
+                                <div class="flex items-start space-x-3">
+                                    <img src="${chat.sender.image || '{{ asset('assets/Photos.png') }}'}" 
+                                        class="w-10 h-10 rounded-md" alt="user" />
+                                    <div>
+                                        <p class="text-sm light-text-black font-semibold">
+                                            ${chat.sender.name} 
+                                            <span class="text-xs light-text-black ml-1">
+                                                ${chatDate.getHours()}:${chatDate.getMinutes().toString().padStart(2,'0')} 
+                                            </span>
+                                        </p>
+                                        <pre class="text-sm light-text-black">${chat.message}</pre>
+                                        <div class="flex space-x-2 mt-1 text-xs">
+                                            <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl like-btn" data-chat-id="${chat.id}">❤️ 
+                                                <span class="like-count">${chat.likes_count || 0}</span>
+                                            </button>
+                                            <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl">
+                                                <img src="Icon (12).svg" alt="">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `);
+                    });
+                },
+                error: function(err) {
+                    console.error("Error loading chats:", err);
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            $(document).on('click', '.ticket-chat', function() {
+                var ticketId = $(this).data('ticket-id');
+                $('#chat-ticket-id').val(ticketId);
+                loadTaskChats(ticketId);
+            })
+        });
+
+        $(document).on('click', '.like-btn', function() {
+            let btn = $(this);
+            let chatId = btn.data('chat-id');
+
+            $.ajax({
+                url: `/tickets/chat/${chatId}/like`,
+                method: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(res) {
+                    btn.find('.like-count').text(res.count);
+                }
+            });
+        });
+    </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
@@ -1614,9 +1660,27 @@
         });
 
         document.addEventListener('DOMContentLoaded', () => {
+
+            // Ticket Modal Elements
+            const newTicketModal = document.getElementById('newTicketModal');
+            const closeTicketModal = document.getElementById('closeTicketModal');
+            const openTicketButton = document.getElementById('openTicketButton');
+
             const ticketChatModal = document.getElementById('ticketChatModal');
             const closeChatModal = document.getElementById('closeChatModal');
-            const openChatButtons = document.querySelectorAll('.open-chat-modal'); // 👈 select all buttons
+            const openChatButtons = document.querySelectorAll('.open-chat-modal'); 
+
+            // Open ticket modal button
+            openTicketButton.addEventListener('click', () => {
+                newTicketModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+
+            // Close ticket modal button
+            closeTicketModal.addEventListener('click', () => {
+                newTicketModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            });
 
             // Open chat modal for all buttons
             openChatButtons.forEach(button => {
@@ -1641,83 +1705,6 @@
             });
         });
         
-    </script>
-
-    {{-- ajax --}}
-
-    <script>
-        function loadTaskChats(ticketId) {
-            $.ajax({
-                url: `/tickets/getTicketChats/${ticketId}`,
-                method: 'GET',
-                success: function(response) {
-                    var chatContainer = $('#chatMessages');
-                    chatContainer.html('');
-
-                    response.chats.forEach(function(chat) {
-
-                        let chatDate = new Date(chat.created_at);
-                        let dateString = chatDate.toLocaleDateString('en-US', {
-                            weekday: 'long',
-                            month: 'long',
-                            day: 'numeric'
-                        });
-
-
-                        chatContainer.append(`
-                                <div class="flex items-start space-x-3">
-                                    <img src="${chat.sender.image || '{{ asset('assets/Photos.png') }}'}" 
-                                        class="w-10 h-10 rounded-md" alt="user" />
-                                    <div>
-                                        <p class="text-sm light-text-black font-semibold">
-                                            ${chat.sender.name} 
-                                            <span class="text-xs light-text-black ml-1">
-                                                ${chatDate.getHours()}:${chatDate.getMinutes().toString().padStart(2,'0')} 
-                                            </span>
-                                        </p>
-                                        <pre class="text-sm light-text-black">${chat.message}</pre>
-                                        <div class="flex space-x-2 mt-1 text-xs">
-                                            <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl like-btn" data-chat-id="${chat.id}">❤️ 
-                                                <span class="like-count">${chat.likes_count || 0}</span>
-                                            </button>
-                                            <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl">
-                                                <img src="Icon (12).svg" alt="">
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            `);
-                    });
-                },
-                error: function(err) {
-                    console.error("Error loading chats:", err);
-                }
-            });
-        }
-
-        $(document).ready(function() {
-            $(document).on('click', '.ticket-chat', function() {
-                var ticketId = $(this).data('ticket-id');
-                $('#chat-ticket-id').val(ticketId);
-                loadTaskChats(ticketId);
-            })
-        });
-
-        $(document).on('click', '.like-btn', function() {
-            let btn = $(this);
-            let chatId = btn.data('chat-id');
-
-            $.ajax({
-                url: `/tickets/chat/${chatId}/like`,
-                method: 'POST',
-                data: {
-                    _token: $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(res) {
-                    btn.find('.like-count').text(res.count);
-                }
-            });
-        });
     </script>
 
 </body>

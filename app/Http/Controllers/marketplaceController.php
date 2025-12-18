@@ -11,20 +11,28 @@ use App\Models\SubscriptionFeature;
 
 class marketplaceController extends Controller
 {
-    public function marketplaceView(){
-
+    public function marketplaceView()
+    {
         $mainCategories = Category::where('is_sub', 0)->get();
 
         $subscriptions = [];
-
         foreach ($mainCategories as $main) {
             $subscriptions[$main->id] = Subscription::where('main_category', $main->id)->get();
         }
-    
+
         $subCategories = Category::where('is_sub', 1)->get();
 
-        return view('admin.marketplace', compact('mainCategories', 'subCategories', 'subscriptions'));
+        $currentUser = auth()->user();
+
+        if ($currentUser->role_id == 1) {
+            $view = 'admin.marketplace';
+        } else {
+            $view = 'user.marketplace';
+        }
+
+        return view($view, compact('mainCategories', 'subCategories', 'subscriptions'));
     }
+
 
 
     public function subscriptionStore(request $request){

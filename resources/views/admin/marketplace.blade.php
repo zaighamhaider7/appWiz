@@ -1018,10 +1018,6 @@
                 @endif
             </div>
 
-            {{-- @php
-                $activeTab = request()->get('tab') ?? 'tab-' . $mainCategories->first()->id;
-            @endphp --}}
-
             @php
                 // $currentCategoryId = $currentCategoryId ?? $mainCategories->first()->id;
                  $currentCategoryId = $currentCategoryId ?? ($mainCategories->first()->id ?? null);
