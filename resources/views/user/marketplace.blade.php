@@ -4,10 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>WIZSPEED Dashboard</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
         :root {
             --btn-bg: #EA580C;
@@ -206,6 +210,10 @@
             display: none;
         }
 
+        .dark-mode .light-bg-bill {
+            background-color: #121212 !important;
+        }
+
         .dark-mode .light-mode-item {
             display: none;
         }
@@ -397,10 +405,6 @@
         .dark-mode .dark-border-gray-500 {
             border-color: #6B7280 !important;
             /* gray-500 */
-        }
-
-        .dark-mode .light-bg-bill {
-            background-color: #121212 !important;
         }
 
         /* Dark Mode Button Styles */
@@ -686,276 +690,422 @@
 
         /* --- RESPONSIVENESS (MEDIA QUERIES) --- */
 
+
+
         /* Mobile-first approach */
-        /* Sidebar is hidden by default on mobile */
-        aside {
-            display: block !important;
-            position: fixed;
-            top: 0;
-            left: -100%;
-            /* Completely off-screen by default */
-            height: 100vh;
-            width: 16rem;
-            /* Fixed width for mobile overlay */
-            z-index: 50;
-            transition: left 0.3s ease-in-out;
-        }
 
-        /* Sidebar when open */
-        aside.open {
-            left: 0;
-            /* Slide in when open */
-        }
-
-        /* Overlay for when sidebar is open on mobile */
-        .sidebar-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 40;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .sidebar-overlay.open {
-            display: block;
-            opacity: 1;
-        }
-
-        /* Hide the main content overflow when sidebar is open */
-        body.sidebar-open {
-            overflow: hidden;
-        }
-
-        /* Hamburger menu - visible only on smaller screens */
-        .hamburger-menu {
-            display: block;
-            /* Visible by default on mobile */
+        .toggle-switch {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
             cursor: pointer;
-            padding: 0.5rem;
+        }
+
+        .toggle-input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            width: 2.75rem;
+            height: 1.5rem;
+            background-color: #2d2d2d;
+            /* gray-200 */
             border-radius: 9999px;
-            transition: background-color 0.3s ease;
-            z-index: 60;
-            /* Ensure it's above other elements */
+            position: relative;
+            transition: all 0.3s;
         }
 
-        /* Hide John Wick name on small screens */
-        .header .sm\:block {
-            display: none;
+        .toggle-slider:before {
+            content: "";
+            position: absolute;
+            height: 1.25rem;
+            width: 1.25rem;
+            left: 0.125rem;
+            top: 0.125rem;
+            background-color: white;
+            border: 1px solid z#d1d5db;
+            /* gray-300 */
+            border-radius: 50%;
+            transition: all 0.3s;
         }
 
-        /* Small screens (sm) - 640px and up */
+        .toggle-input:checked+.toggle-slider {
+            background-color: #ea580c;
+            /* orange-600 */
+        }
+
+        .toggle-input:checked+.toggle-slider:before {
+            transform: translateX(1.25rem);
+            border-color: white;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .toggle-input:checked+.toggle-slider {
+                background-color: #ea580c;
+                /* orange-600 in dark mode too */
+            }
+        }
+
+        /* === Media Queries === */
+
+        /* Keep header items in one line */
+        header.header {
+            flex-wrap: nowrap;
+            /* No wrapping */
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        /* Search input responsiveness */
+        header.header .relative {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        /* Input field width adjustments */
+        header.header input[type="text"] {
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        /* Right-side icons responsiveness */
+        header.header>.flex.items-center.space-x-4 {
+            flex-shrink: 0;
+            gap: 0.5rem;
+        }
+
+        /* =======================
+   Small Screen Adjustments
+   ======================= */
         @media (max-width: 640px) {
-            .header .sm\:block {
-                display: block;
+
+            /* Hide username text */
+            header.header .flex.items-center span {
+                display: none;
             }
 
-            /* Show John Wick name on sm and up */
-            aside {
-                display: none !important;
+            /* Shrink icons slightly */
+            header.header .flex.items-center img {
+                width: 24px;
+                height: 24px;
             }
 
-            table th,
-            table td {
-                padding-left: 1.5rem;
-                padding-right: 1.5rem;
-                padding-top: 1rem;
-                padding-bottom: 1rem;
-            }
-
-            table th .icon.mr-2 {
-                margin-right: 0.5rem;
-            }
-
-            table th .icon.mr-10 {
-                margin-right: 1rem;
+            /* Make input field smaller */
+            header.header input[type="text"] {
+                max-width: 220px;
             }
         }
 
-        /* Medium screens (md) - 768px and up */
-        @media (min-width: 768px) {
-            table th .icon.mr-10 {
-                margin-right: 2.5rem;
+        /* =======================
+   Extra Small Screens (≤ 400px, down to 320px)
+   ======================= */
+        @media (max-width: 400px) {
+            header.header {
+                flex-wrap: wrap;
+                /* allow wrapping when needed */
+                gap: 0.25rem;
             }
 
+            /* Search takes full width */
+            header.header .relative {
+                order: 3;
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+
+            /* Shrink or stack icons nicely */
+            header.header>.flex.items-center.space-x-4 {
+                gap: 0.25rem;
+            }
+
+            header.header input[type="text"] {
+                max-width: 100%;
+            }
         }
 
-        /* Large screens (lg) - 1024px and up */
+        /* =====================
+   SIDEBAR BASE STYLES
+   ===================== */
+        aside#sidebar {
+            background-color: #171717;
+            /* Theme dark color */
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            width: 260px;
+            flex-shrink: 0;
+            margin: 0;
+            padding: 10;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Custom scrollbar */
+        aside#sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        aside#sidebar::-webkit-scrollbar-track {
+            background: #1c1c1c;
+        }
+
+        aside#sidebar::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        /* =====================
+   DESKTOP VIEW
+   ===================== */
         @media (min-width: 1024px) {
-
-            /* Sidebar becomes part of the normal layout */
-            aside {
+            aside#sidebar {
                 position: sticky;
-                left: 0;
-                width: 16rem;
-                flex-shrink: 0;
-                transform: none !important;
-                /* Prevent any transform from mobile state */
+                top: 0;
+                transform: none;
+                /* Always visible */
             }
 
-            /* Hide hamburger menu on desktop */
-            .hamburger-menu {
-                display: block;
-            }
-
-            /* Hide overlay on desktop */
-            .sidebar-overlay {
+            #overlay {
                 display: none !important;
+                /* No overlay on desktop */
+            }
+        }
+
+        /* =====================
+   MOBILE VIEW
+   ===================== */
+        @media (max-width: 1023px) {
+            aside#sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                /* full width on mobile */
+                max-width: 320px;
+                /* optional: limit for tablets */
+                transform: translateX(-100%);
+                z-index: 50;
+                transition: transform 0.3s ease-in-out;
             }
 
-            /* Remove overflow hidden from body on desktop */
-            body.sidebar-open {
-                overflow: visible;
+            aside#sidebar.active {
+                transform: translateX(0);
             }
+
+            #overlay.active {
+                display: block !important;
+            }
+        }
+
+        /* =====================
+   GENERAL RESET
+   ===================== */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+        }
+
+        main {
+            flex-grow: 1;
+            background-color: #121212;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
         }
     </style>
 
 </head>
 
 <body>
+    @include('layouts.loader')
     <div class="flex min-h-screen light-bg-white">
-        <!-- Sidebar -->
+
         @include('layouts.sidebar')
 
+        <div id="overlay" class="sidebar-overlay fixed inset-0 bg-black bg-opacity-50 hidden z-40"></div>
+
         <!-- Main Content Area -->
-        <main class="flex-1 light-bg-bill overflow-y-auto">
+        <main class="flex-1  overflow-y-auto">
             <!-- Header -->
+            {{-- <header
+                class="flex items-center justify-between light-bg-f5f5f5 light-bg-seo p-5 rounded-xl shadow-sm mb-6 header">
+                <button class="hamburger-menu lg:hidden " id="hamburgerClose" aria-label="Toggle navigation">
+                    <svg class="hamburger-icon" viewBox="0 0 24 24" width="24" height="24">
+                        <path d="M3 12h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <path d="M3 6h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <path d="M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
+                <div class="relative w-full max-w-md">
+                    <input type="text" placeholder="Search here"
+                        class="w-full pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="icon text-gray-400" viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4 ml-4">
+                    <button
+                        class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
+                        <img src="message.svg" alt="icon"
+                            class="w-6 h-6 light-text-gray-900 rounded-full  light-mode-icon"
+                            data-dark-src="message-DARK.svg">
+                    </button>
+                    <button
+                        class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
+                        <img src="notification.svg" alt="icon"
+                            class="w-6 h-6 light-text-gray-900 rounded-full   light-mode-icon"
+                            data-dark-src="notification-DARK.svg">
+                    </button>
+                    <div class="flex items-center p-1 space-x-3 rounded-full border-2 light-border-gray-300">
+                        <img src="Ellipse 3.png" alt="User Avatar" class="w-10 h-10 rounded-full ">
+                        <span class="font-semibold light-text-gray-500 hidden  sm:block">John Wick</span>
+                        <svg class="icon w-6 pr-2 h-6 text-gray-500 " viewBox="0 0 24 24">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                </div>
+            </header> --}}
+
             @include('layouts.header')
 
-            <div class="">
-                <div class="p-6 light-bg-bill -mt-5 lg:p-8">
+            <div class="p-6 light-bg-bill -mt-5 lg:p-8">
 
-                    <!-- Projects Title -->
-                    <div class="flex items-center gap-2 justify-between mb-6">
-                        <!-- Title -->
-                        <h1
-                            class="text-md sm:text-3xl md:text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200">
-                            Marketplace
-                        </h1>
-                    </div>
+                <!-- Projects Title -->
+                <div class="flex items-center gap-2 justify-between mb-6">
+                    <!-- Title -->
+                    <h1 class="text-md sm:text-3xl md:text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200">
+                        Marketplace
+                    </h1>
 
 
-                    <!-- Tabs -->
-                    <div
-                        class="hidden md:flex border-b py-3 px-6 gap-2 light-border-gray-200 dark:border-gray-700 mb-10">
-                        @if ($mainCategories->isNotEmpty())
-                            @foreach ($mainCategories as $index => $category)
-                                <div
-                                    class="flex items-center {{ $index == 0 ? 'active' : '' }} px-2 py-1 justify-center border border-gray-200 rounded-lg hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
-                                    <img class="w-4 h-4 mr-2"
-                                        src="{{ asset($category->category_icon ?? 'default-icon.svg') }}"
-                                        alt="">
-                                    <button class="tab-btn p-1"
-                                        data-tab="tab-{{ $category->id }}">{{ $category->category_name }}</button>
-                                </div>
-                            @endforeach
-                        @else
-                            <p>No categories found.</p>
-                        @endif
-                    </div>
 
-                    @php
-                        // $currentCategoryId = $currentCategoryId ?? $mainCategories->first()->id;
-                        $currentCategoryId = $currentCategoryId ?? ($mainCategories->first()->id ?? null);
-                    @endphp
+                </div>
 
-                    <!-- Tab Contents -->
+
+                <!-- Tabs -->
+                <div class="hidden md:flex border-b py-3 px-6 gap-2 light-border-gray-200 dark:border-gray-700 mb-10">
                     @if ($mainCategories->isNotEmpty())
-                        <div class="tab-contents">
-                            @foreach ($mainCategories as $index => $category)
-                                {{-- <div id="tab-{{ $category->id }}" class="tab-content {{ $activeTab == 'tab-' . $category->id ? '' : 'hidden' }} pl-6 pr-6"> --}}
-                                <div id="tab-{{ $category->id }}"
-                                    class="tab-content {{ $category->id == $currentCategoryId ? '' : 'hidden' }} }} pl-6 pr-6">
-                                    <div>
-                                        <h3 class="pb-3 font-semibold text-md light-text-black">{{ $category->name }}
-                                        </h3>
-                                    </div>
-
-                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                        @if (isset($subscriptions[$category->id]) && count($subscriptions[$category->id]) > 0)
-                                            @foreach ($subscriptions[$category->id] as $subscription)
-                                                <div
-                                                    id="subscription-card-{{ $subscription->id }}"class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm flex flex-col relative overflow-hidden mb-8 subscription-card">
-                                                    <div class="flex items-center mb-10 justify-between">
-                                                        <h3 class="subscription_tag openModal cursor-pointer text-md font-normal text-black w-32 p-3 rounded-full text-center light-bg-d7d7d7 light-text-black"
-                                                            data-sub-detail-id="{{ $subscription->id }}">
-                                                            {{ $subscription->subscription_tag }}
-                                                        </h3>
-                                                        <div class="w-16 flex justify-end">
-                                                            <label class="toggle-switch">
-                                                                <input type="checkbox" disabled class="toggle-input"
-                                                                    {{ $subscription->sub_category ? 'checked' : '' }}>
-                                                                <span class="toggle-slider"></span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-
-                                                    <p
-                                                        class=" text-5xl font-medium light-text-black mb-2 flex items-center">
-
-                                                        $<span
-                                                            class="price text-5xl font-medium">{{ number_format($subscription->price, 0) }}</span>
-
-                                                        <span class="light-text-black ml-1 text-sm font-light"
-                                                            style="color:#AFAFAF;">/month</span>
-                                                    </p>
-
-                                                    <p class="subscription_name light-text-black text-sm font-bold mb-2"
-                                                        style="font-size: 12px; font-weight: 600;">
-                                                        {{ $subscription->subscription_name }}</p>
-                                                    <p class="tagline text-xs text-gray-400 font-medium mb-6">
-                                                        {{ $subscription->tagline }}</p>
-
-                                                    <div
-                                                        class="flex items-center justify-between border-t dark-border-gray-500 pt-5">
-                                                        <div class="w-1/2 pr-2">
-
-                                                            <button data-sub-id="{{ $subscription->id }}"
-                                                                class="w-full bg-[#E600020D] border border-orange-800 px-5 py-1 text-white rounded-md text-md delete-sub">Delete</button>
-
-                                                        </div>
-                                                        <div class="w-1/2 pl-2">
-                                                            <button
-                                                                class="openEditSubscriptionModal w-full px-5 py-1 light-text-black light-bg-d7d7d7 border border-gray-200 dark:border-gray-500 bg-transparent rounded-md text-md edit-sub"
-                                                                data-edit-id="{{ $subscription->id }}">Edit</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        @else
-                                            <p>No subscriptions found.</p>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
+                        @foreach ($mainCategories as $index => $category)
+                            <div
+                                class="flex items-center {{ $index == 0 ? 'active' : '' }} px-2 py-1 justify-center border border-gray-200 rounded-lg hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                                <img class="w-4 h-4 mr-2"
+                                    src="{{ asset($category->category_icon ?? 'default-icon.svg') }}" alt="">
+                                <button class="tab-btn p-1" data-tab="tab-{{ $category->id }}">
+                                    {{ $category->category_name }}
+                                </button>
+                            </div>
+                        @endforeach
+                    @else
+                        <p>No categories found.</p>
                     @endif
                 </div>
+
+                @php
+                    $currentCategoryId = $currentCategoryId ?? ($mainCategories->first()->id ?? null);
+                @endphp
+
+                <!-- Tab Contents -->
+                @if ($mainCategories->isNotEmpty())
+                    <div class="tab-contents">
+                        @foreach ($mainCategories as $category)
+                            <div id="tab-{{ $category->id }}"
+                                class="tab-content {{ $category->id == $currentCategoryId ? '' : 'hidden' }} pl-6 pr-6">
+
+                                <div>
+                                    <h3 class="pb-3 font-semibold text-md light-text-black">
+                                        {{ $category->name }}
+                                    </h3>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    @if (isset($subscriptions[$category->id]) && count($subscriptions[$category->id]) > 0)
+                                        @foreach ($subscriptions[$category->id] as $subscription)
+                                            <div id="subscription-card-{{ $subscription->id }}"
+                                                class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm flex flex-col relative overflow-hidden mb-8 subscription-card">
+
+                                                <div class="flex items-center mb-10 justify-between">
+                                                    <h3
+                                                        class="subscription_tag cursor-pointer text-md font-normal text-black w-32 p-3 rounded-full text-center light-bg-d7d7d7 light-text-black">
+                                                        {{ $subscription->subscription_tag }}
+                                                    </h3>
+                                                </div>
+
+                                                <p class="text-5xl font-medium light-text-black mb-2 flex items-center">
+                                                    $<span class="price text-5xl font-medium">
+                                                        {{ number_format($subscription->price, 0) }}
+                                                    </span>
+                                                    <span class="ml-1 text-sm font-light" style="color:#AFAFAF;">
+                                                        /month
+                                                    </span>
+                                                </p>
+
+                                                <p class="subscription_name text-sm font-bold mb-2"
+                                                    style="font-size:12px;font-weight:600;">
+                                                    {{ $subscription->subscription_name }}
+                                                </p>
+
+                                                <p class="tagline text-xs text-gray-400 font-medium mb-6">
+                                                    {{ $subscription->tagline }}
+                                                </p>
+
+                                                <div
+                                                    class="flex items-center justify-between border-t dark-border-gray-500 pt-5">
+                                                    <div class="w-1/2 pr-2">
+                                                        <button data-sub-detail-id="{{ $subscription->id }}"
+                                                            class="px-5 py-1 light-text-black border border-gray-200 openModal dark:border-gray-500 rounded-md text-md">
+                                                            View Info
+                                                        </button>
+                                                    </div>
+                                                    <div class="w-1/2 pl-2">
+                                                        <button
+                                                            class="bg-orange-600 px-5 py-1 text-white rounded-md text-md"
+                                                            data-edit-id="{{ $subscription->id }}">
+                                                            Buy Now
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <p>No subscriptions found.</p>
+                                    @endif
+                                </div>
+
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
         </main>
+
     </div>
 
 
-
-
-
-
     <!-- Modal Background -->
-    <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-        <div class="light-bg-f5f5f5 light-bg-seo text-white rounded-lg w-[90%] md:w-[850px] relative p-6 md:flex">
+    <div id="modal"
+        class="hidden modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 overflow-y-auto max-h-screen">
+        <div
+            class="light-bg-seo text-white rounded-lg w-[90%] md:w-[850px] relative p-6 md:flex max-h-[90vh] overflow-y-auto">
 
-            <!-- Left Section (40%) -->
-            <div class="md:w-[40%] pr-6 border-r border-gray-700">
-                <span class="light-bg-d7d7d7 light-text-white text-sm px-3 py-1 rounded-full">Starter SEO</span>
-                <h2 class="text-5xl light-text-black font-medium mt-4">$19 <span class="text-xl font-normal">/
-                        month</span></h2>
+            <!-- Left Section -->
+            <div class="md:w-[40%] pr-6 border-r border-gray-700 mb-6 md:mb-0">
+                <span id="subscription_tag" class="bg-gray-700 text-sm px-3 py-1 rounded-full">Starter SEO</span>
+                <h2 id="subscription_price" class="text-3xl md:text-5xl font-medium mt-4">$19 <span
+                        class="text-xl font-normal">/ month</span></h2>
 
-                <h3 class="font-semibold light-text-black mt-6">Foundation & Fixes</h3>
-                <p class="text-gray-400 text-sm mt-2">All the basic features to boost your freelance career</p>
-                <ul class="text-sm mt-4 list-disc list-inside text-gray-300">
+                <h3 class="font-semibold mt-6" id="subscription_name">Foundation & Fixes</h3>
+                <p class="text-gray-400 text-sm mt-2" id="subscription_tagline">All the basic features to boost your
+                    freelance career</p>
+                <ul class="text-sm mt-4 list-disc list-inside text-gray-300" id="best_for_list">
                     <li>Best for new or small business websites</li>
                 </ul>
 
@@ -964,255 +1114,463 @@
                 </button>
             </div>
 
-            <!-- Right Section (60%) -->
-            <div class="md:w-[60%] pl-6 mt-6 md:mt-0">
-                <h4 class="font-semibold light-text-black mb-4">What's Included</h4>
-                <ul class="space-y-3">
-                    <li class="flex items-start">
-                        <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 mr-2 mt-0.5">
-                            <img src="modal-check.svg" class="w-full h-full" alt="✓">
-                        </span>
-                        <span class="light-text-black">Full technical SEO audit (crawlability, speed,
-                            mobile-friendliness)</span>
-                    </li>
+            <!-- Right Section -->
+            <div class="md:w-[60%] pl-0 md:pl-6 mt-6 md:mt-0">
+                <h4 class="font-semibold mb-4">What's Included</h4>
+                <ul class="space-y-3 break-words" id="features_list">
 
-                    <li class="flex items-start">
-                        <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 mr-2 mt-0.5">
-                            <img src="modal-check.svg" class="w-full h-full" alt="✓">
-                        </span>
-                        <span class="light-text-black">On-page optimization (meta titles, descriptions, H1s, alt
-                            text)</span>
-                    </li>
-
-                    <li class="flex items-start">
-                        <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 mr-2 mt-0.5">
-                            <img src="modal-check.svg" class="w-full h-full" alt="✓">
-                        </span>
-                        <span class="light-text-black">Indexing setup (robots.txt, sitemap.xml, Search Console)</span>
-                    </li>
-
-                    <li class="flex items-start">
-                        <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 mr-2 mt-0.5">
-                            <img src="modal-check.svg" class="w-full h-full" alt="✓">
-                        </span>
-                        <span class="light-text-black">Basic schema implementation (Organization, Service,
-                            Product)</span>
-                    </li>
-
-                    <li class="flex items-start">
-                        <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 mr-2 mt-0.5">
-                            <img src="modal-check.svg" class="w-full h-full" alt="✓">
-                        </span>
-                        <span class="light-text-black">5 core keywords targeted</span>
-                    </li>
-
-                    <li class="flex items-start">
-                        <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 mr-2 mt-0.5">
-                            <img src="modal-check.svg" class="w-full h-full" alt="✓">
-                        </span>
-                        <span class="light-text-black">Monthly performance snapshot</span>
-                    </li>
                 </ul>
             </div>
 
             <!-- Close Button -->
             <button id="closeModal"
-                class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl rounded-full hover:  hover:bg-gray-500 px-2 ">&times;</button>
+                class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl rounded-full hover:bg-gray-500 px-2">&times;</button>
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const body = document.body;
-            const knowledgeButton = document.getElementById('knowledgeButton');
-            const filterButton = document.getElementById('filterButton');
-            const filterDropdown = document.getElementById('filterDropdown');
 
-            // ✅ Dropdown toggle
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const body = document.body;
+
+            /* -------------------------------
+               ELEMENTS
+            --------------------------------*/
+            const knowledgeButton = document.getElementById("knowledgeButton");
             const filterButtons = document.querySelectorAll('[id^="filterButton"]');
             const filterDropdowns = document.querySelectorAll('[id^="filterDropdown"]');
+            const filterDropdown = document.getElementById("filterDropdown");
+            const hamburgerOpen = document.getElementById("hamburgerOpen");
+            const hamburgerClose = document.getElementById("hamburgerClose");
+            const sidebar = document.getElementById("sidebar");
+            const overlay = document.getElementById("overlay");
+            const seoCards = document.getElementById('seo-cards');
 
-            filterButtons.forEach((button, index) => {
-                button.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    filterDropdowns[index].classList.toggle('hidden');
+
+            // Open sidebar
+            /* -------------------------------
+                 SIDEBAR TOGGLE
+              --------------------------------*/
+            const hamburgerButtons = document.querySelectorAll("#hamburgerOpen, #hamburgerClose");
+
+            if (sidebar && overlay) {
+
+                function openSidebar() {
+                    sidebar.classList.add("active");
+                    overlay.classList.add("active");
+                    body.classList.add("overflow-hidden", "sidebar-open");
+                }
+
+                function closeSidebar() {
+                    sidebar.classList.remove("active");
+                    overlay.classList.remove("active");
+                    body.classList.remove("overflow-hidden", "sidebar-open");
+                }
+
+                function toggleSidebar() {
+                    if (sidebar.classList.contains("active")) {
+                        closeSidebar();
+                    } else {
+                        openSidebar();
+                    }
+                }
+
+                // Attach toggle to all hamburger buttons
+                hamburgerButtons.forEach(btn => {
+                    btn.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        toggleSidebar();
+                    });
                 });
-            });
 
-            document.addEventListener('click', () => {
-                filterDropdowns.forEach(dropdown => {
-                    dropdown.classList.add('hidden');
+                // Clicking overlay closes sidebar
+                overlay.addEventListener("click", closeSidebar);
+
+                // Pressing ESC closes sidebar
+                window.addEventListener("keydown", (e) => {
+                    if (e.key === "Escape" && sidebar.classList.contains("active")) {
+                        closeSidebar();
+                    }
                 });
-            });
+            }
 
-            // ✅ Dropdown color update
+            /* -------------------------------
+               FILTER DROPDOWNS
+            --------------------------------*/
+            if (filterButtons && filterDropdowns) {
+                filterButtons.forEach((button, index) => {
+                    button.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        const dd = filterDropdowns[index];
+                        if (dd) dd.classList.toggle("hidden");
+                    });
+                });
+
+                // Clicking outside closes all
+                document.addEventListener("click", () => {
+                    filterDropdowns.forEach((dropdown) => dropdown.classList.add("hidden"));
+                });
+            }
+
+            /* -------------------------------
+               DARK MODE & IMAGE UPDATES
+            --------------------------------*/
             const updateDropdownColors = () => {
-                const isDarkMode = body.classList.contains('dark-mode');
+                const isDarkMode = body.classList.contains("dark-mode");
                 if (filterDropdown) {
-                    filterDropdown.style.color = isDarkMode ? 'white' : 'black';
-                    filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
+                    filterDropdown.style.color = isDarkMode ? "white" : "black";
+                    filterDropdown.style.backgroundColor = isDarkMode ? "#1a1a1a" : "white";
                 }
             };
 
-            // ✅ Dark mode toggle
-            const toggleDarkMode = () => {
-                body.classList.toggle('dark-mode');
-                updateImageSources(body.classList.contains('dark-mode'));
-                updateDropdownColors();
-                localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-            };
-
-            // ✅ Update images for dark/light
             const updateImageSources = (isDarkMode) => {
-                const icons = document.querySelectorAll('.light-mode-icon');
-                icons.forEach(icon => {
+                const icons = document.querySelectorAll(".light-mode-icon");
+                icons.forEach((icon) => {
                     const darkSrc = icon.dataset.darkSrc;
-                    const originalSrc = icon.src.replace('-DARK.svg', '.svg');
+                    const originalSrc = icon.dataset.lightSrc || icon.src.replace("-DARK.svg", ".svg");
                     if (darkSrc) icon.src = isDarkMode ? darkSrc : originalSrc;
                 });
 
-                const images = document.querySelectorAll('.light-mode-img');
-                images.forEach(img => {
+                const images = document.querySelectorAll(".light-mode-img");
+                images.forEach((img) => {
                     const darkSrc = img.dataset.darkSrc;
-                    const originalSrc = img.src.replace('-DARK.png', '.png');
+                    const originalSrc = img.dataset.lightSrc || img.src.replace("-DARK.png", ".png");
                     if (darkSrc) img.src = isDarkMode ? darkSrc : originalSrc;
                 });
 
-                const logo = document.querySelector('.light-mode-logo');
+                const logo = document.querySelector(".light-mode-logo");
                 if (logo) {
                     const darkLogoSrc = logo.dataset.darkSrc;
-                    const lightLogoSrc = 'Frame 2147224409.png';
+                    const lightLogoSrc = logo.dataset.lightSrc || "Frame 2147224409.png";
                     logo.src = isDarkMode ? darkLogoSrc : lightLogoSrc;
                 }
             };
 
-            // ✅ Apply theme from localStorage
-            if (localStorage.getItem('theme') === 'dark') {
-                body.classList.add('dark-mode');
-            }
+            const toggleDarkMode = () => {
+                body.classList.toggle("dark-mode");
+                const isDark = body.classList.contains("dark-mode");
+                updateImageSources(isDark);
+                updateDropdownColors();
+                localStorage.setItem("theme", isDark ? "dark" : "light");
+            };
 
-            updateImageSources(body.classList.contains('dark-mode'));
+            // Apply saved theme (do this early so images update before paint)
+            if (localStorage.getItem("theme") === "dark") {
+                body.classList.add("dark-mode");
+            } else if (localStorage.getItem("theme") === "light") {
+                body.classList.remove("dark-mode");
+            }
+            updateImageSources(body.classList.contains("dark-mode"));
             updateDropdownColors();
 
-            // ✅ Dark mode toggle button
+            // Knowledge button toggles theme
             if (knowledgeButton) {
-                knowledgeButton.addEventListener('click', (e) => {
+                knowledgeButton.addEventListener("click", (e) => {
                     e.preventDefault();
                     toggleDarkMode();
                 });
             }
 
-            // ✅ SEO card "View More" toggle
-            const seoCards = document.getElementById('seo-cards');
-
+            /* -------------------------------
+               SEO CARD "VIEW MORE" TOGGLE
+            --------------------------------*/
             if (seoCards) {
                 seoCards.addEventListener('click', function(event) {
                     if (event.target.classList.contains('toggle-btn')) {
                         const card = event.target.closest('div[class*="p-10"]');
+                        if (!card) return;
                         const content = card.querySelector('.card-content');
-                        const icon = event.target.querySelector('img.toggle-icon'); // Get the icon
-                        const textNode = event.target.childNodes[
-                            0]; // Get the text node (assuming it's first)
+                        const textNode = event.target.childNodes[0];
 
                         if (!content.style.maxHeight || content.style.maxHeight === '0px') {
                             content.style.maxHeight = content.scrollHeight + 'px';
-                            textNode.textContent = 'View Less '; // Update text only
+                            if (textNode) textNode.textContent = 'View Less ';
                         } else {
                             content.style.maxHeight = '0px';
-                            textNode.textContent = 'View More '; // Update text only
+                            if (textNode) textNode.textContent = 'View More ';
                         }
                     }
                 });
             }
-        });
-        document.addEventListener('DOMContentLoaded', () => {
-            const modal = document.getElementById('modal');
-            const openModalButtons = document.querySelectorAll('.openModal');
-            const closeModal = document.getElementById('closeModal');
 
-            // Attach click event to all buttons with class 'openModal'
-            openModalButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    modal.classList.remove('hidden');
+            /* -------------------------------
+               CATEGORY & SUBSCRIPTION MODALS
+            --------------------------------*/
+            const categoryModal = document.getElementById("categoryModal");
+            const openCategoryBtn = document.querySelector(".open-category-modal");
+            const closeCategoryBtn = document.getElementById("closeCategoryModal");
+            const subscriptionModal = document.getElementById("subscriptionModal");
+            const openSubscriptionBtn = document.querySelector(".open-subscription-modal");
+            const closeSubscriptionBtn = document.getElementById("closeSubscriptionModal");
+            const addFeatureBtn = document.getElementById("addFeatureBtn");
+            const featuresList = document.getElementById("featuresList");
+
+            if (openCategoryBtn && categoryModal) {
+                openCategoryBtn.addEventListener("click", () => categoryModal.classList.remove("hidden"));
+            }
+            if (closeCategoryBtn && categoryModal) {
+                closeCategoryBtn.addEventListener("click", () => categoryModal.classList.add("hidden"));
+            }
+            if (categoryModal) {
+                categoryModal.addEventListener("click", (e) => {
+                    if (e.target === categoryModal) categoryModal.classList.add("hidden");
+                });
+            }
+
+            if (openSubscriptionBtn && subscriptionModal) {
+                openSubscriptionBtn.addEventListener("click", () => subscriptionModal.classList.remove("hidden"));
+            }
+            if (closeSubscriptionBtn && subscriptionModal) {
+                closeSubscriptionBtn.addEventListener("click", () => subscriptionModal.classList.add("hidden"));
+            }
+            if (subscriptionModal) {
+                subscriptionModal.addEventListener("click", (e) => {
+                    if (e.target === subscriptionModal) subscriptionModal.classList.add("hidden");
+                });
+            }
+
+            if (addFeatureBtn && featuresList) {
+                addFeatureBtn.addEventListener("click", () => {
+                    const input = document.createElement("input");
+                    input.type = "text";
+                    input.name = "features[]";
+                    input.placeholder = "Feature " + (featuresList.children.length + 1);
+                    input.className =
+                        "w-full px-4 py-2 bg-[#2A2A2A] border border-gray-600 rounded text-sm text-gray-300";
+                    featuresList.appendChild(input);
+                });
+            }
+
+            // Open Edit Subscription Modal
+            document.querySelectorAll('.openEditSubscriptionModal').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent the click from bubbling to parent modal
+                    e.preventDefault(); // Prevent default behavior if button is a link
+
+                    // Close all other modals except this one
+                    document.querySelectorAll('.modal').forEach(modal => {
+                        if (!modal.classList.contains('edit-subscription-modal')) {
+                            modal.classList.add('hidden');
+                        }
+                    });
+
+                    // Open this modal
+                    document.querySelector('.edit-subscription-modal').classList.remove('hidden');
                 });
             });
 
-            closeModal.addEventListener('click', () => {
-                modal.classList.add('hidden');
+            // Close modal (X or Cancel buttons)
+            document.querySelectorAll('.edit-subscription-modal .closeModal, .edit-subscription-modal .cancelModal')
+                .forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        btn.closest('.edit-subscription-modal').classList.add('hidden');
+                    });
+                });
+
+            // Click outside modal content to close
+            document.querySelectorAll('.edit-subscription-modal').forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) modal.classList.add('hidden');
+                });
             });
 
-            window.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.classList.add('hidden');
+
+
+
+            /* -------------------------------
+               GENERIC MODAL (for .openModal cards)
+            --------------------------------*/
+            const mainModal = document.getElementById("modal");
+            const openModalCards = document.querySelectorAll(".openModal");
+            const closeModal = document.getElementById("closeModal");
+
+            openModalCards.forEach((card) => {
+                card.addEventListener("click", (e) => {
+                    const isSwitch = e.target.closest(
+                        ".toggle-switch, .toggle-input, .toggle-slider");
+                    if (!isSwitch && mainModal) mainModal.classList.remove("hidden");
+                });
+            });
+
+            if (closeModal && mainModal) {
+                closeModal.addEventListener("click", () => mainModal.classList.add("hidden"));
+            }
+
+            window.addEventListener("click", (e) => {
+                if (e.target === mainModal) mainModal.classList.add("hidden");
+            });
+
+
+            const subToggle = document.getElementById("toggleSubCategory");
+            const mainCategoryField = document.getElementById("mainCategoryField");
+            const iconUploadField = document.getElementById("iconUploadField");
+
+            // Initial state: toggle OFF
+            mainCategoryField.classList.add("hidden"); // hidden
+            iconUploadField.classList.remove("hidden"); // visible
+
+            subToggle.addEventListener("change", () => {
+                if (subToggle.checked) {
+                    // Toggle ON: show main category, hide icon upload
+                    mainCategoryField.classList.remove("hidden");
+                    iconUploadField.classList.add("hidden");
+                } else {
+                    // Toggle OFF: hide main category, show icon upload
+                    mainCategoryField.classList.add("hidden");
+                    iconUploadField.classList.remove("hidden");
                 }
             });
-        });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
-            const tabWrappers = document.querySelectorAll('.tab-wrapper');
+
+            /* -------------------------------
+               TAB SYSTEM
+            --------------------------------*/
+            const tabButtons = document.querySelectorAll(".tab-btn");
+            const tabContents = document.querySelectorAll(".tab-content");
+            const tabWrappers = document.querySelectorAll(".tab-wrapper");
 
             function activateTab(tabId) {
-                // Reset all tabs first
-                tabContents.forEach(content => content.classList.add('hidden'));
-                tabWrappers.forEach(wrapper => {
-                    wrapper.classList.remove(
-                        'active',
-                        'bg-gray-500',
-                        'rounded-full',
-                        'light-hover-bg-gray-300'
-                    );
-                });
-                tabButtons.forEach(button => {
-                    button.classList.remove(
-                        'text-black',
-                        'dark:text-white'
-                    );
-                    button.classList.add(
-                        'light-text-gray-500',
-                        'dark:text-gray-400'
-                    );
+                tabContents.forEach((content) => content.classList.add("hidden"));
+                tabWrappers.forEach((wrapper) =>
+                    wrapper.classList.remove("active", "bg-gray-500", "rounded-full", "light-hover-bg-gray-300")
+                );
+                tabButtons.forEach((button) => {
+                    button.classList.remove("text-black", "dark:text-white");
+                    button.classList.add("light-text-gray-500", "dark:text-gray-400");
                 });
 
-                // Activate the selected tab
                 const selectedTab = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
                 if (selectedTab) {
-                    const wrapper = selectedTab.closest('.tab-wrapper');
+                    const wrapper = selectedTab.closest(".tab-wrapper");
                     const content = document.getElementById(`${tabId}Content`);
 
-                    if (wrapper) {
-                        wrapper.classList.add(
-                            'active',
-                            'bg-gray-500',
-                            'rounded-full'
-                        );
-                    }
-
-                    selectedTab.classList.remove('light-text-gray-500', 'dark:text-gray-400');
-                    selectedTab.classList.add('text-black', 'dark:text-white');
-
-                    if (content) {
-                        content.classList.remove('hidden');
-                    }
+                    if (wrapper) wrapper.classList.add("active", "bg-gray-500", "rounded-full");
+                    selectedTab.classList.remove("light-text-gray-500", "dark:text-gray-400");
+                    selectedTab.classList.add("text-black", "dark:text-white");
+                    if (content) content.classList.remove("hidden");
                 }
             }
 
-            // Add click handlers
-            tabButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const tabId = this.getAttribute('data-tab');
+            tabButtons.forEach((button) => {
+                button.addEventListener("click", function() {
+                    const tabId = this.getAttribute("data-tab");
                     activateTab(tabId);
                 });
             });
 
-            // Activate first tab by default if none are active
-            const activeTabs = document.querySelectorAll('.tab-wrapper.active');
+            const activeTabs = document.querySelectorAll(".tab-wrapper.active");
             if (activeTabs.length === 0 && tabButtons.length > 0) {
-                activateTab(tabButtons[0].getAttribute('data-tab'));
+                activateTab(tabButtons[0].getAttribute("data-tab"));
             }
+
+        }); // end DOMContentLoaded
+    </script>
+
+
+
+
+
+    <script>
+        setTimeout(function() {
+            const messages = document.querySelectorAll('.success-message');
+            messages.forEach(function(el) {
+                el.style.display = 'none';
+            });
+        }, 5000);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const target = this.getAttribute('data-tab');
+
+                    // Remove active class from all tab wrappers
+                    document.querySelectorAll('.tab-wrapper').forEach(wrapper => {
+                        wrapper.classList.remove('active');
+                    });
+
+                    // Add active class to clicked tab
+                    this.parentElement.classList.add('active');
+
+                    // Hide all tab contents
+                    tabContents.forEach(content => {
+                        content.classList.add('hidden');
+                    });
+
+                    // Show the clicked tab content
+                    const activeContent = document.getElementById(target);
+                    if (activeContent) activeContent.classList.remove('hidden');
+                });
+            });
         });
     </script>
+
+    {{-- ajax --}}
+
+    <script>
+        $(document).ready(function() {
+
+            function openSubscriptionModal(subscription_id) {
+
+                $.ajax({
+                    url: "{{ route('subscription.detail') }}",
+                    method: 'POST',
+                    data: {
+                        id: subscription_id,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(data) {
+
+                        let price = parseFloat(data.subDetail.price);
+                        let formattedPrice = Number.isInteger(price) ? price : price.toFixed(2);
+
+                        $('#subscription_tag').text(data.subDetail.subscription_tag);
+                        $('#subscription_price').html(
+                            `$${formattedPrice} <span class="text-xl font-normal">/ month</span>`);
+                        $('#subscription_name').text(data.subDetail.subscription_name);
+                        $('#subscription_tagline').text(data.subDetail.tagline);
+
+                        $('#best_for_list').html(`<li>${data.subDetail.best_for}</li>`);
+
+                        let featuresHtml = '';
+                        if (data.subDetail.features && data.subDetail.features.length > 0) {
+                            data.subDetail.features.forEach(function(feature) {
+                                featuresHtml += `<li class="flex items-start">
+                                    <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 mr-2 mt-0.5">
+                                        <img src="{{ asset('assets/modal-check.svg') }}" class="w-full h-full" alt="✓">
+                                    </span>
+                                    <span>${feature.feature}.</span>
+                                </li>`;
+                            });
+                        } else {
+                            featuresHtml = `<li>No features available</li>`;
+                        }
+                        $('#features_list').html(featuresHtml);
+
+                        // Show modal
+                        // $('#modal').removeClass('hidden');
+                    },
+                    error: function(xhr) {
+                        console.error(xhr.responseText);
+                        alert('Something went wrong while fetching subscription details.');
+                    }
+                });
+            }
+
+            $('.openModal').click(function() {
+                const subscription_id = $(this).data('sub-detail-id');
+
+                openSubscriptionModal(subscription_id);
+            });
+
+        });
+    </script>
+
+
 </body>
 
 </html>

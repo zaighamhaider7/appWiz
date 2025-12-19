@@ -13,6 +13,8 @@ use App\Models\milestone;
 use App\Models\Test;
 use App\Models\ActivityLog;
 use App\Helpers\ActivityLogger;
+use App\Models\Subscription;
+
 
 class ProjectController extends Controller
 {
@@ -22,8 +24,18 @@ class ProjectController extends Controller
         $userId = Auth::id();
 
         $users = User::where('role_id', '!=', 1)->where('is_suspended', 0)->get();
+
+        $currentUser = auth()->user();
+
+        if($currentUser->role_id == 1){
+            $view = 'admin.project';
+        }
+        else{
+           $subscriptionData = Subscription::limit(3)->get();
+           $view = 'user.project';
+        }
         
-        return view('admin.project', compact('users', 'userId'));
+        return view($view, compact('users', 'userId','subscriptionData'));
     }
 
     public function store(Request $request)

@@ -46,6 +46,31 @@
             scrollbar-width: none;
         }
 
+         /* Remove default progress styling */
+        progress {
+        -webkit-appearance: none; /* Chrome, Safari, Opera */
+        appearance: none;
+        width: 100%;
+        height: 10px; /* same as h-2.5 */
+        border-radius: 999px;
+        overflow: hidden;
+        background-color: #e5e7eb; /* gray-200 */
+        }
+
+        progress::-webkit-progress-bar {
+        background-color: #e5e7eb; /* gray-200 */
+        }
+
+        progress::-webkit-progress-value {
+        background-color: #22c55e; /* green-500 */
+        border-radius: 999px;
+        }
+
+        progress::-moz-progress-bar {
+        background-color: #22c55e; /* green-500 */
+        border-radius: 999px;
+        }
+
         button.custom-btn {
             background-color: var(--btn-bg);
             border-color: var(--btn-border);
@@ -2658,9 +2683,10 @@
                                             ${assignedUsersHtml}
 
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <button style="border-radius: 20px;" class="w-52 bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700" onclick="myFunction()">
-                                                    <progress class="w-full" style="border-radius: 45px !important; color:orange;" value="78" max="100"></progress> 78%
-                                                </button>
+                                                <div class="flex flex-col justify-start gap-2">
+                                                    <span id="progressText" class="ml-2 text-sm light-text-gray-700 align-middle">24%</span>
+                                                    <progress id="myProgress" value="70" max="100" class="w-52 h-2.5 mb-4 rounded-full"></progress>                                                 
+                                                </div>
                                             </td>
                                             
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
@@ -2736,7 +2762,8 @@
                                         </tr>
                                     `;
                                 });
-                            } else {
+                            }
+                             else {
                                 rows = `
                                     <tr>
                                         <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
