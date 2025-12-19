@@ -25,6 +25,8 @@ class ProjectController extends Controller
 
         $users = User::where('role_id', '!=', 1)->where('is_suspended', 0)->get();
 
+        $subscriptionData = null;
+
         $currentUser = auth()->user();
 
         if($currentUser->role_id == 1){
