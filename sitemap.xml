@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Main pages -->
+  <url><loc>https://patchmakerusa.com/index.html</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://patchmakerusa.com/About.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://patchmakerusa.com/Portfolio.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patchmakerusa.com/Contact.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Services pages -->
+  <url><loc>https://patchmakerusa.com/Custom-Embroidery-Patches.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patchmakerusa.com/Custom-Chenille-Patches.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patchmakerusa.com/Custom-Leather-Patches.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patchmakerusa.com/Custom-Pvc.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patchmakerusa.com/Custom-Sublimited-Patches.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patchmakerusa.com/Custom-Woven-Patches.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patchmakerusa.com/3D-Embroidered-Patches.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patchmakerusa.com/Custom-Applique-Patches.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patchmakerusa.com/Custom-Sequin-Patches.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Custom Pins pages -->
+  <url><loc>https://patchmakerusa.com/Custom-Pins.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patchmakerusa.com/Custom-Enamel-Pins.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patchmakerusa.com/Custom-Hat-Pins.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patchmakerusa.com/Custom-Baseball-Pins.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patchmakerusa.com/Custom-Lapel-Pins.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Design Services -->
+  <url><loc>https://patchmakerusa.com/Digitizing-Services.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patchmakerusa.com/Vector-Conversion-Services.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://patchmakerusa.com/DTF-Transfers.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+</urlset>

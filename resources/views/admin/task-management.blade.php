@@ -2277,6 +2277,7 @@
             const task_form = document.getElementById('task-form');
             const edit_task_form = document.getElementById('edit-task-form');
             const closeTaskForms = document.querySelectorAll('.close-task-form');
+            const closeEditTaskForms = document.querySelectorAll('.close-edit-task-form');
             const closeNewTaskModal = document.getElementById('closeNewTaskModal');
             const cancelTask = document.getElementById('cancelTask');
             const taskForm = document.getElementById('taskForm');
@@ -2288,6 +2289,19 @@
             document.getElementById("openEditTaskModalBtn").addEventListener("click", () => {
                 edit_task_form.classList.remove('hidden');
             });
+
+
+            // CLOSE EDIT TASK FORMS (CLASS BASED)
+document.querySelectorAll('.close-edit-task-form').forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Find nearest modal/form wrapper and hide it
+        const modal = btn.closest('.fixed, .edit-task-form, #edit-task-form, #editTaskModal');
+
+        if (modal) {
+            modal.classList.add('hidden');
+        }
+    });
+});
 
                      document.querySelectorAll('.close-task-form').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -2678,7 +2692,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Ticket Modal Elements
             const ticketModal = document.getElementById('ticketModal');
-            const closeTicketModal = document.getElementById('closeTicketModal');
+            const closeTicketModals = document.querySelectorAll('.close-ticket-modal');
             const cancelTicket = document.getElementById('cancelTicket');
             const ticketForm = document.getElementById('ticketForm');
             const taskstatusform = document.getElementById('taskstatusform');
@@ -2687,8 +2701,8 @@
 
             // Payment Modal Elements
             const paymentModal = document.getElementById('paymentModal');
-            const closePaymentModal = document.getElementById('closePaymentModal');
-            const cancelPayment = document.getElementById('cancelPayment');
+            const closePaymentModal = document.querySelectorAll('.close-payment-modal');
+            const cancelPayment = document.getElementById('cancelPayment'); 
             const paymentForm = document.getElementById('paymentForm');
             const openPaymentButtons = document.querySelectorAll('.openPaymentModal');
 
@@ -2711,18 +2725,44 @@
                 edittaskstatusform.classList.remove('hidden');
             })
 
-            const edittaskstatusclose = document.getElementById('edittaskstatusformbtn');
-            edittaskstatusclose?.addEventListener('click', () => edittaskstatusform.classList.add('hidden'));
-
-            // Select the form
-const edittaskstatusforms = document.querySelectorAll('.edittaskstatusform');
-
-// Select all close buttons for this form
-document.querySelectorAll('.edittaskstatus-close-btn').forEach(btn => {
+            closeTicketModals.forEach(btn => {
     btn.addEventListener('click', () => {
-        // Find the closest form ancestor and hide it
-        const form = btn.closest('.edittaskstatusform');
-        if (form) form.classList.add('hidden');
+        const modal = btn.closest('.fixed, #ticketModal');
+        if (modal) {
+            modal.classList.add('hidden');
+        }
+    });
+});
+
+closePaymentModal.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const modal = btn.closest('.fixed, #paymentModal');
+        if (modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex'); // if you use flex to show it
+        }
+    });
+});
+
+// Event delegation for edit task status close buttons
+document.addEventListener('click', (e) => {
+    const closeBtn = e.target.closest('.edittaskstatus-close-btn');
+    if (!closeBtn) return;
+
+    const form = closeBtn.closest('.edittaskstatusform');
+    if (form) {
+        form.classList.add('hidden');
+    }
+});
+
+
+
+document.querySelectorAll('.close-task-status-form').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const form = btn.closest('.taskstatusform');
+        if (form) {
+            form.classList.add('hidden');
+        }
     });
 });
 
@@ -4130,7 +4170,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div
             class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto  relative">
             <!-- Close Button -->
-            <button id="closeTicketModal" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+            <button id="closeTicketModal" class="absolute close-ticket-modal top-3 right-3 text-gray-400 hover:text-white">
                 ✕
             </button>
 
@@ -4162,8 +4202,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="flex justify-end items-center">
 
                     <div class="flex justify-end gap-3 pt-3">
-                        <button type="button" id="cancelTicket"
-                            class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                        <button type="button" 
+                            class="px-4 py-2 close-ticket-modal light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                             Cancel
                         </button>
                         <button type="submit" class="px-4 py-2 bg-orange-500 rounded-lg hover:bg-orange-600">
@@ -4175,7 +4215,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
     </div>
 
-    <div id="edittaskstatusform" class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
+    <div id="edittaskstatusform" class="fixed edittaskstatusform inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
         <div
             class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto  relative">
             <!-- Close Button -->
@@ -4184,7 +4224,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </button>
 
             <div class="px-6 py-3"> <!-- Container for heading + divider -->
-                <h2 class="text-lg light-text-black  font-semibold">Add New Status</h2>
+                <h2 class="text-lg light-text-black  font-semibold">edit New Status</h2>
             </div>
             <div class=""> <!-- Container for heading + divider -->
                 <div class="border-t border-gray-600 w-full mt-4"></div>
@@ -4213,7 +4253,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     <div class="flex justify-end gap-3 pt-3">
                         <button type="button" id="cancelTicket"
-                            class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                            class="px-4 py-2 edittaskstatus-close-btn light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                             Cancel
                         </button>
                         <button type="submit" class="px-4 py-2 bg-orange-500 rounded-lg hover:bg-orange-600">
@@ -4232,7 +4272,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div
             class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto  relative">
             <!-- Close Button -->
-            <button id="closePaymentModal" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+            <button id="" class="absolute close-payment-modal top-3 right-3 text-gray-400 hover:text-white">
                 ✕
             </button>
 
@@ -4323,7 +4363,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <!-- Buttons -->
                 <div class="flex justify-end gap-3 pt-4">
                     <button type="button" id="cancelTicket"
-                        class="px-4 py-2 edittaskstatus-close-btn light-text-white light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                        class="px-4 py-2 close-payment-modal light-text-white light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                         Cancel
                     </button>
                     <button type="submit" class="px-4 py-2 bg-orange-500 rounded-lg hover:bg-orange-600">
@@ -4448,7 +4488,7 @@ document.addEventListener("DOMContentLoaded", () => {
             class="light-bg-d9d9d9 bg-[#1c1c1c] text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto relative">
 
             <!-- Close Button -->
-            <button id="close-edit-task-form" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+            <button id="close-edit-task-form" class="absolute close-edit-task-form top-3 right-3 text-gray-400 hover:text-white">
                 ✕
             </button>
 
@@ -4536,10 +4576,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 <!-- Buttons -->
                 <div class="flex justify-end gap-3 pt-4">
-                    {{-- <button type="button" id="cancelTicket"
-                        class="px-4 py-2 light-text-white light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                    <button type="button" id="cancelTicket"
+                        class="px-4 py-2  close-edit-task-form light-text-white light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                         Cancel
-                    </button> --}}
+                    </button>
                     <button type="submit" class="px-4 py-2 bg-orange-500 rounded-lg hover:bg-orange-600">
                         Edit
                     </button>
@@ -4555,7 +4595,7 @@ document.addEventListener("DOMContentLoaded", () => {
             class="light-bg-d9d9d9 bg-[#1c1c1c] text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto relative">
 
             <!-- Close Button -->
-            <button id="close-edit-task-form" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+            <button id="close-edit-task-form" class="absolute close-edit-task-form top-3 right-3 text-gray-400 hover:text-white">
                 ✕
             </button>
 
@@ -4643,10 +4683,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 <!-- Buttons -->
                 <div class="flex justify-end gap-3 pt-4">
-                    {{-- <button type="button" id="cancelTicket"
-                        class="px-4 py-2 light-text-white light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                    <button type="button" id="cancelTicket"
+                        class="px-4 py-2 close-edit-task-form light-text-white light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                         Cancel
-                    </button> --}}
+                    </button> 
                     <button type="submit" class="px-4 py-2 bg-orange-500 rounded-lg hover:bg-orange-600">
                         Edit
                     </button>

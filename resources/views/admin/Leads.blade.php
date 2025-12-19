@@ -843,9 +843,6 @@
         overflow: visible !important;
     }
 
-    main {
-        padding: 1rem;
-    }
 
     table th,
     table td {

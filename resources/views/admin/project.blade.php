@@ -720,69 +720,181 @@
             display: none;
         }
 
-        /* Small screens (sm) - 640px and up */
-        @media (max-width: 640px) {
-            .header .sm\:block {
-                display: block;
-            }
+        /* Extra small screens: up to 480px */
+/* Extra small screens: up to 480px */
+@media (max-width: 480px) {
+    /* ================= HEADER / PROJECT LIST ================= */
+    .flex.items-center.justify-between.p-6.flex-wrap.gap-3 {
+        flex-direction: column;       /* stack title + controls */
+        align-items: flex-start;      /* keep title left-aligned */
+        gap: 0.5rem;                  /* vertical spacing */
+        padding: 0.5rem;              /* minimal left/right padding */
+        width: 100%;                  /* ensure full width */
+    }
 
-            /* Show John Wick name on sm and up */
-            aside {
-                display: none !important;
-            }
+    /* Title stays left */
+    .flex.items-center.justify-between.p-6.flex-wrap.gap-3 > h2,
+    .flex.items-center.justify-between.p-6.flex-wrap.gap-3 > h1 {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 0.5rem;
+    }
 
-            table th,
-            table td {
-                padding-left: 1.5rem;
-                padding-right: 1.5rem;
-                padding-top: 1rem;
-                padding-bottom: 1rem;
-            }
+    /* Container for search/filter/button */
+    .flex.items-center.space-x-3 {
+        flex-direction: column !important; /* stack vertically */
+        width: 100%;
+        align-items: stretch;              /* full width children */
+        gap: 1rem;
+        
+    }
 
-            table th .icon.mr-2 {
-                margin-right: 0.5rem;
-            }
+    /* Inner flex (like filter + button) stacked */
+    .flex.items-center.space-x-3 .flex.gap-3 {
+        flex-direction: column !important;
+        width: 100%;
+        gap: 1rem;
+    }
 
-            table th .icon.mr-10 {
-                margin-right: 1rem;
-            }
-        }
+    /* Full-width inputs/buttons */
+    input[type="search"],
+    select.dt-input,
+    button.openTicketModal {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
 
-        /* Medium screens (md) - 768px and up */
-        @media (min-width: 768px) {
-            table th .icon.mr-10 {
-                margin-right: 2.5rem;
-            }
-        }
+    /* Optional: spacing for title h1 */
+    .lg\:col-span-2 .flex.items-center.justify-between.mb-4.p-6.flex-wrap.gap-3 h1 {
+        margin-bottom: 0.5rem;
+        font-size: 1.25rem;
+    }
 
-        /* Large screens (lg) - 1024px and up */
-        @media (min-width: 1024px) {
+    /* Table responsiveness: scroll horizontally */
+    .lg\:col-span-2 .overflow-x-auto {
+        overflow-x: auto;
+    }
 
-            /* Sidebar becomes part of the normal layout */
-            aside {
-                position: sticky;
-                left: 0;
-                width: 16rem;
-                flex-shrink: 0;
-                transform: none !important;
-                /* Prevent any transform from mobile state */
-            }
+    table th, table td {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+    }
 
-            /* Hide hamburger menu on desktop */
-            .hamburger-menu {
-                display: block;
-            }
+    /* Hide less critical columns */
+    table th:nth-child(4),
+    table th:nth-child(5),
+    table th:nth-child(6),
+    table td:nth-child(4),
+    table td:nth-child(5),
+    table td:nth-child(6) {
+        display: none;
+    }
 
-            /* Hide overlay on desktop */
-            .sidebar-overlay {
-                display: none !important;
-            }
+    /* Pagination */
+    #custom-pagination {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
 
-            /* Remove overflow hidden from body on desktop */
-            body.sidebar-open {
-                overflow: visible;
-            }
-        }
+    #custom-pagination::-webkit-scrollbar {
+        display: none;
+    }
+    #ticketForm .grid.grid-cols-3 {
+        grid-template-columns: 1fr !important; /* make all columns full width */
+        gap: 1rem; /* optional spacing */
+    }
+
+    #ticketForm .grid.grid-cols-1 {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Optional: adjust buttons and spacing */
+    #ticketForm .flex.justify-end.items-center {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: stretch;
+    }
+
+}
+
+
+
+
+/* Small screens: 481px to 640px */
+@media (min-width: 481px) and (max-width: 640px) {
+    .lg\:col-span-2 .flex.items-center.justify-between.mb-4.p-6.flex-wrap.gap-3 {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    table th, table td {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+    }
+
+    table th .icon.mr-10 {
+        margin-left: 1rem;
+    }
+}
+
+/* Medium screens: 641px to 768px */
+@media (min-width: 641px) and (max-width: 768px) {
+    table th .icon.mr-10 {
+        margin-left: 1.5rem;
+    }
+
+    table th .icon.ml-10 {
+        margin-left: 1.5rem;
+    }
+}
+
+/* Large screens: 769px to 1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
+    aside {
+        position: sticky;
+        left: 0;
+        width: 16rem;
+        flex-shrink: 0;
+        transform: none !important;
+    }
+
+    .hamburger-menu {
+        display: block;
+    }
+
+    .sidebar-overlay {
+        display: none !important;
+    }
+
+    body.sidebar-open {
+        overflow: visible;
+    }
+}
+
+/* Extra large screens: 1025px+ */
+@media (min-width: 1025px) {
+    aside {
+        position: sticky;
+        left: 0;
+        width: 16rem;
+        flex-shrink: 0;
+        transform: none !important;
+    }
+
+    .hamburger-menu {
+        display: block;
+    }
+
+    .sidebar-overlay {
+        display: none !important;
+    }
+
+    body.sidebar-open {
+        overflow: visible;
+    }
+}
+
 
         .custom-dropdown {
             position: relative;
@@ -908,41 +1020,43 @@
 
                 <div class="grid grid-cols-1 lg:grid-cols-1 gap-6 mb-6">
                     <!-- User's Projects List Table -->
-                    <div class="lg:col-span-2 light-bg-f5f5f5 light-bg-seo  rounded-xl shadow-sm">
-                        <div class="flex items-center justify-between mb-4 p-6 flex-wrap gap-3">
-                            <h2 class="text-xl font-semibold light-text-gray-800">User's Projects List</h2>
-                            <div class="flex items-center space-x-3">
+                    <div class="lg:col-span-2 light-bg-f5f5f5 rounded-xl shadow-sm">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 p-6 gap-3">
+        <!-- Title -->
+        <h2 class="text-xl font-semibold whitespace-nowrap light-text-gray-800">
+            User's Projects List
+        </h2>
 
-                                <div class="relative">
-                                    <input type="text" placeholder="Search here"
-                                        class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <svg class="icon text-gray-400" viewBox="0 0 24 24">
-                                            <circle cx="11" cy="11" r="8"></circle>
-                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                        </svg>
-                                    </div>
-                                </div>
+        <!-- Controls: search + filter + button -->
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end sm:space-x-3 w-full">
+            <!-- Search -->
+            <div class="relative w-full sm:w-60">
+                <input type="text" placeholder="Search here"
+                    class="w-full pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="icon text-gray-400" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </div>
+            </div>
 
-                                <div class="relative  flex  gap-3 inline-block">
-                                    <!-- Button -->
-                                    <select
-                                        class="w-20 px-3 py-2 rounded-md text-sm
-                                        bg-white text-gray-800 border border-gray-300
-                                        dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600
-                                        focus:outline-none focus:ring-2 focus:ring-orange-500">
-                                        <option value="Filter">Filter</option>
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                    </select>
-                                    <button id="openTaskModalBtn"
-                                        class="light-bg-d7d7d7 text-white w-40 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
-                                        Add New Projects
-                                    </button>
-
-
-                                </div>
+            <!-- Filter + Add Button -->
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3 w-full sm:w-auto">
+                <select
+                    class="w-full sm:w-32 px-3 py-2 rounded-md text-sm bg-white text-gray-800 border border-gray-300
+                           dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    <option value="Filter">Filter</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select>
+                <button
+                    id="openTaskModalBtn" class="w-full sm:w-40 py-2 rounded-lg light-bg-d7d7d7 text-white hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
+                    Add New Projects
+                </button>
+                            </div>
                             </div>
                         </div>
 
@@ -1149,7 +1263,7 @@
 
                                 </div>
                             </div>
-                            <div class="flex space-x-2">
+                            <div id="custom-pagination" class="flex  space-x-2">
                                 <button
                                     class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
                                 <button
@@ -1747,7 +1861,7 @@
                     <h2 class="text-xl font-light light-text-black pt-3">Add Project</h2>
                 </div>
                 <button id="closeTaskModalBtn"
-                    class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-4">
+                    class="text-gray-500 close-task-modal-btn hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-4">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M6 18L18 6M6 6l12 12"></path>
@@ -1788,13 +1902,13 @@
                                 data-tab="overview">Overview</button>
                         </div>
 
-                        <!-- Tab 2: Notes -->
+                        <!-- Tab 2: Notes 
                         <div class="flex tab-wrapper flex-col items-center">
                             <img class="w-5 h-5" src="fi_839860.png" alt="">
                             <button
                                 class="task-tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
                                 data-tab="notes">Milestones</button>
-                        </div>
+                        </div>-->
 
                         <!-- Tab 3: Uploaded Document
                             <div class="flex flex-col items-center">
@@ -1923,10 +2037,10 @@
                     <div class="flex justify-end items-center">
 
                         <div class="flex justify-end gap-3 pt-3">
-                            {{-- <button type="button" id="cancelTicket"
-                                                class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                           <button type="button" id="cancelTicket"
+                                                class="px-4 py-2 close-task-modal-btn light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                                                 Cancel
-                                            </button> --}}
+                                            </button> 
 
                             <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
                                 class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
@@ -3617,6 +3731,18 @@
             const openTaskMilestoneModalBtn = document.querySelectorAll('.open-Task-Milestone-Modal-Btn');
             const closeTaskMilestoneModalBtn = document.querySelectorAll('.close-Task-Milestone-Modal-Btn');
 
+            // Select all buttons with the class
+  const closeTaskModalBtns = document.querySelectorAll('.close-task-modal-btn');
+
+  // Loop through each button and add click event
+  closeTaskModalBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const taskModal = document.getElementById('taskModal'); // modal container
+      if(taskModal) {
+        taskModal.classList.add('hidden'); // hide modal
+      }
+    });
+  });
 
             // Open/Close task modal
             openTaskModalBtn?.addEventListener('click', () => {
