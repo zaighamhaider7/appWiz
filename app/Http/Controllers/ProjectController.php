@@ -14,6 +14,7 @@ use App\Models\Test;
 use App\Models\ActivityLog;
 use App\Helpers\ActivityLogger;
 use App\Models\Subscription;
+use App\Models\Credentials;
 
 
 class ProjectController extends Controller
@@ -42,7 +43,6 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-
         $validated = $request->validate([
             'project_name'  => 'required|string|max:255',
             'client_name'   => 'required|string|max:255',
@@ -53,6 +53,7 @@ class ProjectController extends Controller
             'end_date'      => 'required|date|after_or_equal:start_date',
             'user_id'       => 'required|integer|exists:users,id',
             'document_name' => 'required|file|mimes:pdf,doc,docx,jpg,png',
+            'is_high_priority' => 'nullable|boolean',
         ]);
 
         $data = new project();
@@ -63,6 +64,8 @@ class ProjectController extends Controller
         $data->start_date = $validated['start_date'];
         $data->end_date = $validated['end_date'];
         $data->user_id = $validated['user_id'];
+        
+        $data->is_high_priority = $request->boolean('is_high_priority');
         $data->save();
 
         $last_project_id = $data->id;
@@ -128,12 +131,15 @@ class ProjectController extends Controller
 
         $milestoneData = milestone::where('project_id', $projectId)->get();
 
+        $documentData = Document::where('project_id', $projectId)->get();
+
         $assignedUsers = AssignTo::with('user')->where('project_id', $projectId)->get();
 
 
         return response()->json([
             "data" => $projectData,
             "milestoneData" => $milestoneData,
+            "documentData" => $documentData,
             "assignedUsers" => $assignedUsers
         ]);
     }
@@ -149,6 +155,7 @@ class ProjectController extends Controller
             $data->start_date = $request->start_date;
             $data->end_date = $request->end_date;
             $data->user_id = $request->user_id;
+            $data->is_high_priority = $request->boolean('is_high_priority');
             $data->save();
 
             if($request->has('edit_assign_to')) {
@@ -226,6 +233,8 @@ class ProjectController extends Controller
             'milestone_name' => 'required|string|max:255',
             'milestone_start_date' => 'required|date',
             'deadline' => 'required|after_or_equal:start_date',
+            'priority' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
             'project_id' => 'required|exists:projects,id'
         ]);
 
@@ -233,6 +242,8 @@ class ProjectController extends Controller
         $data->milestone_name = $validated['milestone_name'];
         $data->start_date = $validated['milestone_start_date'];
         $data->deadline = $validated['deadline'];
+        $data->priority = $validated['priority'];
+        $data->description = $validated['description'];
         $data->project_id = $validated['project_id'];
         $data->save();
 
@@ -259,6 +270,8 @@ class ProjectController extends Controller
             $data->milestone_name = $request->milestone_name;
             $data->start_date = $request->start_date;
             $data->deadline = $request->deadline;
+            $data->priority = $request->priority;
+            $data->description = $request->description;
             $data->project_id = $request->project_id;
             $data->save();
             ActivityLogger::log('Milestone Updated', 'The milestone "' . $data->milestone_name . '" was updated by ' . auth()->user()->name . '.');
@@ -308,6 +321,21 @@ class ProjectController extends Controller
         ]);
     }
 
+
+    public function updateStatus(Request $request)
+    {
+        $milestone = Milestone::findOrFail($request->milestone_id);
+
+        $milestone->is_completed = $request->is_completed;
+        $milestone->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Milestone status updated'
+        ]);
+    }
+
+
     // milestone end
 
     // document start
@@ -355,6 +383,7 @@ class ProjectController extends Controller
 
 
     public function uploadDocument(request $request){
+        
         $validated = $request->validate([
             'project_document' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
             'project_id' => 'required|exists:projects,id'
@@ -381,6 +410,35 @@ class ProjectController extends Controller
     }
 
     // document end
+
+    public function Credentialsstore(Request $request)
+    {
+        $request->validate([
+            'platform_name' => 'required|string|max:255',
+            'account_name'  => 'required|string|max:255',
+            'email'         => 'required|email|unique:credentials,email',
+            'password'      => 'required|string|min:6',
+        ]);
+
+        Credentials::create([
+            'platform_name' => $request->platform_name,
+            'account_name'  => $request->account_name,
+            'email'         => $request->email,
+            'password'      => $request->password, 
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Credentials saved successfully',
+        ]);
+    }
+
+    public function loadCredentails()
+    {
+        $credentials = Credentials::orderBy('created_at', 'desc')->get();
+        return response()->json(['credentialsData' => $credentials], 200);
+    }
+    
 
 
 }

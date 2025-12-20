@@ -46,29 +46,35 @@
             scrollbar-width: none;
         }
 
-         /* Remove default progress styling */
+        /* Remove default progress styling */
         progress {
-        -webkit-appearance: none; /* Chrome, Safari, Opera */
-        appearance: none;
-        width: 100%;
-        height: 10px; /* same as h-2.5 */
-        border-radius: 999px;
-        overflow: hidden;
-        background-color: #e5e7eb; /* gray-200 */
+            -webkit-appearance: none;
+            /* Chrome, Safari, Opera */
+            appearance: none;
+            width: 100%;
+            height: 10px;
+            /* same as h-2.5 */
+            border-radius: 999px;
+            overflow: hidden;
+            background-color: #e5e7eb;
+            /* gray-200 */
         }
 
         progress::-webkit-progress-bar {
-        background-color: #e5e7eb; /* gray-200 */
+            background-color: #e5e7eb;
+            /* gray-200 */
         }
 
         progress::-webkit-progress-value {
-        background-color: #22c55e; /* green-500 */
-        border-radius: 999px;
+            background-color: #22c55e;
+            /* green-500 */
+            border-radius: 999px;
         }
 
         progress::-moz-progress-bar {
-        background-color: #22c55e; /* green-500 */
-        border-radius: 999px;
+            background-color: #22c55e;
+            /* green-500 */
+            border-radius: 999px;
         }
 
         button.custom-btn {
@@ -721,179 +727,192 @@
         }
 
         /* Extra small screens: up to 480px */
-/* Extra small screens: up to 480px */
-@media (max-width: 480px) {
-    /* ================= HEADER / PROJECT LIST ================= */
-    .flex.items-center.justify-between.p-6.flex-wrap.gap-3 {
-        flex-direction: column;       /* stack title + controls */
-        align-items: flex-start;      /* keep title left-aligned */
-        gap: 0.5rem;                  /* vertical spacing */
-        padding: 0.5rem;              /* minimal left/right padding */
-        width: 100%;                  /* ensure full width */
-    }
+        /* Extra small screens: up to 480px */
+        @media (max-width: 480px) {
 
-    /* Title stays left */
-    .flex.items-center.justify-between.p-6.flex-wrap.gap-3 > h2,
-    .flex.items-center.justify-between.p-6.flex-wrap.gap-3 > h1 {
-        width: 100%;
-        text-align: left;
-        margin-bottom: 0.5rem;
-    }
+            /* ================= HEADER / PROJECT LIST ================= */
+            .flex.items-center.justify-between.p-6.flex-wrap.gap-3 {
+                flex-direction: column;
+                /* stack title + controls */
+                align-items: flex-start;
+                /* keep title left-aligned */
+                gap: 0.5rem;
+                /* vertical spacing */
+                padding: 0.5rem;
+                /* minimal left/right padding */
+                width: 100%;
+                /* ensure full width */
+            }
 
-    /* Container for search/filter/button */
-    .flex.items-center.space-x-3 {
-        flex-direction: column !important; /* stack vertically */
-        width: 100%;
-        align-items: stretch;              /* full width children */
-        gap: 1rem;
-        
-    }
+            /* Title stays left */
+            .flex.items-center.justify-between.p-6.flex-wrap.gap-3>h2,
+            .flex.items-center.justify-between.p-6.flex-wrap.gap-3>h1 {
+                width: 100%;
+                text-align: left;
+                margin-bottom: 0.5rem;
+            }
 
-    /* Inner flex (like filter + button) stacked */
-    .flex.items-center.space-x-3 .flex.gap-3 {
-        flex-direction: column !important;
-        width: 100%;
-        gap: 1rem;
-    }
+            /* Container for search/filter/button */
+            .flex.items-center.space-x-3 {
+                flex-direction: column !important;
+                /* stack vertically */
+                width: 100%;
+                align-items: stretch;
+                /* full width children */
+                gap: 1rem;
 
-    /* Full-width inputs/buttons */
-    input[type="search"],
-    select.dt-input,
-    button.openTicketModal {
-        width: 100% !important;
-        max-width: 100% !important;
-    }
+            }
 
-    /* Optional: spacing for title h1 */
-    .lg\:col-span-2 .flex.items-center.justify-between.mb-4.p-6.flex-wrap.gap-3 h1 {
-        margin-bottom: 0.5rem;
-        font-size: 1.25rem;
-    }
+            /* Inner flex (like filter + button) stacked */
+            .flex.items-center.space-x-3 .flex.gap-3 {
+                flex-direction: column !important;
+                width: 100%;
+                gap: 1rem;
+            }
 
-    /* Table responsiveness: scroll horizontally */
-    .lg\:col-span-2 .overflow-x-auto {
-        overflow-x: auto;
-    }
+            /* Full-width inputs/buttons */
+            input[type="search"],
+            select.dt-input,
+            button.openTicketModal {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
 
-    table th, table td {
-        padding: 0.5rem 0.75rem;
-        font-size: 0.75rem;
-    }
+            /* Optional: spacing for title h1 */
+            .lg\:col-span-2 .flex.items-center.justify-between.mb-4.p-6.flex-wrap.gap-3 h1 {
+                margin-bottom: 0.5rem;
+                font-size: 1.25rem;
+            }
 
-    /* Hide less critical columns */
-    table th:nth-child(4),
-    table th:nth-child(5),
-    table th:nth-child(6),
-    table td:nth-child(4),
-    table td:nth-child(5),
-    table td:nth-child(6) {
-        display: none;
-    }
+            /* Table responsiveness: scroll horizontally */
+            .lg\:col-span-2 .overflow-x-auto {
+                overflow-x: auto;
+            }
 
-    /* Pagination */
-    #custom-pagination {
-        overflow-x: auto;
-        flex-wrap: nowrap;
-        -webkit-overflow-scrolling: touch;
-    }
+            table th,
+            table td {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.75rem;
+            }
 
-    #custom-pagination::-webkit-scrollbar {
-        display: none;
-    }
-    #ticketForm .grid.grid-cols-3 {
-        grid-template-columns: 1fr !important; /* make all columns full width */
-        gap: 1rem; /* optional spacing */
-    }
+            /* Hide less critical columns */
+            table th:nth-child(4),
+            table th:nth-child(5),
+            table th:nth-child(6),
+            table td:nth-child(4),
+            table td:nth-child(5),
+            table td:nth-child(6) {
+                display: none;
+            }
 
-    #ticketForm .grid.grid-cols-1 {
-        grid-template-columns: 1fr !important;
-    }
+            /* Pagination */
+            #custom-pagination {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
 
-    /* Optional: adjust buttons and spacing */
-    #ticketForm .flex.justify-end.items-center {
-        flex-direction: column;
-        gap: 0.5rem;
-        align-items: stretch;
-    }
+            #custom-pagination::-webkit-scrollbar {
+                display: none;
+            }
 
-}
+            #ticketForm .grid.grid-cols-3 {
+                grid-template-columns: 1fr !important;
+                /* make all columns full width */
+                gap: 1rem;
+                /* optional spacing */
+            }
+
+            #ticketForm .grid.grid-cols-1 {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Optional: adjust buttons and spacing */
+            #ticketForm .flex.justify-end.items-center {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: stretch;
+            }
+
+        }
 
 
 
 
-/* Small screens: 481px to 640px */
-@media (min-width: 481px) and (max-width: 640px) {
-    .lg\:col-span-2 .flex.items-center.justify-between.mb-4.p-6.flex-wrap.gap-3 {
-        flex-direction: column;
-        gap: 0.75rem;
-    }
+        /* Small screens: 481px to 640px */
+        @media (min-width: 481px) and (max-width: 640px) {
+            .lg\:col-span-2 .flex.items-center.justify-between.mb-4.p-6.flex-wrap.gap-3 {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
 
-    table th, table td {
-        padding: 0.75rem 1rem;
-        font-size: 0.875rem;
-    }
+            table th,
+            table td {
+                padding: 0.75rem 1rem;
+                font-size: 0.875rem;
+            }
 
-    table th .icon.mr-10 {
-        margin-left: 1rem;
-    }
-}
+            table th .icon.mr-10 {
+                margin-left: 1rem;
+            }
+        }
 
-/* Medium screens: 641px to 768px */
-@media (min-width: 641px) and (max-width: 768px) {
-    table th .icon.mr-10 {
-        margin-left: 1.5rem;
-    }
+        /* Medium screens: 641px to 768px */
+        @media (min-width: 641px) and (max-width: 768px) {
+            table th .icon.mr-10 {
+                margin-left: 1.5rem;
+            }
 
-    table th .icon.ml-10 {
-        margin-left: 1.5rem;
-    }
-}
+            table th .icon.ml-10 {
+                margin-left: 1.5rem;
+            }
+        }
 
-/* Large screens: 769px to 1024px */
-@media (min-width: 769px) and (max-width: 1024px) {
-    aside {
-        position: sticky;
-        left: 0;
-        width: 16rem;
-        flex-shrink: 0;
-        transform: none !important;
-    }
+        /* Large screens: 769px to 1024px */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            aside {
+                position: sticky;
+                left: 0;
+                width: 16rem;
+                flex-shrink: 0;
+                transform: none !important;
+            }
 
-    .hamburger-menu {
-        display: block;
-    }
+            .hamburger-menu {
+                display: block;
+            }
 
-    .sidebar-overlay {
-        display: none !important;
-    }
+            .sidebar-overlay {
+                display: none !important;
+            }
 
-    body.sidebar-open {
-        overflow: visible;
-    }
-}
+            body.sidebar-open {
+                overflow: visible;
+            }
+        }
 
-/* Extra large screens: 1025px+ */
-@media (min-width: 1025px) {
-    aside {
-        position: sticky;
-        left: 0;
-        width: 16rem;
-        flex-shrink: 0;
-        transform: none !important;
-    }
+        /* Extra large screens: 1025px+ */
+        @media (min-width: 1025px) {
+            aside {
+                position: sticky;
+                left: 0;
+                width: 16rem;
+                flex-shrink: 0;
+                transform: none !important;
+            }
 
-    .hamburger-menu {
-        display: block;
-    }
+            .hamburger-menu {
+                display: block;
+            }
 
-    .sidebar-overlay {
-        display: none !important;
-    }
+            .sidebar-overlay {
+                display: none !important;
+            }
 
-    body.sidebar-open {
-        overflow: visible;
-    }
-}
+            body.sidebar-open {
+                overflow: visible;
+            }
+        }
 
 
         .custom-dropdown {
@@ -1021,42 +1040,43 @@
                 <div class="grid grid-cols-1 lg:grid-cols-1 gap-6 mb-6">
                     <!-- User's Projects List Table -->
                     <div class="lg:col-span-2 light-bg-f5f5f5 rounded-xl shadow-sm">
-    <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 p-6 gap-3">
-        <!-- Title -->
-        <h2 class="text-xl font-semibold whitespace-nowrap light-text-gray-800">
-            User's Projects List
-        </h2>
+                        <!-- Header -->
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 p-6 gap-3">
+                            <!-- Title -->
+                            <h2 class="text-xl font-semibold whitespace-nowrap light-text-gray-800">
+                                User's Projects List
+                            </h2>
 
-        <!-- Controls: search + filter + button -->
-        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end sm:space-x-3 w-full">
-            <!-- Search -->
-            <div class="relative w-full sm:w-60">
-                <input type="text" placeholder="Search here"
-                    class="w-full pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg class="icon text-gray-400" viewBox="0 0 24 24">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                </div>
-            </div>
+                            <!-- Controls: search + filter + button -->
+                            <div
+                                class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end sm:space-x-3 w-full">
+                                <!-- Search -->
+                                <div class="relative w-full sm:w-60">
+                                    <input type="text" placeholder="Search here"
+                                        class="w-full pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg class="icon text-gray-400" viewBox="0 0 24 24">
+                                            <circle cx="11" cy="11" r="8"></circle>
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                        </svg>
+                                    </div>
+                                </div>
 
-            <!-- Filter + Add Button -->
-            <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3 w-full sm:w-auto">
-                <select
-                    class="w-full sm:w-32 px-3 py-2 rounded-md text-sm bg-white text-gray-800 border border-gray-300
+                                <!-- Filter + Add Button -->
+                                <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3 w-full sm:w-auto">
+                                    <select
+                                        class="w-full sm:w-32 px-3 py-2 rounded-md text-sm bg-white text-gray-800 border border-gray-300
                            dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500">
-                    <option value="Filter">Filter</option>
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                </select>
-                <button
-                    id="openTaskModalBtn" class="w-full sm:w-40 py-2 rounded-lg light-bg-d7d7d7 text-white hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
-                    Add New Projects
-                </button>
-                            </div>
+                                        <option value="Filter">Filter</option>
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                    <button id="openTaskModalBtn"
+                                        class="w-full sm:w-40 py-2 rounded-lg light-bg-d7d7d7 text-white hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
+                                        Add New Projects
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
@@ -1495,7 +1515,7 @@
 
 
                         <div class="flex items-center gap-2">
-                            <input type="checkbox" checked class="accent-orange-500 w-4 h-4">
+                            <input type="checkbox" id="edit_is_hight_priority" class="accent-orange-500 w-4 h-4">
                             <p class="text-xs font-light">Mark As High Priority</p>
                         </div>
 
@@ -1902,7 +1922,7 @@
                                 data-tab="overview">Overview</button>
                         </div>
 
-                        <!-- Tab 2: Notes 
+                        <!-- Tab 2: Notes
                         <div class="flex tab-wrapper flex-col items-center">
                             <img class="w-5 h-5" src="fi_839860.png" alt="">
                             <button
@@ -2022,7 +2042,8 @@
                         </div>
 
                         <div class="flex items-center gap-2">
-                            <input type="checkbox" checked class="accent-orange-500 w-4 h-4">
+                            <input type="checkbox" id="is_high_priority" name="is_high_priority" value="1"
+                                class="accent-orange-500 w-4 h-4">
                             <p class="text-xs font-light">Mark As High Priority</p>
                         </div>
 
@@ -2037,10 +2058,10 @@
                     <div class="flex justify-end items-center">
 
                         <div class="flex justify-end gap-3 pt-3">
-                           <button type="button" id="cancelTicket"
-                                                class="px-4 py-2 close-task-modal-btn light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
-                                                Cancel
-                                            </button> 
+                            <button type="button" id="cancelTicket"
+                                class="px-4 py-2 close-task-modal-btn light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                                Cancel
+                            </button>
 
                             <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
                                 class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
@@ -2104,13 +2125,6 @@
                             data-tab="taskTab2">Milestones</button>
                     </div>
 
-                    <!-- Tab 3: Uploaded Document
-                            <div class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
-                                <img class="w-4 h-4 mb-2" src="bookmark.svg" alt="">
-                                <button class="task-tab-btn open-membership-modal mb-2 px-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300" data-tab="taskTab3">Memberships</button>
-                            </div>
-                    -->
-
                 </div>
 
                 <!-- Mobile Slider View -->
@@ -2144,10 +2158,32 @@
 
                     <form method="POST">
                         @csrf
+                        <div class="flex gap-4 mb-4">
+                            <div class="flex-1">
+                                <label class="block ">Milestone Name</label>
+                                <input type="text" id="milestone_name" placeholder="Name here..."
+                                    name="milestone_name"
+                                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                            </div>
 
-                        <label class="block mb-2">Milestone Name</label>
-                        <input type="text" id="milestone_name" placeholder="Name here..." name="milestone_name"
-                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                            <div class="flex-1">
+                                <label class="block text-sm mb-1 light-text-black">Priority</label>
+                                <select name="priority" id="priority"
+                                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black h-10">
+                                    <option value="" hidden selected>Select Priority</option>
+                                    <option value="High">High</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Low">Low</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block ">Description</label>
+                            <input type="text" id="description" placeholder="Description here..."
+                                name="description"
+                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                        </div>
 
                         <div class="flex gap-4 mb-4">
                             <div class="flex-1">
@@ -2164,14 +2200,6 @@
 
                         <input type="hidden" name="project_id" id="project_id"
                             value="{{ session('last_project_id') }}">
-
-
-                        <label class="flex items-center mb-4">
-                            <input type="checkbox" class="mr-2"> Mark as High Priority
-                        </label>
-
-
-
                 </div>
 
                 <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
@@ -2180,10 +2208,10 @@
                     Milestone Added successfully!
                 </div>
 
-                <div class="flex justify-between p-5 mt-4">
-                    <button class="px-4 py-2 rounded bg-[#333] text-white">Add New Milestone</button>
+                <div class="flex justify-end p-5 mt-4">
+                    {{-- <button class="px-4 py-2 rounded bg-[#333] text-white">Add New Milestone</button> --}}
                     <div class="flex gap-2">
-                        {{-- <button class="bg-gray-600 px-4 py-2 rounded">Cancel</button> --}}
+                        <button type="button" class="bg-gray-600 px-4 py-2 rounded">Cancel</button>
                         <button id="addMilestone" class="bg-orange-500 text-white px-4 py-2 rounded "
                             type="submit">Save</button>
                     </div>
@@ -2427,8 +2455,7 @@
     </div>
 
     <!-- Second (Child) Modal milestone-->
-    <div id="milestoneModal"
-        class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div id="milestoneModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
         <div class="bg-[#1f1f1f] p-6 rounded-lg w-full max-w-[70vw] text-white">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold">Add New Milestone</h2>
@@ -2438,9 +2465,31 @@
             <form method="POST">
                 @csrf
 
-                <label class="block mb-2">Milestone Name</label>
-                <input type="text" id="m_milestone_name2" placeholder="Name here..."
-                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                <div class="flex gap-4 mb-4">
+                    <div class="flex-1">
+                        <label class="block ">Milestone Name</label>
+                        <input type="text" id="m_milestone_name2" placeholder="Name here..."
+                            name="m_milestone_name2"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                    </div>
+
+                    <div class="flex-1">
+                        <label class="block text-sm mb-1 light-text-black">Priority</label>
+                        <select name="m_priority2" id="m_priority2"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black h-10">
+                            <option value="" hidden selected>Select Priority</option>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block ">Description</label>
+                    <input type="text" id="m_description2" placeholder="Description here..." name="description"
+                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                </div>
 
                 <div class="flex gap-4 mb-4">
                     <div class="flex-1">
@@ -2455,14 +2504,10 @@
                     </div>
                 </div>
 
-                <label class="flex items-center mb-4">
-                    <input type="checkbox" class="mr-2"> Mark as High Priority
-                </label>
-
-                <div class="flex justify-between mt-4">
+                <div class="flex justify-end mt-4">
                     {{-- <button class="px-4 py-2 rounded bg-[#333] text-white">Add New Milestone</button> --}}
                     <div class="flex gap-2">
-                        {{-- <button class="bg-gray-600 px-4 py-2 rounded">Cancel</button> --}}
+                        <button type="button" class="bg-gray-600 px-4 py-2 rounded">Cancel</button>
                         <button type="submit"
                             class="add-milestone-btn bg-orange-500 text-white px-4 py-2 rounded">Save</button>
                     </div>
@@ -2488,11 +2533,31 @@
                 <input type="hidden" id="m_project_id" name="project_id">
                 <input type="hidden" id="m_milestone_id" name="milestone_id">
 
+                <div class="flex gap-4 mb-4">
+                    <div class="flex-1">
+                        <label class="block ">Milestone Name</label>
+                        <input type="text" id="m_milestone_name" placeholder="Name here..."
+                            name="m_milestone_name"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                    </div>
 
-                <label class="block mb-2">Milestone Name</label>
-                <input type="text" id="m_milestone_name" name="milestone_name"
-                    placeholder="Design UI of Dashboard"
-                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                    <div class="flex-1">
+                        <label class="block text-sm mb-1 light-text-black">Priority</label>
+                        <select name="m_priority" id="m_priority"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black h-10">
+                            <option value="" hidden selected>Select Priority</option>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block ">Description</label>
+                    <input type="text" id="m_description" placeholder="Description here..." name="description"
+                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                </div>
 
                 <div class="flex gap-4 mb-4">
                     <div class="flex-1">
@@ -2509,13 +2574,7 @@
 
 
 
-                <div class="flex justify-between mt-4">
-
-                    <div>
-                        <label class="flex items-center mb-4">
-                            <input type="checkbox" class="mr-2"> Mark as High Priority
-                        </label>
-                    </div>
+                <div class="flex justify-end mt-4">
 
                     <div class="flex gap-2">
                         <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
@@ -2526,7 +2585,7 @@
 
 
 
-                        {{-- <button class="bg-gray-600 px-4 py-2 rounded">Cancel</button> --}}
+                        <button type="button" class="bg-gray-600 px-4 py-2 rounded">Cancel</button>
                         <button type="submit"
                             class="bg-orange-500 text-white px-4 py-2 rounded edit-milestone">Save</button>
                     </div>
@@ -2639,6 +2698,8 @@
                     const milestone_name = document.getElementById('m_milestone_name').value;
                     const start_date = document.getElementById('m_start_date').value;
                     const deadline = document.getElementById('m_deadline').value;
+                    const priority = document.getElementById('m_priority').value;
+                    const description = document.getElementById('m_description').value;
                     const project_id = document.getElementById('m_project_id').value;
                     const milestone_id = document.getElementById('m_milestone_id').value;
 
@@ -2647,6 +2708,8 @@
                     formData.append('milestone_name', milestone_name);
                     formData.append('start_date', start_date);
                     formData.append('deadline', deadline);
+                    formData.append('priority', priority);
+                    formData.append('description', description);
                     formData.append('project_id', project_id);
                     formData.append('milestone_id', milestone_id);
 
@@ -2749,7 +2812,7 @@
                             if (response.assignedUsers && response.assignedUsers.length > 0) {
                                 response.assignedUsers.forEach(user => {
                                     const pid = user
-                                    .project_id; // adjust field name if different
+                                        .project_id; // adjust field name if different
                                     if (!assignedUsersMap[pid]) assignedUsersMap[pid] = [];
                                     assignedUsersMap[pid].push(user);
                                 });
@@ -2787,6 +2850,15 @@
                                                 <div class="text-sm font-medium light-text-gray-900">
                                                     ${project.project_name}
                                                 </div>
+                                                    ${
+                                                        project.is_high_priority == 1
+                                                        ? `
+                                                                    <div class="rounded-sm text-center w-20 light-bg-ea54547a mt-1">
+                                                                        <div class="text-xs light-text-ff0000">High Priority</div>
+                                                                    </div>
+                                                                    `
+                                                        : ''
+                                                    }
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
                                                 <div class="flex items-center gap-1">
@@ -2807,7 +2879,7 @@
                                                 <input type="hidden" class="project_status_id" value="${project.id}">
                                                 <select id="project_status" name="project_status" class="w-32 px-4 py-2 rounded-lg bg-success-900/50 text-gray-700 hover:bg-gray-200 transition-colors">
                                                     <option value="${project.status}" selected>${project.status}</option>
-                                                    <option value="In Process">In Process</option>
+                                                    <option value="In Progress">In Progress</option>
                                                     <option value="Delay">Delay</option>
                                                     <option value="Completed">Completed</option>
                                                     <option value="Cancelled">Cancelled</option>
@@ -2876,8 +2948,7 @@
                                         </tr>
                                     `;
                                 });
-                            }
-                             else {
+                            } else {
                                 rows = `
                                     <tr>
                                         <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
@@ -2917,6 +2988,7 @@
                 start_date = $('#start_date').val();
                 end_date = $('#end_date').val();
                 user_id = $('#user_id').val();
+                is_high_priority = $('#is_high_priority').is(':checked') ? 1 : 0;
                 file = $('#document_name').val();
 
                 let formData = new FormData();
@@ -2939,6 +3011,7 @@
                 formData.append('start_date', start_date);
                 formData.append('end_date', end_date);
                 formData.append('user_id', user_id);
+                formData.append('is_high_priority', is_high_priority);
                 formData.append('document_name', $('#document_name')[0].files[0]);
 
                 for (let [key, value] of formData.entries()) {
@@ -2968,6 +3041,7 @@
                             $('#start_date').val('');
                             $('#end_date').val('');
                             $('#document_name').val('');
+                            $('#is_high_priority').val('');
 
                             document.getElementById('project_id').value = response.project_id;
 
@@ -3042,6 +3116,11 @@
                         $('#edit_membership').val(response.data.membership);
                         $('#edit_user_id').val(response.data.user_id);
                         $('#edit_project_id').val(response.data.id);
+                        if (response.data.is_high_priority == 1) {
+                            $('#edit_is_hight_priority').prop('checked', true);  
+                        } else {
+                            $('#edit_is_hight_priority').prop('checked', false); 
+                        }
                         renderMilestones(response.milestoneData);
 
                         $('input[name="edit_assign_to[]"]').prop('checked', false);
@@ -3076,6 +3155,7 @@
                 end_date = $('#edit_end_date').val();
                 user_id = $('#edit_user_id').val();
                 project_id = $('#edit_project_id').val();
+                is_high_priority = $('#edit_is_hight_priority').is(':checked') ? 1 : 0;
 
 
 
@@ -3089,6 +3169,7 @@
                 formData.append('price', price);
                 formData.append('start_date', start_date);
                 formData.append('end_date', end_date);
+                formData.append('is_high_priority', is_high_priority);
                 formData.append('user_id', user_id);
                 formData.append('id', project_id);
 
@@ -3147,7 +3228,6 @@
 
                 let project_status_id = $(this).siblings('.project_status_id').val();
 
-
                 $.ajax({
                     url: '/projects/status',
                     method: 'POST',
@@ -3176,6 +3256,10 @@
                 milestone_name = $('#milestone_name').val();
                 milestone_start_date = $('#milestone_start_date').val();
                 deadline = $('#deadline').val();
+                deadline = $('#deadline').val();
+                deadline = $('#deadline').val();
+                priority = $('#priority').val();
+                description = $('#description').val();
                 project_id = $('#project_id').val();
 
                 let formData = new FormData();
@@ -3184,6 +3268,8 @@
                 formData.append('milestone_name', milestone_name);
                 formData.append('milestone_start_date', milestone_start_date);
                 formData.append('deadline', deadline);
+                formData.append('priority', priority);
+                formData.append('description', description);
                 formData.append('project_id', project_id);
 
                 $.ajax({
@@ -3197,6 +3283,8 @@
                             $('#milestone_name').val('');
                             $('#milestone_start_date').val('');
                             $('#deadline').val('');
+                            $('#priority').val('');
+                            $('#description').val('');
 
                             $('#mileStonemsg').fadeIn(400);
                             setTimeout(() => {
@@ -3267,6 +3355,8 @@
                 milestone_name = $('#m_milestone_name2').val();
                 milestone_start_date = $('#m_start_date2').val();
                 deadline = $('#m_deadline2').val();
+                priority = $('#m_priority2').val();
+                description = $('#m_description2').val();
 
                 let formData = new FormData();
 
@@ -3274,6 +3364,8 @@
                 formData.append('milestone_name', milestone_name);
                 formData.append('milestone_start_date', milestone_start_date);
                 formData.append('deadline', deadline);
+                formData.append('description', description);
+                formData.append('priority', priority);
                 formData.append('project_id', milestone_project_id);
 
 
@@ -3288,6 +3380,8 @@
                             $('#m_milestone_name2').val('');
                             $('#m_start_date2').val('');
                             $('#m_deadline2').val('');
+                            $('#m_description2').val('');
+                            $('#m_priority2').val('');
 
                             $('#m_mileStonemsg').fadeIn(400);
                             setTimeout(() => {
@@ -3528,31 +3622,31 @@
 
     <script>
         function toggleDropdown() {
-        const dropdown = document.getElementById("userDropdown");
-        dropdown.classList.toggle("open");
+            const dropdown = document.getElementById("userDropdown");
+            dropdown.classList.toggle("open");
         }
 
         function edittoggleDropdown() {
-        const dropdown = document.getElementById("edituserDropdown");
-        dropdown.classList.toggle("open");
+            const dropdown = document.getElementById("edituserDropdown");
+            dropdown.classList.toggle("open");
         }
 
         document.addEventListener("click", function(e) {
-        
-        const userDropdown = document.getElementById("userDropdown");
-        const userToggle = document.querySelector(".assign-toggle");
 
-        if (!userDropdown.contains(e.target) && !userToggle.contains(e.target)) {
-            userDropdown.classList.remove("open");
-        }
+            const userDropdown = document.getElementById("userDropdown");
+            const userToggle = document.querySelector(".assign-toggle");
 
-        // For edit dropdown
-        const editDropdown = document.getElementById("edituserDropdown");
-        const editToggle = document.querySelector(".edit-assign-toggle");
+            if (!userDropdown.contains(e.target) && !userToggle.contains(e.target)) {
+                userDropdown.classList.remove("open");
+            }
 
-        if (!editDropdown.contains(e.target) && !editToggle.contains(e.target)) {
-            editDropdown.classList.remove("open");
-        }
+            // For edit dropdown
+            const editDropdown = document.getElementById("edituserDropdown");
+            const editToggle = document.querySelector(".edit-assign-toggle");
+
+            if (!editDropdown.contains(e.target) && !editToggle.contains(e.target)) {
+                editDropdown.classList.remove("open");
+            }
         });
 
 
@@ -3732,17 +3826,17 @@
             const closeTaskMilestoneModalBtn = document.querySelectorAll('.close-Task-Milestone-Modal-Btn');
 
             // Select all buttons with the class
-  const closeTaskModalBtns = document.querySelectorAll('.close-task-modal-btn');
+            const closeTaskModalBtns = document.querySelectorAll('.close-task-modal-btn');
 
-  // Loop through each button and add click event
-  closeTaskModalBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const taskModal = document.getElementById('taskModal'); // modal container
-      if(taskModal) {
-        taskModal.classList.add('hidden'); // hide modal
-      }
-    });
-  });
+            // Loop through each button and add click event
+            closeTaskModalBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const taskModal = document.getElementById('taskModal'); // modal container
+                    if (taskModal) {
+                        taskModal.classList.add('hidden'); // hide modal
+                    }
+                });
+            });
 
             // Open/Close task modal
             openTaskModalBtn?.addEventListener('click', () => {
@@ -4057,6 +4151,10 @@
                                 .milestoneDatafetch.start_date;
                             document.getElementById('m_deadline').value = milestoneResponse
                                 .milestoneDatafetch.deadline;
+                            document.getElementById('m_priority').value = milestoneResponse
+                                .milestoneDatafetch.priority;
+                            document.getElementById('m_description').value = milestoneResponse
+                                .milestoneDatafetch.description;
                             document.getElementById('m_project_id').value = milestoneResponse
                                 .milestoneDatafetch.project_id;
                             document.getElementById('m_milestone_id').value = milestoneResponse

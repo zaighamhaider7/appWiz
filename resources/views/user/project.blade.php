@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>WIZSPEED Dashboard</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -848,8 +849,8 @@
                                             <div class="flex items-center justify-between">
                                                 <span class="whitespace-nowrap">START DATE</span>
                                                 <div class="flex flex-col ml-10">
-                                                    <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="1.5"
+                                                    <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24"
+                                                        fill="none" stroke="currentColor" stroke-width="1.5"
                                                         stroke-linecap="round" stroke-linejoin="round">
                                                         <!-- Up chevron (positioned higher) -->
                                                         <path d="M7 8 L12 3 L17 8" />
@@ -1290,12 +1291,1017 @@
         </div>
     </div>
 
+
+    <div id="projectModal"
+        class="fixed inset-0 bg-black light-bg-000000 bg-opacity-70 flex items-center justify-center z-50 hidden">
+        <div
+            class="light-bg-seo light-bg-f5f5f5  rounded-xl  w-full md:max-w-6xl  max-h-[90vh] overflow-y-auto shadow-xl">
+
+            <div class="flex justify-between items-start mb-6">
+
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold light-text-black mb-1 p-name">Website SEO</h2>
+                    <div class="rounded-sm text-center w-20 light-bg-ea54547a p-priority-div"
+                        style="display: none !important">
+                        <div class="text-xs light-text-ff0000 ">High Priority</div>
+                    </div>
+                </div>
+                <button id="closeModal"
+                    class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="relative">
+                <!-- Desktop View (unchanged) -->
+                <div
+                    class="hidden md:flex border-b px-6 light-border-gray-200 dark:border-gray-700 light-bg-d9d9d9 py-2 items-center  mb-10">
+                    <!-- Your existing desktop tabs structure -->
+                    <!-- Tab 1: Overview -->
+                    <div
+                        class="flex items-center active px-2 py-1 gap-2 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                        <button class="tab-btn flex  items-center justify-center gap-1 pb-2 px-2" data-tab="overview">
+                            <img class="w-4 h-4 " src="{{ asset('assets/category.png') }}" alt="">
+                            <span>Overview</span>
+                        </button>
+                    </div>
+
+                    <!-- Other tabs... -->
+                    <!-- Tab 2: Notes -->
+                    <div
+                        class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                        <button class="tab-btn flex items-center justify-center gap-1 pb-2 px-2 font-medium "
+                            data-tab="notes">
+                            <img class="w-4 h-4 " src="{{ asset('assets/fi_839860.png') }}" alt="">
+                            <span>Notes</span>
+                        </button>
+                    </div>
+
+                    <!-- Tab 3: Uploaded Document -->
+                    <div
+                        class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                        <button
+                            class="tab-btn flex items-center justify-center gap-1 mb-2 px-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
+                            data-tab="uploadedDocument">
+                            <img class="w-4 h-4 " src="{{ asset('assets/document.png') }}" alt="">
+                            <span>Uploaded Document</span>
+                        </button>
+                    </div>
+
+                    <!-- Tab 4: Add Credentials -->
+                    <div
+                        class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                        <button
+                            class="tab-btn flex items-center justify-center gap-1 pb-2 px-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
+                            data-tab="addCredentials"><img class="w-4 h-4 "
+                                src="{{ asset('assets/fi_1332646.png') }}" alt="">
+                            <span>Add Credentials</span>
+                        </button>
+                    </div>
+
+                    <!-- Tab 5: Reports -->
+                    <div
+                        class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                        <button
+                            class="tab-btn flex items-center justify-center gap-1 pb-2 px-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
+                            data-tab="reports">
+                            <div class="flex items-center justify-center"><img class="w-4 h-4"
+                                    src="{{ asset('assets/dociment.png') }}" alt=""></div>
+                            <span>Reports</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Slider View -->
+                <div class="md:hidden overflow-x-auto whitespace-nowrap py-4 scrollbar-hide">
+                    <div class="inline-flex space-x-8 px-4">
+                        <!-- Tab 1: Overview -->
+                        <div class="flex flex-col active items-center">
+                            <img class="w-5 h-5" src="{{ asset('assets/category.png') }}" alt="">
+                            <button
+                                class="tab-btn  pt-2 font-medium light-text-orange-500 dark:text-orange-400 border-b-2 light-border-orange-500 dark:border-orange-400"
+                                data-tab="overview">Overview</button>
+                        </div>
+
+                        <!-- Tab 2: Notes -->
+                        <div class="flex flex-col items-center">
+                            <img class="w-5 h-5" src="{{ asset('assets/fi_839860.png') }}" alt="">
+                            <button
+                                class="tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
+                                data-tab="notes">Notes</button>
+                        </div>
+
+                        <!-- Tab 3: Uploaded Document -->
+                        <div class="flex flex-col items-center">
+                            <img class="w-5 h-5" src="{{ asset('assets/document.png') }}" alt="">
+                            <button
+                                class="tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
+                                data-tab="uploadedDocument">Uploaded</button>
+                        </div>
+
+                        <!-- Tab 4: Add Credentials -->
+                        <div class="flex flex-col items-center">
+                            <img class="w-5 h-5" src="{{ asset('assets/fi_1332646.png') }}" alt="">
+                            <button
+                                class="tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
+                                data-tab="addCredentials">Credentials</button>
+                        </div>
+
+                        <!-- Tab 5: Reports -->
+                        <div class="flex flex-col items-center">
+                            <img class="w-5 h-5" src="dociment.png" alt="">
+                            <button
+                                class="tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
+                                data-tab="reports">Reports</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="overviewContent" class="tab-content p-6">
+                <div class=" items-center">
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-green-500 h-2.5 rounded-full" style="width: 78%"></div>
+                    </div>
+                    <span class="justify-center flex ml-2 text-sm light-text-black">78%</span>
+                </div>
+                <div class="flex w-full justify-between">
+                    <div class="">
+
+                        <div class="space-y-3">
+                            <div class="flex text-left gap-2">
+                                <img src="{{ asset('assets/money.png') }}" alt="">
+                                <span class="light-text-black"> PRICE <span class="p-price">$4000</span></span>
+                            </div>
+                            <div class="flex text-left gap-2">
+                                <img src="{{ asset('assets/notification-status.png') }}" alt="">
+                                <span class="light-text-black"> STATUS <span class="p-status">InProgress</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-2">
+                                <img src="{{ asset('assets/clock.png') }}" alt="">
+                                <span class="light-text-black"> START DATE <span
+                                        class="p-start-date">05-7-2024</span></span>
+                            </div>
+
+                            <div class="flex items-center gap-2">
+                                <img src="{{ asset('assets/timer.png') }}" alt="">
+                                <span class="light-text-black"> DEADLINE <span
+                                        class="p-end-date">05-7-2024</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div id="notesContent" class="tab-content hidden">
+                <div class="flex justify-between items-center px-8 mb-4 gap-4">
+                    <h3 class="justify-start light-text-black text-2xl">WIZSPEED Team Notes</h3>
+                    <div class="flex gap-2">
+                        <div class="relative w-full max-w-xs">
+                            <input type="text" placeholder="Search here"
+                                class="block w-full mr-10 px-4 py-2  
+                                 bg-transparent border border-gray-200 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
+                            <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                        <button
+                            class="flex items-center px-4 py-2 bg-transparent border border-gray-200 light-text-gray-700 dark:text-gray-300 rounded-lg hover:light-bg-gray-300 dark:hover:bg-gray-600">
+                            Filters
+                            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto ">
+                    <table class="min-w-full divide-y bg-transparent">
+                        <thead class="bg-gray-500 border-2 light-border-gray-300">
+                            <tr class="light-bg-d9d9d9">
+                                <th scope="col"
+                                    class="px-8 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    <div class="flex items-center whitespace-nowrap">
+                                        <span>CREATED DATE</span>
+                                        <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    TITLE
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    DESCRIPTION
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    <div class="flex items-center whitespace-nowrap">
+                                        <span>PRIORITY</span>
+                                        <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    <div class="flex items-center whitespace-nowrap">
+                                        <span>Deadline</span>
+                                        <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    <div class="flex items-center whitespace-nowrap">
+                                        <span>Completed</span>
+                                        <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                        </svg>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-transparent light-border-gray-300" id="milestoneTableBody">
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-between items-center px-8 mt-4">
+                    <div class="flex items-center">
+                        <span class="text-sm light-text-black">Showing 1 to 5 of 100 entries</span>
+                        <select
+                            class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
+                            <option>5</option>
+                            <option>10</option>
+                            <option>25</option>
+                        </select>
+                    </div>
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+
+                        <div class="flex space-x-2 ">
+                            <button
+                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
+                            <button
+                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 bg-orange-600 text-white font-semibold">1</button>
+                            <button
+                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">2</button>
+                            <button
+                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">3</button>
+                            <button
+                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                            <button
+                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                            <button
+                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                        </div>
+
+                    </nav>
+                </div>
+            </div>
+
+            <div id="uploadedDocumentContent" class="tab-content hidden">
+                <div class="flex justify-between items-center px-4 mb-4">
+                    <div class="flex justify-between items-center p-4 mb-4">
+                        <h3 class="text-2xl">Documents</h3>
+                        <div class="relative w-full max-w-xs pl-2">
+
+                        </div>
+                        <div class="flex space-x-2">
+                            <input type="text" placeholder="Search here"
+                                class="block w-full px-4 py-2 border border-gray-200 light-text-gray-900 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
+                            <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <button
+                                class="flex items-center px-4 py-2 border border-gray-200 dark:text-gray-300 rounded-lg hover:light-bg-gray-300 dark:hover:bg-gray-600">
+                                Filters
+                                <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            <button
+                                class="light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
+                                Upload Documents
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y light-divide-gray-200 dark:divide-gray-700">
+                        <thead class="light-bg-gray-50 dark:bg-gray-700">
+                            <tr class="light-bg-d9d9d9">
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    ID
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    FILE
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    UPLOADED DATE
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    ACTION
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-transparent border-2 light-border-gray-300 " id="document-table">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-between items-center px-8 mt-4">
+                    <div class="flex items-center">
+                        <span class="text-sm light-text-gray-700 dark:text-gray-400">Showing 1 to 5 of 100
+                            entries</span>
+                        <select
+                            class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
+                            <option>5</option>
+                            <option>10</option>
+                            <option>25</option>
+                        </select>
+                    </div>
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                        <div class="flex space-x-2">
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            <div id="addCredentialsContent" class="tab-content hidden ">
+                <div class="p-4">
+                    <div class="light-bg-d9d9d9 p-4 rounded-xl">
+                        <h3 class="text-2xl  light-text-black  mb-4">Add Credentials</h3>
+                         <form id="credentialsForm">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8"> 
+                                <div>
+                                    <label class="block text-sm font-medium light-text-white mb-1">Platform Name</label>
+                                    <input type="text" name="platform_name" id="platformName"
+                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium light-text-white mb-1">Account Name</label>
+                                    <input type="text" name="account_name" id="accountName"
+                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium light-text-white mb-1">Email</label>
+                                    <input type="email" name="email" id="email"
+                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium light-text-white mb-1">Password</label>
+                                    <input type="password" name="password" id="password"
+                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end space-x-2 mb-8">
+                                <button type="button" class="cancel-btn px-4 py-2 rounded-lg">Cancel</button>
+                                <button type="submit" class="add-credentials-btn px-4 py-2 rounded-lg bg-orange-600 text-white">
+                                    Save
+                                </button>
+                            </div>
+
+                            <div class="Errors text-red-500 mb-4"></div>
+                            <div id="credentialsMsg" x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+                                class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
+                             style="display: none;">Credentials saved successfully</div>
+                        </form>
+
+                    </div>
+                </div>
+                <div class="px-4">
+                    <div class="flex justify-between items-center p-4 mb-4">
+                        <h3 class="text-2xl">Documents</h3>
+                        <div class="relative w-full max-w-xs pl-2">
+
+                        </div>
+                        <div class="flex space-x-2">
+                            <input type="text" placeholder="Search here"
+                                class="block w-full px-4 py-2 border border-gray-200 light-text-black  rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
+                            <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <button
+                                class="flex items-center px-4 py-2 border-2 light-border-gray-300  dark:text-gray-300 rounded-lg hover:light-bg-gray-300 dark:hover:bg-gray-600">
+                                Filters
+                                <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            <button
+                                class="light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
+                                Upload Documents
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y light-divide-gray-200 dark:divide-gray-700">
+                        <thead class="light-bg-gray-50 dark:bg-gray-700">
+                            <tr class="light-bg-d9d9d9 border-2 light-border-gray-300 ">
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black  uppercase tracking-wider">
+                                    PLATFORM
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    NAME
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    EMAIL
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    PASSWORD
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    ACTION
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class=" border-2 light-border-gray-300 " id="credentials-table">
+                            {{-- <tr class="border-2 light-border-gray-300 ">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Facebook</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">John Doe</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">abc123@email.com</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">********** <button
+                                        class="ml-2 light-text-gray-500 hover:light-text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"><svg
+                                            class="w-4 h-4" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                            </path>
+                                        </svg></button></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button
+                                        class="light-text-indigo-600 hover:light-text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-2">
+                                        <img src="{{ asset('assets/edit.svg') }}" alt="eye"
+                                            class="bg-gray-200 p-1 rounded-full">
+                                    </button>
+                                    <button
+                                        class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                        <img src="{{ asset('assets/trash.svg') }}" alt="eye"
+                                            class="bg-gray-200 p-1 rounded-full">
+                                    </button>
+                                </td>
+                            </tr> --}}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-between items-center mt-4 px-8">
+                    <div class="flex items-center">
+                        <span class="text-sm light-text-gray-700 dark:text-gray-400">Showing 1 to 5 of 100
+                            entries</span>
+                        <select
+                            class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
+                            <option>5</option>
+                            <option>10</option>
+                            <option>25</option>
+                        </select>
+                    </div>
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                        <div class="flex space-x-2">
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            <div id="reportsContent" class="tab-content hidden ">
+                <div class="flex justify-between items-center p-8 mb-4">
+                    <h3 class="text-2xl">Reports</h3>
+                    <div class="relative w-full max-w-xs pl-2">
+
+                    </div>
+                    <div class="flex space-x-2">
+                        <input type="text" placeholder="Search here"
+                            class="block w-full px-4 py-2 border border-gray-200 light-text-gray-900 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
+                        <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <button
+                            class="flex items-center px-4 py-2 border border-gray-200 dark:text-gray-300 rounded-lg hover:light-bg-gray-300 dark:hover:bg-gray-600">
+                            Filters
+                            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <button
+                            class="light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
+                            Upload Documents
+                        </button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y light-divide-gray-200 dark:divide-gray-700">
+                        <thead class="light-bg-gray-50 dark:bg-gray-700">
+                            <tr class="light-bg-d9d9d9 border-2 light-border-gray-300 ">
+                                <th scope="col"
+                                    class="flex items-center px-6 py-3 text-left text-xs font-medium light-text-black  uppercase tracking-wider">
+                                    ID
+                                    <svg class="inline-block w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    MONTH
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    DESCRIPTION
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    DATE
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    DOCUMENT
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class=" border-2 light-border-gray-300 ">
+                            <tr class=" border-2 light-border-gray-300 ">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">01</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Jan 2025</td>
+                                <td class="px-6 py-4 text-sm text-gray-300">Auth Screen Done, please provide any
+                                    additional content by end of this week</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">05-3-2024</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#"
+                                        class="flex items-center bg-gray-200 rounded-md w-36
+                                p-2 text-gray-300  hover:underline">
+                                        Website SEO.pdf
+                                        <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <!-- Arrow down left side -->
+                                            <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+
+                                            <!-- Document outline -->
+                                            <path
+                                                d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+
+                                            <!-- Folded corner -->
+                                            <path
+                                                d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class=" border-2 light-border-gray-300 ">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">01</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Feb 2025</td>
+                                <td class="px-6 py-4 text-sm text-gray-300">Auth Screen Done, please provide any
+                                    additional content by end of this week</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">05-3-2024</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#"
+                                        class="flex items-center bg-gray-200 rounded-md w-36
+                                p-2 text-gray-300 hover:underline">
+                                        Website SEO.pdf
+                                        <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <!-- Arrow down left side -->
+                                            <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+
+                                            <!-- Document outline -->
+                                            <path
+                                                d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+
+                                            <!-- Folded corner -->
+                                            <path
+                                                d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class=" border-2 light-border-gray-300 ">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">01</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Feb 2025</td>
+                                <td class="px-6 py-4 text-sm text-gray-300">Auth Screen Done, please provide any
+                                    additional content by end of this week</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">05-3-2024</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#"
+                                        class="flex items-center bg-gray-200 rounded-md w-36
+                                p-2 text-gray-300 hover:underline">
+                                        Website SEO.pdf
+                                        <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <!-- Arrow down left side -->
+                                            <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+
+                                            <!-- Document outline -->
+                                            <path
+                                                d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+
+                                            <!-- Folded corner -->
+                                            <path
+                                                d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class=" border-2 light-border-gray-300 ">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">01</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">March 2025</td>
+                                <td class="px-6 py-4 text-sm text-gray-300">Auth Screen Done, please provide any
+                                    additional content by end of this week</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">05-3-2024</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#"
+                                        class="flex items-center bg-gray-200 rounded-md w-36
+                                p-2 text-gray-300 hover:underline">
+                                        Website SEO.pdf
+                                        <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <!-- Arrow down left side -->
+                                            <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+
+                                            <!-- Document outline -->
+                                            <path
+                                                d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+
+                                            <!-- Folded corner -->
+                                            <path
+                                                d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="border-2 light-border-gray-300 ">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">01</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Apr 2025</td>
+                                <td class="px-6 py-4 text-sm text-gray-300">Auth Screen Done, please provide any
+                                    additional content by end of this week</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">05-3-2024</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#"
+                                        class="flex items-center bg-gray-200 rounded-md w-36
+                                p-2 text-gray-300 hover:underline">
+                                        Website SEO.pdf
+                                        <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <!-- Arrow down left side -->
+                                            <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+
+                                            <!-- Document outline -->
+                                            <path
+                                                d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+
+                                            <!-- Folded corner -->
+                                            <path
+                                                d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-between items-center p-8 mt-4">
+                    <div class="flex items-center">
+                        <span class="text-sm light-text-gray-700 dark:text-gray-400">Showing 1 to 5 of 100
+                            entries</span>
+                        <select
+                            class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
+                            <option>5</option>
+                            <option>10</option>
+                            <option>25</option>
+                        </select>
+                    </div>
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                        <div class="flex space-x-2">
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            <div class=" light-bg-need flex justify-between items-center px-6 py-4 mt-8 ">
+                <div>
+                    <h4 class="font-semibold text-black dark:text-white mb-2">
+                        Need Something Else?
+                    </h4>
+                    <p class="text-gray-600 dark:text-white mb-0 text-sm">
+                        Looking for additional services? Explore our marketplace for Web Design, Digital Marketing, and
+                        more!
+                    </p>
+                </div>
+
+                <button
+                    class="bg-orange-600 dark:bg-[#282828] border-2 light-border-gray-300 text-white px-6 py-2 rounded-lg hover:bg-orange-700 dark:hover:bg-orange-600 transition-colors">
+                    View More
+                </button>
+            </div>
+
+
+        </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
         $(document).ready(function() {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            
+            
+            function getPriorityBadge(priority) {
+                if (priority === 'Low') {
+                    return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full light-bg-green-200 light-text-green-800 dark:bg-green-900 dark:text-green-200">Low</span>`;
+                } 
+                if (priority === 'Medium') {
+                    return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full light-bg-blue-100 light-text-blue-800 dark:bg-blue-900 dark:text-blue-200">Medium</span>`;
+                } 
+                if (priority === 'High') {
+                    return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full light-bg-red-100 light-text-red-800 dark:bg-red-900 dark:text-red-200">High</span>`;
+                }
+                return '';
+            }
+            //  milestone data fetch funtion start
+            function renderMilestones(milestoneData) {
+                const tableBody = document.getElementById('milestoneTableBody');
+                tableBody.innerHTML = '';
+
+                if (milestoneData.length === 0) {
+                    const noDataTr = document.createElement('tr');
+                    noDataTr.innerHTML = `
+                            <td colspan="6" class="px-6 py-4 text-center text-gray-500 italic">
+                            No milestones found.
+                            </td>
+                        `;
+                    tableBody.appendChild(noDataTr);
+                    return;
+                }
+
+                milestoneData.forEach((milestone, index) => {
+                    const tr = document.createElement('tr');
+                    tr.classList.add('border-2', 'light-border-gray-300');
+
+                    tr.innerHTML = `
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${new Date(milestone.created_at).toLocaleDateString()}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${milestone.milestone_name}</td>
+                            <td class="px-6 py-4 text-sm light-text-black">${milestone.description}</td>
+                            <td class="px-6 py-4 text-sm light-text-black">${getPriorityBadge(milestone.priority)}</td>
+                            <td class="px-6 py-4 text-sm light-text-black">${milestone.deadline}</td>
+                            <td class="px-6 py-4">
+                            <div class="flex justify-center">
+                                <input 
+                                    type="checkbox"
+                                    class="accent-orange-500 w-4 h-4 is-completed-checkbox"
+                                    data-id="${milestone.id}"
+                                    ${milestone.is_completed == 1 ? 'checked' : ''}
+                                />
+                            </div>
+                            </td>
+
+                        `;
+
+                    tableBody.appendChild(tr);
+                });
+
+            }
+
+            $(document).on('change', '.is-completed-checkbox', function () {
+
+                let milestoneId = $(this).data('id');
+                let isCompleted = $(this).is(':checked') ? 1 : 0;
+
+                $.ajax({
+                    url: '/milestones/update-status',
+                    method: 'POST',
+                    data: {
+                        milestone_id: milestoneId,
+                        is_completed: isCompleted
+                    },
+                    success: function (response) {
+
+                        $('#milestonestatus').fadeIn(400);
+                        setTimeout(() => {
+                            $('#milestonestatus').fadeOut(600);
+                        }, 3000);
+
+                        console.log(response.message);
+                    },
+                    error: function (xhr) {
+                        console.error(xhr.responseText);
+                    }
+                });
+
+            });
+
             // project data fetch using ajax start
             function projectData() {
                 $.ajax({
@@ -1314,7 +2320,7 @@
                                     let statusText = project.status;
                                     let statusColor = 'bg-gray-400';
 
-                                    if (statusText === 'InProgress') {
+                                    if (statusText === 'In Progress') {
                                         statusColor = 'bg-cyan-400';
                                     } else if (statusText === 'Completed') {
                                         statusColor = 'bg-green-500';
@@ -1333,6 +2339,15 @@
                                                 <div class="text-sm font-medium light-text-gray-900">
                                                     ${project.project_name}
                                                 </div>
+                                                ${
+                                                    project.is_high_priority == 1
+                                                    ? `
+                                                            <div class="rounded-sm text-center w-20 light-bg-ea54547a mt-1">
+                                                                <div class="text-xs light-text-ff0000">High Priority</div>
+                                                            </div>
+                                                            `
+                                                    : ''
+                                                }
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
                                                 <div class="flex items-center gap-1">
@@ -1371,7 +2386,7 @@
                                             </td>
 
                                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                <button class="light-text-orange-500 light-hover-text-orange-700"
+                                                <button data-project-id="${project.id}" class="edit-project-modal light-text-orange-500 light-hover-text-orange-700"
                                                     data-action="view-project">
                                                     <svg class="icon w-5 h-5" viewBox="0 0 24 24">
                                                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -1462,8 +2477,225 @@
 
                 openSubscriptionModal(subscription_id);
             });
+
+            $(document).on('click', '.edit-project-modal', function() {
+                const currentProjectId = $(this).data('project-id');
+
+                $.ajax({
+                    url: '/projects/project-id',
+                    method: 'POST',
+                    data: {
+                        id: currentProjectId
+                    },
+                    success: function(response) {
+                        renderDocuments(response.documentData)
+                        renderMilestones(response.milestoneData);
+                        $('.p-name').text(response.data.project_name);
+                        $('.p-price').text(response.data.price);
+                        $('.p-status').text(response.data.status);
+                        $('.p-start-date').text(response.data.start_date);
+                        $('.p-end-date').text(response.data.end_date);
+
+                        if (response.data.is_high_priority == 1) {
+                            $('.p-priority-div').show();
+                        } else {
+                            $('.p-priority-div').hide();
+                        }
+                    }
+                });
+
+            });
+
+            // document work start
+
+            function renderDocuments(documents) {
+                let tbody = $('#document-table');
+
+                tbody.empty();
+
+                if (documents.length === 0) {
+                    let row = `
+                        <tr class="border-2 light-border-gray-300">
+                            <td colspan="5" class="px-6 py-4 whitespace-nowrap text-center text-sm light-text-black">
+                                Documents not found
+                            </td>
+                        </tr>
+                    `;
+                    tbody.append(row);
+                } else {
+                    documents.forEach(function(document, index) {
+                        let createdDate = document.created_at.split("T")[0];
+                        let row = `
+                        <tr class="border-2 light-border-gray-300">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${index + 1}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
+                                <a href="${document.document_name}" target="_blank"
+                                    class="flex items-center bg-gray-200 rounded-md w-36
+                                    p-2 light-text-gray-600 dark:text-gray-400 hover:underline">
+                                    View File
+                                    <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
+                                            stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
+                                            stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
+                                            stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                        <path d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
+                                            stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </a>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${createdDate}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                <button class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                    <div class="flex gap-2">
+                                        <img src="{{ asset('assets/eye.png') }}" alt="eye"
+                                                class="bg-gray-200 p-1 rounded-full">
+                                        <img data-document-id="${document.id}" data-d_project-id="${document.id}" src="{{ asset('assets/trash.svg') }}" alt="eye" class="delete-document-btn bg-gray-200 p-1 rounded-full">
+                                    </div>
+                                </button>
+                            </td>
+                        </tr>
+                        `;
+                        tbody.append(row);
+                    });
+                }
+
+
+            }
+
+            // credentials start
+
+            function loadCredentials() {
+                $.ajax({
+                    url: '/credentials/list', 
+                    type: 'GET',
+                    success: function(response) {
+                        renderCredentials(response.credentialsData); 
+                    },
+                    error: function() {
+                        console.log('Failed to load credentials');
+                    }
+                });
+            }
+
+            function renderCredentials(credentials) {
+                let tbody = $('#credentials-table'); // tumhare table ki tbody ka ID
+
+                tbody.empty(); // purane rows hata do
+
+                if (!credentials || credentials.length === 0) {
+                    // agar array empty hai
+                    let row = `
+                        <tr class="border-2 light-border-gray-300">
+                            <td colspan="5" class="px-6 py-4 text-center text-sm light-text-black">
+                                Credentials not found
+                            </td>
+                        </tr>
+                    `;
+                    tbody.append(row);
+                } else {
+                    credentials.forEach(function(cred, index) {
+                        // tumhara exact design yaha use hoga
+                        let row = `
+                        <tr class="border-2 light-border-gray-300">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${index + 1}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${cred.platform_name}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${cred.account_name}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">**********
+                                <button class="ml-2 light-text-gray-500 hover:light-text-gray-700">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                </button>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <button class="light-text-indigo-600 hover:light-text-indigo-900 mr-2">
+                                    <img src="{{ asset('assets/edit.svg') }}" class="bg-gray-200 p-1 rounded-full">
+                                </button>
+                                <button class="light-text-red-600 hover:light-text-red-900">
+                                    <img src="{{ asset('assets/trash.svg') }}" class="bg-gray-200 p-1 rounded-full">
+                                </button>
+                            </td>
+                        </tr>`;
+                        tbody.append(row);
+                    });
+                }
+            }
+
+            loadCredentials();
+
+            $(document).on('click', '.add-credentials-btn', function(e) {
+                e.preventDefault();
+
+                let platform_name  = $('#platformName').val();
+                let account_name   = $('#accountName').val();
+                let email          = $('#email').val();
+                let password       = $('#password').val();
+
+                let formData = new FormData();
+                formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+                formData.append('platform_name', platform_name);
+                formData.append('account_name', account_name);
+                formData.append('email', email);
+                formData.append('password', password);
+
+                $.ajax({
+                    url: "{{ route('credentials.store') }}",
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        loadCredentials();
+                        $('#platformName').val('');
+                        $('#accountName').val('');
+                        $('#email').val('');
+                        $('#password').val('');
+
+                        $('#credentialsMsg').fadeIn(400);
+                        setTimeout(() => {
+                            $('#credentialsMsg').fadeOut(600);
+                        }, 3000);
+                    },
+                    error: function (xhr) {
+
+                        $('.add-credentials-btn').prop('disabled', false).text('Save');
+
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+                            let errorHtml = '<ul class="list-disc list-inside">';
+                            $.each(errors, function (key, messages) {
+                                $.each(messages, function (i, msg) {
+                                    errorHtml += `<li>${msg}</li>`;
+                                });
+                            });
+                            errorHtml += '</ul>';
+
+                            $('.Errors').html(errorHtml).fadeIn();
+                            setTimeout(() => {
+                                $('.Errors').fadeOut();
+                            }, 5000);
+                        } else {
+                            $('.Errors').html('An unexpected error occurred.').fadeIn();
+                            setTimeout(() => {
+                                $('.Errors').fadeOut();
+                            }, 5000);
+                        }
+                    }
+                });
+            });
+
+
         })
     </script>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -1741,127 +2973,19 @@
             }
 
 
-            // Use event delegation for dynamic eye buttons
             document.addEventListener('click', function(e) {
-                // Check if clicked element or its parent has the action attribute
                 const eyeBtn = e.target.closest('[data-action="view-project"]');
 
-                if (eyeBtn) {
-                    e.preventDefault();
-                    console.log('Eye button clicked');
+                if (!eyeBtn) return;
 
-                    try {
-                        const row = eyeBtn.closest('tr');
-                        if (!row) {
-                            console.error('Row not found for clicked button');
-                            return;
-                        }
-
-                        // Debugging point 3
-                        console.log('Row found:', row);
-
-                        // Get all data from the row
-                        const projectName = row.querySelector('td:nth-child(2) div:first-child')
-                            ?.textContent || 'Website SEO';
-                        const priorityElement = row.querySelector('.light-bg-ea54547a');
-                        const priority = priorityElement ? priorityElement.textContent.trim() :
-                            'High Priority'; // Default added for safety
-
-                        // You need to adjust these selectors to accurately pull from your table structure
-                        // Assuming progress, status, dates, and price are in specific <td>s or have unique identifiers
-                        const progressValue = row.querySelector('td:nth-child(6) span:last-child')
-                            ?.textContent?.replace('Progress ', '') || '78%';
-                        const statusValue = row.querySelector('td:nth-child(7) span:last-child')
-                            ?.textContent?.replace('STATUS ', '') || 'InProgress';
-                        const startDateValue = row.querySelector('td:nth-child(4)')?.textContent?.trim() ||
-                            '05-7-2024';
-                        const deadlineValue = row.querySelector('td:nth-child(5)')?.textContent?.trim() ||
-                            '05-7-2024';
-                        const priceValue = row.querySelector('td:nth-child(3) span:last-child')?.textContent
-                            ?.replace('PRICE ', '') || '$4000';
+                e.preventDefault();
 
 
-                        // Debugging point 4
-                        console.log('Data extracted:', {
-                            projectName,
-                            priority,
-                            progressValue,
-                            statusValue,
-                            startDateValue,
-                            deadlineValue,
-                            priceValue
-                        });
-
-                        // Update modal content for the Overview tab
-                        // Ensure 'modal' is in scope, if it wasn't already from the top of the function
-                        // const modal = document.getElementById('projectModal'); // Uncomment if modal isn't global to this scope
-                        if (!modal) {
-                            console.error('Modal element not found during update!');
-                            return;
-                        }
-
-                        modal.querySelector('h2').textContent = projectName;
-                        const modalPriorityBadge = modal.querySelector(
-                            '.text-xs.font-medium.rounded'); // Target the badge specifically
-
-                        if (modalPriorityBadge) {
-                            modalPriorityBadge.textContent = priority;
-                            // You might want to update the background/text colors based on priority here too
-                            // Example: if (priority === 'High Priority') { modalPriorityBadge.classList.add('dark:bg-red-900', 'dark:text-red-200'); }
-                            // You'll need to manage the class removals/additions based on the actual priority string
-                        }
-
-
-                        // Update progress, status, start date, deadline, price in the overview tab
-                        const overviewContent = document.getElementById('overviewContent');
-                        if (overviewContent) {
-
-                            // --- CORRECTED PRICE SPAN SELECTION ---
-                            const priceSpan = Array.from(overviewContent.querySelectorAll('span')).find(
-                                el =>
-                                el.textContent.includes('PRICE') && el.closest('.flex.items-center')
-                            );
-                            if (priceSpan) {
-                                priceSpan.textContent = `PRICE ${priceValue}`;
-                            } else {
-                                console.warn(
-                                    'Price span with "PRICE" text or its parent not found for update.');
-                            }
-                            // --- END CORRECTED PRICE SPAN SELECTION ---
-
-
-                            const statusSpan = Array.from(overviewContent.querySelectorAll(
-                                '.flex.items-center span')).find(el => el.textContent.includes(
-                                'STATUS'));
-                            if (statusSpan) {
-                                statusSpan.textContent = `STATUS ${statusValue}`;
-                            }
-
-
-
-                            const deadlineSpan = Array.from(overviewContent.querySelectorAll(
-                                '.flex.items-center span')).find(el => el.textContent.includes(
-                                'DEADLINE'));
-                            if (deadlineSpan) {
-                                deadlineSpan.textContent = `DEADLINE ${deadlineValue}`;
-                            }
-                        } else {
-                            console.error('Overview content element not found!');
-                            return;
-                        }
-
-                        // Show modal
-                        modal.classList.remove('hidden');
-                        document.body.style.overflow = 'hidden';
-
-                        // Ensure the 'Overview' tab is active when the modal opens
-                        showTab('overview');
-
-                    } catch (error) {
-                        console.error('Error opening modal:', error);
-                    }
-                }
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                showTab('overview');
             });
+
 
             // Close modal
             closeBtn.addEventListener('click', function() {
@@ -1892,971 +3016,6 @@
         });
     </script>
 
-
-    <div id="projectModal"
-        class="fixed inset-0 bg-black light-bg-000000 bg-opacity-70 flex items-center justify-center z-50 hidden">
-        <div
-            class="light-bg-seo light-bg-f5f5f5  rounded-xl  w-full md:max-w-6xl  max-h-[90vh] overflow-y-auto shadow-xl">
-
-            <div class="flex justify-between items-start mb-6">
-
-                <div class="p-6">
-                    <h2 class="text-2xl font-bold light-text-black mb-1">Website SEO</h2>
-                    <div class="rounded-sm text-center w-20 light-bg-ea54547a">
-                        <div class="text-xs light-text-ff0000">High Priority</div>
-                    </div>
-                </div>
-                <button id="closeModal"
-                    class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-4">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-
-            <div class="relative">
-                <!-- Desktop View (unchanged) -->
-                <div
-                    class="hidden md:flex border-b px-6 light-border-gray-200 dark:border-gray-700 light-bg-d9d9d9 py-2 items-center  mb-10">
-                    <!-- Your existing desktop tabs structure -->
-                    <!-- Tab 1: Overview -->
-                    <div
-                        class="flex items-center active px-2 py-1 gap-2 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
-                        <button class="tab-btn flex  items-center justify-center gap-1 pb-2 px-2" data-tab="overview">
-                            <img class="w-4 h-4 " src="{{asset('assets/category.png')}}" alt="">
-                            <span>Overview</span>
-                        </button>
-                    </div>
-
-                    <!-- Other tabs... -->
-                    <!-- Tab 2: Notes -->
-                    <div
-                        class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
-                        <button class="tab-btn flex items-center justify-center gap-1 pb-2 px-2 font-medium "
-                            data-tab="notes">
-                            <img class="w-4 h-4 " src="{{asset('assets/fi_839860.png')}}" alt="">
-                            <span>Notes</span>
-                        </button>
-                    </div>
-
-                    <!-- Tab 3: Uploaded Document -->
-                    <div
-                        class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
-                        <button
-                            class="tab-btn flex items-center justify-center gap-1 mb-2 px-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
-                            data-tab="uploadedDocument">
-                            <img class="w-4 h-4 " src="{{asset('assets/document.png')}}" alt="">
-                            <span>Uploaded Document</span>
-                        </button>
-                    </div>
-
-                    <!-- Tab 4: Add Credentials -->
-                    <div
-                        class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
-                        <button
-                            class="tab-btn flex items-center justify-center gap-1 pb-2 px-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
-                            data-tab="addCredentials"><img class="w-4 h-4 " src="{{asset('assets/fi_1332646.png')}}" alt="">
-                            <span>Add Credentials</span>
-                        </button>
-                    </div>
-
-                    <!-- Tab 5: Reports -->
-                    <div
-                        class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
-                        <button
-                            class="tab-btn flex items-center justify-center gap-1 pb-2 px-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
-                            data-tab="reports">
-                            <div class="flex items-center justify-center"><img class="w-4 h-4" src="{{asset('assets/dociment.png')}}"
-                                    alt=""></div>
-                            <span>Reports</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Mobile Slider View -->
-                <div class="md:hidden overflow-x-auto whitespace-nowrap py-4 scrollbar-hide">
-                    <div class="inline-flex space-x-8 px-4">
-                        <!-- Tab 1: Overview -->
-                        <div class="flex flex-col active items-center">
-                            <img class="w-5 h-5" src="{{asset('assets/category.png')}}" alt="">
-                            <button
-                                class="tab-btn  pt-2 font-medium light-text-orange-500 dark:text-orange-400 border-b-2 light-border-orange-500 dark:border-orange-400"
-                                data-tab="overview">Overview</button>
-                        </div>
-
-                        <!-- Tab 2: Notes -->
-                        <div class="flex flex-col items-center">
-                            <img class="w-5 h-5" src="{{asset('assets/fi_839860.png')}}" alt="">
-                            <button
-                                class="tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
-                                data-tab="notes">Notes</button>
-                        </div>
-
-                        <!-- Tab 3: Uploaded Document -->
-                        <div class="flex flex-col items-center">
-                            <img class="w-5 h-5" src="{{asset('assets/document.png')}}" alt="">
-                            <button
-                                class="tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
-                                data-tab="uploadedDocument">Uploaded</button>
-                        </div>
-
-                        <!-- Tab 4: Add Credentials -->
-                        <div class="flex flex-col items-center">
-                            <img class="w-5 h-5" src="{{asset('assets/fi_1332646.png')}}" alt="">
-                            <button
-                                class="tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
-                                data-tab="addCredentials">Credentials</button>
-                        </div>
-
-                        <!-- Tab 5: Reports -->
-                        <div class="flex flex-col items-center">
-                            <img class="w-5 h-5" src="dociment.png" alt="">
-                            <button
-                                class="tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
-                                data-tab="reports">Reports</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div id="overviewContent" class="tab-content p-6">
-                <div class=" items-center">
-                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                        <div class="bg-green-500 h-2.5 rounded-full" style="width: 78%"></div>
-                    </div>
-                    <span class="justify-center flex ml-2 text-sm light-text-black">78%</span>
-                </div>
-                <div class="flex w-full justify-between">
-                    <div class="">
-
-                        <div class="space-y-3">
-                            <div class="flex text-left gap-2">
-                                <img src="money.png" alt="">
-                                <span class="light-text-black"> PRICE $4000</span>
-                            </div>
-                            <div class="flex text-left gap-2">
-                                <img src="notification-status.png" alt="">
-                                <span class="light-text-black"> STATUS InProgress</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="">
-                        <div class="space-y-3">
-                            <div class="flex items-center gap-2">
-                                <img src="clock.png" alt="">
-                                <span class="light-text-black"> START DATE 05-7-2024</span>
-                            </div>
-
-                            <div class="flex items-center gap-2">
-                                <img src="timer.png" alt="">
-                                <span class="light-text-black"> DEADLINE 05-7-2024</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-            </div>
-
-            <div id="notesContent" class="tab-content hidden">
-                <div class="flex justify-between items-center px-8 mb-4 gap-4">
-                    <h3 class="justify-start light-text-black text-2xl">WIZSPEED Team Notes</h3>
-                    <div class="flex gap-2">
-                        <div class="relative w-full max-w-xs">
-                            <input type="text" placeholder="Search here"
-                                class="block w-full mr-10 px-4 py-2  
-                    bg-transparent border border-gray-200 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
-                            <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                        </div>
-                        <button
-                            class="flex items-center px-4 py-2 bg-transparent border border-gray-200 light-text-gray-700 dark:text-gray-300 rounded-lg hover:light-bg-gray-300 dark:hover:bg-gray-600">
-                            Filters
-                            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <div class="overflow-x-auto ">
-                    <table class="min-w-full divide-y bg-transparent">
-                        <thead class="bg-gray-500 border-2 light-border-gray-300">
-                            <tr class="light-bg-d9d9d9">
-                                <th scope="col"
-                                    class="px-8 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    <div class="flex items-center whitespace-nowrap">
-                                        <span>CREATED DATE</span>
-                                        <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                        </svg>
-                                    </div>
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    TITLE
-                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    DESCRIPTION
-                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    <div class="flex items-center whitespace-nowrap">
-                                        <span>PRIORITY</span>
-                                        <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                        </svg>
-                                    </div>
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    <div class="flex items-center whitespace-nowrap">
-                                        <span>ACTION</span>
-                                        <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                        </svg>
-                                    </div>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-transparent light-border-gray-300  ">
-                            <tr class="border-2 light-border-gray-300 ">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">2-4-2025</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Website SEO</td>
-                                <td class="px-6 py-4 text-sm text-gray-300">The content draft is under review. Please
-                                    provide any additional content by end of this wee</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full light-bg-green-200 light-text-green-800 dark:bg-green-900 dark:text-green-200">Low</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <button
-                                        class="light-text-indigo-600 hover:light-text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-2">
-                                        <img src="{{asset('assets/eye.png')}}" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                    </button>
-                                    <button
-                                        class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                        <img src="{{asset('assets/trash.png')}}" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="flex justify-between items-center px-8 mt-4">
-                    <div class="flex items-center">
-                        <span class="text-sm light-text-black">Showing 1 to 5 of 100 entries</span>
-                        <select
-                            class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
-                            <option>5</option>
-                            <option>10</option>
-                            <option>25</option>
-                        </select>
-                    </div>
-                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-
-                        <div class="flex space-x-2 ">
-                            <button
-                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
-                            <button
-                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 bg-orange-600 text-white font-semibold">1</button>
-                            <button
-                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">2</button>
-                            <button
-                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">3</button>
-                            <button
-                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">4</button>
-                            <button
-                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">5</button>
-                            <button
-                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
-                        </div>
-
-                    </nav>
-                </div>
-            </div>
-
-            <div id="uploadedDocumentContent" class="tab-content hidden">
-                <div class="flex justify-between items-center px-4 mb-4">
-                    <div class="flex justify-between items-center p-4 mb-4">
-                        <h3 class="text-2xl">Documents</h3>
-                        <div class="relative w-full max-w-xs pl-2">
-
-                        </div>
-                        <div class="flex space-x-2">
-                            <input type="text" placeholder="Search here"
-                                class="block w-full px-4 py-2 border border-gray-200 light-text-gray-900 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
-                            <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                            <button
-                                class="flex items-center px-4 py-2 border border-gray-200 dark:text-gray-300 rounded-lg hover:light-bg-gray-300 dark:hover:bg-gray-600">
-                                Filters
-                                <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </button>
-                            <button
-                                class="light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
-                                Upload Documents
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y light-divide-gray-200 dark:divide-gray-700">
-                        <thead class="light-bg-gray-50 dark:bg-gray-700">
-                            <tr class="light-bg-d9d9d9">
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    ID
-                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    FILE
-                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    UPLOADED DATE
-                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    ACTION
-                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-transparent border-2 light-border-gray-300 ">
-                            <tr class="border-2 light-border-gray-300 ">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">01</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
-                                    <a href="#"
-                                        class="flex items-center bg-gray-200 rounded-md w-36
-                                p-2 light-text-gray-600 dark:text-gray-400 hover:underline">
-                                        Website SEO.pdf
-                                        <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <!-- Arrow down left side -->
-                                            <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-
-                                            <!-- Document outline -->
-                                            <path
-                                                d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
-                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-
-                                            <!-- Folded corner -->
-                                            <path
-                                                d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
-                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </a>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">10-5-2024</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <button
-                                        class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                        <div class="flex gap-2">
-                                            <img src="{{asset('assets/eye.png')}}" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                            <img src="{{asset('assets/trash.png')}}" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                        </div>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="flex justify-between items-center px-8 mt-4">
-                    <div class="flex items-center">
-                        <span class="text-sm light-text-gray-700 dark:text-gray-400">Showing 1 to 5 of 100
-                            entries</span>
-                        <select
-                            class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
-                            <option>5</option>
-                            <option>10</option>
-                            <option>25</option>
-                        </select>
-                    </div>
-                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                        <div class="flex space-x-2">
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-
-            <div id="addCredentialsContent" class="tab-content hidden ">
-                <div class="p-4">
-                    <div class="light-bg-d9d9d9 p-4 rounded-xl">
-                        <h3 class="text-2xl  light-text-black  mb-4">Add Credentials</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                            <div>
-                                <label for="platformName"
-                                    class="block text-sm font-medium light-text-white mb-1">Platform Name</label>
-                                <input type="text" id="platformName" placeholder="Google / Facebook etc"
-                                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                            </div>
-                            <div>
-                                <label for="accountName"
-                                    class="block text-sm font-medium light-text-white mb-1">Account Name</label>
-                                <input type="text" id="accountName" placeholder="Account Holder Name"
-                                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                            </div>
-                            <div>
-                                <label for="email"
-                                    class="block text-sm font-medium light-text-white mb-1">Email</label>
-                                <input type="email" id="email" placeholder="abc123@email.com"
-                                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                            </div>
-                            <div class="relative">
-                                <label for="password"
-                                    class="block text-sm font-medium light-text-white mb-1">Password</label>
-                                <input type="password" id="password" placeholder="Password here"
-                                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
-                                <button type="button"
-                                    class="absolute inset-y-0 right-0 pr-3 flex items-center pt-6 light-text-gray-400 dark:text-gray-500 hover:light-text-gray-600 dark:hover:text-gray-400">
-                                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                        </path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="flex justify-end space-x-2 mb-8">
-                            <button
-                                class="px-4 py-2 rounded-lg light-bg-d7d7d7 light-text-gray-700 dark:text-gray-300 hover:light-bg-gray-300 dark:hover:bg-gray-600 transition-colors">Cancel</button>
-                            <button
-                                class="px-4 py-2 rounded-lg bg-orange-600 text-white hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors">Save</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="px-4">
-                    <div class="flex justify-between items-center p-4 mb-4">
-                        <h3 class="text-2xl">Documents</h3>
-                        <div class="relative w-full max-w-xs pl-2">
-
-                        </div>
-                        <div class="flex space-x-2">
-                            <input type="text" placeholder="Search here"
-                                class="block w-full px-4 py-2 border border-gray-200 light-text-black  rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
-                            <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                            <button
-                                class="flex items-center px-4 py-2 border-2 light-border-gray-300  dark:text-gray-300 rounded-lg hover:light-bg-gray-300 dark:hover:bg-gray-600">
-                                Filters
-                                <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </button>
-                            <button
-                                class="light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
-                                Upload Documents
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y light-divide-gray-200 dark:divide-gray-700">
-                        <thead class="light-bg-gray-50 dark:bg-gray-700">
-                            <tr class="light-bg-d9d9d9 border-2 light-border-gray-300 ">
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black  uppercase tracking-wider">
-                                    PLATFORM
-                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    NAME
-                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    EMAIL
-                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    PASSWORD
-                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    ACTION
-                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class=" border-2 light-border-gray-300 ">
-                            <tr class="border-2 light-border-gray-300 ">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Facebook</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">John Doe</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">abc123@email.com</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">********** <button
-                                        class="ml-2 light-text-gray-500 hover:light-text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"><svg
-                                            class="w-4 h-4" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                                            </path>
-                                        </svg></button></td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <button
-                                        class="light-text-indigo-600 hover:light-text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-2">
-                                        <img src="{{asset('assets/edit.svg')}}" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                    </button>
-                                    <button
-                                        class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                        <img src="{{asset('assets/trash.svg')}}" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="flex justify-between items-center mt-4 px-8">
-                    <div class="flex items-center">
-                        <span class="text-sm light-text-gray-700 dark:text-gray-400">Showing 1 to 5 of 100
-                            entries</span>
-                        <select
-                            class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
-                            <option>5</option>
-                            <option>10</option>
-                            <option>25</option>
-                        </select>
-                    </div>
-                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                        <div class="flex space-x-2">
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-
-            <div id="reportsContent" class="tab-content hidden ">
-                <div class="flex justify-between items-center p-8 mb-4">
-                    <h3 class="text-2xl">Reports</h3>
-                    <div class="relative w-full max-w-xs pl-2">
-
-                    </div>
-                    <div class="flex space-x-2">
-                        <input type="text" placeholder="Search here"
-                            class="block w-full px-4 py-2 border border-gray-200 light-text-gray-900 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
-                        <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
-                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                        <button
-                            class="flex items-center px-4 py-2 border border-gray-200 dark:text-gray-300 rounded-lg hover:light-bg-gray-300 dark:hover:bg-gray-600">
-                            Filters
-                            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <button
-                            class="light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
-                            Upload Documents
-                        </button>
-                    </div>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y light-divide-gray-200 dark:divide-gray-700">
-                        <thead class="light-bg-gray-50 dark:bg-gray-700">
-                            <tr class="light-bg-d9d9d9 border-2 light-border-gray-300 ">
-                                <th scope="col"
-                                    class="flex items-center px-6 py-3 text-left text-xs font-medium light-text-black  uppercase tracking-wider">
-                                    ID
-                                    <svg class="inline-block w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    MONTH
-                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    DESCRIPTION
-                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    DATE
-                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    DOCUMENT
-                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class=" border-2 light-border-gray-300 ">
-                            <tr class=" border-2 light-border-gray-300 ">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">01</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Jan 2025</td>
-                                <td class="px-6 py-4 text-sm text-gray-300">Auth Screen Done, please provide any
-                                    additional content by end of this week</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">05-3-2024</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="#"
-                                        class="flex items-center bg-gray-200 rounded-md w-36
-                                p-2 text-gray-300  hover:underline">
-                                        Website SEO.pdf
-                                        <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <!-- Arrow down left side -->
-                                            <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-
-                                            <!-- Document outline -->
-                                            <path
-                                                d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
-                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-
-                                            <!-- Folded corner -->
-                                            <path
-                                                d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
-                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class=" border-2 light-border-gray-300 ">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">01</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Feb 2025</td>
-                                <td class="px-6 py-4 text-sm text-gray-300">Auth Screen Done, please provide any
-                                    additional content by end of this week</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">05-3-2024</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="#"
-                                        class="flex items-center bg-gray-200 rounded-md w-36
-                                p-2 text-gray-300 hover:underline">
-                                        Website SEO.pdf
-                                        <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <!-- Arrow down left side -->
-                                            <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-
-                                            <!-- Document outline -->
-                                            <path
-                                                d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
-                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-
-                                            <!-- Folded corner -->
-                                            <path
-                                                d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
-                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class=" border-2 light-border-gray-300 ">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">01</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Feb 2025</td>
-                                <td class="px-6 py-4 text-sm text-gray-300">Auth Screen Done, please provide any
-                                    additional content by end of this week</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">05-3-2024</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="#"
-                                        class="flex items-center bg-gray-200 rounded-md w-36
-                                p-2 text-gray-300 hover:underline">
-                                        Website SEO.pdf
-                                        <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <!-- Arrow down left side -->
-                                            <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-
-                                            <!-- Document outline -->
-                                            <path
-                                                d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
-                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-
-                                            <!-- Folded corner -->
-                                            <path
-                                                d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
-                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class=" border-2 light-border-gray-300 ">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">01</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">March 2025</td>
-                                <td class="px-6 py-4 text-sm text-gray-300">Auth Screen Done, please provide any
-                                    additional content by end of this week</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">05-3-2024</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="#"
-                                        class="flex items-center bg-gray-200 rounded-md w-36
-                                p-2 text-gray-300 hover:underline">
-                                        Website SEO.pdf
-                                        <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <!-- Arrow down left side -->
-                                            <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-
-                                            <!-- Document outline -->
-                                            <path
-                                                d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
-                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-
-                                            <!-- Folded corner -->
-                                            <path
-                                                d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
-                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="border-2 light-border-gray-300 ">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">01</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Apr 2025</td>
-                                <td class="px-6 py-4 text-sm text-gray-300">Auth Screen Done, please provide any
-                                    additional content by end of this week</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">05-3-2024</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="#"
-                                        class="flex items-center bg-gray-200 rounded-md w-36
-                                p-2 text-gray-300 hover:underline">
-                                        Website SEO.pdf
-                                        <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <!-- Arrow down left side -->
-                                            <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-
-                                            <!-- Document outline -->
-                                            <path
-                                                d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
-                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-
-                                            <!-- Folded corner -->
-                                            <path
-                                                d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
-                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="flex justify-between items-center p-8 mt-4">
-                    <div class="flex items-center">
-                        <span class="text-sm light-text-gray-700 dark:text-gray-400">Showing 1 to 5 of 100
-                            entries</span>
-                        <select
-                            class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
-                            <option>5</option>
-                            <option>10</option>
-                            <option>25</option>
-                        </select>
-                    </div>
-                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                        <div class="flex space-x-2">
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-
-            <div class=" light-bg-need flex justify-between items-center px-6 py-4 mt-8 ">
-                <div>
-                    <h4 class="font-semibold text-black dark:text-white mb-2">
-                        Need Something Else?
-                    </h4>
-                    <p class="text-gray-600 dark:text-white mb-0 text-sm">
-                        Looking for additional services? Explore our marketplace for Web Design, Digital Marketing, and
-                        more!
-                    </p>
-                </div>
-
-                <button
-                    class="bg-orange-600 dark:bg-[#282828] border-2 light-border-gray-300 text-white px-6 py-2 rounded-lg hover:bg-orange-700 dark:hover:bg-orange-600 transition-colors">
-                    View More
-                </button>
-            </div>
-
-
-        </div>
-    </div>
 </body>
 
 </html>

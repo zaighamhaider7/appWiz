@@ -14,7 +14,8 @@ class project extends Model
         'start_date',
         'end_date',
         'user_id',
-        'status'
+        'status',
+        'is_high_priority'
     ];
 
      public function creator()

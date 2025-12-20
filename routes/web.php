@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/projects/milestone', [ProjectController::class, 'milestoneStore'])->name('milestone.store');
     Route::post('/milestone/status', [ProjectController::class, 'milestoneStatus']);
+    Route::post('/milestones/update-status', [ProjectController::class, 'updateStatus']);
 
 
 
@@ -54,6 +55,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/edit-project', [ProjectController::class, 'edit'])->name('project.edit');
     Route::post('/project/delete', [ProjectController::class, 'Deleteproject']);
     Route::get('/project/list', [ProjectController::class, 'projectList']);
+
+    // credentials
+    Route::post('/credentials/store', [ProjectController::class, 'Credentialsstore'])
+    ->name('credentials.store');
+
+    Route::get('/credentials/list', [ProjectController::class, 'loadCredentails']);
+
 
 
     Route::post('/milestone/milestone-id', [ProjectController::class, 'milestoneId']);
