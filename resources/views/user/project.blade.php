@@ -644,6 +644,25 @@
             overflow: hidden;
         }
 
+        /* Remove background color from upload button */
+        .file-input::-webkit-file-upload-button {
+            background: none;
+            color: inherit;
+            padding: 4px 10px;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* For Firefox */
+        .file-input::file-selector-button {
+            background: none;
+            color: inherit;
+            padding: 4px 10px;
+            cursor: pointer;
+            border: none;
+        }
+
+
         /* Hamburger menu - visible only on smaller screens */
         .hamburger-menu {
             display: block;
@@ -729,6 +748,7 @@
 </head>
 
 <body>
+    @include('layouts.loader')
     <div class="flex min-h-screen light-bg-white">
         <!-- Sidebar -->
         @include('layouts.sidebar')
@@ -1368,7 +1388,8 @@
                         <button
                             class="tab-btn flex items-center justify-center gap-1 pb-2 px-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
                             data-tab="reports">
-                            <div class="flex items-center justify-center"><img class="w-4 h-4"
+                            <div class="flex items-center justify-center">
+                                <img class="w-4 h-4"
                                     src="{{ asset('assets/dociment.png') }}" alt=""></div>
                             <span>Reports</span>
                         </button>
@@ -1412,7 +1433,7 @@
 
                         <!-- Tab 5: Reports -->
                         <div class="flex flex-col items-center">
-                            <img class="w-5 h-5" src="dociment.png" alt="">
+                            <img class="w-5 h-5" src="{{asset('assets/dociment.png')}}" alt="">
                             <button
                                 class="tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
                                 data-tab="reports">Reports</button>
@@ -1435,7 +1456,7 @@
                         <div class="space-y-3">
                             <div class="flex text-left gap-2">
                                 <img src="{{ asset('assets/money.png') }}" alt="">
-                                <span class="light-text-black"> PRICE <span class="p-price">$4000</span></span>
+                                <span class="light-text-black"> PRICE $<span class="p-price">$4000</span></span>
                             </div>
                             <div class="flex text-left gap-2">
                                 <img src="{{ asset('assets/notification-status.png') }}" alt="">
@@ -1619,7 +1640,7 @@
                                 </svg>
                             </button>
                             <button
-                                class="light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
+                                class="light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm open-upload-modal">
                                 Upload Documents
                             </button>
                         </div>
@@ -1707,51 +1728,51 @@
                 <div class="p-4">
                     <div class="light-bg-d9d9d9 p-4 rounded-xl">
                         <h3 class="text-2xl  light-text-black  mb-4">Add Credentials</h3>
-                         <form id="credentialsForm">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8"> 
+                        <form id="credentialsForm">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                                 <div>
-                                    <label class="block text-sm font-medium light-text-white mb-1">Platform Name</label>
-                                    <input type="text" name="platform_name" id="platformName"
+                                    <label class="block text-sm font-medium light-text-white mb-1">Platform
+                                        Name</label>
+                                    <input type="text" placeholder="Google/Facebook etc" name="platform_name"
+                                        id="platformName"
                                         class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
                                 </div>
 
                                 <div>
                                     <label class="block text-sm font-medium light-text-white mb-1">Account Name</label>
-                                    <input type="text" name="account_name" id="accountName"
+                                    <input type="text" name="account_name" placeholder="Account Holder Name"
+                                        id="accountName"
                                         class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
                                 </div>
 
                                 <div>
                                     <label class="block text-sm font-medium light-text-white mb-1">Email</label>
-                                    <input type="email" name="email" id="email"
+                                    <input type="email" name="email" id="email" placeholder="abc@gmail.com"
                                         class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
                                 </div>
 
                                 <div>
                                     <label class="block text-sm font-medium light-text-white mb-1">Password</label>
                                     <input type="password" name="password" id="password"
+                                        placeholder="Password Here"
                                         class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
                                 </div>
                             </div>
 
                             <div class="flex justify-end space-x-2 mb-8">
                                 <button type="button" class="cancel-btn px-4 py-2 rounded-lg">Cancel</button>
-                                <button type="submit" class="add-credentials-btn px-4 py-2 rounded-lg bg-orange-600 text-white">
+                                <button type="submit"
+                                    class="add-credentials-btn px-4 py-2 rounded-lg bg-orange-600 text-white">
                                     Save
                                 </button>
                             </div>
-
-                            <div class="Errors text-red-500 mb-4"></div>
-                            <div id="credentialsMsg" x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
-                                class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
-                             style="display: none;">Credentials saved successfully</div>
                         </form>
 
                     </div>
                 </div>
                 <div class="px-4">
                     <div class="flex justify-between items-center p-4 mb-4">
-                        <h3 class="text-2xl">Documents</h3>
+                        <h3 class="text-2xl">Credentials List</h3>
                         <div class="relative w-full max-w-xs pl-2">
 
                         </div>
@@ -1771,10 +1792,10 @@
                                         d="M19 9l-7 7-7-7"></path>
                                 </svg>
                             </button>
-                            <button
+                            {{-- <button
                                 class="light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
                                 Upload Documents
-                            </button>
+                            </button> --}}
                         </div>
                     </div>
 
@@ -2204,6 +2225,118 @@
         </div>
     </div>
 
+
+    <!-- document Upload Modal -->
+    <div id="uploadModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="p-6 bg-[#1f1f1f] rounded-lg w-full max-w-[70vw] text-white">
+
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Upload Documents</h2>
+                <button class="close-upload-modal text-gray-300 hover:text-white">✕</button>
+            </div>
+
+            <!-- file Upload -->
+            <form action="{{ route('document.store') }}" method="POST">
+                @csrf
+                <div>
+                    <label class="block text-sm mb-1 light-text-black">Attachment</label>
+                    <input id="project_document" type="file" id="ticketFile"
+                        class="file-input w-full light-text-black light-bg-d7d7d7 p-1 rounded-md focus:outline-none">
+                </div>
+
+                <div class="flex justify-end mt-4">
+                    <div class="flex gap-2">
+                        <button class="close-upload-modal bg-gray-600 px-4 py-2 rounded">Cancel</button>
+                        <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded"
+                            id="upload-document-btn">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- edit credentials Modal -->
+    <div id="credentialModal"
+        class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="p-6 bg-[#1f1f1f] rounded-lg w-full max-w-[70vw] text-white">
+
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Edit Credentials</h2>
+                <button class="close-credential-modal text-gray-300 hover:text-white">✕</button>
+            </div>
+
+            <form >
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <input type="hidden" name="e_credentail_id" id="e_credential_id" >
+                    <div>
+                        <label class="block text-sm font-medium light-text-white mb-1">Platform
+                            Name</label>
+                        <input type="text" placeholder="Google/Facebook etc" name="e_platform_name"
+                            id="e_platformName"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium light-text-white mb-1">Account Name</label>
+                        <input type="text" name="e_account_name" placeholder="Account Holder Name" id="e_accountName"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium light-text-white mb-1">Email</label>
+                        <input type="email" name="e_email" id="e_email" placeholder="abc@gmail.com"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium light-text-white mb-1">Password</label>
+                        <input type="text" name="e_password" id="e_password" placeholder="Password Here"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-2 mb-8">
+                    <button type="button" class="close-credential-modal px-4 py-2 rounded-lg">Cancel</button>
+                    <button type="submit" class="edit-credentials-btn px-4 py-2 rounded-lg bg-orange-600 text-white">
+                        Save
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+    <div id="document_delete_msg" style="display: none; z-index: 9999 !important;"
+        class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        Document Deleted successfully!
+    </div>
+
+    <div id="documentUploadMsg" style="display: none; z-index: 9999 !important;"
+        class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        Document Upload successfully!
+    </div>
+
+    <div id="credentialsMsg" x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+        class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50" style="display: none;">
+        Credentials saved successfully
+    </div>
+
+    <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+        class="Errors fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50"
+        style="display: none;">
+    </div>
+
+    <div id="deletecredential" style="display: none; z-index: 9999 !important;"
+        class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        Credentials deleted successfully!
+    </div>
+
+    <div id="editcredential" style="display: none; z-index: 9999 !important;"
+        class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        Credentials Updated successfully!
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -2216,20 +2349,21 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            
-            
+
+
             function getPriorityBadge(priority) {
                 if (priority === 'Low') {
                     return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full light-bg-green-200 light-text-green-800 dark:bg-green-900 dark:text-green-200">Low</span>`;
-                } 
+                }
                 if (priority === 'Medium') {
                     return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full light-bg-blue-100 light-text-blue-800 dark:bg-blue-900 dark:text-blue-200">Medium</span>`;
-                } 
+                }
                 if (priority === 'High') {
                     return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full light-bg-red-100 light-text-red-800 dark:bg-red-900 dark:text-red-200">High</span>`;
                 }
                 return '';
             }
+
             //  milestone data fetch funtion start
             function renderMilestones(milestoneData) {
                 const tableBody = document.getElementById('milestoneTableBody');
@@ -2274,7 +2408,7 @@
 
             }
 
-            $(document).on('change', '.is-completed-checkbox', function () {
+            $(document).on('change', '.is-completed-checkbox', function() {
 
                 let milestoneId = $(this).data('id');
                 let isCompleted = $(this).is(':checked') ? 1 : 0;
@@ -2286,7 +2420,7 @@
                         milestone_id: milestoneId,
                         is_completed: isCompleted
                     },
-                    success: function (response) {
+                    success: function(response) {
 
                         $('#milestonestatus').fadeIn(400);
                         setTimeout(() => {
@@ -2295,7 +2429,7 @@
 
                         console.log(response.message);
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         console.error(xhr.responseText);
                     }
                 });
@@ -2342,16 +2476,16 @@
                                                 ${
                                                     project.is_high_priority == 1
                                                     ? `
-                                                            <div class="rounded-sm text-center w-20 light-bg-ea54547a mt-1">
-                                                                <div class="text-xs light-text-ff0000">High Priority</div>
-                                                            </div>
-                                                            `
+                                                                                        <div class="rounded-sm text-center w-20 light-bg-ea54547a mt-1">
+                                                                                            <div class="text-xs light-text-ff0000">High Priority</div>
+                                                                                        </div>
+                                                                                        `
                                                     : ''
                                                 }
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
                                                 <div class="flex items-center gap-1">
-                                                    <p>${project.price}</p>
+                                                    <p>$${project.price}</p>
                                                 </div>
                                             </td>
 
@@ -2462,8 +2596,6 @@
                         }
                         $('#features_list').html(featuresHtml);
 
-                        // Show modal
-                        // $('#modal').removeClass('hidden');
                     },
                     error: function(xhr) {
                         console.error(xhr.responseText);
@@ -2488,6 +2620,7 @@
                         id: currentProjectId
                     },
                     success: function(response) {
+                        $('#upload-document-btn').attr('data-project-id', currentProjectId);
                         renderDocuments(response.documentData)
                         renderMilestones(response.milestoneData);
                         $('.p-name').text(response.data.project_name);
@@ -2552,9 +2685,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                 <button class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
                                     <div class="flex gap-2">
-                                        <img src="{{ asset('assets/eye.png') }}" alt="eye"
-                                                class="bg-gray-200 p-1 rounded-full">
-                                        <img data-document-id="${document.id}" data-d_project-id="${document.id}" src="{{ asset('assets/trash.svg') }}" alt="eye" class="delete-document-btn bg-gray-200 p-1 rounded-full">
+                                        <img data-document-id="${document.id}" data-d_project-id="${document.project_id}" src="{{ asset('assets/trash.svg') }}" alt="eye" class="delete-document-btn bg-gray-200 p-1 rounded-full">
                                     </div>
                                 </button>
                             </td>
@@ -2567,14 +2698,103 @@
 
             }
 
+
+            $(document).on('click', '.delete-document-btn', function() {
+                document_id = $(this).data('document-id');
+                projectId = $(this).data('d_project-id');
+
+                $.ajax({
+                    url: 'document/delete',
+                    method: 'POST',
+                    data: {
+                        document_id: document_id
+                    },
+                    success: function(r) {
+                        $('#document_delete_msg').fadeIn(400);
+                        setTimeout(() => {
+                            $('#document_delete_msg').fadeOut(600);
+                        }, 3000);
+
+                        $.ajax({
+                            url: '/document/list',
+                            method: 'POST',
+                            data: {
+                                project_id: projectId
+                            },
+                            success: function(documentResponse) {
+                                renderDocuments(documentResponse.documentData);
+                            },
+                            error: function() {
+                                alert(
+                                    'Failed to reload Document after deletion.'
+                                );
+                            }
+                        });
+
+
+                    }
+                });
+            })
+
+            $(document).on('click', '#upload-document-btn', function(d) {
+
+                d.preventDefault();
+
+                let document_project_id = $(this).attr('data-project-id');
+
+                let formData = new FormData();
+
+                formData.append('_token', '{{ csrf_token() }}');
+                formData.append('project_document', $('#project_document')[0].files[0]);
+                formData.append('project_id', document_project_id);
+
+
+                $.ajax({
+                    url: "{{ route('document.store') }}",
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response) {
+                            $('#project_document').val('');
+                            $('#documentUploadMsg').fadeIn(400);
+                            setTimeout(() => {
+                                $('#documentUploadMsg').fadeOut(600);
+                            }, 3000);
+
+                            $.ajax({
+                                url: '/document/list',
+                                method: 'POST',
+                                data: {
+                                    project_id: document_project_id
+                                },
+                                success: function(documentResponse) {
+                                    renderDocuments(documentResponse.documentData);
+                                },
+                                error: function() {
+                                    alert(
+                                        'Failed to reload Document after deletion.'
+                                    );
+                                }
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status);
+                        console.log(xhr.responseJSON);
+                    }
+                });
+            });
+
             // credentials start
 
             function loadCredentials() {
                 $.ajax({
-                    url: '/credentials/list', 
+                    url: '/credentials/list',
                     type: 'GET',
                     success: function(response) {
-                        renderCredentials(response.credentialsData); 
+                        renderCredentials(response.credentialsData);
                     },
                     error: function() {
                         console.log('Failed to load credentials');
@@ -2583,12 +2803,12 @@
             }
 
             function renderCredentials(credentials) {
-                let tbody = $('#credentials-table'); // tumhare table ki tbody ka ID
+                let tbody = $('#credentials-table');
 
-                tbody.empty(); // purane rows hata do
+                tbody.empty();
 
                 if (!credentials || credentials.length === 0) {
-                    // agar array empty hai
+
                     let row = `
                         <tr class="border-2 light-border-gray-300">
                             <td colspan="5" class="px-6 py-4 text-center text-sm light-text-black">
@@ -2599,31 +2819,37 @@
                     tbody.append(row);
                 } else {
                     credentials.forEach(function(cred, index) {
-                        // tumhara exact design yaha use hoga
                         let row = `
-                        <tr class="border-2 light-border-gray-300">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${index + 1}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${cred.platform_name}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${cred.account_name}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">**********
-                                <button class="ml-2 light-text-gray-500 hover:light-text-gray-700">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                    </svg>
-                                </button>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="light-text-indigo-600 hover:light-text-indigo-900 mr-2">
-                                    <img src="{{ asset('assets/edit.svg') }}" class="bg-gray-200 p-1 rounded-full">
-                                </button>
-                                <button class="light-text-red-600 hover:light-text-red-900">
-                                    <img src="{{ asset('assets/trash.svg') }}" class="bg-gray-200 p-1 rounded-full">
-                                </button>
-                            </td>
-                        </tr>`;
+                            <tr class="border-2 light-border-gray-300">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${index + 1}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${cred.platform_name}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${cred.account_name}</td>
+
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">
+                                    <span id="password-${index}" data-password="${cred.password}">
+                                        ********
+                                    </span>
+
+                                    <button onclick="togglePassword(${index})"
+                                        class="ml-2 light-text-gray-500 hover:light-text-gray-700">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                        </svg>
+                                    </button>
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button class="mr-2 open-credential-modal" data-credential-id="${cred.id}">
+                                        <img src="{{ asset('assets/edit.svg') }}" class="bg-gray-200 p-1 rounded-full">
+                                    </button>
+                                    <button class="delete-credentials-btn" data-credential-id="${cred.id}">
+                                        <img src="{{ asset('assets/trash.svg') }}" class="bg-gray-200 p-1 rounded-full">
+                                    </button>
+                                </td>
+                            </tr>`;
                         tbody.append(row);
                     });
                 }
@@ -2634,10 +2860,10 @@
             $(document).on('click', '.add-credentials-btn', function(e) {
                 e.preventDefault();
 
-                let platform_name  = $('#platformName').val();
-                let account_name   = $('#accountName').val();
-                let email          = $('#email').val();
-                let password       = $('#password').val();
+                let platform_name = $('#platformName').val();
+                let account_name = $('#accountName').val();
+                let email = $('#email').val();
+                let password = $('#password').val();
 
                 let formData = new FormData();
                 formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
@@ -2652,7 +2878,7 @@
                     data: formData,
                     contentType: false,
                     processData: false,
-                    success: function (response) {
+                    success: function(response) {
                         loadCredentials();
                         $('#platformName').val('');
                         $('#accountName').val('');
@@ -2664,15 +2890,13 @@
                             $('#credentialsMsg').fadeOut(600);
                         }, 3000);
                     },
-                    error: function (xhr) {
-
-                        $('.add-credentials-btn').prop('disabled', false).text('Save');
+                    error: function(xhr) {
 
                         if (xhr.status === 422) {
                             let errors = xhr.responseJSON.errors;
                             let errorHtml = '<ul class="list-disc list-inside">';
-                            $.each(errors, function (key, messages) {
-                                $.each(messages, function (i, msg) {
+                            $.each(errors, function(key, messages) {
+                                $.each(messages, function(i, msg) {
                                     errorHtml += `<li>${msg}</li>`;
                                 });
                             });
@@ -2692,6 +2916,95 @@
                 });
             });
 
+            $(document).on('click', '.delete-credentials-btn', function() {
+                let credential_id = $(this).data('credential-id');
+
+                $.ajax({
+                    url: '/credentials/delete',
+                    method: 'POST',
+                    data: {
+                        credential_id: credential_id,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        loadCredentials();
+                        $('#deletecredential').fadeIn(400);
+                        setTimeout(() => {
+                            $('#deletecredential').fadeOut(600);
+                        }, 3000);
+                    },
+                    error: function() {
+                        console.log('Failed to delete credential');
+                    }
+                });
+            });
+
+            $(document).on('click', '.open-credential-modal', function() {
+                let credential_id = $(this).data('credential-id');
+
+                $('#credentialModal').removeClass('hidden');
+
+                console.log('Credential ID to edit:', credential_id);
+
+                $.ajax({
+                    url: '/credentials/edit',
+                    method: 'POST',
+                    data: {
+                        credential_id: credential_id,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                       let credential_id = $('#e_credential_id').val(response.credentialData.id);
+                        let platform_name = $('#e_platformName').val(response.credentialData.platform_name);
+                        let account_name = $('#e_accountName').val(response.credentialData.account_name);
+                        let email = $('#e_email').val(response.credentialData.email);
+                        let password = $('#e_password').val(response.credentialData.password);
+                    },
+                    error: function() {
+                        console.log('Failed to fetch credential');
+                    }
+                });
+
+            });
+
+            $(document).on('click', '.edit-credentials-btn', function(e) {
+                e.preventDefault();
+
+                let credential_id = $('#e_credential_id').val();
+                let platform_name = $('#e_platformName').val();
+                let account_name = $('#e_accountName').val();
+                let email = $('#e_email').val();
+                let password = $('#e_password').val();
+
+                let formData = new FormData();
+                formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+                formData.append('credential_id', credential_id);
+                formData.append('platform_name', platform_name);
+                formData.append('account_name', account_name);
+                formData.append('email', email);
+                formData.append('password', password);
+
+                $.ajax({
+                    url: '/credentials/update',
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        loadCredentials();
+                        $('#editcredential').fadeIn(400);
+                        setTimeout(() => {
+                            $('#editcredential').fadeOut(600);
+                        }, 3000);
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status);
+                        console.log(xhr.responseJSON);
+                    }
+                });
+            });
+        
+
 
         })
     </script>
@@ -2699,6 +3012,45 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+
+            const uploadModal = document.getElementById("uploadModal");
+            const openUploadModalBtns = document.querySelectorAll(".open-upload-modal");
+            const closeUploadModalBtns = document.querySelectorAll(".close-upload-modal");
+
+            openUploadModalBtns.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    uploadModal.classList.remove("hidden");
+                });
+            });
+
+            closeUploadModalBtns.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    uploadModal.classList.add("hidden");
+                });
+            });
+
+            const credentialModal = document.getElementById("credentialModal");
+            const closeCredentialModalBtns = document.querySelectorAll(".close-credential-modal");
+
+
+            closeCredentialModalBtns.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    credentialModal.classList.add("hidden");
+                });
+            });
+
+            window.togglePassword = function(index) {
+                const el = document.getElementById(`password-${index}`);
+                if (!el) return;
+
+                const realPassword = el.getAttribute("data-password");
+
+                if (el.textContent.trim() === "********") {
+                    el.textContent = realPassword;
+                } else {
+                    el.textContent = "********";
+                }
+            };
 
             const mainModal = document.getElementById("modal");
             const openModalCards = document.querySelectorAll(".openModal");

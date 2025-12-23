@@ -2856,11 +2856,7 @@ use App\Models\User;
             });
             closeTicketModal.addEventListener('click', () => ticketModal.classList.add('hidden'));
             cancelTicket.addEventListener('click', () => ticketModal.classList.add('hidden'));
-            ticketForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                console.log('Ticket form submitted');
-                ticketModal.classList.add('hidden');
-            });
+
 
 
 

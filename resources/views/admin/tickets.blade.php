@@ -1666,7 +1666,7 @@
 
                         chatContainer.append(`
                                 <div class="flex items-start space-x-3">
-                                    <img src="${chat.sender.image || '{{ asset('assets/Photos.png') }}'}" 
+                                    <img src="${chat.sender.image || '{{ asset('assets/default-prf.png') }}'}" 
                                         class="w-10 h-10 rounded-md" alt="user" />
                                     <div>
                                         <p class="text-sm light-text-black font-semibold">

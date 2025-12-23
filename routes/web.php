@@ -62,6 +62,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/credentials/list', [ProjectController::class, 'loadCredentails']);
 
+    Route::post('/credentials/delete', [ProjectController::class, 'deleteCredentails']);
+
+    Route::post('/credentials/edit', [ProjectController::class, 'editCredentails']);
+
+    Route::post('/credentials/update', [ProjectController::class, 'updateCredentails']);
+
 
 
     Route::post('/milestone/milestone-id', [ProjectController::class, 'milestoneId']);

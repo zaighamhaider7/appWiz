@@ -740,6 +740,7 @@
 </head>
 
 <body>
+    @include('layouts.loader')
     <div class="flex min-h-screen light-bg-white">
         <!-- Sidebar -->
         @include('layouts.sidebar')
@@ -910,7 +911,7 @@
                                                     Ticket {{ $count++ }}</td>
 
                                                 <td class="px-6 py-4 whitespace-nowrap">
-                                                   <div class="text-sm font-thin light-text-gray-900">
+                                                    <div class="text-sm font-thin light-text-gray-900">
                                                         {{ $ticket->title }}</div>
                                                 </td>
 
@@ -931,40 +932,48 @@
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     <div class="text-sm font-thin light-text-gray-900">
                                                         {{ $ticket->created_at->calendar() }}</div>
-                                                </td> 
+                                                </td>
 
                                                 <td class="px-6 py-4 whitespace-nowrap">
 
                                                     @if ($ticket->status == 'Pending')
                                                         <div class="flex ml-8 items-center ">
                                                             <div class="bg-blue-200 rounded-full w-2.5 h-2.5">
-                                                                <div class="bg-yellow-400 h-2.5 rounded-full w-full"></div>
+                                                                <div class="bg-yellow-400 h-2.5 rounded-full w-full">
+                                                                </div>
                                                             </div>
-                                                            <span class="ml-2 text-sm items-center text-gray-400">Pending</span>
+                                                            <span
+                                                                class="ml-2 text-sm items-center text-gray-400">Pending</span>
                                                         </div>
                                                     @elseif($ticket->status == 'In Progress')
                                                         <div class="flex ml-8 items-center ">
                                                             <div class="bg-gray-200 rounded-full w-2.5 h-2.5">
-                                                                <div class="bg-cyan-400 h-2.5 rounded-full w-full"></div>
+                                                                <div class="bg-cyan-400 h-2.5 rounded-full w-full">
+                                                                </div>
                                                             </div>
-                                                            <span class="ml-2 text-sm items-center text-gray-400">In Progress</span>
+                                                            <span class="ml-2 text-sm items-center text-gray-400">In
+                                                                Progress</span>
                                                         </div>
                                                     @elseif($ticket->status == 'Resolved')
                                                         <div class="flex ml-8 items-center ">
                                                             <div class="bg-gray-200 rounded-full w-2.5 h-2.5">
-                                                                <div class="bg-green-500 h-2.5 rounded-full w-full"></div>
+                                                                <div class="bg-green-500 h-2.5 rounded-full w-full">
+                                                                </div>
                                                             </div>
-                                                            <span class="ml-2 text-sm items-center text-gray-400">Resolved</span>
+                                                            <span
+                                                                class="ml-2 text-sm items-center text-gray-400">Resolved</span>
                                                         </div>
                                                     @elseif($ticket->status == 'Cancelled')
                                                         <div class="flex ml-8 items-center ">
                                                             <div class="bg-gray-200 rounded-full w-2.5 h-2.5">
-                                                                <div class="bg-red-500 h-2.5 rounded-full w-full"></div>
+                                                                <div class="bg-red-500 h-2.5 rounded-full w-full">
+                                                                </div>
                                                             </div>
-                                                            <span class="ml-2 text-sm items-center text-gray-400">Cancelled</span>
+                                                            <span
+                                                                class="ml-2 text-sm items-center text-gray-400">Cancelled</span>
                                                         </div>
                                                     @endif
-                                                </td> 
+                                                </td>
 
                                                 <td
                                                     class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
@@ -1090,7 +1099,8 @@
             </div>
 
             <!-- Ticket Form -->
-            <form id="ticketForm" class="space-y-4 p-6" method="POST" action="{{route('ticket.store')}}" enctype="multipart/form-data">
+            <form id="ticketForm" class="space-y-4 p-6" method="POST" action="{{ route('ticket.store') }}"
+                enctype="multipart/form-data">
                 @csrf
 
                 <input type="hidden" name="user_id" value="{{ auth()->id() }}">
@@ -1100,7 +1110,8 @@
 
                     <div>
                         <label class="block text-sm mb-1 light-text-black">Title</label>
-                        <input type="text" name="title" value="{{old('title')}}" placeholder="Ticket name here..."
+                        <input type="text" name="title" value="{{ old('title') }}"
+                            placeholder="Ticket name here..."
                             class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                     </div>
                     <div>
@@ -1108,8 +1119,8 @@
                         <select name="project_id"
                             class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                             <option value="" selected hidden>Select Project</option>
-                            @if($projectData->count() > 0)
-                                @foreach($projectData as $project)
+                            @if ($projectData->count() > 0)
+                                @foreach ($projectData as $project)
                                     <option value="{{ $project->id }}">{{ $project->project_name }}</option>
                                 @endforeach
                             @else
@@ -1133,7 +1144,7 @@
                 <div>
                     <label class="block text-sm mb-1 light-text-black">Details</label>
                     <textarea name="description" rows="4" placeholder="Explanation here"
-                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">{{old('description')}}</textarea>
+                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">{{ old('description') }}</textarea>
                 </div>
 
                 <!-- File Upload -->
@@ -1284,7 +1295,6 @@
                 display: none !important;
             }
         </style>
-
     @endif
 
 
@@ -1353,12 +1363,12 @@
                         const reader = new FileReader(); // Create a new FileReader to read the file
                         reader.onload = (e) => {
                             const range = quill
-                        .getSelection(); // Get the current selection or cursor position in the editor
+                                .getSelection(); // Get the current selection or cursor position in the editor
                             quill.insertEmbed(range.index, 'image', e.target
-                            .result); // Insert the image at the current cursor position
+                                .result); // Insert the image at the current cursor position
                         };
                         reader.readAsDataURL(
-                        file); // Convert the file to Base64 format (so it can be embedded directly)
+                            file); // Convert the file to Base64 format (so it can be embedded directly)
                     }
                 };
             };
@@ -1466,7 +1476,7 @@
 
                         chatContainer.append(`
                                 <div class="flex items-start space-x-3">
-                                    <img src="${chat.sender.image || '{{ asset('assets/Photos.png') }}'}" 
+                                    <img src="${chat.sender.image || '{{ asset('assets/default-prf.png') }}'}" 
                                         class="w-10 h-10 rounded-md" alt="user" />
                                     <div>
                                         <p class="text-sm light-text-black font-semibold">
@@ -1668,7 +1678,7 @@
 
             const ticketChatModal = document.getElementById('ticketChatModal');
             const closeChatModal = document.getElementById('closeChatModal');
-            const openChatButtons = document.querySelectorAll('.open-chat-modal'); 
+            const openChatButtons = document.querySelectorAll('.open-chat-modal');
 
             // Open ticket modal button
             openTicketButton.addEventListener('click', () => {
@@ -1704,7 +1714,6 @@
                 }
             });
         });
-        
     </script>
 
 </body>

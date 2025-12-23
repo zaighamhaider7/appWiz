@@ -72,6 +72,8 @@ class ProjectController extends Controller
 
         session(['last_project_id' => $last_project_id]);
 
+        $doc_user_id = Auth::user()->id;
+
         if ($request->has('assign_to')) {
             foreach ($validated['assign_to'] as $userId) {
                 AssignTo::create([
@@ -92,6 +94,7 @@ class ProjectController extends Controller
             Document::create([
                 'document_name' => 'projectAssets/' . $filename,
                 'project_id'    => $data->id,
+                'user_id'       => $doc_user_id,
             ]);
         }
 
@@ -343,7 +346,7 @@ class ProjectController extends Controller
     public function documentId(request $request){
         $projectId = $request->input('project_id');
         
-        $documentData = Document::with('project.creator') 
+        $documentData = Document::with(['project', 'uploader']) 
                         ->where('project_id', $projectId)
                         ->get();
 
@@ -374,7 +377,9 @@ class ProjectController extends Controller
     public function Documentlist(request $request){
         $projectId = $request->input('project_id');
 
-        $documentData = Document::where('project_id', $projectId)->get();
+        $documentData = Document::with(['project', 'uploader']) 
+                    ->where('project_id', $projectId)
+                    ->get();
 
         return response([
             'documentData' => $documentData
@@ -389,6 +394,8 @@ class ProjectController extends Controller
             'project_id' => 'required|exists:projects,id'
         ]);
 
+        $doc_user_id = Auth::user()->id;
+
         if ($request->hasFile('project_document')) {
 
             $file = $request->file('project_document');
@@ -400,6 +407,7 @@ class ProjectController extends Controller
             Document::create([
                 'document_name' => 'projectAssets/' . $filename,
                 'project_id'    => $request->project_id,
+                'user_id'       => $doc_user_id,
             ]);
             ActivityLogger::log('New Document Uploaded', 'A new document was uploaded by ' . auth()->user()->name . '.');
         }
@@ -437,6 +445,52 @@ class ProjectController extends Controller
     {
         $credentials = Credentials::orderBy('created_at', 'desc')->get();
         return response()->json(['credentialsData' => $credentials], 200);
+    }
+
+    public function deleteCredentails(Request $request)
+    {
+        $credentialId = $request->input('credential_id');
+
+        $credentialData = Credentials::find($credentialId);
+        $credentialData->Delete();
+
+        ActivityLogger::log('Credentials Deleted', 'The credentials were deleted by ' . auth()->user()->name . '.');
+
+        return response()->json([
+            "credentialdelete" => 'delete'
+        ]);
+    }
+
+    public function editCredentails(Request $request)
+    {
+        $credentialId = $request->input('credential_id');
+        $credentialData = Credentials::find($credentialId);
+        return response()->json([
+            "credentialData" => $credentialData
+        ]);
+    }
+
+    public function updateCredentails(Request $request)
+    {
+        if($request->credential_id){
+            $data = Credentials::find($request->credential_id);
+            $data->platform_name = $request->platform_name;
+            $data->account_name = $request->account_name;
+            $data->email = $request->email;
+            $data->password = $request->password;
+            $data->save();
+
+            ActivityLogger::log('Credentials Updated', 'The credentials for "' . $data->platform_name . '" were updated by ' . auth()->user()->name . '.');
+
+            return response()->json(
+                [
+                    "sucess" => "Credentials Updated"
+                ]
+            );
+        }
+        else{
+            return response()->json(["error" => "error"]);
+        }
     }
     
 

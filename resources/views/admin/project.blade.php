@@ -2830,7 +2830,6 @@
                                         '<td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900"><div class="flex items-center -space-x-2">';
                                     if (assignedUsers.length > 0) {
                                         assignedUsers.forEach(function(users) {
-                                            console.log(users);
                                             assignedUsersHtml += `
                                                     <!-- User avatars -->
                                                     <img src="${users.user.image || 'assets/default-prf.png'}" alt="${users.user.name}" class="w-10 h-10 rounded-full border-2 border-black">
@@ -3014,9 +3013,9 @@
                 formData.append('is_high_priority', is_high_priority);
                 formData.append('document_name', $('#document_name')[0].files[0]);
 
-                for (let [key, value] of formData.entries()) {
-                    console.log(`${key}:`, value);
-                }
+                // for (let [key, value] of formData.entries()) {
+                //     console.log(`${key}:`, value);
+                // }
 
                 $.ajax({
                     url: "{{ route('project.store') }}",
@@ -3105,7 +3104,7 @@
                     },
                     success: function(response) {
                         response.assignedUsers.forEach(function(item) {
-                            console.log(item.user.name);
+                            // console.log(item.user.name);
                         });
                         $('.add-milestone-btn').attr('data-project-id', currentProjectId);
                         $('#edit_project_name').val(response.data.project_name);
@@ -3181,9 +3180,9 @@
                     formData.append('edit_assign_to[]', userId);
                 });
 
-                for (let [key, value] of formData.entries()) {
-                    console.log(`${key}:`, value);
-                }
+                // for (let [key, value] of formData.entries()) {
+                //     console.log(`${key}:`, value);
+                // }
 
 
                 $.ajax({
@@ -3205,7 +3204,6 @@
 
             $(document).on('click', '.delete-project', function() {
                 let ProjectId = $(this).data('delete_p-id');
-                console.log(ProjectId);
                 $.ajax({
                     url: '/project/delete',
                     method: 'POST',
@@ -3442,8 +3440,7 @@
 
             // document work start
 
-            function renderDocuments(documentResponse) {
-                let documents = documentResponse.documentData;
+            function renderDocuments(documents) {
                 let tbody = $('#document-table');
 
                 tbody.empty();
@@ -3465,9 +3462,9 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${index + 1}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
                                 <div class="flex items-center gap-1">
-                                    <img class="w-8 h-8 rounded-full" src="${document.project.creator.image || '/assets/profile-circle-DARK.svg'}" alt="User Image">
+                                    <img class="w-8 h-8 rounded-full" src="${document.uploader.image || '/assets/profile-circle-DARK.svg'}" alt="User Image">
                                     <div>
-                                        <p class="text-md">${document.project.creator.name}</p>
+                                        <p class="text-md">${document.uploader.name}</p>
                                         <p class="text-xs text-gray-400">${document.project.client_name}</p>
                                     </div>
                                 </div>
@@ -3496,7 +3493,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                 <button class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
                                     <div class="flex gap-2">
-                                        <img data-document-id="${document.id}" data-d_project-id="${document.id}" src="{{ asset('assets/trash.svg') }}" alt="eye" class="delete-document-btn bg-gray-200 p-1 rounded-full">
+                                        <img data-document-id="${document.id}" data-d_project-id="${document.project_id}" src="{{ asset('assets/trash.svg') }}" alt="eye" class="delete-document-btn bg-gray-200 p-1 rounded-full">
                                     </div>
                                 </button>
                             </td>
@@ -3518,7 +3515,7 @@
                         project_id: project_id
                     },
                     success: function(documentresponse) {
-                        renderDocuments(documentresponse);
+                        renderDocuments(documentresponse.documentData);
                         $('#upload-document-btn').attr('data-project-id', project_id);
                     }
 
@@ -3548,7 +3545,7 @@
                                 project_id: projectId
                             },
                             success: function(documentResponse) {
-                                renderDocuments(documentResponse);
+                                renderDocuments(documentResponse.documentData);
                             },
                             error: function() {
                                 alert(
@@ -3567,7 +3564,6 @@
                 d.preventDefault();
 
                 let document_project_id = $(this).attr('data-project-id');
-
 
                 let formData = new FormData();
 
@@ -3597,7 +3593,7 @@
                                     project_id: document_project_id
                                 },
                                 success: function(documentResponse) {
-                                    renderDocuments(documentResponse);
+                                    renderDocuments(documentResponse.documentData);
                                 },
                                 error: function() {
                                     alert(
@@ -4081,7 +4077,6 @@
                 }
             });
 
-            console.log('✅ All scripts initialized');
         });
 
 
