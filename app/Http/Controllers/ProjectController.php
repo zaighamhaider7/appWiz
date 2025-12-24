@@ -218,13 +218,23 @@ class ProjectController extends Controller
     }
 
     public function projectList() {
-        $projects = project::with('creator')->get();
-        $assignedUsers = AssignTo::with(['user', 'project'])->whereHas('user')->get();
+        $user = auth()->user();
+        
+        if($user->role_id == 1){
+            $projects = project::with('creator')->get();
+            $assignedUsers = AssignTo::with(['user', 'project'])->whereHas('user')->get();
 
-        return response()->json([
-            'success' => $projects,
-            'assignedUsers' => $assignedUsers
-        ]);
+            return response()->json([
+                'success' => $projects,
+                'assignedUsers' => $assignedUsers
+            ]);
+        }
+        else{
+            $projects = $user->assignedProjects()->get();
+            return response()->json([
+                'success' => $projects
+            ]);
+        }
     }
 
     // project end

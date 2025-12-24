@@ -62,8 +62,19 @@ class User extends Authenticatable
         ];
     }
 
-    // public function projects()
-    // {
-    //     return $this->belongsTo(Project::class);
-    // }
+    public function assignedProjects()
+    {
+        return $this->belongsToMany(
+            Project::class,
+            'assign_to',      // table name
+            'assign_to',      // user id column
+            'project_id'      // project id column
+        );
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Roles::class, 'role_id');
+    }
+
 }

@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('assign_to', function (Blueprint $table) {
             $table->id();
             $table->string('assign_to');
+            // $table->foreign('assign_to')
+            // ->references('id')
+            // ->on('users')
+            // ->onDelete('cascade');
             $table->unsignedBigInteger('project_id');
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
 

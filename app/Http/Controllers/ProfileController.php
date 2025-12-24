@@ -11,6 +11,7 @@ use Illuminate\View\View;
 use App\Models\User;
 use App\Models\userDevices;
 use App\Models\Roles;
+use App\Models\project;
 
 class ProfileController extends Controller
 {
@@ -26,7 +27,9 @@ class ProfileController extends Controller
         $user = $request->user();
         $userDevices = userDevices::where('user_id',$user->id)->get();
         $roles = Roles::all();
-        return view('profile.edit',compact('user','userDevices','roles'));
+        $allProjects = project::all();
+        $projects = collect();
+        return view('profile.edit',compact('user','userDevices','roles','projects', 'allProjects'));
     }
 
     /**
@@ -92,5 +95,7 @@ public function update(ProfileUpdateRequest $request): RedirectResponse
         userDevices::destroy($deviceId);
         return Redirect::route('profile.edit')->with('status', 'device-deleted');
     }
+
+    
 }
 

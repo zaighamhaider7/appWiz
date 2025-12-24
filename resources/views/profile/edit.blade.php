@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>WIZSPEED Dashboard</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -41,6 +42,38 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+
+        /* Remove default progress styling */
+        progress {
+            -webkit-appearance: none;
+            /* Chrome, Safari, Opera */
+            appearance: none;
+            width: 100%;
+            height: 10px;
+            /* same as h-2.5 */
+            border-radius: 999px;
+            overflow: hidden;
+            background-color: #e5e7eb;
+            /* gray-200 */
+        }
+
+        progress::-webkit-progress-bar {
+            background-color: #e5e7eb;
+            /* gray-200 */
+        }
+
+        progress::-webkit-progress-value {
+            background-color: #22c55e;
+            /* green-500 */
+            border-radius: 999px;
+        }
+
+        progress::-moz-progress-bar {
+            background-color: #22c55e;
+            /* green-500 */
+            border-radius: 999px;
+        }
+
 
         button.custom-btn {
             background-color: var(--btn-bg);
@@ -1259,20 +1292,22 @@
                                 <div class="flex justify-end items-center mt-5">
 
                                     <div class="flex justify-end gap-3 pt-3">
-                                        @if (@auth()->user()->email_verified_at === null)
-                                            <form method="POST" action="{{ route('verification.send') }}">
-                                                @csrf
+                                        @auth
+                                            @if (auth()->user()->email_verified_at === null)
+                                                <form method="POST" action="{{ route('verification.send') }}">
+                                                    @csrf
+                                                    <button type="submit"
+                                                        class="px-4 py-2 mt-14 btn-orange text-white  rounded-lg hover:bg-orange-600">
+                                                        Enable two-factor authentication
+                                                    </button>
+                                                </form>
+                                            @else
                                                 <button type="submit"
                                                     class="px-4 py-2 mt-14 btn-orange text-white  rounded-lg hover:bg-orange-600">
-                                                    Enable two-factor authentication
+                                                    ✅ Two-factor authentication is enabled
                                                 </button>
-                                            </form>
-                                        @else
-                                            <button type="submit"
-                                                class="px-4 py-2 mt-14 btn-orange text-white  rounded-lg hover:bg-orange-600">
-                                                ✅ Two-factor authentication is enabled
-                                            </button>
-                                        @endif
+                                            @endif
+                                        @endauth
                                     </div>
                                 </div>
 
@@ -1363,7 +1398,8 @@
                                                     20:07</td>
                                                 <td class="px-6 py-2 whitespace-nowrap text-right text-sm font-medium">
                                                     <div class="flex justify-start gap-2">
-                                                        <form action="{{ route('profile.deleteDevice', $device->id) }}"
+                                                        <form
+                                                            action="{{ route('profile.deleteDevice', $device->id) }}"
                                                             method="post">
                                                             @csrf
                                                             <button type="submit"
@@ -1393,7 +1429,7 @@
 
                 </div>
             </div>
-            
+
 
             <div id="uploadedDocumentContent" class="tab-content hidden ml-8 mr-5 -mt-8">
                 <!-- Uploaded Document content here -->
@@ -1410,7 +1446,8 @@
                                         <span class="text-gray-400 font-medium">Ticket Received</span>
                                     </div>
                                     <div class="flex-1">
-                                        <span class="text-gray-400 text-left">Notify when a new support ticket is submitted.</span>
+                                        <span class="text-gray-400 text-left">Notify when a new support ticket is
+                                            submitted.</span>
                                     </div>
                                     <div class="w-16 flex justify-end">
                                         <label class="toggle-switch">
@@ -1426,7 +1463,8 @@
                                         <span class="text-gray-400 font-medium">Payment Received</span>
                                     </div>
                                     <div class="flex-1">
-                                        <span class="text-gray-400 text-left">Alert when a payment is made by a user.</span>
+                                        <span class="text-gray-400 text-left">Alert when a payment is made by a
+                                            user.</span>
                                     </div>
                                     <div class="w-16 flex justify-end">
                                         <label class="toggle-switch">
@@ -1442,7 +1480,8 @@
                                         <span class="text-gray-400 font-medium">Subscription Renewal Reminder</span>
                                     </div>
                                     <div class="flex-1">
-                                        <span class="text-gray-400 text-left">Notify when a subscription is about to renew.</span>
+                                        <span class="text-gray-400 text-left">Notify when a subscription is about to
+                                            renew.</span>
                                     </div>
                                     <div class="w-16 flex justify-end">
                                         <label class="toggle-switch">
@@ -1495,7 +1534,7 @@
                 <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">PPC</span>
                 <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">PPC</span>
                 </div>-->
-                                <!-- Buttons -->
+                        <!-- Buttons -->
                         <div class="flex justify-end items-center mt-5">
 
                             <div class="flex justify-end gap-3 pt-3">
@@ -1621,63 +1660,76 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody class="light-bg-white light-bg-seo divide-y divide-gray-200">
+                            <tbody id="user-table-body" class="light-bg-white light-bg-seo divide-y divide-gray-200">
                                 <!-- Row 1 -->
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                        John Doe</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium light-text-gray-900">abc123@email.com</div>
-                                    </td>
+                                {{-- @if ($users->isEmpty())
+                                    <tr>
+                                        <td colspan="4"
+                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-center">
+                                            No team members found.
+                                        </td>
+                                    </tr>
+                                @else
+                                    @foreach ($users as $user)
+                                        <tr>
+                                            <td
+                                                class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
+                                                {{ $user->name }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm font-medium light-text-gray-900">
+                                                    {{ $user->email }}</div>
+                                            </td>
 
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex  items-center ">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex  items-center ">
+                                                    <span
+                                                        class="ml-2 text-sm items-center text-orange-500 bg-red-500/30 px-2 py-1 rounded-full ">
+                                                        {{ $user->role->name }}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <div class="flex gap-2 justify-end items-center">
+                                                    <!-- Eye Button -->
+                                                    <button class="confirmPopup" data-user-id="{{ $user->id }}"
+                                                        class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                        </svg>
+                                                    </button>
 
-                                            <span
-                                                class="ml-2 text-sm items-center text-orange-500 bg-red-500/30 px-2 py-1 rounded-full ">Admin</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <div class="flex gap-2 justify-end items-center">
-                                            <!-- Eye Button -->
-                                            <button
-                                                class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                                </svg>
-                                            </button>
+                                                    <!-- Edit Button -->
+                                                    <button
+                                                        class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                        </svg>
+                                                    </button>
 
-                                            <!-- Edit Button -->
-                                            <button
-                                                class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                </svg>
-                                            </button>
-
-                                            <!-- Trash Button -->
-                                            <button
-                                                class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- Row 2 -->
-
+                                                    <!-- Trash Button -->
+                                                    <button
+                                                        class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif --}}
                             </tbody>
                         </table>
                     </div>
@@ -1743,15 +1795,15 @@
 
 
                 <!-- Right Section -->
-                <div id="rightSection" style="display: none; " >
+                <div id="rightSection" style="display: none; ">
                     <div class="flex gap-2 text-xs mb-10 ">
                         <div id="backToLeft">
-                            <span>Settings</span>
+                            <span class="cursor-pointer">Settings</span>
                             <span>/</span>
-                            <span>Team Access</span>
+                            <span class="cursor-pointer">Team Access</span>
                             <span>/</span>
                         </div>
-                        <span>View Team Member</span>
+                        <span class="cursor-pointer">View Team Member</span>
                     </div>
 
                     <div class="flex gap-6">
@@ -1759,17 +1811,21 @@
                         <div class="w-[30%] h-[30%] p-4 light-bg-d9d9d9 rounded-md">
                             <div class="flex flex-col pb-4 items-center border-b light-border-black">
                                 <img src="AvatarTeam.png" class="pb-4" alt="">
-                                <h3 class="text-2xl">Violet Mendoza</h3>
+                                <h3 class="text-2xl member_name">Violet Mendoza</h3>
                             </div>
 
                             <div class="flex flex-col border-b light-border-black gap-4 mt-4 ">
                                 <div class="text-sm light-text-gray-600">Details</div>
                                 <div class="text-md gap-2 text-white"><span
-                                        class="text-md light-text-gray-600">Username: </span>John Doe</div>
+                                        class="text-md light-text-gray-600 ">Username:
+                                        <span class="member_name">John Doe</span></div>
                                 <div class="text-md gap-2 text-white"><span class="text-md light-text-gray-600">Email:
-                                    </span>abc123@gmail.com</div>
-                                <div class="text-md gap-2 text-white"><span class="text-md light-text-gray-600">Role:
-                                    </span>Designer</div>
+                                        <span id="member_email">abc123@gmail.com</span>
+                                </div>
+                                <div class="text-md gap-2 text-white">
+                                    <span class="text-md light-text-gray-600">Role:
+                                        <span id="member_role">Designer</span>
+                                </div>
                                 <div class="text-md flex items-center gap-2 text-white mb-4"><span
                                         class="text-md light-text-gray-600">Role Permission: </span>
                                     <div class="bg-green-900/50 py-1 px-4 rounded-full">
@@ -1850,8 +1906,7 @@
                                         <thead class="light-bg-d9d9d9">
                                             <tr>
                                                 <th scope="col"
-                                                    class="px-9 py-3  text-left text-xs
-    font-medium light-text-gray-500 uppercase tracking-wider">
+                                                    class="px-9 py-3  text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
                                                     <div class="flex items-center w-full justify-between">
                                                         <div style="width: 80%">PROJECTS</div>
                                                         <div style="width: 20%;">
@@ -1922,368 +1977,9 @@
                                                 </th>
                                             </tr>
                                         </thead>
-                                        <tbody class="light-bg-white light-bg-seo divide-y divide-gray-200">
-                                            <!-- Row 1 -->
-                                            <tr>
-                                                <td
-                                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-black">
-                                                    <div class="flex flex-col">
-                                                        <div class="flex flex-col">
-                                                            <p class="mb-1">Website SEO</p>
-                                                            <div class="flex items-center">
-                                                                <div
-                                                                    class="rounded-sm text-center w-20 light-bg-ea54547a">
-                                                                    <div class="text-xs light-text-ff0000">High
-                                                                        Priority</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="flex items-center gap-2">
-                                                        <div><img src="Avatar (3).svg" alt=""></div>
-                                                        <div>
-                                                            <p class="text-sm">John Doe</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <span
-                                                        class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">(000)00000000</span>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm  text-gray-400">
-                                                    <button id="filterButton"
-                                                        class="flex items-center justify-center px-4 py-2 rounded-lg light-text-gray-700  text-gray-700 hover:bg-gray-200 bg-green-900/50 transition-colors">
-                                                        <div
-                                                            class="w-32 flex items-center justify-center text-green-500  justify-between ">
-                                                            <span>Converted</span>
-                                                            <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24"
-                                                                fill="none" stroke="currentColor"
-                                                                stroke-width="1.5" stroke-linecap="round"
-                                                                stroke-linejoin="round">
-                                                                <path d="M7 16 L12 21 L17 16" />
-                                                                <!-- Down chevron -->
-                                                            </svg>
-                                                        </div>
-                                                    </button>
-                                                    <!-- Dropdown Content -->
-                                                    <div id="filterDropdown"
-                                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                                        <div class="py-1" role="menu"
-                                                            aria-orientation="vertical">
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Filter Option 1</a>
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Filter Option 2</a>
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Filter Option 3</a>
-                                                            <div class="border-t border-gray-100"></div>
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Reset Filters</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    <div class="flex justify-end gap-2">
-                                                        <button
-                                                            class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
-                                                            data-action="view-project">
-                                                            <img src="eye-DARK.svg" alt="icon"
-                                                                class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
-                                                        </button>
-                                                    </div>
-
-                                                </td>
-                                            </tr>
-                                            <!-- Row 2 -->
-                                            <tr>
-                                                <td
-                                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-black">
-                                                    <p>Website SEO</p>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="flex items-center gap-2">
-                                                        <div><img src="Avatar (3).svg" alt=""></div>
-                                                        <div>
-                                                            <p class="text-sm">John Doe</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <span
-                                                        class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">(000)00000000</span>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                    <button id="filterButton"
-                                                        class="flex items-center justify-center px-4 py-2 rounded-lg bg-cyan-900/50 light-text-gray-700 text-gray-700 hover:bg-gray-200 transition-colors">
-                                                        <div
-                                                            class="w-32 flex items-center text-cyan-500 justify-between ">
-                                                            <span>In Process</span>
-                                                            <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24"
-                                                                fill="none" stroke="currentColor"
-                                                                stroke-width="1.5" stroke-linecap="round"
-                                                                stroke-linejoin="round">
-                                                                <path d="M7 16 L12 21 L17 16" />
-                                                                <!-- Down chevron -->
-                                                            </svg>
-                                                        </div>
-                                                    </button>
-                                                    <!-- Dropdown Content -->
-                                                    <div id="filterDropdown"
-                                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                                        <div class="py-1" role="menu"
-                                                            aria-orientation="vertical">
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Filter Option 1</a>
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Filter Option 2</a>
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Filter Option 3</a>
-                                                            <div class="border-t border-gray-100"></div>
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Reset Filters</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    <div class="flex justify-end gap-2">
-
-                                                        <button
-                                                            class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
-                                                            data-action="view-project">
-                                                            <img src="eye-DARK.svg" alt="icon"
-                                                                class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
-                                                        </button>
-                                                    </div>
-
-                                                </td>
-                                            </tr>
-                                            <!-- Row 3 -->
-                                            <tr>
-                                                <td
-                                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-black">
-                                                    <div class="flex flex-col">
-                                                        <div class="flex flex-col">
-                                                            <p class="mb-1">Website SEO</p>
-                                                            <div class="flex items-center">
-                                                                <div
-                                                                    class="rounded-sm text-center w-20 light-bg-ea54547a">
-                                                                    <div class="text-xs light-text-ff0000">High
-                                                                        Priority</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="flex items-center gap-2">
-                                                        <div><img src="Avatar (3).svg" alt=""></div>
-                                                        <div>
-                                                            <p class="text-sm">John Doe</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <span
-                                                        class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">(000)00000000</span>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                    <button id="filterButton"
-                                                        class="flex items-center justify-center px-4 py-2 rounded-lg bg-red-900/50 light-text-gray-700 text-gray-700 hover:bg-gray-200 transition-colors">
-                                                        <div
-                                                            class="w-32 flex items-center text-red-500 justify-between ">
-                                                            <span>Not Converted</span>
-                                                            <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24"
-                                                                fill="none" stroke="currentColor"
-                                                                stroke-width="1.5" stroke-linecap="round"
-                                                                stroke-linejoin="round">
-                                                                <path d="M7 16 L12 21 L17 16" />
-                                                                <!-- Down chevron -->
-                                                            </svg>
-                                                        </div>
-                                                    </button>
-                                                    <!-- Dropdown Content -->
-                                                    <div id="filterDropdown"
-                                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                                        <div class="py-1" role="menu"
-                                                            aria-orientation="vertical">
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Filter Option 1</a>
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Filter Option 2</a>
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Filter Option 3</a>
-                                                            <div class="border-t border-gray-100"></div>
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Reset Filters</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    <div class="flex justify-end gap-2">
-
-                                                        <button
-                                                            class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
-                                                            data-action="view-project">
-                                                            <img src="eye-DARK.svg" alt="icon"
-                                                                class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
-                                                        </button>
-                                                    </div>
-
-                                                </td>
-                                            </tr>
-                                            <!-- Row 4 -->
-                                            <tr>
-                                                <td
-                                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-black">
-                                                    <p>Website SEO</p>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="flex items-center gap-2">
-                                                        <div><img src="Avatar (3).svg" alt=""></div>
-                                                        <div>
-                                                            <p class="text-sm">John Doe</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <span
-                                                        class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">(000)00000000</span>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                    <button id="filterButton"
-                                                        class="flex items-center justify-center px-4 py-2 rounded-lg light-text-gray-700  text-gray-700 hover:bg-gray-200 bg-green-900/50 transition-colors">
-                                                        <div
-                                                            class="w-32 flex items-center justify-center text-green-500  justify-between ">
-                                                            <span>Converted</span>
-                                                            <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24"
-                                                                fill="none" stroke="currentColor"
-                                                                stroke-width="1.5" stroke-linecap="round"
-                                                                stroke-linejoin="round">
-                                                                <path d="M7 16 L12 21 L17 16" />
-                                                                <!-- Down chevron -->
-                                                            </svg>
-                                                        </div>
-                                                    </button>
-                                                    <!-- Dropdown Content -->
-                                                    <div id="filterDropdown"
-                                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                                        <div class="py-1" role="menu"
-                                                            aria-orientation="vertical">
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Filter Option 1</a>
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Filter Option 2</a>
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Filter Option 3</a>
-                                                            <div class="border-t border-gray-100"></div>
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Reset Filters</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    <div class="flex justify-end gap-2">
-
-                                                        <button
-                                                            class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
-                                                            data-action="view-project">
-                                                            <img src="eye-DARK.svg" alt="icon"
-                                                                class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
-                                                        </button>
-                                                    </div>
-
-                                                </td>
-                                            </tr>
-                                            <!-- Row 5 -->
-                                            <tr>
-                                                <td
-                                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-black">
-                                                    <p>Website SEO</p>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="flex items-center gap-2">
-                                                        <div><img src="Avatar (3).svg" alt=""></div>
-                                                        <div>
-                                                            <p class="text-sm">John Doe</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <span
-                                                        class="px-2 inline-flex text-xs text-gray-400 leading-5 font-semibold rounded-full">(000)00000000</span>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                    <button id="filterButton"
-                                                        class="flex items-center justify-center px-4 py-2 rounded-lg bg-cyan-900/50 light-text-gray-700 text-gray-700 hover:bg-gray-200 transition-colors">
-                                                        <div
-                                                            class="w-32 flex items-center text-cyan-500 justify-between ">
-                                                            <span>In Process</span>
-                                                            <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24"
-                                                                fill="none" stroke="currentColor"
-                                                                stroke-width="1.5" stroke-linecap="round"
-                                                                stroke-linejoin="round">
-                                                                <path d="M7 16 L12 21 L17 16" />
-                                                                <!-- Down chevron -->
-                                                            </svg>
-                                                        </div>
-                                                    </button>
-                                                    <!-- Dropdown Content -->
-                                                    <div id="filterDropdown"
-                                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                                        <div class="py-1" role="menu"
-                                                            aria-orientation="vertical">
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Filter Option 1</a>
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Filter Option 2</a>
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Filter Option 3</a>
-                                                            <div class="border-t border-gray-100"></div>
-                                                            <a href="#"
-                                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem">Reset Filters</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    <div class="flex justify-end gap-2">
-
-                                                        <button
-                                                            class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
-                                                            data-action="view-project">
-                                                            <img src="eye-DARK.svg" alt="icon"
-                                                                class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
-                                                        </button>
-                                                    </div>
-
-                                                </td>
-                                            </tr>
+                                        <tbody id="projectsTableBody"
+                                            class="light-bg-white light-bg-seo divide-y divide-gray-200">
+                                          
                                         </tbody>
                                     </table>
                                 </div>
@@ -2476,6 +2172,289 @@
         </main>
     </div>
 
+    <div id="Projectstatus" style="display: none; z-index: 9999 !important;"
+        class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        Project Status Update successfully!
+    </div>
+
+    <div id="memeberadd" style="display: none; z-index: 9999 !important;"
+        class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        Member added successfully!
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        $(document).ready(function() {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $(document).on('click', '#save-member', function(e) {
+                e.preventDefault();
+                name = $('#name').val();
+                email = $('#email').val();
+                role_id = $('#role_id').val();
+                password = $('#password').val();
+                project_id = $('#project_id').val();
+
+                let formData = new FormData();
+
+                formData.append('_token', '{{ csrf_token() }}');
+                formData.append('name', name);
+                formData.append('email', email);
+                formData.append('role_id', role_id);
+                formData.append('password', password);
+                formData.append('project_id', project_id);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/settings/addmember',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            $('#memeberadd').fadeIn().delay(4000).fadeOut();
+                            memberData();
+                            $('#name').val('');
+                            $('#email').val('');
+                            $('#role_id').val('');
+                            $('#password').val('');
+                            $('#project_id').val('');
+                        } else {
+                            alert('Failed to add member. Please try again.');
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('Error adding member:', xhr.responseText);
+                    }
+                })
+                
+            });
+
+            function memberData() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/settings/memeberlist',
+                    success: function(response) {
+                        if (response.users) {
+                            let rows = '';
+                            let count = 0;
+                            let index = 1;
+
+
+                            if (response.users.length > 0) {
+                                response.users.forEach(function(user) {
+                                    count++;
+
+                                    rows += `
+                                      <tr>
+                                            <td
+                                                class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
+                                                ${ user.name }</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm font-medium light-text-gray-900">
+                                                    ${ user.email }</div>
+                                            </td>
+
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex  items-center ">
+                                                    <span
+                                                        class="ml-2 text-sm items-center text-orange-500 bg-red-500/30 px-2 py-1 rounded-full ">
+                                                        ${ user.role.name }
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <div class="flex gap-2 justify-end items-center">
+                                                    <!-- Eye Button -->
+                                                    <button class="confirmPopup" data-user-id="${ user.id }"
+                                                        class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                        </svg>
+                                                    </button>
+
+                                                    <!-- Edit Button -->
+                                                    <button
+                                                        class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                        </svg>
+                                                    </button>
+
+                                                    <!-- Trash Button -->
+                                                    <button
+                                                        class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    `;
+                                });
+                            } else {
+                                rows = `
+                                    <tr>
+                                        <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
+                                            No team members found.
+                                        </td>
+                                    </tr>
+                                `;
+                            }
+                            $('#user-table-body').html(rows);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('Error fetching Users data:', xhr.responseText);
+                    }
+                });
+            }
+
+            memberData();
+
+            function renderProjects(projects) {
+                const tableBody = document.getElementById('projectsTableBody');
+                tableBody.innerHTML = ''; 
+
+                if (projects.length === 0) {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td colspan="5" class="text-center">No projects assigned to this member.</td>`;
+                    tableBody.appendChild(tr);
+                    return;
+                }
+
+                projects.forEach(project => {
+                    const tr = document.createElement('tr');
+
+                    tr.innerHTML = `
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm font-medium light-text-gray-900">
+                                                    ${project.project_name}
+                                                </div>
+                                                    ${
+                                                        project.is_high_priority == 1
+                                                        ? `
+                                                                        <div class="rounded-sm text-center w-20 light-bg-ea54547a mt-1">
+                                                                            <div class="text-xs light-text-ff0000">High Priority</div>
+                                                                        </div>
+                                                                        `
+                                                        : ''
+                                                    }
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
+                                                <div class="flex items-center gap-1">
+                                                    <p>${project.client_name}</p>
+                                                </div>
+                                            </td>
+
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex flex-col justify-start gap-2">
+                                                    <span id="progressText" class="ml-2 text-sm light-text-gray-700 align-middle">24%</span>
+                                                    <progress id="myProgress" value="70" max="100" class="w-52 h-2.5 mb-4 rounded-full"></progress>                                                 
+                                                </div>
+                                            </td>
+                                            
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                                <input type="hidden" class="project_status_id" value="${project.id}">
+                                                <select id="project_status" name="project_status" class="w-32 px-4 py-2 rounded-lg bg-success-900/50 text-gray-700 hover:bg-gray-200 transition-colors">
+                                                    <option value="${project.status}" selected>${project.status}</option>
+                                                    <option value="In Progress">In Progress</option>
+                                                    <option value="Delay">Delay</option>
+                                                    <option value="Completed">Completed</option>
+                                                    <option value="Cancelled">Cancelled</option>
+                                                </select>
+                                            </td>   
+                                            
+                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                    <div class="flex justify-end gap-2">
+                                                        <button
+                                                            class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
+                                                            data-action="view-project">
+                                                            <img src="{{asset('assets/eye-DARK.svg')}}" alt="icon"
+                                                                class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
+                                                        </button>
+                                                    </div>
+
+                                                </td>
+                    `;
+
+                    tableBody.appendChild(tr);
+                });
+            }
+
+            $(document).on('click', '.confirmPopup', function() {
+                const userId = $(this).data('user-id');
+                    $('#leftSection').hide();
+                    $('#rightSection').show();
+
+                $.ajax({
+                    url: '/settings/teammember',
+                    method: 'POST',
+                    data: {
+                        user_id: userId,
+                    },
+                    success: function(response) {
+                        renderProjects(response.projects);
+                        $('.member_name').text(response.singleMember.name);
+                        $('#member_email').text(response.singleMember.email);
+                        $('#member_role').text(response.singleMember.role.name);
+                    },
+                    error: function(xhr) {
+                        console.error(xhr.responseText);
+                    }
+                });
+
+            });
+
+            $(document).on('change', '#project_status', function() {
+
+                let selectedStatus = $(this).val();
+
+                let project_status_id = $(this).siblings('.project_status_id').val();
+
+                $.ajax({
+                    url: '/projects/status',
+                    method: 'POST',
+                    data: {
+                        project_status: selectedStatus,
+                        project_status_id: project_status_id
+                    },
+                    success: function(response) {
+                        $('#Projectstatus').fadeIn(400);
+
+                        setTimeout(() => {
+                            $('#Projectstatus').fadeOut(600);
+                        }, 3000);
+                    }
+                });
+
+            });
+
+        });
+    </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const body = document.body;
@@ -2608,7 +2587,7 @@
 
             const openPopupBtn = document.getElementById('openPopup');
             const closePopupBtn = document.getElementById('closePopup');
-            const confirmPopupBtn = document.getElementById('confirmPopup');
+            const confirmPopupBtns = document.querySelectorAll('.confirmPopup');
             const backToLeftBtn = document.getElementById('backToLeft'); // ✅ New button
 
             // Show popup when button in left section is clicked
@@ -2632,12 +2611,15 @@
             });
 
             // Confirm in popup → switch to right section
-            confirmPopupBtn.addEventListener('click', (e) => {
-                e.preventDefault(); // Prevent form submit/page reload
-                leftSection.style.display = 'none';
-                rightSection.style.display = 'block';
-                popupModal.classList.add('hidden');
-            });
+            // confirmPopupBtns.forEach((btn) => {
+            //     btn.addEventListener('click', (e) => {
+            //         e.preventDefault();
+
+            //         leftSection.style.display = 'none';
+            //         rightSection.style.display = 'block';
+            //         popupModal.classList.add('hidden');
+            //     });
+            // });
 
             // Back to left section
             backToLeftBtn.addEventListener('click', () => {
@@ -2735,7 +2717,7 @@
             </button>
 
             <div class="px-6 py-3"> <!-- Container for heading + divider -->
-                <h2 class="text-lg light-text-black  font-semibold">Add Payment Method</h2>
+                <h2 class="text-lg light-text-black  font-semibold">Add New Member</h2>
             </div>
             <div class=""> <!-- Container for heading + divider -->
                 <div class="border-t border-gray-600 w-full mt-4"></div>
@@ -2748,16 +2730,16 @@
 
                     <div class="grid-cols-2 grid gap-4">
                         <div>
-                            <label class="block text-sm mb-1 light-text-black">First Name</label>
+                            <label class="block text-sm mb-1 light-text-black">Name</label>
                             <div class="relative flex-grow">
-                                <input type="text" name="title" placeholder="John"
+                                <input type="text" name="name" id="name" placeholder="Name here..."
                                     class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                             </div>
                         </div>
                         <div>
-                            <label class="block text-sm mb-1 light-text-black">Second Name</label>
+                            <label class="block text-sm mb-1 light-text-black">Email</label>
                             <div class="relative flex-grow">
-                                <input type="text" name="title" placeholder="Wick"
+                                <input type="text" name="email" id="email" placeholder="Email here..."
                                     class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                                 <div class="absolute right-2 top-1/2 transform -translate-y-1/2 flex gap-2">
                                 </div>
@@ -2766,55 +2748,38 @@
                     </div>
                     <div class="grid-cols-2 grid gap-4">
                         <div>
-                            <label class="block text-sm mb-1 light-text-black">Email</label>
+                            <label class="block text-sm mb-1 light-text-black">Password</label>
                             <div class="relative flex-grow">
-                                <input type="text" name="title" placeholder="abc123@gmail.com"
+                                <input type="text" name="password" id="password" placeholder="Password here..."
                                     class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
                             </div>
                         </div>
                         <!-- State Selection -->
                         <div>
                             <label class="block text-sm mb-1 light-text-black">Role</label>
-                            <select class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
-                                <option value="">Select Role</option>
-                                <option value="KPK">KPK</option>
-                                <option value="Punjab">Punjab</option>
-                                <option value="Sindh">Sindh</option>
-                                <option value="Balochistan">Balochistan</option>
+                            <select  id="role_id" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                                <option value="" hidden selected>Select Role</option>
+                                @if($roles->count() > 0)
+                                    @foreach($roles as $role)
+                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                    @endforeach
+                                @endif
                             </select>
                         </div>
                     </div>
-                    <div class="grid-cols-2 grid gap-4">
-                        <!-- State Selection -->
-                        <div>
-                            <label class="block text-sm mb-1 light-text-black">Permission</label>
-                            <select class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
-                                <option value="">Select Permission (View or Edit)</option>
-                                <option value="KPK">KPK</option>
-                                <option value="Punjab">Punjab</option>
-                                <option value="Sindh">Sindh</option>
-                                <option value="Balochistan">Balochistan</option>
-                            </select>
-                        </div>
+                    <div class="">
                         <!-- State Selection -->
                         <div>
                             <label class="block text-sm mb-1 light-text-black">Assign Project</label>
-                            <select class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
-                                <option value="">Select Project</option>
-                                <option value="KPK">KPK</option>
-                                <option value="Punjab">Punjab</option>
-                                <option value="Sindh">Sindh</option>
-                                <option value="Balochistan">Balochistan</option>
+                            <select id="project_id" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                                <option value="" selected hidden>Select Project</option>
+                                @if($allProjects->count() > 0)
+                                    @foreach($allProjects as $project)
+                                        <option value="{{ $project->id }}">{{ $project->project_name }}</option>
+                                    @endforeach
+                                @endif
                             </select>
                         </div>
-                    </div>
-
-
-
-                    <div class="grid grid-cols-3  gap-4">
-
-
-
                     </div>
 
                 </div>
@@ -2828,8 +2793,7 @@
                             class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                             Cancel
                         </button>
-                        <button type="button" id="confirmPopup"
-                            class="px-4 py-2 btn-orange text-white rounded-lg hover:bg-orange-600">
+                        <button id="save-member" type="submit" class="px-4 py-2 btn-orange text-white rounded-lg hover:bg-orange-600">
                             Save
                         </button>
                     </div>
@@ -2966,8 +2930,7 @@
     </div>
 
     <!-- Edit Modal -->
-    <div id="paymentModal"
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
+    <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
         <div
             class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto relative">
             <button id="closePaymentModal" class="absolute top-3 right-3 text-gray-400 hover:text-white">✕</button>
@@ -3138,8 +3101,7 @@
                     <div class="grid grid-cols-3  gap-4">
                         <div>
                             <label class="block text-sm mb-1 light-text-black">Country</label>
-                            <select
-                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                            <select class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="">Pakistan</option>
                                 <option value="Pakistan">Pakistan</option>
                                 <option value="Punjab">Punjab</option>
@@ -3151,8 +3113,7 @@
                         <!-- State Selection -->
                         <div>
                             <label class="block text-sm mb-1 light-text-black">City/State</label>
-                            <select
-                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                            <select class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="">Manshera</option>
                                 <option value="KPK">KPK</option>
                                 <option value="Punjab">Punjab</option>
@@ -3164,8 +3125,7 @@
                         <!-- City Selection -->
                         <div>
                             <label class="block text-sm mb-1 light-text-black">Status</label>
-                            <select
-                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                            <select class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="">Active</option>
                                 <option value="Mansehra">Mansehra</option>
                                 <option value="Peshawar">Peshawar</option>
@@ -3178,8 +3138,7 @@
                     <div class="grid grid-cols-3  gap-4">
                         <div>
                             <label class="block text-sm mb-1 light-text-black">Lead Source</label>
-                            <select
-                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                            <select class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="">Email Marketing</option>
                                 <option value="KPK">KPK</option>
                                 <option value="Punjab">Punjab</option>
@@ -3191,8 +3150,7 @@
                         <!-- State Selection -->
                         <div>
                             <label class="block text-sm mb-1 light-text-black">Lead Status</label>
-                            <select
-                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                            <select class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="">In Process</option>
                                 <option value="KPK">KPK</option>
                                 <option value="Punjab">Punjab</option>
@@ -3204,8 +3162,7 @@
                         <!-- City Selection -->
                         <div>
                             <label class="block text-sm mb-1 light-text-black">Memberships</label>
-                            <select
-                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                            <select class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="">Select Memberships</option>
                                 <option value="Mansehra">Mansehra</option>
                                 <option value="Peshawar">Peshawar</option>

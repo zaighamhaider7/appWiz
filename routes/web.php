@@ -27,7 +27,14 @@ Route::middleware('auth')->group(function () {
     
     Route::delete('/setting', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/setting/{id}', [ProfileController::class, 'delDevice'])->name('profile.deleteDevice');
+
     Route::post('/settings', [settingController::class, 'addRoles'])->name('roles.add');
+
+    Route::post('/settings/teammember', [settingController::class, 'singleMember']);
+
+    Route::get('/settings/memeberlist', [settingController::class, 'memeberList']);
+
+    Route::post('/settings/addmember', [settingController::class, 'memberAdd'])->name('member.add');
     
 
     Route::get('/projects', [ProjectController::class, 'create'])->name('project.create');

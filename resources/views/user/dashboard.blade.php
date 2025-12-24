@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>WIZSPEED Dashboard</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -25,6 +26,55 @@
             /* gray-600 */
             --btn-border: #6B7280;
             /* gray-500 */
+        }
+
+        /* Remove default progress styling */
+        progress {
+            -webkit-appearance: none;
+            /* Chrome, Safari, Opera */
+            appearance: none;
+            width: 100%;
+            height: 10px;
+            /* same as h-2.5 */
+            border-radius: 999px;
+            overflow: hidden;
+            background-color: #e5e7eb;
+            /* gray-200 */
+        }
+
+        progress::-webkit-progress-bar {
+            background-color: #e5e7eb;
+            /* gray-200 */
+        }
+
+        progress::-webkit-progress-value {
+            background-color: #22c55e;
+            /* green-500 */
+            border-radius: 999px;
+        }
+
+        progress::-moz-progress-bar {
+            background-color: #22c55e;
+            /* green-500 */
+            border-radius: 999px;
+        }
+
+        /* Remove background color from upload button */
+        .file-input::-webkit-file-upload-button {
+            background: none;
+            color: inherit;
+            padding: 4px 10px;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* For Firefox */
+        .file-input::file-selector-button {
+            background: none;
+            color: inherit;
+            padding: 4px 10px;
+            cursor: pointer;
+            border: none;
         }
 
         button.custom-btn {
@@ -720,36 +770,39 @@
                     <div class="p-6 rounded-xl shadow-sm flex items-center justify-between"
                         style="background-color: #D6F7FB;">
                         <div>
-                            <p class="text-3xl font-bold light-text-gray-800">08</p>
+                            <p class="text-3xl font-bold light-text-gray-800">{{ $projectCount }}</p>
                             <p class="light-text-gray-700"><span style="color:#AFAFAF;">Total Projects</span></p>
                         </div>
                         <div class="p-3 rounded-full light-bg-00cfe8-icon">
-                            <img src="{{asset('./assets/folder-2.svg')}}" alt="icon" class="w-12 h-12 text-white light-mode-icon"
-                                data-dark-src="{{asset('./assets/folder-2-DARK.svg')}}">
+                            <img src="{{ asset('./assets/folder-2.svg') }}" alt="icon"
+                                class="w-12 h-12 text-white light-mode-icon"
+                                data-dark-src="{{ asset('./assets/folder-2-DARK.svg') }}">
                         </div>
                     </div>
                     <!-- Card 2: In-Process Projects -->
                     <div class="p-6 rounded-xl shadow-sm flex items-center justify-between"
                         style="background-color: #DDF6E8;">
                         <div>
-                            <p class="text-3xl font-bold light-text-gray-800">02</p>
-                            <p class="light-text-gray-700"><span style="color:#AFAFAF;">In-Process Projects</span></p>
+                            <p class="text-3xl font-bold light-text-gray-800">{{ $inprogressProjectCount }}</p>
+                            <p class="light-text-gray-700"><span style="color:#AFAFAF;">In Progress Projects</span></p>
                         </div>
                         <div class="p-3 rounded-full light-bg-28c76f-icon">
-                            <img src="{{asset('./assets/folder-open.svg')}}" alt="icon" class="w-12 h-12 text-white light-mode-icon"
-                                data-dark-src="{{asset('./assets/folder-open-DARK.svg')}}">
+                            <img src="{{ asset('./assets/folder-open.svg') }}" alt="icon"
+                                class="w-12 h-12 text-white light-mode-icon"
+                                data-dark-src="{{ asset('./assets/folder-open-DARK.svg') }}">
                         </div>
                     </div>
                     <!-- Card 3: Open Tickets -->
                     <div class="p-6 rounded-xl shadow-sm flex items-center justify-between"
                         style="background-color: #FCE4E4;">
                         <div>
-                            <p class="text-3xl font-bold light-text-gray-800">10</p>
+                            <p class="text-3xl font-bold light-text-gray-800">{{ $ticketCount }}</p>
                             <p class="light-text-gray-700"><span style="color:#AFAFAF;">Open Tickets</span></p>
                         </div>
                         <div class="p-3 rounded-full light-bg-ea5455-icon">
-                            <img src="{{asset('assets/receipt.svg')}}" alt="icon" class="w-12 h-12 text-white light-mode-icon"
-                                data-dark-src="{{asset('assets/receipt-DARK.svg')}}">
+                            <img src="{{ asset('assets/receipt.svg') }}" alt="icon"
+                                class="w-12 h-12 text-white light-mode-icon"
+                                data-dark-src="{{ asset('assets/receipt-DARK.svg') }}">
                         </div>
                     </div>
                     <!-- Card 4: Unread Messages -->
@@ -760,234 +813,65 @@
                             <p class="light-text-gray-100"><span style="color:#AFAFAF;">Unread Messages</span></p>
                         </div>
                         <div class="p-3 rounded-full light-bg-ff9f43-icon">
-                            <img src="{{asset('assets/message-2.svg')}}" alt="icon" class="w-12 h-12 text-white light-mode-icon"
-                                data-dark-src="{{asset('assets/message-2-DARK.svg')}}">
+                            <img src="{{ asset('assets/message-2.svg') }}" alt="icon"
+                                class="w-12 h-12 text-white light-mode-icon"
+                                data-dark-src="{{ asset('assets/message-2-DARK.svg') }}">
                         </div>
                     </div>
                 </div>
 
                 <!-- SEO Plan Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6" id="seo-cards">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @if (isset($subscriptionData) && count($subscriptionData) > 0)
+                        @foreach ($subscriptionData as $subscription)
+                            <div id="subscription-card-{{ $subscription->id }}"
+                                class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm flex flex-col relative overflow-hidden mb-8 subscription-card">
 
-                    <!-- Starter SEO -->
-                    <div
-                        class="light-bg-f5f5f5 light-bg-seo p-10 rounded-xl shadow-sm flex flex-col relative overflow-hidden mb-8">
-                        <img src="{{asset('assets/3d-seo-optimization-with-rocket-marketing-social-media-concept-interface-web-analytics-strategy-research-planing-purple-background-3d-seo-strategy-vector-icon-render-illustration 1.png')}}"
-                            alt="SEO Icon" class="absolute top-4 right-4 opacity-100 seo-card-img">
-                        <h3
-                            class="text-md font-normal text-black mb-2 w-32 p-3 rounded-full text-center light-bg-d7d7d7 light-text-black">
-                            Starter SEO</h3>
+                                <div class="flex items-center mb-10 justify-between">
+                                    <h3
+                                        class="subscription_tag cursor-pointer text-md font-normal text-black w-32 p-3 rounded-full text-center light-bg-d7d7d7 light-text-black">
+                                        {{ $subscription->subscription_tag }}
+                                    </h3>
+                                </div>
 
-                        <div class="flex items-center">
-                            <p class="text-5xl font-semibold light-text-black mb-2 flex items-center">
-                                <span class="light-text-black"
-                                    style="font-size: 24px; font-weight: 400;">&nbsp;</span>$299
-                            <div class="text-gray-400 flex">
-                                <span class=" ml-1 text-sm font-light" style="color:#8C8C8C;">/month</span>
+                                <p class="text-5xl font-medium light-text-black mb-2 flex items-center">
+                                    $<span class="price text-5xl font-medium">
+                                        {{ number_format($subscription->price, 0) }}
+                                    </span>
+                                    <span class="ml-1 text-sm font-light" style="color:#AFAFAF;">
+                                        /month
+                                    </span>
+                                </p>
+
+                                <p class="subscription_name text-sm font-bold mb-2"
+                                    style="font-size:12px;font-weight:600;">
+                                    {{ $subscription->subscription_name }}
+                                </p>
+
+                                <p class="tagline text-xs text-gray-400 font-medium mb-6">
+                                    {{ $subscription->tagline }}
+                                </p>
+
+                                <div class="flex items-center justify-between border-t dark-border-gray-500 pt-5">
+                                    <div class="w-1/2 pr-2">
+                                        <button data-sub-detail-id="{{ $subscription->id }}"
+                                            class="px-5 py-1 light-text-black border border-gray-200 openModal dark:border-gray-500 rounded-md text-md">
+                                            View Info
+                                        </button>
+                                    </div>
+                                    <div class="w-1/2 pl-2">
+                                        <button class="bg-orange-600 px-5 py-1 text-white rounded-md text-md"
+                                            data-edit-id="{{ $subscription->id }}">
+                                            Buy Now
+                                        </button>
+                                    </div>
+                                </div>
+
                             </div>
-                            </p>
-                        </div>
-
-                        <p class="light-text-black font-bold mb-2">Foundation & Fixes</p>
-                        <p class="text-sm text-gray-400 mb-4">All the basic features to boost your freelance career</p>
-
-                        <!-- Smoothly Toggleable Content -->
-                        <div
-                            class="card-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out text-sm light-text-black mb-6">
-                            <ul class="pl-2 space-y-3">
-                                <li class="flex items-start gap-3">
-                                    <img src="seo-tick.svg" alt="icon" class="w-5 h-5 mt-1 light-mode-icon"
-                                        data-dark-src="seo-tick-DARK.svg">
-                                    <span>Comprehensive SEO strategy</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <img src="seo-tick.svg" alt="icon" class="w-5 h-5 mt-1 light-mode-icon"
-                                        data-dark-src="seo-tick-DARK.svg">
-                                    <span>Dedicated SEO specialist</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <img src="seo-tick.svg" alt="icon" class="w-5 h-5 mt-1 light-mode-icon"
-                                        data-dark-src="seo-tick-DARK.svg">
-                                    <span>Advanced analytics & reporting</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <img src="seo-tick.svg" alt="icon" class="w-5 h-5 mt-1 light-mode-icon"
-                                        data-dark-src="seo-tick-DARK.svg">
-                                    <span>Conversion rate optimization (CRO)</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <img src="seo-tick.svg" alt="icon" class="w-5 h-5 mt-1 light-mode-icon"
-                                        data-dark-src="seo-tick-DARK.svg">
-                                    <span>International SEO (if applicable)</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <img src="seo-tick.svg" alt="icon" class="w-5 h-5 mt-1 light-mode-icon"
-                                        data-dark-src="seo-tick-DARK.svg">
-                                    <span>Monthly strategy calls</span>
-                                </li>
-                            </ul>
-                            <p class="mt-4 italic">Best for small business websites</p>
-                        </div>
-
-                        <!-- Toggle Button -->
-                        <button
-                            class="toggle-btn flex flex-col items-center text-black px-6 py-2 rounded-lg font-semibold  transition-colors">
-                            View More
-                            <span class="mt-1">
-                                <img src="down-row.svg" alt="" class=" object-contain light-mode-icon"
-                                    data-dark-src="down-row-DARK.svg" />
-                            </span>
-                        </button>
-                    </div>
-
-                    <!-- Growth SEO -->
-                    <div
-                        class="light-bg-f5f5f5 light-bg-seo p-10 rounded-xl shadow-sm flex flex-col relative overflow-hidden mb-8">
-                        <img src="{{asset('assets/3d-seo-optimization-with-rocket-marketing-social-media-concept-interface-web-analytics-strategy-research-planing-purple-background-3d-seo-strategy-vector-icon-render-illustration 1.png')}}"
-                            alt="SEO Icon" class="absolute top-4 right-4 opacity-100 seo-card-img">
-                        <h3
-                            class="text-md font-normal text-white mb-2 w-32 p-3 rounded-full text-center light-bg-00cfe8">
-                            Growth SEO</h3>
-
-                        <div class="flex items-center">
-                            <p class="text-5xl font-semibold light-text-black mb-2 flex items-center">
-                                <span class="light-text-black"
-                                    style="font-size: 24px; font-weight: 400;">&nbsp;</span>$499
-                            <div class="text-gray-400 flex">
-                                <span class=" ml-1 text-sm font-light" style="color:#8C8C8C;">/month</span>
-                            </div>
-                            </p>
-                        </div>
-
-                        <p class="light-text-black font-bold mb-2">Authority & Visibility Boost</p>
-                        <p class="text-sm text-gray-400 mb-4">Improve authority, keyword coverage & search visible</p>
-
-
-
-                        <!-- Smoothly Toggleable Content -->
-                        <div
-                            class="card-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out text-sm light-text-black mb-6">
-                            <ul class="pl-2 space-y-3">
-                                <li class="flex items-start gap-3">
-                                    <img src="seo-tick.svg" alt="icon" class="w-5 h-5 mt-1 light-mode-icon"
-                                        data-dark-src="seo-tick-DARK.svg">
-                                    <span>Comprehensive SEO strategy</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <img src="seo-tick.svg" alt="icon" class="w-5 h-5 mt-1 light-mode-icon"
-                                        data-dark-src="seo-tick-DARK.svg">
-                                    <span>Dedicated SEO specialist</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <img src="seo-tick.svg" alt="icon" class="w-5 h-5 mt-1 light-mode-icon"
-                                        data-dark-src="seo-tick-DARK.svg">
-                                    <span>Advanced analytics & reporting</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <img src="seo-tick.svg" alt="icon" class="w-5 h-5 mt-1 light-mode-icon"
-                                        data-dark-src="seo-tick-DARK.svg">
-                                    <span>Conversion rate optimization (CRO)</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <img src="seo-tick.svg" alt="icon" class="w-5 h-5 mt-1 light-mode-icon"
-                                        data-dark-src="seo-tick-DARK.svg">
-                                    <span>International SEO (if applicable)</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <img src="seo-tick.svg" alt="icon" class="w-5 h-5 mt-1 light-mode-icon"
-                                        data-dark-src="seo-tick-DARK.svg">
-                                    <span>Monthly strategy calls</span>
-                                </li>
-                            </ul>
-
-                            <p class="mt-4 italic">Best for growing business websites</p>
-                        </div>
-
-                        <!-- Toggle Button -->
-                        <button
-                            class="toggle-btn flex flex-col items-center text-black px-6 py-2 rounded-lg font-semibold  transition-colors">
-                            View More
-                            <span class="mt-1">
-                                <img src="down-row.svg" alt="" class=" object-contain light-mode-icon"
-                                    data-dark-src="down-row-DARK.svg" />
-                            </span>
-                        </button>
-                    </div>
-
-                    <!-- Pro SEO -->
-                    <div
-                        class="light-bg-f5f5f5 light-bg-seo p-10 rounded-xl shadow-sm flex flex-col relative overflow-hidden mb-8">
-                        <img src="{{asset('assets/3d-seo-optimization-with-rocket-marketing-social-media-concept-interface-web-analytics-strategy-research-planing-purple-background-3d-seo-strategy-vector-icon-render-illustration 1.png')}}"
-                            alt="SEO Icon" class="absolute top-4 right-4 opacity-100 seo-card-img">
-                        <h3 class="text-md font-normal text-white mb-2 w-32 p-3 rounded-full text-center light-bg-white light-text-black"
-                            style="background-color: #28C76F;">Pro SEO</h3>
-
-                        <div class="flex items-center">
-                            <p class="text-5xl font-semibold light-text-black mb-2 flex items-center">
-                                <span class="light-text-black"
-                                    style="font-size: 24px; font-weight: 400;">&nbsp;</span>$699
-                            <div class="text-gray-400 flex">
-                                <span class=" ml-1 text-sm font-light" style="color:#8C8C8C;">/month</span>
-                            </div>
-                            </p>
-                        </div>
-
-                        <p class="light-text-black font-bold mb-2">Full Strategy & National Reach</p>
-                        <p class="text-sm text-gray-400 mb-4">Dominate search rankings and scale organic leads</p>
-
-
-                        <!-- Smoothly Toggleable Content -->
-                        <div
-                            class="card-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out text-sm light-text-black mb-6">
-                            <ul class="pl-2 space-y-3">
-                                <li class="flex items-start gap-3">
-                                    <img src="seo-tick.svg" alt="icon" class="w-5 h-5 mt-1 light-mode-icon"
-                                        data-dark-src="seo-tick-DARK.svg">
-                                    <span>Comprehensive SEO strategy</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <img src="seo-tick.svg" alt="icon" class="w-5 h-5 mt-1 light-mode-icon"
-                                        data-dark-src="seo-tick-DARK.svg">
-                                    <span>Dedicated SEO specialist</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <img src="seo-tick.svg" alt="icon" class="w-5 h-5 mt-1 light-mode-icon"
-                                        data-dark-src="seo-tick-DARK.svg">
-                                    <span>Advanced analytics & reporting</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <img src="seo-tick.svg" alt="icon" class="w-5 h-5 mt-1 light-mode-icon"
-                                        data-dark-src="seo-tick-DARK.svg">
-                                    <span>Conversion rate optimization (CRO)</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <img src="seo-tick.svg" alt="icon" class="w-5 h-5 mt-1 light-mode-icon"
-                                        data-dark-src="seo-tick-DARK.svg">
-                                    <span>International SEO (if applicable)</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <img src="seo-tick.svg" alt="icon" class="w-5 h-5 mt-1 light-mode-icon"
-                                        data-dark-src="seo-tick-DARK.svg">
-                                    <span>Monthly strategy calls</span>
-                                </li>
-                            </ul>
-
-                            <p class="mt-4 italic">Best for large scale national reach</p>
-                        </div>
-
-                        <!-- Toggle Button -->
-                        <button
-                            class="toggle-btn flex flex-col items-center text-black px-6 py-2 rounded-lg font-semibold  transition-colors">
-                            View More
-                            <span class=" mt-1">
-                                <img src="down-row.svg" alt="" class=" object-contain light-mode-icon"
-                                    data-dark-src="down-row-DARK.svg" />
-                            </span>
-                        </button>
-
-
-                    </div>
-
+                        @endforeach
+                    @else
+                        <p>No subscriptions found.</p>
+                    @endif
                 </div>
 
 
@@ -1111,36 +995,8 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody class="light-bg-white light-bg-seo border-b light-border-gray-300">
-                                    <!-- Row 1 -->
-                                    <tr class="border-b-4 light-border-gray-300">
-                                        <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                            01</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium light-text-gray-900">Website SEO</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$4,000</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class=" items-center">
-                                                <span
-                                                    class="ml-2 mb-2 font-light text-sm light-text-gray-700">78%</span>
-                                                <div class="w-52 bg-gray-200 rounded-full h-2.5">
-                                                    <div class="bg-green-400 h-2.5 rounded-full" style="width: 78%">
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                            <button
-                                                class="light-text-orange-500 light-bg-d7d7d7 p-1 rounded-full light-hover-text-orange-700">
-                                                <img class="icon w-5 h-5 rounded-full " src="{{asset("./assets/eye-DARK.svg")}}" />
-
-                                            </button>
-                                        </td>
-                                    </tr>
-
+                                <tbody class="light-bg-white light-bg-seo border-b light-border-gray-300" id="project-table-body">
+                                 
                                 </tbody>
                             </table>
                         </div>
@@ -1323,6 +1179,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
 
                 <!-- Bottom Cards: Need Help & Free Consulting -->
@@ -1338,8 +1195,9 @@
                                 Learn More
                             </button>
                         </div>
-                        <img src="{{asset('assets/List.png')}}" class="w-[240px] h-[240px] object-contain light-mode-img flex-shrink-0"
-                            data-dark-src="{{asset('assets/List.png')}}">
+                        <img src="{{ asset('assets/List.png') }}"
+                            class="w-[240px] h-[240px] object-contain light-mode-img flex-shrink-0"
+                            data-dark-src="{{ asset('assets/List.png') }}">
                     </div>
 
 
@@ -1355,18 +1213,1986 @@
                                 Learn More
                             </button>
                         </div>
-                        <img src="{{asset("assets/Frame 2147224397.png")}}" alt="Consulting Illustration"
+                        <img src="{{ asset('assets/Frame 2147224397.png') }}" alt="Consulting Illustration"
                             class="w-[240px] h-[240px] object-contain light-mode-img flex-shrink-0"
-                            data-dark-src="{{asset('assets/Frame 2147224397.png')}}">
+                            data-dark-src="{{ asset('assets/Frame 2147224397.png') }}">
                     </div>
 
                 </div>
+
             </div>
         </main>
     </div>
 
+    <!-- Modal Background -->
+    <div id="modal"
+        class="hidden modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 overflow-y-auto max-h-screen">
+        <div
+            class="light-bg-seo text-white rounded-lg w-[90%] md:w-[850px] relative p-6 md:flex max-h-[90vh] overflow-y-auto">
+
+            <!-- Left Section -->
+            <div class="md:w-[40%] pr-6 border-r border-gray-700 mb-6 md:mb-0">
+                <span id="subscription_tag" class="bg-gray-700 text-sm px-3 py-1 rounded-full">Starter SEO</span>
+                <h2 id="subscription_price" class="text-3xl md:text-5xl font-medium mt-4">$19 <span
+                        class="text-xl font-normal">/ month</span></h2>
+
+                <h3 class="font-semibold mt-6" id="subscription_name">Foundation & Fixes</h3>
+                <p class="text-gray-400 text-sm mt-2" id="subscription_tagline">All the basic features to boost your
+                    freelance career</p>
+                <ul class="text-sm mt-4 list-disc list-inside text-gray-300" id="best_for_list">
+                    <li>Best for new or small business websites</li>
+                </ul>
+
+                <button class="bg-orange-600 hover:bg-orange-700 text-white w-full py-3 rounded-lg mt-6 font-semibold">
+                    Buy Now
+                </button>
+            </div>
+
+            <!-- Right Section -->
+            <div class="md:w-[60%] pl-0 md:pl-6 mt-6 md:mt-0">
+                <h4 class="font-semibold mb-4">What's Included</h4>
+                <ul class="space-y-3 break-words" id="features_list">
+
+                </ul>
+            </div>
+
+            <!-- Close Button -->
+            <button id="closeModal"
+                class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl rounded-full hover:bg-gray-500 px-2">&times;</button>
+        </div>
+    </div>
+
+
+    <div id="projectModal"
+        class="fixed inset-0 bg-black light-bg-000000 bg-opacity-70 flex items-center justify-center z-50 hidden">
+        <div
+            class="light-bg-seo light-bg-f5f5f5  rounded-xl  w-full md:max-w-6xl  max-h-[90vh] overflow-y-auto shadow-xl">
+
+            <div class="flex justify-between items-start mb-6">
+
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold light-text-black mb-1 p-name">Website SEO</h2>
+                    <div class="rounded-sm text-center w-20 light-bg-ea54547a p-priority-div"
+                        style="display: none !important">
+                        <div class="text-xs light-text-ff0000 ">High Priority</div>
+                    </div>
+                </div>
+                <button id="closeModal"
+                    class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="relative">
+                <!-- Desktop View (unchanged) -->
+                <div
+                    class="hidden md:flex border-b px-6 light-border-gray-200 dark:border-gray-700 light-bg-d9d9d9 py-2 items-center  mb-10">
+                    <!-- Your existing desktop tabs structure -->
+                    <!-- Tab 1: Overview -->
+                    <div
+                        class="flex items-center active px-2 py-1 gap-2 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                        <button class="tab-btn flex  items-center justify-center gap-1 pb-2 px-2" data-tab="overview">
+                            <img class="w-4 h-4 " src="{{ asset('assets/category.png') }}" alt="">
+                            <span>Overview</span>
+                        </button>
+                    </div>
+
+                    <!-- Other tabs... -->
+                    <!-- Tab 2: Notes -->
+                    <div
+                        class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                        <button class="tab-btn flex items-center justify-center gap-1 pb-2 px-2 font-medium "
+                            data-tab="notes">
+                            <img class="w-4 h-4 " src="{{ asset('assets/fi_839860.png') }}" alt="">
+                            <span>Notes</span>
+                        </button>
+                    </div>
+
+                    <!-- Tab 3: Uploaded Document -->
+                    <div
+                        class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                        <button
+                            class="tab-btn flex items-center justify-center gap-1 mb-2 px-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
+                            data-tab="uploadedDocument">
+                            <img class="w-4 h-4 " src="{{ asset('assets/document.png') }}" alt="">
+                            <span>Uploaded Document</span>
+                        </button>
+                    </div>
+
+                    <!-- Tab 4: Add Credentials -->
+                    <div
+                        class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                        <button
+                            class="tab-btn flex items-center justify-center gap-1 pb-2 px-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
+                            data-tab="addCredentials"><img class="w-4 h-4 "
+                                src="{{ asset('assets/fi_1332646.png') }}" alt="">
+                            <span>Add Credentials</span>
+                        </button>
+                    </div>
+
+                    <!-- Tab 5: Reports -->
+                    <div
+                        class="flex items-center px-2 py-1 justify-center rounded-sm hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                        <button
+                            class="tab-btn flex items-center justify-center gap-1 pb-2 px-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
+                            data-tab="reports">
+                            <div class="flex items-center justify-center">
+                                <img class="w-4 h-4" src="{{ asset('assets/dociment.png') }}" alt="">
+                            </div>
+                            <span>Reports</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Slider View -->
+                <div class="md:hidden overflow-x-auto whitespace-nowrap py-4 scrollbar-hide">
+                    <div class="inline-flex space-x-8 px-4">
+                        <!-- Tab 1: Overview -->
+                        <div class="flex flex-col active items-center">
+                            <img class="w-5 h-5" src="{{ asset('assets/category.png') }}" alt="">
+                            <button
+                                class="tab-btn  pt-2 font-medium light-text-orange-500 dark:text-orange-400 border-b-2 light-border-orange-500 dark:border-orange-400"
+                                data-tab="overview">Overview</button>
+                        </div>
+
+                        <!-- Tab 2: Notes -->
+                        <div class="flex flex-col items-center">
+                            <img class="w-5 h-5" src="{{ asset('assets/fi_839860.png') }}" alt="">
+                            <button
+                                class="tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
+                                data-tab="notes">Notes</button>
+                        </div>
+
+                        <!-- Tab 3: Uploaded Document -->
+                        <div class="flex flex-col items-center">
+                            <img class="w-5 h-5" src="{{ asset('assets/document.png') }}" alt="">
+                            <button
+                                class="tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
+                                data-tab="uploadedDocument">Uploaded</button>
+                        </div>
+
+                        <!-- Tab 4: Add Credentials -->
+                        <div class="flex flex-col items-center">
+                            <img class="w-5 h-5" src="{{ asset('assets/fi_1332646.png') }}" alt="">
+                            <button
+                                class="tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
+                                data-tab="addCredentials">Credentials</button>
+                        </div>
+
+                        <!-- Tab 5: Reports -->
+                        <div class="flex flex-col items-center">
+                            <img class="w-5 h-5" src="{{ asset('assets/dociment.png') }}" alt="">
+                            <button
+                                class="tab-btn pt-2 font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
+                                data-tab="reports">Reports</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="overviewContent" class="tab-content p-6">
+                <div class=" items-center">
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-green-500 h-2.5 rounded-full" style="width: 78%"></div>
+                    </div>
+                    <span class="justify-center flex ml-2 text-sm light-text-black">78%</span>
+                </div>
+                <div class="flex w-full justify-between">
+                    <div class="">
+
+                        <div class="space-y-3">
+                            <div class="flex text-left gap-2">
+                                <img src="{{ asset('assets/money.png') }}" alt="">
+                                <span class="light-text-black"> PRICE $<span class="p-price">$4000</span></span>
+                            </div>
+                            <div class="flex text-left gap-2">
+                                <img src="{{ asset('assets/notification-status.png') }}" alt="">
+                                <span class="light-text-black"> STATUS <span class="p-status">InProgress</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-2">
+                                <img src="{{ asset('assets/clock.png') }}" alt="">
+                                <span class="light-text-black"> START DATE <span
+                                        class="p-start-date">05-7-2024</span></span>
+                            </div>
+
+                            <div class="flex items-center gap-2">
+                                <img src="{{ asset('assets/timer.png') }}" alt="">
+                                <span class="light-text-black"> DEADLINE <span
+                                        class="p-end-date">05-7-2024</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div id="notesContent" class="tab-content hidden">
+                <div class="flex justify-between items-center px-8 mb-4 gap-4">
+                    <h3 class="justify-start light-text-black text-2xl">WIZSPEED Team Notes</h3>
+                    <div class="flex gap-2">
+                        <div class="relative w-full max-w-xs">
+                            <input type="text" placeholder="Search here"
+                                class="block w-full mr-10 px-4 py-2  
+                                 bg-transparent border border-gray-200 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
+                            <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                        <button
+                            class="flex items-center px-4 py-2 bg-transparent border border-gray-200 light-text-gray-700 dark:text-gray-300 rounded-lg hover:light-bg-gray-300 dark:hover:bg-gray-600">
+                            Filters
+                            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto ">
+                    <table class="min-w-full divide-y bg-transparent">
+                        <thead class="bg-gray-500 border-2 light-border-gray-300">
+                            <tr class="light-bg-d9d9d9">
+                                <th scope="col"
+                                    class="px-8 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    <div class="flex items-center whitespace-nowrap">
+                                        <span>CREATED DATE</span>
+                                        <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    TITLE
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    DESCRIPTION
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    <div class="flex items-center whitespace-nowrap">
+                                        <span>PRIORITY</span>
+                                        <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    <div class="flex items-center whitespace-nowrap">
+                                        <span>Deadline</span>
+                                        <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    <div class="flex items-center whitespace-nowrap">
+                                        <span>Completed</span>
+                                        <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                        </svg>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-transparent light-border-gray-300" id="milestoneTableBody">
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-between items-center px-8 mt-4">
+                    <div class="flex items-center">
+                        <span class="text-sm light-text-black">Showing 1 to 5 of 100 entries</span>
+                        <select
+                            class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
+                            <option>5</option>
+                            <option>10</option>
+                            <option>25</option>
+                        </select>
+                    </div>
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+
+                        <div class="flex space-x-2 ">
+                            <button
+                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
+                            <button
+                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 bg-orange-600 text-white font-semibold">1</button>
+                            <button
+                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">2</button>
+                            <button
+                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">3</button>
+                            <button
+                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                            <button
+                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                            <button
+                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                        </div>
+
+                    </nav>
+                </div>
+            </div>
+
+            <div id="uploadedDocumentContent" class="tab-content hidden">
+                <div class="flex justify-between items-center px-4 mb-4">
+                    <div class="flex justify-between items-center p-4 mb-4">
+                        <h3 class="text-2xl">Documents</h3>
+                        <div class="relative w-full max-w-xs pl-2">
+
+                        </div>
+                        <div class="flex space-x-2">
+                            <input type="text" placeholder="Search here"
+                                class="block w-full px-4 py-2 border border-gray-200 light-text-gray-900 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
+                            <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <button
+                                class="flex items-center px-4 py-2 border border-gray-200 dark:text-gray-300 rounded-lg hover:light-bg-gray-300 dark:hover:bg-gray-600">
+                                Filters
+                                <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            <button
+                                class="light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm open-upload-modal">
+                                Upload Documents
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y light-divide-gray-200 dark:divide-gray-700">
+                        <thead class="light-bg-gray-50 dark:bg-gray-700">
+                            <tr class="light-bg-d9d9d9">
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    ID
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    FILE
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    UPLOADED DATE
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    ACTION
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-transparent border-2 light-border-gray-300 " id="document-table">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-between items-center px-8 mt-4">
+                    <div class="flex items-center">
+                        <span class="text-sm light-text-gray-700 dark:text-gray-400">Showing 1 to 5 of 100
+                            entries</span>
+                        <select
+                            class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
+                            <option>5</option>
+                            <option>10</option>
+                            <option>25</option>
+                        </select>
+                    </div>
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                        <div class="flex space-x-2">
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            <div id="addCredentialsContent" class="tab-content hidden ">
+                <div class="p-4">
+                    <div class="light-bg-d9d9d9 p-4 rounded-xl">
+                        <h3 class="text-2xl  light-text-black  mb-4">Add Credentials</h3>
+                        <form id="credentialsForm">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                                <div>
+                                    <label class="block text-sm font-medium light-text-white mb-1">Platform
+                                        Name</label>
+                                    <input type="text" placeholder="Google/Facebook etc" name="platform_name"
+                                        id="platformName"
+                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium light-text-white mb-1">Account Name</label>
+                                    <input type="text" name="account_name" placeholder="Account Holder Name"
+                                        id="accountName"
+                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium light-text-white mb-1">Email</label>
+                                    <input type="email" name="email" id="email" placeholder="abc@gmail.com"
+                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium light-text-white mb-1">Password</label>
+                                    <input type="password" name="password" id="password"
+                                        placeholder="Password Here"
+                                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end space-x-2 mb-8">
+                                <button type="button" class="cancel-btn px-4 py-2 rounded-lg">Cancel</button>
+                                <button type="submit"
+                                    class="add-credentials-btn px-4 py-2 rounded-lg bg-orange-600 text-white">
+                                    Save
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+                <div class="px-4">
+                    <div class="flex justify-between items-center p-4 mb-4">
+                        <h3 class="text-2xl">Credentials List</h3>
+                        <div class="relative w-full max-w-xs pl-2">
+
+                        </div>
+                        <div class="flex space-x-2">
+                            <input type="text" placeholder="Search here"
+                                class="block w-full px-4 py-2 border border-gray-200 light-text-black  rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
+                            <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <button
+                                class="flex items-center px-4 py-2 border-2 light-border-gray-300  dark:text-gray-300 rounded-lg hover:light-bg-gray-300 dark:hover:bg-gray-600">
+                                Filters
+                                <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            {{-- <button
+                                class="light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
+                                Upload Documents
+                            </button> --}}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y light-divide-gray-200 dark:divide-gray-700">
+                        <thead class="light-bg-gray-50 dark:bg-gray-700">
+                            <tr class="light-bg-d9d9d9 border-2 light-border-gray-300 ">
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black  uppercase tracking-wider">
+                                    PLATFORM
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    NAME
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    EMAIL
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    PASSWORD
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    ACTION
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class=" border-2 light-border-gray-300 " id="credentials-table">
+                            {{-- <tr class="border-2 light-border-gray-300 ">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Facebook</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">John Doe</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">abc123@email.com</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">********** <button
+                                        class="ml-2 light-text-gray-500 hover:light-text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"><svg
+                                            class="w-4 h-4" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                            </path>
+                                        </svg></button></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button
+                                        class="light-text-indigo-600 hover:light-text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-2">
+                                        <img src="{{ asset('assets/edit.svg') }}" alt="eye"
+                                            class="bg-gray-200 p-1 rounded-full">
+                                    </button>
+                                    <button
+                                        class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                        <img src="{{ asset('assets/trash.svg') }}" alt="eye"
+                                            class="bg-gray-200 p-1 rounded-full">
+                                    </button>
+                                </td>
+                            </tr> --}}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-between items-center mt-4 px-8">
+                    <div class="flex items-center">
+                        <span class="text-sm light-text-gray-700 dark:text-gray-400">Showing 1 to 5 of 100
+                            entries</span>
+                        <select
+                            class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
+                            <option>5</option>
+                            <option>10</option>
+                            <option>25</option>
+                        </select>
+                    </div>
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                        <div class="flex space-x-2">
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            <div id="reportsContent" class="tab-content hidden ">
+                <div class="flex justify-between items-center p-8 mb-4">
+                    <h3 class="text-2xl">Reports</h3>
+                    <div class="relative w-full max-w-xs pl-2">
+
+                    </div>
+                    <div class="flex space-x-2">
+                        <input type="text" placeholder="Search here"
+                            class="block w-full px-4 py-2 border border-gray-200 light-text-gray-900 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
+                        <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <button
+                            class="flex items-center px-4 py-2 border border-gray-200 dark:text-gray-300 rounded-lg hover:light-bg-gray-300 dark:hover:bg-gray-600">
+                            Filters
+                            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <button
+                            class="light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
+                            Upload Documents
+                        </button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y light-divide-gray-200 dark:divide-gray-700">
+                        <thead class="light-bg-gray-50 dark:bg-gray-700">
+                            <tr class="light-bg-d9d9d9 border-2 light-border-gray-300 ">
+                                <th scope="col"
+                                    class="flex items-center px-6 py-3 text-left text-xs font-medium light-text-black  uppercase tracking-wider">
+                                    ID
+                                    <svg class="inline-block w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    MONTH
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    DESCRIPTION
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    DATE
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                    DOCUMENT
+                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                    </svg>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class=" border-2 light-border-gray-300 ">
+                            <tr class=" border-2 light-border-gray-300 ">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">01</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Jan 2025</td>
+                                <td class="px-6 py-4 text-sm text-gray-300">Auth Screen Done, please provide any
+                                    additional content by end of this week</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">05-3-2024</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#"
+                                        class="flex items-center bg-gray-200 rounded-md w-36
+                                p-2 text-gray-300  hover:underline">
+                                        Website SEO.pdf
+                                        <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <!-- Arrow down left side -->
+                                            <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+
+                                            <!-- Document outline -->
+                                            <path
+                                                d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+
+                                            <!-- Folded corner -->
+                                            <path
+                                                d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class=" border-2 light-border-gray-300 ">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">01</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Feb 2025</td>
+                                <td class="px-6 py-4 text-sm text-gray-300">Auth Screen Done, please provide any
+                                    additional content by end of this week</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">05-3-2024</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#"
+                                        class="flex items-center bg-gray-200 rounded-md w-36
+                                p-2 text-gray-300 hover:underline">
+                                        Website SEO.pdf
+                                        <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <!-- Arrow down left side -->
+                                            <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+
+                                            <!-- Document outline -->
+                                            <path
+                                                d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+
+                                            <!-- Folded corner -->
+                                            <path
+                                                d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class=" border-2 light-border-gray-300 ">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">01</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Feb 2025</td>
+                                <td class="px-6 py-4 text-sm text-gray-300">Auth Screen Done, please provide any
+                                    additional content by end of this week</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">05-3-2024</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#"
+                                        class="flex items-center bg-gray-200 rounded-md w-36
+                                p-2 text-gray-300 hover:underline">
+                                        Website SEO.pdf
+                                        <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <!-- Arrow down left side -->
+                                            <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+
+                                            <!-- Document outline -->
+                                            <path
+                                                d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+
+                                            <!-- Folded corner -->
+                                            <path
+                                                d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class=" border-2 light-border-gray-300 ">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">01</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">March 2025</td>
+                                <td class="px-6 py-4 text-sm text-gray-300">Auth Screen Done, please provide any
+                                    additional content by end of this week</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">05-3-2024</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#"
+                                        class="flex items-center bg-gray-200 rounded-md w-36
+                                p-2 text-gray-300 hover:underline">
+                                        Website SEO.pdf
+                                        <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <!-- Arrow down left side -->
+                                            <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+
+                                            <!-- Document outline -->
+                                            <path
+                                                d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+
+                                            <!-- Folded corner -->
+                                            <path
+                                                d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="border-2 light-border-gray-300 ">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">01</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Apr 2025</td>
+                                <td class="px-6 py-4 text-sm text-gray-300">Auth Screen Done, please provide any
+                                    additional content by end of this week</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">05-3-2024</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#"
+                                        class="flex items-center bg-gray-200 rounded-md w-36
+                                p-2 text-gray-300 hover:underline">
+                                        Website SEO.pdf
+                                        <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <!-- Arrow down left side -->
+                                            <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
+                                                stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+
+                                            <!-- Document outline -->
+                                            <path
+                                                d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+
+                                            <!-- Folded corner -->
+                                            <path
+                                                d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
+                                                stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-between items-center p-8 mt-4">
+                    <div class="flex items-center">
+                        <span class="text-sm light-text-gray-700 dark:text-gray-400">Showing 1 to 5 of 100
+                            entries</span>
+                        <select
+                            class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
+                            <option>5</option>
+                            <option>10</option>
+                            <option>25</option>
+                        </select>
+                    </div>
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                        <div class="flex space-x-2">
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                            <button
+                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            <div class=" light-bg-need flex justify-between items-center px-6 py-4 mt-8 ">
+                <div>
+                    <h4 class="font-semibold text-black dark:text-white mb-2">
+                        Need Something Else?
+                    </h4>
+                    <p class="text-gray-600 dark:text-white mb-0 text-sm">
+                        Looking for additional services? Explore our marketplace for Web Design, Digital Marketing, and
+                        more!
+                    </p>
+                </div>
+
+                <button
+                    class="bg-orange-600 dark:bg-[#282828] border-2 light-border-gray-300 text-white px-6 py-2 rounded-lg hover:bg-orange-700 dark:hover:bg-orange-600 transition-colors">
+                    View More
+                </button>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <!-- document Upload Modal -->
+    <div id="uploadModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="p-6 bg-[#1f1f1f] rounded-lg w-full max-w-[70vw] text-white">
+
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Upload Documents</h2>
+                <button class="close-upload-modal text-gray-300 hover:text-white">✕</button>
+            </div>
+
+            <!-- file Upload -->
+            <form action="{{ route('document.store') }}" method="POST">
+                @csrf
+                <div>
+                    <label class="block text-sm mb-1 light-text-black">Attachment</label>
+                    <input id="project_document" type="file" id="ticketFile"
+                        class="file-input w-full light-text-black light-bg-d7d7d7 p-1 rounded-md focus:outline-none">
+                </div>
+
+                <div class="flex justify-end mt-4">
+                    <div class="flex gap-2">
+                        <button class="close-upload-modal bg-gray-600 px-4 py-2 rounded">Cancel</button>
+                        <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded"
+                            id="upload-document-btn">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- edit credentials Modal -->
+    <div id="credentialModal"
+        class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="p-6 bg-[#1f1f1f] rounded-lg w-full max-w-[70vw] text-white">
+
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Edit Credentials</h2>
+                <button class="close-credential-modal text-gray-300 hover:text-white">✕</button>
+            </div>
+
+            <form>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <input type="hidden" name="e_credentail_id" id="e_credential_id">
+                    <div>
+                        <label class="block text-sm font-medium light-text-white mb-1">Platform
+                            Name</label>
+                        <input type="text" placeholder="Google/Facebook etc" name="e_platform_name"
+                            id="e_platformName"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium light-text-white mb-1">Account Name</label>
+                        <input type="text" name="e_account_name" placeholder="Account Holder Name"
+                            id="e_accountName"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium light-text-white mb-1">Email</label>
+                        <input type="email" name="e_email" id="e_email" placeholder="abc@gmail.com"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium light-text-white mb-1">Password</label>
+                        <input type="text" name="e_password" id="e_password" placeholder="Password Here"
+                            class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-2 mb-8">
+                    <button type="button" class="close-credential-modal px-4 py-2 rounded-lg">Cancel</button>
+                    <button type="submit"
+                        class="edit-credentials-btn px-4 py-2 rounded-lg bg-orange-600 text-white">
+                        Save
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+    <div id="document_delete_msg" style="display: none; z-index: 9999 !important;"
+        class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        Document Deleted successfully!
+    </div>
+
+    <div id="documentUploadMsg" style="display: none; z-index: 9999 !important;"
+        class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        Document Upload successfully!
+    </div>
+
+    <div id="credentialsMsg" x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+        class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50" style="display: none;">
+        Credentials saved successfully
+    </div>
+
+    <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+        class="Errors fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50"
+        style="display: none;">
+    </div>
+
+    <div id="deletecredential" style="display: none; z-index: 9999 !important;"
+        class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        Credentials deleted successfully!
+    </div>
+
+    <div id="editcredential" style="display: none; z-index: 9999 !important;"
+        class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        Credentials Updated successfully!
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script>
+        $(document).ready(function() {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+
+            function getPriorityBadge(priority) {
+                if (priority === 'Low') {
+                    return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full light-bg-green-200 light-text-green-800 dark:bg-green-900 dark:text-green-200">Low</span>`;
+                }
+                if (priority === 'Medium') {
+                    return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full light-bg-blue-100 light-text-blue-800 dark:bg-blue-900 dark:text-blue-200">Medium</span>`;
+                }
+                if (priority === 'High') {
+                    return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full light-bg-red-100 light-text-red-800 dark:bg-red-900 dark:text-red-200">High</span>`;
+                }
+                return '';
+            }
+
+            //  milestone data fetch funtion start
+            function renderMilestones(milestoneData) {
+                const tableBody = document.getElementById('milestoneTableBody');
+                tableBody.innerHTML = '';
+
+                if (milestoneData.length === 0) {
+                    const noDataTr = document.createElement('tr');
+                    noDataTr.innerHTML = `
+                            <td colspan="6" class="px-6 py-4 text-center text-gray-500 italic">
+                            No milestones found.
+                            </td>
+                        `;
+                    tableBody.appendChild(noDataTr);
+                    return;
+                }
+
+                milestoneData.forEach((milestone, index) => {
+                    const tr = document.createElement('tr');
+                    tr.classList.add('border-2', 'light-border-gray-300');
+
+                    tr.innerHTML = `
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${new Date(milestone.created_at).toLocaleDateString()}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${milestone.milestone_name}</td>
+                            <td class="px-6 py-4 text-sm light-text-black">${milestone.description}</td>
+                            <td class="px-6 py-4 text-sm light-text-black">${getPriorityBadge(milestone.priority)}</td>
+                            <td class="px-6 py-4 text-sm light-text-black">${milestone.deadline}</td>
+                            <td class="px-6 py-4">
+                            <div class="flex justify-center">
+                                <input 
+                                    type="checkbox"
+                                    class="accent-orange-500 w-4 h-4 is-completed-checkbox"
+                                    data-id="${milestone.id}"
+                                    ${milestone.is_completed == 1 ? 'checked' : ''}
+                                />
+                            </div>
+                            </td>
+
+                        `;
+
+                    tableBody.appendChild(tr);
+                });
+
+            }
+
+            $(document).on('change', '.is-completed-checkbox', function() {
+
+                let milestoneId = $(this).data('id');
+                let isCompleted = $(this).is(':checked') ? 1 : 0;
+
+                $.ajax({
+                    url: '/milestones/update-status',
+                    method: 'POST',
+                    data: {
+                        milestone_id: milestoneId,
+                        is_completed: isCompleted
+                    },
+                    success: function(response) {
+
+                        $('#milestonestatus').fadeIn(400);
+                        setTimeout(() => {
+                            $('#milestonestatus').fadeOut(600);
+                        }, 3000);
+
+                        console.log(response.message);
+                    },
+                    error: function(xhr) {
+                        console.error(xhr.responseText);
+                    }
+                });
+
+            });
+
+            // project data fetch using ajax start
+            function projectData() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/project/list',
+                    success: function(response) {
+                        if (response.success) {
+                            let rows = '';
+                            let count = 0;
+                            let index = 1;
+
+                            if (response.success.length > 0) {
+                                response.success.forEach(function(project) {
+                                    count++;
+                                    rows += `
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
+                                                ${index++}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm font-medium light-text-gray-900">
+                                                    ${project.project_name}
+                                                </div>
+                                                ${
+                                                    project.is_high_priority == 1
+                                                    ? `
+                                                                                                <div class="rounded-sm text-center w-20 light-bg-ea54547a mt-1">
+                                                                                                    <div class="text-xs light-text-ff0000">High Priority</div>
+                                                                                                </div>
+                                                                                                `
+                                                    : ''
+                                                }
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
+                                                <div class="flex items-center gap-1">
+                                                    <p>$${project.price}</p>
+                                                </div>
+                                            </td>
+            
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex flex-col justify-start gap-2">
+                                                    <span id="progressText" class="ml-2 text-sm light-text-gray-700 align-middle">24%</span>
+                                                    <progress id="myProgress" value="70" max="100" class="w-52 h-2.5 mb-4 rounded-full"></progress>                                                 
+                                                </div>
+                                            </td>
+                                
+                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                <button data-project-id="${project.id}" class="edit-project-modal light-text-orange-500 light-hover-text-orange-700"
+                                                    data-action="view-project">
+                                                    <svg class="icon w-5 h-5" viewBox="0 0 24 24">
+                                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                        <circle cx="12" cy="12" r="3"></circle>
+                                                    </svg>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    `;
+
+                                });
+                            } else {
+                                rows = `
+                                    <tr>
+                                        <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
+                                            No projects found.
+                                        </td>
+                                    </tr>
+                                `;
+                            }
+                            $('#project-table-body').html(rows);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('Error fetching project data:', xhr.responseText);
+                    }
+                });
+            }
+
+            projectData();
+
+            $('#project-table-body').on('click', '.toggle-btn', function() {
+                const targetId = $(this).data('target');
+                $('#' + targetId).toggleClass('hidden');
+            });
+
+            // project data fetch using ajax end
+
+            function openSubscriptionModal(subscription_id) {
+
+                $.ajax({
+                    url: "{{ route('subscription.detail') }}",
+                    method: 'POST',
+                    data: {
+                        id: subscription_id,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(data) {
+
+                        let price = parseFloat(data.subDetail.price);
+                        let formattedPrice = Number.isInteger(price) ? price : price.toFixed(2);
+
+                        $('#subscription_tag').text(data.subDetail.subscription_tag);
+                        $('#subscription_price').html(
+                            `$${formattedPrice} <span class="text-xl font-normal">/ month</span>`);
+                        $('#subscription_name').text(data.subDetail.subscription_name);
+                        $('#subscription_tagline').text(data.subDetail.tagline);
+
+                        $('#best_for_list').html(`<li>${data.subDetail.best_for}</li>`);
+
+                        let featuresHtml = '';
+                        if (data.subDetail.features && data.subDetail.features.length > 0) {
+                            data.subDetail.features.forEach(function(feature) {
+                                featuresHtml += `<li class="flex items-start">
+                                    <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 mr-2 mt-0.5">
+                                        <img src="{{ asset('assets/modal-check.svg') }}" class="w-full h-full" alt="✓">
+                                    </span>
+                                    <span>${feature.feature}.</span>
+                                </li>`;
+                            });
+                        } else {
+                            featuresHtml = `<li>No features available</li>`;
+                        }
+                        $('#features_list').html(featuresHtml);
+
+                    },
+                    error: function(xhr) {
+                        console.error(xhr.responseText);
+                        alert('Something went wrong while fetching subscription details.');
+                    }
+                });
+            }
+
+            $('.openModal').click(function() {
+                const subscription_id = $(this).data('sub-detail-id');
+
+                openSubscriptionModal(subscription_id);
+            });
+
+            $(document).on('click', '.edit-project-modal', function() {
+                const currentProjectId = $(this).data('project-id');
+
+                $.ajax({
+                    url: '/projects/project-id',
+                    method: 'POST',
+                    data: {
+                        id: currentProjectId
+                    },
+                    success: function(response) {
+                        $('#upload-document-btn').attr('data-project-id', currentProjectId);
+                        renderDocuments(response.documentData)
+                        renderMilestones(response.milestoneData);
+                        $('.p-name').text(response.data.project_name);
+                        $('.p-price').text(response.data.price);
+                        $('.p-status').text(response.data.status);
+                        $('.p-start-date').text(response.data.start_date);
+                        $('.p-end-date').text(response.data.end_date);
+
+                        if (response.data.is_high_priority == 1) {
+                            $('.p-priority-div').show();
+                        } else {
+                            $('.p-priority-div').hide();
+                        }
+                    }
+                });
+
+            });
+
+            // document work start
+
+            function renderDocuments(documents) {
+                let tbody = $('#document-table');
+
+                tbody.empty();
+
+                if (documents.length === 0) {
+                    let row = `
+                        <tr class="border-2 light-border-gray-300">
+                            <td colspan="5" class="px-6 py-4 whitespace-nowrap text-center text-sm light-text-black">
+                                Documents not found
+                            </td>
+                        </tr>
+                    `;
+                    tbody.append(row);
+                } else {
+                    documents.forEach(function(document, index) {
+                        let createdDate = document.created_at.split("T")[0];
+                        let row = `
+                        <tr class="border-2 light-border-gray-300">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${index + 1}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
+                                <a href="${document.document_name}" target="_blank"
+                                    class="flex items-center bg-gray-200 rounded-md w-36
+                                    p-2 light-text-gray-600 dark:text-gray-400 hover:underline">
+                                    View File
+                                    <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
+                                            stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
+                                            stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
+                                            stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                        <path d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
+                                            stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </a>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${createdDate}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                <button class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                    <div class="flex gap-2">
+                                        <img data-document-id="${document.id}" data-d_project-id="${document.project_id}" src="{{ asset('assets/trash.svg') }}" alt="eye" class="delete-document-btn bg-gray-200 p-1 rounded-full">
+                                    </div>
+                                </button>
+                            </td>
+                        </tr>
+                        `;
+                        tbody.append(row);
+                    });
+                }
+
+
+            }
+
+
+            $(document).on('click', '.delete-document-btn', function() {
+                document_id = $(this).data('document-id');
+                projectId = $(this).data('d_project-id');
+
+                $.ajax({
+                    url: 'document/delete',
+                    method: 'POST',
+                    data: {
+                        document_id: document_id
+                    },
+                    success: function(r) {
+                        $('#document_delete_msg').fadeIn(400);
+                        setTimeout(() => {
+                            $('#document_delete_msg').fadeOut(600);
+                        }, 3000);
+
+                        $.ajax({
+                            url: '/document/list',
+                            method: 'POST',
+                            data: {
+                                project_id: projectId
+                            },
+                            success: function(documentResponse) {
+                                renderDocuments(documentResponse.documentData);
+                            },
+                            error: function() {
+                                alert(
+                                    'Failed to reload Document after deletion.'
+                                );
+                            }
+                        });
+
+
+                    }
+                });
+            })
+
+            $(document).on('click', '#upload-document-btn', function(d) {
+
+                d.preventDefault();
+
+                let document_project_id = $(this).attr('data-project-id');
+
+                let formData = new FormData();
+
+                formData.append('_token', '{{ csrf_token() }}');
+                formData.append('project_document', $('#project_document')[0].files[0]);
+                formData.append('project_id', document_project_id);
+
+
+                $.ajax({
+                    url: "{{ route('document.store') }}",
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response) {
+                            $('#project_document').val('');
+                            $('#documentUploadMsg').fadeIn(400);
+                            setTimeout(() => {
+                                $('#documentUploadMsg').fadeOut(600);
+                            }, 3000);
+
+                            $.ajax({
+                                url: '/document/list',
+                                method: 'POST',
+                                data: {
+                                    project_id: document_project_id
+                                },
+                                success: function(documentResponse) {
+                                    renderDocuments(documentResponse.documentData);
+                                },
+                                error: function() {
+                                    alert(
+                                        'Failed to reload Document after deletion.'
+                                    );
+                                }
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status);
+                        console.log(xhr.responseJSON);
+                    }
+                });
+            });
+
+            // credentials start
+
+            function loadCredentials() {
+                $.ajax({
+                    url: '/credentials/list',
+                    type: 'GET',
+                    success: function(response) {
+                        renderCredentials(response.credentialsData);
+                    },
+                    error: function() {
+                        console.log('Failed to load credentials');
+                    }
+                });
+            }
+
+            function renderCredentials(credentials) {
+                let tbody = $('#credentials-table');
+
+                tbody.empty();
+
+                if (!credentials || credentials.length === 0) {
+
+                    let row = `
+                        <tr class="border-2 light-border-gray-300">
+                            <td colspan="5" class="px-6 py-4 text-center text-sm light-text-black">
+                                Credentials not found
+                            </td>
+                        </tr>
+                    `;
+                    tbody.append(row);
+                } else {
+                    credentials.forEach(function(cred, index) {
+                        let row = `
+                            <tr class="border-2 light-border-gray-300">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${index + 1}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${cred.platform_name}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${cred.account_name}</td>
+
+                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">
+                                    <span id="password-${index}" data-password="${cred.password}">
+                                        ********
+                                    </span>
+
+                                    <button onclick="togglePassword(${index})"
+                                        class="ml-2 light-text-gray-500 hover:light-text-gray-700">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                        </svg>
+                                    </button>
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button class="mr-2 open-credential-modal" data-credential-id="${cred.id}">
+                                        <img src="{{ asset('assets/edit.svg') }}" class="bg-gray-200 p-1 rounded-full">
+                                    </button>
+                                    <button class="delete-credentials-btn" data-credential-id="${cred.id}">
+                                        <img src="{{ asset('assets/trash.svg') }}" class="bg-gray-200 p-1 rounded-full">
+                                    </button>
+                                </td>
+                            </tr>`;
+                        tbody.append(row);
+                    });
+                }
+            }
+
+            loadCredentials();
+
+            $(document).on('click', '.add-credentials-btn', function(e) {
+                e.preventDefault();
+
+                let platform_name = $('#platformName').val();
+                let account_name = $('#accountName').val();
+                let email = $('#email').val();
+                let password = $('#password').val();
+
+                let formData = new FormData();
+                formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+                formData.append('platform_name', platform_name);
+                formData.append('account_name', account_name);
+                formData.append('email', email);
+                formData.append('password', password);
+
+                $.ajax({
+                    url: "{{ route('credentials.store') }}",
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        loadCredentials();
+                        $('#platformName').val('');
+                        $('#accountName').val('');
+                        $('#email').val('');
+                        $('#password').val('');
+
+                        $('#credentialsMsg').fadeIn(400);
+                        setTimeout(() => {
+                            $('#credentialsMsg').fadeOut(600);
+                        }, 3000);
+                    },
+                    error: function(xhr) {
+
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+                            let errorHtml = '<ul class="list-disc list-inside">';
+                            $.each(errors, function(key, messages) {
+                                $.each(messages, function(i, msg) {
+                                    errorHtml += `<li>${msg}</li>`;
+                                });
+                            });
+                            errorHtml += '</ul>';
+
+                            $('.Errors').html(errorHtml).fadeIn();
+                            setTimeout(() => {
+                                $('.Errors').fadeOut();
+                            }, 5000);
+                        } else {
+                            $('.Errors').html('An unexpected error occurred.').fadeIn();
+                            setTimeout(() => {
+                                $('.Errors').fadeOut();
+                            }, 5000);
+                        }
+                    }
+                });
+            });
+
+            $(document).on('click', '.delete-credentials-btn', function() {
+                let credential_id = $(this).data('credential-id');
+
+                $.ajax({
+                    url: '/credentials/delete',
+                    method: 'POST',
+                    data: {
+                        credential_id: credential_id,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        loadCredentials();
+                        $('#deletecredential').fadeIn(400);
+                        setTimeout(() => {
+                            $('#deletecredential').fadeOut(600);
+                        }, 3000);
+                    },
+                    error: function() {
+                        console.log('Failed to delete credential');
+                    }
+                });
+            });
+
+            $(document).on('click', '.open-credential-modal', function() {
+                let credential_id = $(this).data('credential-id');
+
+                $('#credentialModal').removeClass('hidden');
+
+                console.log('Credential ID to edit:', credential_id);
+
+                $.ajax({
+                    url: '/credentials/edit',
+                    method: 'POST',
+                    data: {
+                        credential_id: credential_id,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        let credential_id = $('#e_credential_id').val(response.credentialData
+                            .id);
+                        let platform_name = $('#e_platformName').val(response.credentialData
+                            .platform_name);
+                        let account_name = $('#e_accountName').val(response.credentialData
+                            .account_name);
+                        let email = $('#e_email').val(response.credentialData.email);
+                        let password = $('#e_password').val(response.credentialData.password);
+                    },
+                    error: function() {
+                        console.log('Failed to fetch credential');
+                    }
+                });
+
+            });
+
+            $(document).on('click', '.edit-credentials-btn', function(e) {
+                e.preventDefault();
+
+                let credential_id = $('#e_credential_id').val();
+                let platform_name = $('#e_platformName').val();
+                let account_name = $('#e_accountName').val();
+                let email = $('#e_email').val();
+                let password = $('#e_password').val();
+
+                let formData = new FormData();
+                formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+                formData.append('credential_id', credential_id);
+                formData.append('platform_name', platform_name);
+                formData.append('account_name', account_name);
+                formData.append('email', email);
+                formData.append('password', password);
+
+                $.ajax({
+                    url: '/credentials/update',
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        loadCredentials();
+                        $('#editcredential').fadeIn(400);
+                        setTimeout(() => {
+                            $('#editcredential').fadeOut(600);
+                        }, 3000);
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status);
+                        console.log(xhr.responseJSON);
+                    }
+                });
+            });
+
+
+
+        })
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Debugging point 1
+            console.log('DOM loaded - script running');
+
+            const modal = document.getElementById('projectModal');
+            const closeBtn = document.getElementById('closeModal');
+            const tabButtons = document.querySelectorAll('.tab-btn'); // Select all tab buttons
+            const tabContents = document.querySelectorAll('.tab-content'); // Select all tab content divs
+
+            // --- NEW: Dark Mode Elements and Logic ---
+            const themeToggleBtn = document.getElementById(
+                'themeToggle'); // Assuming you'll have a button with this ID
+            const htmlElement = document.documentElement; // This is the <html> tag
+
+            // Function to set the theme
+            function setTheme(theme) {
+                if (theme === 'dark') {
+                    htmlElement.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                    // Update button icon/text if you have one
+                    if (themeToggleBtn) {
+                        themeToggleBtn.innerHTML =
+                            '<i class="fa-solid fa-sun"></i> Light Mode'; // Example for a sun icon
+                    }
+                } else {
+                    htmlElement.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                    // Update button icon/text if you have one
+                    if (themeToggleBtn) {
+                        themeToggleBtn.innerHTML =
+                            '<i class="fa-solid fa-moon"></i> Dark Mode'; // Example for a moon icon
+                    }
+                }
+            }
+
+            // Function to toggle the theme
+            function toggleTheme() {
+                if (htmlElement.classList.contains('dark')) {
+                    setTheme('light');
+                } else {
+                    setTheme('dark');
+                }
+            }
+
+            // Apply saved theme on load, or default to system preference/light
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                // Check for system preference if no theme is saved
+                setTheme('dark');
+            } else {
+                setTheme('light'); // Default to light mode if no preference
+            }
+
+            // Add event listener for the theme toggle button
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', toggleTheme);
+            }
+            // --- END NEW: Dark Mode Elements and Logic ---
+
+
+            if (!modal || !closeBtn || tabButtons.length === 0 || tabContents.length === 0) {
+                console.error('Modal or tab elements not found!');
+                return;
+            }
+
+            // Debugging point 2
+            console.log('Modal, close button, and tab elements found');
+
+            // Function to show a specific tab content and activate its button
+            function showTab(tabId) {
+                // Hide all tab contents
+                tabContents.forEach(content => {
+                    content.classList.add('hidden');
+                });
+
+                // Deactivate all tab wrappers
+                const tabWrappers = document.querySelectorAll('.tab-wrapper');
+                tabWrappers.forEach(wrapper => {
+                    wrapper.classList.remove('active', 'bg-gray-tab');
+                });
+
+                // Deactivate all tab buttons
+                tabButtons.forEach(button => {
+                    button.classList.remove(
+                        'text-orange-500',
+                        'dark:text-orange-400',
+                        'light-bg-d7d7d7',
+                        'p-2',
+                        'rounded-md'
+
+                    );
+
+                    // Remove inactive gray states to avoid duplicates
+                    button.classList.remove(
+                        'text-gray-500',
+                        'dark:text-gray-400',
+                        'hover:text-gray-700',
+                        'dark:hover:text-gray-300',
+                        'text-gray-700',
+                        'dark:text-gray-300',
+                        'hover:text-gray-900',
+                        'dark:hover:text-gray-100'
+                    );
+
+                    // Add default inactive state
+                    button.classList.add(
+                        'text-gray-700', // visible in light mode
+                        'dark:text-gray-300', // visible in dark mode
+                        'hover:text-gray-900',
+                        'dark:hover:text-gray-100'
+                    );
+                });
+
+                // Show the selected tab content
+                const selectedTabContent = document.getElementById(tabId + 'Content');
+                if (selectedTabContent) {
+                    selectedTabContent.classList.remove('hidden');
+                }
+
+                // Activate the selected tab button and wrapper
+                const activeButton = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+                if (activeButton) {
+                    // Remove inactive classes
+                    activeButton.classList.remove(
+                        'text-gray-700',
+                        'dark:text-gray-300',
+                        'hover:text-gray-900',
+                        'dark:hover:text-gray-100'
+                    );
+
+                    // Add active classes
+                    activeButton.classList.add(
+                        'text-orange-500',
+                        'dark:text-orange-400',
+                        'light-bg-d7d7d7',
+                        'p-2',
+                        'rounded-md'
+
+                    );
+
+                    // Highlight its parent wrapper
+                    const wrapper = activeButton.closest('.tab-wrapper');
+                    if (wrapper) {
+                        wrapper.classList.add('active', 'bg-gray-tab');
+                    }
+                }
+            }
+
+
+            document.addEventListener('click', function(e) {
+                const eyeBtn = e.target.closest('[data-action="view-project"]');
+
+                if (!eyeBtn) return;
+
+                e.preventDefault();
+
+
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                showTab('overview');
+            });
+
+
+            // Close modal
+            closeBtn.addEventListener('click', function() {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            });
+
+            // Close when clicking outside modal
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Tab switching functionality
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.dataset.tab; // Get the data-tab attribute value
+                    console.log(tabId);
+                    showTab(tabId); // Call the helper function
+
+                });
+            });
+
+            // Debugging point 5
+            console.log('All event listeners set up');
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
+
+            const uploadModal = document.getElementById("uploadModal");
+            const openUploadModalBtns = document.querySelectorAll(".open-upload-modal");
+            const closeUploadModalBtns = document.querySelectorAll(".close-upload-modal");
+
+            openUploadModalBtns.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    uploadModal.classList.remove("hidden");
+                });
+            });
+
+            closeUploadModalBtns.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    uploadModal.classList.add("hidden");
+                });
+            });
+
+            const credentialModal = document.getElementById("credentialModal");
+            const closeCredentialModalBtns = document.querySelectorAll(".close-credential-modal");
+
+
+            closeCredentialModalBtns.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    credentialModal.classList.add("hidden");
+                });
+            });
+
+            window.togglePassword = function(index) {
+                const el = document.getElementById(`password-${index}`);
+                if (!el) return;
+
+                const realPassword = el.getAttribute("data-password");
+
+                if (el.textContent.trim() === "********") {
+                    el.textContent = realPassword;
+                } else {
+                    el.textContent = "********";
+                }
+            };
+
+            const mainModal = document.getElementById("modal");
+            const openModalCards = document.querySelectorAll(".openModal");
+            const closeModal = document.getElementById("closeModal");
+
+            openModalCards.forEach((card) => {
+                card.addEventListener("click", (e) => {
+                    const isSwitch = e.target.closest(
+                        ".toggle-switch, .toggle-input, .toggle-slider");
+                    if (!isSwitch && mainModal) mainModal.classList.remove("hidden");
+                });
+            });
+
+            if (closeModal && mainModal) {
+                closeModal.addEventListener("click", () => mainModal.classList.add("hidden"));
+            }
+
+            window.addEventListener("click", (e) => {
+                if (e.target === mainModal) mainModal.classList.add("hidden");
+            });
+
             const body = document.body;
             const knowledgeButton = document.getElementById('knowledgeButton');
             const filterButton = document.getElementById('filterButton');
@@ -1451,7 +3277,7 @@
                         const content = card.querySelector('.card-content');
                         const icon = event.target.querySelector('img.toggle-icon'); // Get the icon
                         const textNode = event.target.childNodes[
-                        0]; // Get the text node (assuming it's first)
+                            0]; // Get the text node (assuming it's first)
 
                         if (!content.style.maxHeight || content.style.maxHeight === '0px') {
                             content.style.maxHeight = content.scrollHeight + 'px';

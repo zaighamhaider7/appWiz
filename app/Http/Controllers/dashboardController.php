@@ -12,6 +12,8 @@ use Google\Analytics\Data\V1beta\RunReportRequest;
 use App\Models\project;
 use App\Models\User;
 use App\Models\ticket;
+use App\Models\Subscription;
+
 
 class dashboardController extends Controller
 {
@@ -169,7 +171,15 @@ class dashboardController extends Controller
             return view('admin.dashboard', compact('ticketData', 'ticketCount','projectCount','clientCount', 'thisMonthClients','thisMonthTickets', 'thisMonthProjects', 'summary', 'sources', 'currentData'));
         }
         else{
-            return view('user.dashboard');
+            $user = auth()->user();
+
+            $projectCount = $user->assignedProjects()->count();
+            $inprogressProjectCount = $user->assignedProjects()->where('status', 'In Progress')->count();
+            $ticketCount = ticket::where('user_id', $user->id)->where('status', "!=" , "Cancelled")->count();
+
+            $subscriptionData = Subscription::limit(3)->get();
+
+            return view('user.dashboard', compact('projectCount', 'inprogressProjectCount', 'ticketCount', 'subscriptionData'));
         }
     }
 }

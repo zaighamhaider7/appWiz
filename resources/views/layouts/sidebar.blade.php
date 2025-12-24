@@ -43,30 +43,37 @@
                             <span class="font-semibold">Dashboard</span>
                         </a>
                     </li>
+                    @if(auth()->user()->role_id == 1)
+                            <li class="mb-2">
+                                <a href="{{ route('clients') }}" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
+                                    <img src="{{ asset('assets/uni-01.svg') }}" alt="icon" class="w-8 h-6 light-mode-icon" data-dark-src="{{asset('assets/uni-01-DARK.svg')}}">
+                                    Clients
+                                </a>
+                            </li>
+                    @endif
+
+                    @if(auth()->user()->role_id == 1)
                         <li class="mb-2">
-                        <a href="{{ route('clients') }}" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
-                            <img src="{{ asset('assets/uni-01.svg') }}" alt="icon" class="w-8 h-6 light-mode-icon" data-dark-src="{{asset('assets/uni-01-DARK.svg')}}">
-                            Clients
-                        </a>
-                    </li>
-                        <li class="mb-2">
-                        <a href="{{route('task.view')}}" class="flex whitespace-nowrap items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
-                            <img src="{{ asset('assets/book.svg') }}" alt="icon" class="w-8 h-6 light-mode-icon" data-dark-src="{{asset('assets/archive-book-DARK.svg')}}">
-                            Task Management
-                        </a>
-                    </li>
+                            <a href="{{route('task.view')}}" class="flex whitespace-nowrap items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
+                                <img src="{{ asset('assets/book.svg') }}" alt="icon" class="w-8 h-6 light-mode-icon" data-dark-src="{{asset('assets/archive-book-DARK.svg')}}">
+                                Task Management
+                            </a>
+                        </li>
+                    @endif
                     <li class="mb-2">
                         <a href="{{ route('project.create') }}" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
                             <img src="{{ asset('assets/task-square.svg') }}" alt="icon" class="w-8 h-6 light-mode-icon" data-dark-src="{{asset('assets/task-square-DARK.svg')}}">
                             Projects
                         </a>
                     </li>
+                    @if(auth()->user()->role_id == 1)
                     <li class="mb-2 pl-2">
                         <a href="{{ route('leads') }}" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
                             <img src="{{ asset('assets/20.svg') }}" alt="icon" class="w-5 h-6 light-mode-icon" data-dark-src="{{asset('assets/20-DARK.svg')}}">
                             <span class="p-1">Leads</span>
                         </a>
                     </li>
+                    @endif
                      <li class="mb-2">
                         <a href="{{route('ticket.view')}}" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
                             <img src="{{ asset('assets/ticket-svgrepo-com.svg') }}" alt="icon" class="w-8 h-6 light-mode-icon" data-dark-src="{{asset('assets/ticket-svgrepo-com-DARK.svg')}}">

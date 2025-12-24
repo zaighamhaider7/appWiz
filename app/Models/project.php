@@ -23,4 +23,14 @@ class project extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function assignedUsers()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'assign_to',
+            'project_id',
+            'assign_to'
+        );
+    }
+
 }
