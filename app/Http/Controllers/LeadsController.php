@@ -41,7 +41,7 @@ class LeadsController extends Controller
             'memberships' => $validated['memberships'],
         ]);
 
-        ActivityLogger::log('New Lead Added', 'A new lead was succesfully added by ' . auth()->user()->name . '.');
+        // ActivityLogger::log('New Lead Added', 'A new lead was succesfully added by ' . auth()->user()->name . '.');
 
         return redirect()->back()->with('AddLeads', 'Lead added successfully');
     }
@@ -51,7 +51,7 @@ class LeadsController extends Controller
         $lead->lead_status = $request->input('lead_status');
         $lead->save();
 
-        ActivityLogger::log('Lead Status Updated', 'The lead status for "' . $lead->lead_name . '" was updated to "' . $lead->lead_status . '" by ' . auth()->user()->name . '.');
+        // ActivityLogger::log('Lead Status Updated', 'The lead status for "' . $lead->lead_name . '" was updated to "' . $lead->lead_status . '" by ' . auth()->user()->name . '.');
 
         return redirect()->back()->with('UpdateLead', 'Lead status updated successfully.');
     }
@@ -59,7 +59,7 @@ class LeadsController extends Controller
         $lead = Leads::findOrFail($id);
         $lead->delete();
 
-        ActivityLogger::log('Lead Deleted', 'The lead "' . $lead->lead_name . '" was deleted by ' . auth()->user()->name . '.');
+        // ActivityLogger::log('Lead Deleted', 'The lead "' . $lead->lead_name . '" was deleted by ' . auth()->user()->name . '.');
 
         return redirect()->back()->with('DeleteLead', 'Lead deleted successfully.');
     }

@@ -76,7 +76,7 @@
                 <a href="{{ route('dashboard') }}"
                     class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] border-b border-[#171717] hover:bg-[#191919] group">
                     <div class="flex items-center gap-2">
-                        <img class="w-5 h-5 shrink-0" src="{{asset('assets/home-DARK.svg')}}" alt="Dashboard Icon" />
+                        <img class="w-5 h-5 shrink-0" src="{{ asset('assets/home-DARK.svg') }}" alt="Dashboard Icon" />
                         <span class="text-sm truncate group-hover:text-orange-500">Dashboard</span>
                     </div>
                     <div>
@@ -89,7 +89,7 @@
                 <a href="{{ route('clients') }}"
                     class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] border-b border-[#171717] hover:bg-[#191919] group">
                     <div class="flex items-center gap-2">
-                        <img class="w-5 h-5 shrink-0" src="{{asset('assets/uni-01-DARK.svg')}}" alt="Clients Icon" />
+                        <img class="w-5 h-5 shrink-0" src="{{ asset('assets/uni-01-DARK.svg') }}" alt="Clients Icon" />
                         <span class="text-sm truncate group-hover:text-orange-500">Clients</span>
                     </div>
                     <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
@@ -97,10 +97,11 @@
             </li>
 
             <li>
-                <a href="{{route('task.view')}}"
+                <a href="{{ route('task.view') }}"
                     class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] border-b border-[#171717] hover:bg-[#191919] group">
                     <div class="flex items-center gap-2">
-                        <img class="w-5 h-5 shrink-0" src="{{asset('assets/archive-book-DARK.svg')}}" alt="Task Icon" />
+                        <img class="w-5 h-5 shrink-0" src="{{ asset('assets/archive-book-DARK.svg') }}"
+                            alt="Task Icon" />
                         <span class="text-sm truncate group-hover:text-orange-500">Task Management</span>
                     </div>
                     <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
@@ -111,7 +112,8 @@
                 <a href="{{ route('project.create') }}"
                     class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] border-b border-[#171717] hover:bg-[#191919] group">
                     <div class="flex items-center gap-2">
-                        <img class="w-5 h-5 shrink-0" src="{{asset('assets/task-square-DARK.svg')}}" alt="Projects Icon" />
+                        <img class="w-5 h-5 shrink-0" src="{{ asset('assets/task-square-DARK.svg') }}"
+                            alt="Projects Icon" />
                         <span class="text-sm truncate group-hover:text-orange-500">Projects</span>
                     </div>
                     <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
@@ -122,7 +124,7 @@
                 <a href="{{ route('leads') }}"
                     class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] border-b border-[#171717] hover:bg-[#191919] group">
                     <div class="flex items-center gap-2">
-                        <img class="w-5 h-5 shrink-0" src="{{asset('assets/20-DARK.svg')}}" alt="Leads Icon" />
+                        <img class="w-5 h-5 shrink-0" src="{{ asset('assets/20-DARK.svg') }}" alt="Leads Icon" />
                         <span class="text-sm truncate group-hover:text-orange-500">Leads</span>
                     </div>
                     <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
@@ -130,10 +132,11 @@
             </li>
 
             <li>
-                <a href="{{route('ticket.view')}}"
+                <a href="{{ route('ticket.view') }}"
                     class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] border-b border-[#171717] hover:bg-[#191919] group">
                     <div class="flex items-center gap-2">
-                        <img class="w-5 h-5 shrink-0" src="{{asset('assets/ticket-svgrepo-com-DARK.svg')}}" alt="Tickets Icon" />
+                        <img class="w-5 h-5 shrink-0" src="{{ asset('assets/ticket-svgrepo-com-DARK.svg') }}"
+                            alt="Tickets Icon" />
                         <span class="text-sm truncate group-hover:text-orange-500">Tickets</span>
                     </div>
                     <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
@@ -144,7 +147,8 @@
                 <a href="{{ route('analytics') }}"
                     class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] border-b border-[#171717] hover:bg-[#191919] group">
                     <div class="flex items-center gap-2">
-                        <img class="w-5 h-5 shrink-0" src="{{asset('assets/chart-bar-DARK.svg')}}" alt="Analytics Icon" />
+                        <img class="w-5 h-5 shrink-0" src="{{ asset('assets/chart-bar-DARK.svg') }}"
+                            alt="Analytics Icon" />
                         <span class="text-sm truncate group-hover:text-orange-500">Analytics</span>
                     </div>
                     <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
@@ -152,10 +156,11 @@
             </li>
 
             <li>
-                <a href="{{route('marketplace.view')}}"
+                <a href="{{ route('marketplace.view') }}"
                     class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] border-b border-[#171717] hover:bg-[#191919] group">
                     <div class="flex items-center gap-2">
-                        <img class="w-5 h-5 shrink-0" src="{{asset('assets/Frame-DARK.svg')}}" alt="Marketplace Icon" />
+                        <img class="w-5 h-5 shrink-0" src="{{ asset('assets/Frame-DARK.svg') }}"
+                            alt="Marketplace Icon" />
                         <span class="text-sm truncate group-hover:text-orange-500">Marketplace</span>
                     </div>
                     <span class="text-white group-hover:text-orange-500 text-2xl transition-all shrink-0">></span>
@@ -166,13 +171,15 @@
                 <a href="{{ route('profile.edit') }}"
                     class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] hover:bg-[#191919] group">
                     <div class="flex items-center gap-2">
-                        <img class="w-5 h-5 shrink-0" src="{{asset('assets/settings-DARK.svg')}}" alt="Settings Icon" />
+                        <img class="w-5 h-5 shrink-0" src="{{ asset('assets/settings-DARK.svg') }}"
+                            alt="Settings Icon" />
                         <span class="text-sm truncate group-hover:text-orange-500">Settings</span>
                     </div>
                     <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
                 </a>
             </li>
-            <li class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] hover:bg-[#191919] group " id="noResultsItem" style="display: none;">No results found.</li>
+            <li class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] hover:bg-[#191919] group "
+                id="noResultsItem" style="display: none;">No results found.</li>
         </ul>
 
 
@@ -184,21 +191,78 @@
     <div class="flex items-center space-x-4 ml-4">
         <!-- Message Button -->
         <button class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
-            <img src="{{asset('assets/message.svg')}}" alt="icon" class="w-6 h-6 light-text-gray-900 rounded-full light-mode-icon"
-                data-dark-src="{{asset('assets/message-DARK.svg')}}">
+            <img src="{{ asset('assets/message.svg') }}" alt="icon"
+                class="w-6 h-6 light-text-gray-900 rounded-full light-mode-icon"
+                data-dark-src="{{ asset('assets/message-DARK.svg') }}">
         </button>
 
         <!-- Notification Button -->
-        <button class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
+        {{-- <button class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
             <img src="{{asset('assets/notification.svg')}}" alt="icon"
                 class="w-6 h-6 light-text-gray-900 rounded-full light-mode-icon"
                 data-dark-src="{{asset('assets/notification-DARK.svg')}}">
-        </button>
+        </button> --}}
+
+        <!-- Notification Button -->
+        <div class="relative" id="notificationDropdown">
+            <button id="notificationButton"
+                class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
+                <img src="{{ asset('assets/notification.svg') }}" alt="icon"
+                    class="w-6 h-6 light-text-gray-900 rounded-full light-mode-icon"
+                    data-dark-src="{{ asset('assets/notification-DARK.svg') }}">
+
+                <span id="unreadBadge"
+                    class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full"
+                    @if ($unreadCount == 0) style="display:none;" @endif>
+                    {{ $unreadCount }}
+                </span>
+            </button>
+
+            <!-- Dropdown -->
+            <div id="dropdownMenu2"
+                class="absolute right-0 mt-2 w-80  bg-black text-white shadow-lg rounded-lg z-50 hidden">
+                <ul>
+                    @forelse($notifications ?? [] as $notification)
+                        <li data-id="{{ $notification->id }}"
+                            class="notification-item p-4 border-b {{ $notification->is_read ? 'bg-black' : 'bg-gray-800' }}">
+                            {{ $notification->message }}
+                            <span
+                                class="text-xs text-gray-400 float-right">{{ $notification->created_at->diffForHumans() }}</span>
+                        </li>
+                    @empty
+                        <li class="p-3 text-gray-400">No notifications</li>
+                    @endforelse
+                </ul>
+            </div>
+        </div>
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const button = document.getElementById('notificationButton');
+                const dropdown2 = document.getElementById('dropdownMenu2');
+
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent click from bubbling to document
+                    dropdown2.classList.toggle('hidden');
+                });
+
+                // Click outside to close
+                document.addEventListener('click', (e) => {
+                    if (!document.getElementById('notificationDropdown').contains(e.target)) {
+                        dropdown2.classList.add('hidden');
+                    }
+                });
+            });
+        </script>
+
+
 
         <!-- User Profile & Dropdown -->
         <div class="flex items-center p-1 space-x-3 rounded-full border-2 light-border-gray-300">
-            <img src="{{ asset(Auth::user()->image ?? 'assets/default-prf.png') }}" alt="User Avatar" class="w-10 h-10 rounded-full">
-            <span class="font-semibold light-text-gray-500 ">{{Auth::user()->name}}</span>
+            <img src="{{ asset(Auth::user()->image ?? 'assets/default-prf.png') }}" alt="User Avatar"
+                class="w-10 h-10 rounded-full">
+            <span class="font-semibold light-text-gray-500 ">{{ Auth::user()->name }}</span>
 
             <div class="relative inline-block text-left">
                 <!-- Dropdown Toggle -->
@@ -212,18 +276,18 @@
                 <!-- Dropdown Menu -->
                 <div id="dropdownMenu"
                     class="hidden absolute -right-10 mt-5 w-60 light-bg-d9d9d9 rounded-md shadow-lg z-50">
-                    <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-white hover:bg-gray-800">Settings</a>
+                    <a href="{{ route('profile.edit') }}"
+                        class="block px-4 py-2 text-sm text-white hover:bg-gray-800">Settings</a>
                     <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                        <button 
-                        class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-800">Logout</button>
+                        @csrf
+                        <button
+                            class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-800">Logout</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </header>
-
 
 
 <script>
@@ -269,6 +333,7 @@
     // }
 
 
+
     function myFunction() {
         const input = document.getElementById('myInput');
         const filter = input.value.toUpperCase();
@@ -301,5 +366,40 @@
             noResultsItem.style.display = hasResults ? "none" : "list-item";
         }
     }
+</script>
 
+
+
+
+<script>
+    document.querySelectorAll('.notification-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const id = this.dataset.id;
+            const li = this;
+
+            fetch(`/notifications/${id}/read`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update the background without refresh
+                        li.classList.remove('bg-gray-800');
+                        li.classList.add('bg-black');
+
+                        const badge = document.getElementById('unreadBadge');
+                        if (data.unreadCount > 0) {
+                            badge.textContent = data.unreadCount;
+                            badge.style.display = 'inline-flex';
+                        } else {
+                            badge.style.display = 'none';
+                        }
+                    }
+                });
+        });
+    });
 </script>

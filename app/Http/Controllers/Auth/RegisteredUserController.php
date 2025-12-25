@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Helpers\NotificationLogger;
 
 class RegisteredUserController extends Controller
 {
@@ -41,6 +42,12 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'role_id' => 2,
         ]);
+
+        NotificationLogger::notify(
+            4, 
+            'new_user_registration', 
+            'New user registered: ' . $user->name
+        );
 
         event(new Registered($user));
 

@@ -64,7 +64,7 @@ class ClientsController extends Controller
             'role_id' => 2
         ]);
 
-        ActivityLogger::log('New Client Added', 'A new client "' . $validated['name'] . '" was successfully added by ' . auth()->user()->name . '.');
+        // ActivityLogger::log('New Client Added', 'A new client "' . $validated['name'] . '" was successfully added by ' . auth()->user()->name . '.');
 
         return redirect()->back()->with('AddClient', 'Client added successfully.');
 
@@ -75,7 +75,7 @@ class ClientsController extends Controller
         $client = User::findOrFail($id);
         $client->delete();
 
-        ActivityLogger::log('Client Deleted', 'The client "' . $client->name . '" was deleted by ' . auth()->user()->name . '.');
+        // ActivityLogger::log('Client Deleted', 'The client "' . $client->name . '" was deleted by ' . auth()->user()->name . '.');
 
         return redirect()->back()->with('DeleteClient', 'Client deleted successfully.');
     }
@@ -93,9 +93,9 @@ class ClientsController extends Controller
 
         $singleClientData = User::findOrFail($id);
 
-        // $activity_logs = ActivityLog::where('user_id', $singleClientData->id)->get();
+        $activity_logs = ActivityLog::where('user_id', $singleClientData->id)->latest()->get();
 
-        $clientProjects = project::where('client_name', $singleClientData->name)->get();
+        $clientProjects = project::where('client_name', $singleClientData->name)->latest()->get();
 
         $totalProjects = $clientProjects->count();
 
@@ -103,7 +103,7 @@ class ClientsController extends Controller
 
         $assignedUsers = AssignTo::with(['user', 'project'])->get();
 
-        $activity_logs = ActivityLog::where('user_id', auth()->id())->latest()->get();
+        // $activity_logs = ActivityLog::where('user_id', auth()->id())->latest()->get();
 
         return view('admin.clients', compact('clientData', 'latestProjectByClient', 'singleClientData', 'clientProjects', 'assignedUsers', 'totalProjects', 'totalProjectPrice', 'activity_logs'));
     }

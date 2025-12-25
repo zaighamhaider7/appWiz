@@ -35,7 +35,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/settings/memeberlist', [settingController::class, 'memeberList']);
 
     Route::post('/settings/addmember', [settingController::class, 'memberAdd'])->name('member.add');
-    
+
+    Route::post('/settings/updatemember', [settingController::class, 'memberUpdate']);
+
+    Route::post('/settings/deletemember', [settingController::class, 'memberDelete']);
+
+    Route::post('settings/update-notification', [settingController::class, 'update'])->name('notification.update');
+
 
     Route::get('/projects', [ProjectController::class, 'create'])->name('project.create');
     Route::post('/projects', [ProjectController::class, 'store'])->name('project.store');
@@ -166,6 +172,22 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard',[dashboardController::class,'DashboardView'])->name('dashboard');
 
 
+
+    Route::post('/notifications/{id}/read', function($id) {
+    $notification = \App\Models\Notification::find($id);
+    if ($notification && $notification->is_read == 0) {
+        $notification->is_read = 1;
+        $notification->save();
+    }
+
+    // Count unread notifications
+    $unreadCount = \App\Models\Notification::where('is_read', 0)->count();
+
+    return response()->json([
+        'success' => true,
+        'unreadCount' => $unreadCount
+    ]);
+    });
 
 });
 

@@ -12,6 +12,8 @@ use App\Models\User;
 use App\Models\userDevices;
 use App\Models\Roles;
 use App\Models\project;
+use App\Models\ActivityLog;
+use App\Models\NotificationPreference;
 
 class ProfileController extends Controller
 {
@@ -29,7 +31,11 @@ class ProfileController extends Controller
         $roles = Roles::all();
         $allProjects = project::all();
         $projects = collect();
-        return view('profile.edit',compact('user','userDevices','roles','projects', 'allProjects'));
+        $activity_logs = ActivityLog::where('user_id', auth()->id())->latest()->get();
+        $preferences = NotificationPreference::where('user_id', auth()->id())
+        ->pluck('is_enabled', 'notification_type');
+
+        return view('profile.edit',compact('user','userDevices','roles','projects', 'allProjects', 'activity_logs', 'preferences'));
     }
 
     /**
@@ -95,7 +101,6 @@ public function update(ProfileUpdateRequest $request): RedirectResponse
         userDevices::destroy($deviceId);
         return Redirect::route('profile.edit')->with('status', 'device-deleted');
     }
-
     
 }
 

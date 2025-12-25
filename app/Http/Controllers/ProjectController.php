@@ -98,7 +98,7 @@ class ProjectController extends Controller
             ]);
         }
 
-        ActivityLogger::log('New Project Created', 'A new project "' . $validated['project_name'] . '" was successfully created by ' . auth()->user()->name . '.');
+        // ActivityLogger::log('New Project Created', 'A new project "' . $validated['project_name'] . '" was successfully created by ' . auth()->user()->name . '.');
 
         return response()->json(['message' => 'Data saved successfully', 'project_id' => $last_project_id]);
 
@@ -119,7 +119,7 @@ class ProjectController extends Controller
         $project = project::find($id);
         $project->delete();
 
-        ActivityLogger::log('Project Deleted', 'The project "' . $project->project_name . '" was deleted by ' . auth()->user()->name . '.');
+        // ActivityLogger::log('Project Deleted', 'The project "' . $project->project_name . '" was deleted by ' . auth()->user()->name . '.');
 
         return redirect()->route('project.create')->with('success', 'Project deleted successfully.');
     }
@@ -172,7 +172,7 @@ class ProjectController extends Controller
                 }
             }
 
-            ActivityLogger::log('Project Updated', 'The project "' . $data->project_name . '" was updated by ' . auth()->user()->name . '.');
+            // ActivityLogger::log('Project Updated', 'The project "' . $data->project_name . '" was updated by ' . auth()->user()->name . '.');
 
             return response()->json(
                 [
@@ -193,7 +193,7 @@ class ProjectController extends Controller
 
         $projectData->Delete();
 
-        ActivityLogger::log('Project Deleted', 'The project "' . $projectData->project_name . '" was deleted by ' . auth()->user()->name . '.');
+        // ActivityLogger::log('Project Deleted', 'The project "' . $projectData->project_name . '" was deleted by ' . auth()->user()->name . '.');
 
         return response()->json([
             "delete" => 'delete'
@@ -260,7 +260,7 @@ class ProjectController extends Controller
         $data->project_id = $validated['project_id'];
         $data->save();
 
-        ActivityLogger::log('New Milestone Added', 'A new milestone "' . $validated['milestone_name'] . '" Added by ' . auth()->user()->name . '.');
+        // ActivityLogger::log('New Milestone Added', 'A new milestone "' . $validated['milestone_name'] . '" Added by ' . auth()->user()->name . '.');
 
         return response()->json(['message' => 'Data saved successfully']);
     }
@@ -287,7 +287,7 @@ class ProjectController extends Controller
             $data->description = $request->description;
             $data->project_id = $request->project_id;
             $data->save();
-            ActivityLogger::log('Milestone Updated', 'The milestone "' . $data->milestone_name . '" was updated by ' . auth()->user()->name . '.');
+            // ActivityLogger::log('Milestone Updated', 'The milestone "' . $data->milestone_name . '" was updated by ' . auth()->user()->name . '.');
             return response()->json(["success" => "updated"]);
         }
         else{
@@ -303,7 +303,7 @@ class ProjectController extends Controller
 
         $milestoneData->Delete();
 
-        ActivityLogger::log('Milestone Deleted', 'The milestone "' . $milestoneData->milestone_name . '" was deleted by ' . auth()->user()->name . '.');
+        // ActivityLogger::log('Milestone Deleted', 'The milestone "' . $milestoneData->milestone_name . '" was deleted by ' . auth()->user()->name . '.');
 
         return response()->json([
             "delete" => 'delete'
@@ -315,7 +315,7 @@ class ProjectController extends Controller
             $data = milestone::find($request->milestone_status_id);
             $data->status = $request->milestone_status;
             $data->save();
-            ActivityLogger::log('Milestone Status Updated', 'The milestone status for "' . $data->milestone_name . '" was updated to "' . $data->status . '" by ' . auth()->user()->name . '.');
+            // ActivityLogger::log('Milestone Status Updated', 'The milestone status for "' . $data->milestone_name . '" was updated to "' . $data->status . '" by ' . auth()->user()->name . '.');
             return response()->json(
                 [
                     "sucess" => "Status Updated"
@@ -341,6 +341,8 @@ class ProjectController extends Controller
 
         $milestone->is_completed = $request->is_completed;
         $milestone->save();
+
+        ActivityLogger::log('Milestone Status Updated', 'The milestone status for "' . $milestone->milestone_name . '" was updated to "' . ($milestone->is_completed ? 'Completed' : 'Incomplete') . '" by ' . auth()->user()->name . '.');
 
         return response()->json([
             'success' => true,
@@ -464,7 +466,7 @@ class ProjectController extends Controller
         $credentialData = Credentials::find($credentialId);
         $credentialData->Delete();
 
-        ActivityLogger::log('Credentials Deleted', 'The credentials were deleted by ' . auth()->user()->name . '.');
+        // ActivityLogger::log('Credentials Deleted', 'The credentials were deleted by ' . auth()->user()->name . '.');
 
         return response()->json([
             "credentialdelete" => 'delete'
@@ -490,7 +492,7 @@ class ProjectController extends Controller
             $data->password = $request->password;
             $data->save();
 
-            ActivityLogger::log('Credentials Updated', 'The credentials for "' . $data->platform_name . '" were updated by ' . auth()->user()->name . '.');
+            // ActivityLogger::log('Credentials Updated', 'The credentials for "' . $data->platform_name . '" were updated by ' . auth()->user()->name . '.');
 
             return response()->json(
                 [

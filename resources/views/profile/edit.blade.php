@@ -1451,7 +1451,8 @@
                                     </div>
                                     <div class="w-16 flex justify-end">
                                         <label class="toggle-switch">
-                                            <input type="checkbox" class="toggle-input" checked>
+                                            {{-- <input type="checkbox" class="toggle-input" checked> --}}
+                                            <input type="checkbox" class="toggle-input" data-type="ticket_received"  {{ ($preferences['ticket_received'] ?? 1) == 1 ? 'checked' : '' }}>
                                             <span class="toggle-slider"></span>
                                         </label>
                                     </div>
@@ -1468,7 +1469,8 @@
                                     </div>
                                     <div class="w-16 flex justify-end">
                                         <label class="toggle-switch">
-                                            <input type="checkbox" class="toggle-input" checked>
+                                            {{-- <input type="checkbox" class="toggle-input" checked> --}}
+                                            <input type="checkbox" class="toggle-input" data-type="payment_received"  {{ ($preferences['payment_received'] ?? 1) == 1 ? 'checked' : '' }}>
                                             <span class="toggle-slider"></span>
                                         </label>
                                     </div>
@@ -1485,7 +1487,8 @@
                                     </div>
                                     <div class="w-16 flex justify-end">
                                         <label class="toggle-switch">
-                                            <input type="checkbox" class="toggle-input" checked>
+                                            {{-- <input type="checkbox" class="toggle-input" checked> --}}
+                                            <input type="checkbox" class="toggle-input" data-type="subscription_renewal"  {{ ($preferences['subscription_renewal'] ?? 1) == 1 ? 'checked' : '' }}>
                                             <span class="toggle-slider"></span>
                                         </label>
                                     </div>
@@ -1501,7 +1504,8 @@
                                     </div>
                                     <div class="w-16 flex justify-end">
                                         <label class="toggle-switch">
-                                            <input type="checkbox" class="toggle-input" checked>
+                                            {{-- <input type="checkbox" class="toggle-input" checked> --}}
+                                            <input type="checkbox" class="toggle-input" data-type="new_user_registration"  {{ ($preferences['new_user_registration'] ?? 1) == 1 ? 'checked' : '' }} >
                                             <span class="toggle-slider"></span>
                                         </label>
                                     </div>
@@ -1517,7 +1521,8 @@
                                     </div>
                                     <div class="w-16 flex justify-end">
                                         <label class="toggle-switch">
-                                            <input type="checkbox" class="toggle-input" checked>
+                                            {{-- <input type="checkbox" class="toggle-input" checked> --}}
+                                            <input type="checkbox" class="toggle-input" data-type="payment_failure"  {{ ($preferences['payment_failure'] ?? 1) == 1 ? 'checked' : '' }}>
                                             <span class="toggle-slider"></span>
                                         </label>
                                     </div>
@@ -1526,16 +1531,8 @@
 
                             </ul>
                         </div>
-
-                        <!-- Service Tags
-                <div class="flex flex-wrap gap-3 pt-4">
-                <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">Web Design</span>
-                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">SEO</span>
-                <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">PPC</span>
-                <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">PPC</span>
-                </div>-->
                         <!-- Buttons -->
-                        <div class="flex justify-end items-center mt-5">
+                        {{-- <div class="flex justify-end items-center mt-5">
 
                             <div class="flex justify-end gap-3 pt-3">
                                 <button type="submit" class="px-4 py-2 bg-gray-500  rounded-lg hover:bg-orange-600">
@@ -1546,8 +1543,9 @@
                                     Save
                                 </button>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
+
                 </div>
 
 
@@ -1661,75 +1659,6 @@
                                 </tr>
                             </thead>
                             <tbody id="user-table-body" class="light-bg-white light-bg-seo divide-y divide-gray-200">
-                                <!-- Row 1 -->
-                                {{-- @if ($users->isEmpty())
-                                    <tr>
-                                        <td colspan="4"
-                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-center">
-                                            No team members found.
-                                        </td>
-                                    </tr>
-                                @else
-                                    @foreach ($users as $user)
-                                        <tr>
-                                            <td
-                                                class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                                {{ $user->name }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-medium light-text-gray-900">
-                                                    {{ $user->email }}</div>
-                                            </td>
-
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="flex  items-center ">
-                                                    <span
-                                                        class="ml-2 text-sm items-center text-orange-500 bg-red-500/30 px-2 py-1 rounded-full ">
-                                                        {{ $user->role->name }}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                <div class="flex gap-2 justify-end items-center">
-                                                    <!-- Eye Button -->
-                                                    <button class="confirmPopup" data-user-id="{{ $user->id }}"
-                                                        class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2"
-                                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2"
-                                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                                        </svg>
-                                                    </button>
-
-                                                    <!-- Edit Button -->
-                                                    <button
-                                                        class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2"
-                                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                        </svg>
-                                                    </button>
-
-                                                    <!-- Trash Button -->
-                                                    <button
-                                                        class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2"
-                                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @endif --}}
                             </tbody>
                         </table>
                     </div>
@@ -1820,11 +1749,11 @@
                                         class="text-md light-text-gray-600 ">Username:
                                         <span class="member_name">John Doe</span></div>
                                 <div class="text-md gap-2 text-white"><span class="text-md light-text-gray-600">Email:
-                                        <span id="member_email">abc123@gmail.com</span>
+                                        <span class="member_email">abc123@gmail.com</span>
                                 </div>
                                 <div class="text-md gap-2 text-white">
                                     <span class="text-md light-text-gray-600">Role:
-                                        <span id="member_role">Designer</span>
+                                        <span class="member_role">Designer</span>
                                 </div>
                                 <div class="text-md flex items-center gap-2 text-white mb-4"><span
                                         class="text-md light-text-gray-600">Role Permission: </span>
@@ -1836,10 +1765,10 @@
                             </div>
 
                             <div class="flex justify-end gap-4 mt-4">
-                                <button
-                                    class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">Edit</button>
-                                <button
-                                    class="px-4 py-2 bg-red-900/50 text-red-500 rounded-lg hover:bg-red-600">Remove</button>
+                                <button id="edit-user-btn"
+                                    class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 openPopup2">Edit</button>
+                                <button id="remove-user-btn"
+                                    class="px-4 py-2 bg-red-900/50 text-red-500 rounded-lg hover:bg-red-600 delete-member">Remove</button>
                             </div>
                         </div>
 
@@ -2053,53 +1982,31 @@
                                             class="bg-gray-800 light-bg-f5f5f5 light-bg-seo text-white p-6 rounded-lg shadow-lg">
                                             <h2 class="text-lg font-semibold mb-4">Activity Log</h2>
                                             <div class="relative border-l border-gray-700 ml-3">
-                                                <div class="mb-8 relative pl-6">
-                                                    <span
-                                                        class="absolute -left-1.5 top-1/2 -translate-y-2/3 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
-                                                    <div>
-                                                        <p class="font-medium">Project status updated</p>
-                                                        <p class="text-gray-400 text-sm">WooCommerce iOS App
-                                                            Completed</p>
-                                                        <span class="absolute right-0 top-0 text-gray-400 text-sm">10
-                                                            Days Ago</span>
+                                                 @if (!empty($activity_logs) && count($activity_logs) > 0)
+                                                    @foreach ($activity_logs as $log)
+                                                        <div class="mb-8 relative pl-6">
+                                                            <span
+                                                                class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
+                                                            <div>
+                                                                <p class="font-medium">{{ $log->action }}</p>
+                                                                <p class="text-gray-400 text-sm">
+                                                                    {{ $log->description }}
+                                                                </p>
+                                                                <span
+                                                                    class="absolute right-0 top-0 text-gray-400 text-sm">{{ $log->created_at->diffForHumans() }}</span>
+                                                            </div>
+                                                        </div>
+                                                    @endforEach
+                                                @else
+                                                    <div class="mb-8 relative pl-6">
+                                                        <span
+                                                            class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
+                                                        <div>
+                                                            <p class="text-gray-400 text-sm">No activity logs found.
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                </div>
-
-                                                <div class="mb-8 relative pl-6">
-                                                    <span
-                                                        class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
-                                                    <div>
-                                                        <p class="font-medium">Project status updated</p>
-                                                        <p class="text-gray-400 text-sm">WooCommerce iOS App
-                                                            Completed</p>
-                                                        <span class="absolute right-0 top-0 text-gray-400 text-sm">3
-                                                            hours ago</span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="mb-8 relative pl-6">
-                                                    <span
-                                                        class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
-                                                    <div>
-                                                        <p class="font-medium">Project status updated</p>
-                                                        <p class="text-gray-400 text-sm">WooCommerce iOS App
-                                                            Completed</p>
-                                                        <span class="absolute right-0 top-0 text-gray-400 text-sm">10
-                                                            mins ago</span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="mb-8 relative pl-6">
-                                                    <span
-                                                        class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
-                                                    <div>
-                                                        <p class="font-medium">Project status updated</p>
-                                                        <p class="text-gray-400 text-sm">WooCommerce iOS App
-                                                            Completed</p>
-                                                        <span class="absolute right-0 top-0 text-gray-400 text-sm">10
-                                                            mins ago</span>
-                                                    </div>
-                                                </div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -2154,22 +2061,13 @@
                     </div>
                 </div>
 
-
-
-
-
-
-                <!-- SEO Plan Cards -->
-
-
-
-
-
-                <!-- Bottom Cards: Need Help & Free Consulting -->
-
             </div>
 
         </main>
+    </div>
+
+    <div id="notification" style="display: none; z-index: 9999 !important;"
+        class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
     </div>
 
     <div id="Projectstatus" style="display: none; z-index: 9999 !important;"
@@ -2180,6 +2078,21 @@
     <div id="memeberadd" style="display: none; z-index: 9999 !important;"
         class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
         Member added successfully!
+    </div>
+
+    <div id="memberUpdate" style="display: none; z-index: 9999 !important;"
+        class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        Member updated successfully!
+    </div>
+
+    <div id="memeberaddError" style="display: none; z-index: 9999 !important;"
+        class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        Member updated successfully!
+    </div>
+    
+    <div id="memberdelete" style="display: none; z-index: 9999 !important;"
+        class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        Member deleted successfully!
     </div>
 
 
@@ -2194,6 +2107,33 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
+            });
+
+            $('.toggle-input').change(function() {
+                let checkbox = $(this); 
+                var type = $(this).data('type');
+                var isEnabled = $(this).is(':checked') ? 1 : 0; 
+
+                $.ajax({
+                    url: 'settings/update-notification',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}', 
+                        notification_type: type,
+                        is_enabled: isEnabled
+                    },
+                    success: function(response) {
+                        checkbox.prop('checked', response.is_enabled == 1);                        
+                        if (response.is_enabled == 1) {
+                            $('#notification').html('Notification enabled').fadeIn().delay(4000).fadeOut();
+                        } else {
+                            $('#notification').html('Notification disabled').fadeIn().delay(4000).fadeOut();
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log('Error:', xhr.responseText);
+                    }
+                });
             });
 
             $(document).on('click', '#save-member', function(e) {
@@ -2232,11 +2172,114 @@
                             alert('Failed to add member. Please try again.');
                         }
                     },
-                    error: function(xhr) {
-                        console.error('Error adding member:', xhr.responseText);
+                    error: function (xhr) {
+
+                        let errorMsg = 'Something went wrong. Please try again.';
+
+                        if (xhr.responseJSON && xhr.responseJSON.errors) {
+                            errorMsg = Object.values(xhr.responseJSON.errors)
+                                .map(err => err.join('<br>'))
+                                .join('<br>');
+                        }
+
+                        else if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMsg = xhr.responseJSON.message;
+                        }
+
+                        $('#memeberaddError')
+                            .html(errorMsg)
+                            .fadeIn()
+                            .delay(4000)
+                            .fadeOut();
                     }
                 })
                 
+            });
+
+            $(document).on('click', '.openPopup2', function(e) {
+                $('#popupModal2').removeClass('hidden');
+                let userId = $(this).data('user-id');
+
+                $.ajax({
+                    url: '/settings/teammember',
+                    method: 'POST',
+                    data: {
+                        user_id: userId,
+                    },
+                    success: function(response) {
+                        if (response) {
+                            $('#e_name').val(response.singleMember.name);
+                            $('#e_email').val(response.singleMember.email);
+                            $('#e_role_id').val(response.singleMember.role_id);
+                            $('#e_project_id').val(response.assignProject.project_id);
+                            $('#e_user_id').val(response.singleMember.id);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('Error fetching member data:', xhr.responseText);
+                    }
+                })
+            });
+
+            $(document).on('click', '#edit-member', function(e) {
+                e.preventDefault();
+                let userId = $('#e_user_id').val();
+                let name = $('#e_name').val();
+                let email = $('#e_email').val();
+                let role_id = $('#e_role_id').val();
+                let project_id = $('#e_project_id').val();
+
+                let formData = new FormData();
+
+                formData.append('_token', '{{ csrf_token() }}');
+                formData.append('user_id', userId);
+                formData.append('name', name);
+                formData.append('email', email);
+                formData.append('role_id', role_id);
+                formData.append('project_id', project_id);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/settings/updatemember',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response) {
+                            $('#memberUpdate').fadeIn().delay(4000).fadeOut();
+                            $('.member_name').text(response.singleMember.name);
+                            $('.member_email').text(response.singleMember.email);
+                            $('.member_role').text(response.singleMember.role.name);
+                            memberData();
+                        } else {
+                            alert('Failed to update member. Please try again.');
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('Error updating member:', xhr.responseText);
+                    }
+                })
+            });
+
+            $(document).on('click', '.delete-member', function(e) {
+                let userId = $(this).data('user-id');
+
+                $.ajax({
+                    url: '/settings/deletemember',
+                    method: 'POST',
+                    data: {
+                        user_id: userId,
+                    },
+                    success: function(response) {    
+                        $('#memberdelete').fadeIn().delay(4000).fadeOut();
+                        $('#leftSection').show();
+                        $('#rightSection').hide();
+                        memberData();
+                    },
+                    error: function(xhr) {
+                        console.error('Error Deleting member data:', xhr.responseText);
+                    }
+                })
             });
 
             function memberData() {
@@ -2289,8 +2332,8 @@
                                                     </button>
 
                                                     <!-- Edit Button -->
-                                                    <button
-                                                        class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
+                                                    <button data-user-id="${ user.id }"
+                                                        class="openPopup2 text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
                                                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -2300,8 +2343,8 @@
                                                     </button>
 
                                                     <!-- Trash Button -->
-                                                    <button
-                                                        class="text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
+                                                    <button data-user-id="${ user.id }"
+                                                        class="delete-member text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
                                                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -2418,8 +2461,11 @@
                     success: function(response) {
                         renderProjects(response.projects);
                         $('.member_name').text(response.singleMember.name);
-                        $('#member_email').text(response.singleMember.email);
-                        $('#member_role').text(response.singleMember.role.name);
+                        $('.member_email').text(response.singleMember.email);
+                        $('.member_role').text(response.singleMember.role.name);
+
+                        $('#edit-user-btn').attr('data-user-id', response.singleMember.id);
+                        $('#remove-user-btn').attr('data-user-id', response.singleMember.id);
                     },
                     error: function(xhr) {
                         console.error(xhr.responseText);
@@ -2577,6 +2623,8 @@
             const leftSection = document.getElementById('leftSection');
             const rightSection = document.getElementById('rightSection');
             const popupModal = document.getElementById('popupModal');
+            const popupModal2 = document.getElementById('popupModal2');
+            
             const rolePopupModal = document.getElementById('rolePopupModal'); // ✅ New popup modal for roles
 
             const openRolePopupBtn = document.getElementById('openRolePopup'); // ✅ Button to open role popup
@@ -2587,6 +2635,7 @@
 
             const openPopupBtn = document.getElementById('openPopup');
             const closePopupBtn = document.getElementById('closePopup');
+            const closePopupBtn2 = document.getElementById('closePopup2');
             const confirmPopupBtns = document.querySelectorAll('.confirmPopup');
             const backToLeftBtn = document.getElementById('backToLeft'); // ✅ New button
 
@@ -2594,6 +2643,7 @@
             openPopupBtn.addEventListener('click', () => {
                 popupModal.classList.remove('hidden');
             });
+
 
             // Show popup when button in left section is clicked
             openRolePopupBtn.addEventListener('click', () => {
@@ -2603,6 +2653,10 @@
             // Close popup without changes
             closePopupBtn.addEventListener('click', () => {
                 popupModal.classList.add('hidden');
+            });
+
+            closePopupBtn2.addEventListener('click', () => {
+                popupModal2.classList.add('hidden');
             });
 
             // Close popup without changes
@@ -2707,7 +2761,7 @@
     </script>
 
 
-    <!-- New Ticket Modal -->
+    <!-- New member Modal -->
     <div id="popupModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
         <div
             class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto  relative">
@@ -2794,6 +2848,96 @@
                             Cancel
                         </button>
                         <button id="save-member" type="submit" class="px-4 py-2 btn-orange text-white rounded-lg hover:bg-orange-600">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- edit member Modal -->
+    <div id="popupModal2" class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
+        <div
+            class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto  relative">
+            <!-- Close Button -->
+            <button id="closePopup2" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+                ✕
+            </button>
+
+            <div class="px-6 py-3"> <!-- Container for heading + divider -->
+                <h2 class="text-lg light-text-black  font-semibold">Edit Member</h2>
+            </div>
+            <div class=""> <!-- Container for heading + divider -->
+                <div class="border-t border-gray-600 w-full mt-4"></div>
+            </div>
+
+            <!-- Ticket Form -->
+            <form id="ticketForm" class="space-y-4 p-6">
+                <!-- Title, Project Name, Priority -->
+                <div class="grid grid-cols-1 gap-4">
+                    <input type="text" name="" id="e_user_id" hidden>
+
+                    <div class="grid-cols-2 grid gap-4">
+                        <div>
+                            <label class="block text-sm mb-1 light-text-black">Name</label>
+                            <div class="relative flex-grow">
+                                <input type="text" name="name" id="e_name" placeholder="Name here..."
+                                    class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm mb-1 light-text-black">Email</label>
+                            <div class="relative flex-grow">
+                                <input type="text" name="email" id="e_email" placeholder="Email here..."
+                                    class="w-full p-2 pr-16 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
+                                <div class="absolute right-2 top-1/2 transform -translate-y-1/2 flex gap-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-cols-2 grid gap-4">
+                        <div>
+                            <label class="block text-sm mb-1 light-text-black">Assign Project</label>
+                            <select id="e_project_id" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                                <option value="" selected hidden>Select Project</option>
+                                @if($allProjects->count() > 0)
+                                    @foreach($allProjects as $project)
+                                        <option value="{{ $project->id }}">{{ $project->project_name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        <!-- State Selection -->
+                        <div>
+                            <label class="block text-sm mb-1 light-text-black">Role</label>
+                            <select  id="e_role_id" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                                <option value="" hidden selected>Select Role</option>
+                                @if($roles->count() > 0)
+                                    @foreach($roles as $role)
+                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                    </div>
+                    <div class="">
+                        <!-- State Selection -->
+                        
+                    </div>
+
+                </div>
+
+
+                <!-- Buttons -->
+                <div class="flex justify-end items-center">
+
+                    <div class="flex justify-end gap-3 pt-3">
+                        <button type="button" id="closePopup"
+                            class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                            Cancel
+                        </button>
+                        <button id="edit-member" type="submit" class="px-4 py-2 btn-orange text-white rounded-lg hover:bg-orange-600">
                             Save
                         </button>
                     </div>

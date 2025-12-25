@@ -8,6 +8,7 @@ use App\Models\Roles;
 use App\Models\User;
 use App\Models\project;
 use App\Models\AssignTo;
+use App\Models\NotificationPreference;
 
 class settingController extends Controller
 {
@@ -75,6 +76,8 @@ class settingController extends Controller
 
         $user = User::find($userId);
 
+        $assignProject = AssignTo::where('assign_to', $userId)->first();
+
         if ($user) {
             $projects = $user->assignedProjects()->get();
         } else {
@@ -88,7 +91,8 @@ class settingController extends Controller
 
         return response()->json([
             "singleMember" => $singleMember,
-            "projects" => $projects
+            "projects" => $projects,
+            "assignProject" => $assignProject
         ]);
     }
 
@@ -97,6 +101,74 @@ class settingController extends Controller
         return response()->json([
             "users" => $users
         ]);
+    }
+
+    public function memberUpdate(Request $request){
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users,email,'.$request->input('user_id'),
+            'role_id' => 'required|exists:roles,id',
+            'project_id' => 'nullable|exists:projects,id',
+        ]);
+
+        $user = User::find($request->input('user_id'));
+
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->role_id = $request->input('role_id');
+        $user->save();
+
+        AssignTo::updateOrCreate(
+            ['assign_to' => $user->id],
+            ['project_id' => $request->input('project_id')]
+        );
+
+        return response()->json([
+            'success' => true,
+            'singleMember' => $user->load('role'),
+        ]);
+    }
+
+    public function memberDelete(Request $request){
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $user = User::find($request->input('user_id'));
+
+        if ($user) {
+            AssignTo::where('assign_to', $user->id)->delete();
+            $user->delete();
+
+            return response()->json([
+                'success' => true,
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found',
+            ], 404);
+        }
+    }
+
+
+    public function update(Request $request)
+    {
+        $user = auth()->user(); 
+
+        $notifications = NotificationPreference::updateOrInsert(
+            [
+                'user_id' => $user->id,
+                'notification_type' => $request->notification_type
+            ],
+            [
+                'is_enabled' => $request->is_enabled,
+                'updated_at' => now(),
+            ]
+        );
+
+        return response()->json(['status' => 'success', 'is_enabled' => $request->is_enabled]);
     }
     
 }

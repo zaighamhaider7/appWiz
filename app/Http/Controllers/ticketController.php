@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\project;
 use App\Models\User;
 use App\Models\ticket;
+use App\Helpers\ActivityLogger;
 
 class ticketController extends Controller
 {
@@ -43,6 +44,8 @@ class ticketController extends Controller
         }
 
         ticket::create($validated);
+
+        ActivityLogger::log('Ticket Created', 'A new ticket "' . $validated['title'] . '" was created by ' . auth()->user()->name . '.');
 
         return redirect()->route('ticket.view')->with('success', 'Ticket created successfully.');
     }
