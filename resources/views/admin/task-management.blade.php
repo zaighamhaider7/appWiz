@@ -1091,9 +1091,13 @@
                                                 <img class="task-comment" src="{{ asset('assets/message-dots.svg') }}" data-task-id="{{$task->id}}"> {{ $taskCommentsCount[$task->id] ?? 0 }}
                                             </div>
                                             <div class="flex items-center -space-x-2">
-                                                <img src="{{ $task->assignedUser->image ?? asset('assets/default-prf.png') }}" 
-                                                    alt="{{ $task->assignedUser->name }}" 
-                                                    class="w-8 h-8 rounded-full border-2 border-black">
+                                                @if($task->assignedUser)
+                                                    <img src="{{ $task->assignedUser->image ?? asset('assets/default-prf.png') }}" 
+                                                        alt="{{ $task->assignedUser->name }}" 
+                                                        class="w-10 h-10 rounded-full border-2 border-black">
+                                                @else
+                                                    <p>No user assigned</p>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -1299,14 +1303,13 @@
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
                                                     <div class="flex items-center -space-x-2">
-                                                        <img src="
-                                                            @if($task->assignedUser->image)
-                                                            {{$task->assignedUser->image}}
-                                                            @else
-                                                            {{asset('assets/default-prf.png')}}
-                                                            @endif
-                                                        " 
-                                                        alt="{{$task->assignedUser->name;}}" class="w-10 h-10 rounded-full border-2 border-black">
+                                                       @if($task->assignedUser)
+                                                            <img src="{{ $task->assignedUser->image ?? asset('assets/default-prf.png') }}" 
+                                                                alt="{{ $task->assignedUser->name }}" 
+                                                                class="w-10 h-10 rounded-full border-2 border-black">
+                                                        @else
+                                                            <p>No user assigned</p>
+                                                        @endif
                                                     </div>
                                                 </td>
                                                 <td class="">
@@ -1824,7 +1827,7 @@
                             
                             chatContainer.append(`
                                 <div class="flex items-start space-x-3">
-                                    <img src="${chat.sender.image || '{{asset('assets/Photos.png')}}'}" 
+                                    <img src="${chat.sender.image || '{{asset('assets/default-prf.png')}}'}" 
                                         class="w-10 h-10 rounded-md" alt="user" />
                                     <div>
                                         <p class="text-sm light-text-black font-semibold">
@@ -4542,7 +4545,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div>
                         <label class="block text-sm mb-1 light-text-white">Assign to</label>
                         <select name="assign_to" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white">
-                            <option value="{{$singleTask->assign_to ?? ''}}" selected >{{$singleTask->assignedUser->name ?? ''}}</option>
+                            <option  value="{{$singleTask->assign_to ?? ''}}" selected >{{$singleTask->assignedUser->name ?? 'No user assigned'}}</option>
                             @if(count($users) > 0)
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id }}" {{ old('assign_to') == $user->id ? 'selected' : ''}}>{{$user->name}}</option>

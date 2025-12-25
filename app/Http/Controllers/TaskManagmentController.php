@@ -43,7 +43,7 @@ class TaskManagmentController extends Controller
             'task_name' => 'required|string',
             'task_category' => 'required|string',
             'project' => 'required|string', 
-            'assign_to' => 'required|string',
+            'assign_to' => 'required|exists:users,id',
             'start_date' => 'required|date',
             'due_date' => 'required|after_or_equal:start_date',
             'description' => 'required|string'

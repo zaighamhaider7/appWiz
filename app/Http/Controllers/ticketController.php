@@ -7,11 +7,12 @@ use App\Models\project;
 use App\Models\User;
 use App\Models\ticket;
 use App\Helpers\ActivityLogger;
+use App\Helpers\NotificationLogger;
 
 class ticketController extends Controller
 {
     public function tickView() {
-        $projectData = project::all();
+        $projectData = auth()->user()->assignedProjects()->get();
 
         $currentUser = auth()->user();
 
@@ -42,6 +43,12 @@ class ticketController extends Controller
             $file->move(public_path('assets/ticket_attachments'), $filename);
             $validated['attachments'] = 'assets/ticket_attachments/' . $filename;
         }
+
+        NotificationLogger::notify(
+            1, 
+            'ticket_received', 
+            'New ticket created: ' . $validated['title']
+        );
 
         ticket::create($validated);
 

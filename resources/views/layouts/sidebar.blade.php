@@ -80,6 +80,14 @@
                             Tickets
                         </a>
                     </li>
+                    @if(auth()->user()->role_id == 2)
+                    <li class="mb-2">
+                        <a href="{{ route('billing') }}" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
+                            <img src="{{ asset('assets/bill-DARK.svg') }}" alt="icon" class="w-8 h-6 light-mode-icon" data-dark-src="{{asset('assets/bill-DARK.svg')}}">
+                            Billing
+                        </a>
+                    </li>
+                    @endif
                     <li class="mb-2 ">
                         <a href="{{ route('analytics') }}" class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
                             <img src="{{ asset('assets/chart-bar.svg') }}" alt="icon" class="w-8 h-6 light-mode-icon" data-dark-src="{{asset('assets/chart-bar-DARK.svg')}}">

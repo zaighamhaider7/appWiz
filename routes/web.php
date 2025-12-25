@@ -12,14 +12,26 @@ use App\Http\Controllers\marketplaceController;
 use App\Http\Controllers\ticketController;
 use App\Http\Controllers\ticketChatsController;
 use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\billingController;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home;
 Route::get('/',[Home::class,'index']);
 
+// Route::get('/dashboard', function () {
+//     return view('client.dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::get('/dashboard', function () {
-    return view('client.dashboard');
+    $user = auth()->user();
+
+    if ($user->role_id == 1) {
+        return redirect()->route('admin.dashboard');
+    }
+
+    return redirect()->route('user.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/setting', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -169,25 +181,28 @@ Route::middleware('auth')->group(function () {
 
     // dashboard start
 
-    Route::get('/dashboard',[dashboardController::class,'DashboardView'])->name('dashboard');
+    Route::get('/admin/dashboard',[dashboardController::class,'adminDashboard'])->name('admin.dashboard');
 
-
+    Route::get('/user/dashboard',[dashboardController::class,'userDashboard'])->name('user.dashboard');
 
     Route::post('/notifications/{id}/read', function($id) {
-    $notification = \App\Models\Notification::find($id);
-    if ($notification && $notification->is_read == 0) {
-        $notification->is_read = 1;
-        $notification->save();
-    }
+        $notification = \App\Models\Notification::find($id);
+        if ($notification && $notification->is_read == 0) {
+            $notification->is_read = 1;
+            $notification->save();
+        }
 
-    // Count unread notifications
-    $unreadCount = \App\Models\Notification::where('is_read', 0)->count();
+        $unreadCount = \App\Models\Notification::where('is_read', 0)->count();
 
-    return response()->json([
-        'success' => true,
-        'unreadCount' => $unreadCount
-    ]);
+        return response()->json([
+            'success' => true,
+            'unreadCount' => $unreadCount
+        ]);
     });
+
+
+    // billing routes
+    Route::get('/billing', [billingController::class, 'billingView'])->name('billing');
 
 });
 

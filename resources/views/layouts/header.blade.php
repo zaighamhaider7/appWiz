@@ -197,13 +197,6 @@
         </button>
 
         <!-- Notification Button -->
-        {{-- <button class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
-            <img src="{{asset('assets/notification.svg')}}" alt="icon"
-                class="w-6 h-6 light-text-gray-900 rounded-full light-mode-icon"
-                data-dark-src="{{asset('assets/notification-DARK.svg')}}">
-        </button> --}}
-
-        <!-- Notification Button -->
         <div class="relative" id="notificationDropdown">
             <button id="notificationButton"
                 class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
@@ -220,11 +213,11 @@
 
             <!-- Dropdown -->
             <div id="dropdownMenu2"
-                class="absolute right-0 mt-2 w-80  bg-black text-white shadow-lg rounded-lg z-50 hidden">
-                <ul>
+                class="absolute right-5 mt-1 w-80  bg-black text-white shadow-lg rounded-lg z-50 hidden">
+                <ul id="notificationList">
                     @forelse($notifications ?? [] as $notification)
                         <li data-id="{{ $notification->id }}"
-                            class="notification-item p-4 border-b {{ $notification->is_read ? 'bg-black' : 'bg-gray-800' }}">
+                            class="notification-item cursor-pointer flex items-center  justify-between p-4 border-b {{ $notification->is_read ? 'bg-black' : 'bg-gray-800' }}">
                             {{ $notification->message }}
                             <span
                                 class="text-xs text-gray-400 float-right">{{ $notification->created_at->diffForHumans() }}</span>
@@ -243,11 +236,10 @@
                 const dropdown2 = document.getElementById('dropdownMenu2');
 
                 button.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Prevent click from bubbling to document
+                    e.stopPropagation();
                     dropdown2.classList.toggle('hidden');
                 });
 
-                // Click outside to close
                 document.addEventListener('click', (e) => {
                     if (!document.getElementById('notificationDropdown').contains(e.target)) {
                         dropdown2.classList.add('hidden');
@@ -387,7 +379,6 @@
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) {
-                        // Update the background without refresh
                         li.classList.remove('bg-gray-800');
                         li.classList.add('bg-black');
 

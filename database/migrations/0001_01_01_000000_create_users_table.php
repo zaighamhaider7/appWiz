@@ -43,6 +43,7 @@ return new class extends Migration
             $table->string('status')->default('active');
             $table->string('leads')->nullable();
             $table->string('membership')->nullable();
+            $table->boolean('is_suspended')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

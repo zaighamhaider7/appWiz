@@ -18,9 +18,10 @@ return new class extends Migration
             $table->string('priority');
             $table->text('description');
             $table->string('status')->default('Pending');
-            $table->integer('user_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // fixed
             $table->timestamps();
         });
+
     }
 
     /**
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('table_tickes');
+        Schema::dropIfExists('tickets');
     }
 };

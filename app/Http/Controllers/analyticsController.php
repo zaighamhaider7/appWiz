@@ -16,7 +16,7 @@ class AnalyticsController extends Controller
 {
     public function index()
     {
-        $propertyId = '398445627';
+        $propertyId = env('property_id');
         $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
 
         $client = new BetaAnalyticsDataClient([
@@ -185,7 +185,7 @@ class AnalyticsController extends Controller
 
 public function earningsData()
 {
-    $propertyId = "398445627"; // Your GA4 property ID
+    $propertyId = env('property_id');
     $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
 
     $client = new BetaAnalyticsDataClient([
@@ -240,7 +240,7 @@ public function earningsData()
 }
 public function deviceTypeData()
 {
-    $propertyId = "398445627";
+    $propertyId = env('property_id');
     $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
 
     $client = new BetaAnalyticsDataClient([
@@ -294,7 +294,7 @@ public function deviceTypeData()
 }
 public function traffic()
 {
-    $propertyId = "398445627"; // Your GA4 property ID
+    $propertyId = env('property_id');
     $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
 
     $client = new BetaAnalyticsDataClient([

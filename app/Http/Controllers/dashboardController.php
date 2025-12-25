@@ -17,9 +17,9 @@ use App\Models\Subscription;
 
 class dashboardController extends Controller
 {
-    public function DashboardView(){
+    public function adminDashboard(){
         $user = Auth::user();
-        if($user->role_id == 1){
+
             $ticketData = ticket::with('project', 'user')->get();
             $ticketCount = $ticketData->count();
             $projectCount = project::all()->count();
@@ -38,7 +38,7 @@ class dashboardController extends Controller
                             ->count();
 
 
-            $propertyId = '398445627';
+            $propertyId = env('property_id');
             $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
 
             $client = new BetaAnalyticsDataClient([
@@ -166,12 +166,13 @@ class dashboardController extends Controller
                     'previous_sessions' => $prevSessions,
                     'percentage_change' => round($percentageChange, 1),
                 ];
-            }
 
             return view('admin.dashboard', compact('ticketData', 'ticketCount','projectCount','clientCount', 'thisMonthClients','thisMonthTickets', 'thisMonthProjects', 'summary', 'sources', 'currentData'));
         }
-        else{
-            $user = auth()->user();
+    }
+
+    public function userDashboard(){
+        $user = auth()->user();
 
             $projectCount = $user->assignedProjects()->count();
             $inprogressProjectCount = $user->assignedProjects()->where('status', 'In Progress')->count();
@@ -180,6 +181,5 @@ class dashboardController extends Controller
             $subscriptionData = Subscription::limit(3)->get();
 
             return view('user.dashboard', compact('projectCount', 'inprogressProjectCount', 'ticketCount', 'subscriptionData'));
-        }
     }
 }

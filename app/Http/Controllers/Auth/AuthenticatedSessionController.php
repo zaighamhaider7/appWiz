@@ -22,22 +22,45 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
+    // public function store(LoginRequest $request): RedirectResponse
+    // {
+    //     $request->authenticate();
+
+    //         $user = auth()->user();
+
+    //         if ($user->is_suspended == 1) {
+    //             Auth::logout();
+    //             return back()->withErrors([
+    //                 'email' => 'Your account is suspended. Please contact the admin.',
+    //             ]);
+    //         }
+
+    //     $request->session()->regenerate();
+    //     return redirect()->intended(route('clients', absolute: false));
+    // }
+
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
 
-            $user = auth()->user();
+        $user = auth()->user();
 
-            if ($user->is_suspended == 1) {
-                Auth::logout();
-                return back()->withErrors([
-                    'email' => 'Your account is suspended. Please contact the admin.',
-                ]);
-            }
+        if ($user->is_suspended == 1) {
+            Auth::logout();
+            return back()->withErrors([
+                'email' => 'Your account is suspended. Please contact the admin.',
+            ]);
+        }
 
         $request->session()->regenerate();
-        return redirect()->intended(route('clients', absolute: false));
+
+        if ($user->role_id == 1) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return redirect()->route('user.dashboard');
     }
+
 
     /**
      * Destroy an authenticated session.

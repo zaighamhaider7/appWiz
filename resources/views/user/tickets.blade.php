@@ -734,6 +734,11 @@
             body.sidebar-open {
                 overflow: visible;
             }
+
+            .ql-snow .ql-editor.ql-blank::before {
+                color: #616060; 
+                font-style: italic;
+            }
         }
     </style>
 
@@ -1124,7 +1129,7 @@
                                     <option value="{{ $project->id }}">{{ $project->project_name }}</option>
                                 @endforeach
                             @else
-                                <option value="" selected hidden>No Projects Available</option>
+                                <option value="" selected hidden>No project assign to you</option>
                             @endif
                         </select>
                     </div>

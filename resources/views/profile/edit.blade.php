@@ -864,42 +864,81 @@
 </head>
 
 <body>
+    <script>
+        setTimeout(function() {
+            const messages = document.querySelectorAll('.success-message');
+            messages.forEach(function(el) {
+                el.style.display = 'none';
+            });
+        }, 5000);
+    </script>
     @include('layouts.loader')
+
     @if (session('status') === 'password-updated')
         <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
-            class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+            class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
             Password updated successfully!
         </div>
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
     @elseif (session('status') === 'verification-link-sent')
         <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
-            class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+            class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
             Verification link sent to your email!
         </div>
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
     @elseif (session('status') === 'profile-updated')
         <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
-            class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+            class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
             Profile Updated!
         </div>
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
     @elseif (session('status') === 'device-deleted')
         <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
-            class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
+            class="success-message fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
             Device Deleted!
         </div>
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
     @elseif(session('status') === 'role-added')
         <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
-            class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+            class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
             Role added successfully!
         </div>
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
     @endif
     @if ($errors->any())
         <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
-            class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
+            class="success-message fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
         </div>
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
     @endif
 
     <div class="flex min-h-screen light-bg-white">
@@ -1087,6 +1126,7 @@
                     </div>
 
                     <!-- Tab 4: Team Member -->
+                    @if(auth()->user()->role_id == 1)
                     <div
                         class="flex items-center px-2 justify-center border border-gray-200 rounded-lg hover:rounded-md  light-hover-bg-gray-300 tab-wrapper">
                         <img class="w-5 h-5 mr-2" src="{{ asset('assets/profile-2user-DARK.svg') }}" class="text-white"
@@ -1095,7 +1135,7 @@
                             class="tab-btn text-xs font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
                             data-tab="teamMember">Team Member</button>
                     </div>
-
+                    
                     <!-- Tab 5: Roles & Permission -->
                     <div
                         class="flex items-center px-2 justify-center border border-gray-200 rounded-lg hover:rounded-md  light-hover-bg-gray-300 tab-wrapper">
@@ -1105,6 +1145,8 @@
                             class="tab-btn text-xs font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
                             data-tab="rolesAnd">Roles & Permissions</button>
                     </div>
+
+                    @endif
 
 
 
@@ -1452,7 +1494,8 @@
                                     <div class="w-16 flex justify-end">
                                         <label class="toggle-switch">
                                             {{-- <input type="checkbox" class="toggle-input" checked> --}}
-                                            <input type="checkbox" class="toggle-input" data-type="ticket_received"  {{ ($preferences['ticket_received'] ?? 1) == 1 ? 'checked' : '' }}>
+                                            <input type="checkbox" class="toggle-input" data-type="ticket_received"
+                                                {{ ($preferences['ticket_received'] ?? 1) == 1 ? 'checked' : '' }}>
                                             <span class="toggle-slider"></span>
                                         </label>
                                     </div>
@@ -1470,7 +1513,8 @@
                                     <div class="w-16 flex justify-end">
                                         <label class="toggle-switch">
                                             {{-- <input type="checkbox" class="toggle-input" checked> --}}
-                                            <input type="checkbox" class="toggle-input" data-type="payment_received"  {{ ($preferences['payment_received'] ?? 1) == 1 ? 'checked' : '' }}>
+                                            <input type="checkbox" class="toggle-input" data-type="payment_received"
+                                                {{ ($preferences['payment_received'] ?? 1) == 1 ? 'checked' : '' }}>
                                             <span class="toggle-slider"></span>
                                         </label>
                                     </div>
@@ -1488,7 +1532,9 @@
                                     <div class="w-16 flex justify-end">
                                         <label class="toggle-switch">
                                             {{-- <input type="checkbox" class="toggle-input" checked> --}}
-                                            <input type="checkbox" class="toggle-input" data-type="subscription_renewal"  {{ ($preferences['subscription_renewal'] ?? 1) == 1 ? 'checked' : '' }}>
+                                            <input type="checkbox" class="toggle-input"
+                                                data-type="subscription_renewal"
+                                                {{ ($preferences['subscription_renewal'] ?? 1) == 1 ? 'checked' : '' }}>
                                             <span class="toggle-slider"></span>
                                         </label>
                                     </div>
@@ -1505,7 +1551,9 @@
                                     <div class="w-16 flex justify-end">
                                         <label class="toggle-switch">
                                             {{-- <input type="checkbox" class="toggle-input" checked> --}}
-                                            <input type="checkbox" class="toggle-input" data-type="new_user_registration"  {{ ($preferences['new_user_registration'] ?? 1) == 1 ? 'checked' : '' }} >
+                                            <input type="checkbox" class="toggle-input"
+                                                data-type="new_user_registration"
+                                                {{ ($preferences['new_user_registration'] ?? 1) == 1 ? 'checked' : '' }}>
                                             <span class="toggle-slider"></span>
                                         </label>
                                     </div>
@@ -1522,7 +1570,8 @@
                                     <div class="w-16 flex justify-end">
                                         <label class="toggle-switch">
                                             {{-- <input type="checkbox" class="toggle-input" checked> --}}
-                                            <input type="checkbox" class="toggle-input" data-type="payment_failure"  {{ ($preferences['payment_failure'] ?? 1) == 1 ? 'checked' : '' }}>
+                                            <input type="checkbox" class="toggle-input" data-type="payment_failure"
+                                                {{ ($preferences['payment_failure'] ?? 1) == 1 ? 'checked' : '' }}>
                                             <span class="toggle-slider"></span>
                                         </label>
                                     </div>
@@ -1908,7 +1957,7 @@
                                         </thead>
                                         <tbody id="projectsTableBody"
                                             class="light-bg-white light-bg-seo divide-y divide-gray-200">
-                                          
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -1982,7 +2031,7 @@
                                             class="bg-gray-800 light-bg-f5f5f5 light-bg-seo text-white p-6 rounded-lg shadow-lg">
                                             <h2 class="text-lg font-semibold mb-4">Activity Log</h2>
                                             <div class="relative border-l border-gray-700 ml-3">
-                                                 @if (!empty($activity_logs) && count($activity_logs) > 0)
+                                                @if (!empty($activity_logs) && count($activity_logs) > 0)
                                                     @foreach ($activity_logs as $log)
                                                         <div class="mb-8 relative pl-6">
                                                             <span
@@ -2089,7 +2138,7 @@
         class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
         Member updated successfully!
     </div>
-    
+
     <div id="memberdelete" style="display: none; z-index: 9999 !important;"
         class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
         Member deleted successfully!
@@ -2110,24 +2159,26 @@
             });
 
             $('.toggle-input').change(function() {
-                let checkbox = $(this); 
+                let checkbox = $(this);
                 var type = $(this).data('type');
-                var isEnabled = $(this).is(':checked') ? 1 : 0; 
+                var isEnabled = $(this).is(':checked') ? 1 : 0;
 
                 $.ajax({
                     url: 'settings/update-notification',
                     type: 'POST',
                     data: {
-                        _token: '{{ csrf_token() }}', 
+                        _token: '{{ csrf_token() }}',
                         notification_type: type,
                         is_enabled: isEnabled
                     },
                     success: function(response) {
-                        checkbox.prop('checked', response.is_enabled == 1);                        
+                        checkbox.prop('checked', response.is_enabled == 1);
                         if (response.is_enabled == 1) {
-                            $('#notification').html('Notification enabled').fadeIn().delay(4000).fadeOut();
+                            $('#notification').html('Notification enabled').fadeIn().delay(4000)
+                                .fadeOut();
                         } else {
-                            $('#notification').html('Notification disabled').fadeIn().delay(4000).fadeOut();
+                            $('#notification').html('Notification disabled').fadeIn().delay(
+                                4000).fadeOut();
                         }
                     },
                     error: function(xhr) {
@@ -2172,7 +2223,7 @@
                             alert('Failed to add member. Please try again.');
                         }
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
 
                         let errorMsg = 'Something went wrong. Please try again.';
 
@@ -2180,9 +2231,7 @@
                             errorMsg = Object.values(xhr.responseJSON.errors)
                                 .map(err => err.join('<br>'))
                                 .join('<br>');
-                        }
-
-                        else if (xhr.responseJSON && xhr.responseJSON.message) {
+                        } else if (xhr.responseJSON && xhr.responseJSON.message) {
                             errorMsg = xhr.responseJSON.message;
                         }
 
@@ -2193,7 +2242,7 @@
                             .fadeOut();
                     }
                 })
-                
+
             });
 
             $(document).on('click', '.openPopup2', function(e) {
@@ -2270,7 +2319,7 @@
                     data: {
                         user_id: userId,
                     },
-                    success: function(response) {    
+                    success: function(response) {
                         $('#memberdelete').fadeIn().delay(4000).fadeOut();
                         $('#leftSection').show();
                         $('#rightSection').hide();
@@ -2379,7 +2428,7 @@
 
             function renderProjects(projects) {
                 const tableBody = document.getElementById('projectsTableBody');
-                tableBody.innerHTML = ''; 
+                tableBody.innerHTML = '';
 
                 if (projects.length === 0) {
                     const tr = document.createElement('tr');
@@ -2399,10 +2448,10 @@
                                                     ${
                                                         project.is_high_priority == 1
                                                         ? `
-                                                                        <div class="rounded-sm text-center w-20 light-bg-ea54547a mt-1">
-                                                                            <div class="text-xs light-text-ff0000">High Priority</div>
-                                                                        </div>
-                                                                        `
+                                                                            <div class="rounded-sm text-center w-20 light-bg-ea54547a mt-1">
+                                                                                <div class="text-xs light-text-ff0000">High Priority</div>
+                                                                            </div>
+                                                                            `
                                                         : ''
                                                     }
                                             </td>
@@ -2435,7 +2484,7 @@
                                                         <button
                                                             class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
                                                             data-action="view-project">
-                                                            <img src="{{asset('assets/eye-DARK.svg')}}" alt="icon"
+                                                            <img src="{{ asset('assets/eye-DARK.svg') }}" alt="icon"
                                                                 class="w-5 h-5 light-text-gray-900 rounded-full light-mode-icon">
                                                         </button>
                                                     </div>
@@ -2449,8 +2498,8 @@
 
             $(document).on('click', '.confirmPopup', function() {
                 const userId = $(this).data('user-id');
-                    $('#leftSection').hide();
-                    $('#rightSection').show();
+                $('#leftSection').hide();
+                $('#rightSection').show();
 
                 $.ajax({
                     url: '/settings/teammember',
@@ -2624,7 +2673,7 @@
             const rightSection = document.getElementById('rightSection');
             const popupModal = document.getElementById('popupModal');
             const popupModal2 = document.getElementById('popupModal2');
-            
+
             const rolePopupModal = document.getElementById('rolePopupModal'); // ✅ New popup modal for roles
 
             const openRolePopupBtn = document.getElementById('openRolePopup'); // ✅ Button to open role popup
@@ -2811,10 +2860,11 @@
                         <!-- State Selection -->
                         <div>
                             <label class="block text-sm mb-1 light-text-black">Role</label>
-                            <select  id="role_id" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                            <select id="role_id"
+                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="" hidden selected>Select Role</option>
-                                @if($roles->count() > 0)
-                                    @foreach($roles as $role)
+                                @if ($roles->count() > 0)
+                                    @foreach ($roles as $role)
                                         <option value="{{ $role->id }}">{{ $role->name }}</option>
                                     @endforeach
                                 @endif
@@ -2825,10 +2875,11 @@
                         <!-- State Selection -->
                         <div>
                             <label class="block text-sm mb-1 light-text-black">Assign Project</label>
-                            <select id="project_id" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                            <select id="project_id"
+                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="" selected hidden>Select Project</option>
-                                @if($allProjects->count() > 0)
-                                    @foreach($allProjects as $project)
+                                @if ($allProjects->count() > 0)
+                                    @foreach ($allProjects as $project)
                                         <option value="{{ $project->id }}">{{ $project->project_name }}</option>
                                     @endforeach
                                 @endif
@@ -2847,7 +2898,8 @@
                             class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                             Cancel
                         </button>
-                        <button id="save-member" type="submit" class="px-4 py-2 btn-orange text-white rounded-lg hover:bg-orange-600">
+                        <button id="save-member" type="submit"
+                            class="px-4 py-2 btn-orange text-white rounded-lg hover:bg-orange-600">
                             Save
                         </button>
                     </div>
@@ -2899,10 +2951,11 @@
                     <div class="grid-cols-2 grid gap-4">
                         <div>
                             <label class="block text-sm mb-1 light-text-black">Assign Project</label>
-                            <select id="e_project_id" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                            <select id="e_project_id"
+                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="" selected hidden>Select Project</option>
-                                @if($allProjects->count() > 0)
-                                    @foreach($allProjects as $project)
+                                @if ($allProjects->count() > 0)
+                                    @foreach ($allProjects as $project)
                                         <option value="{{ $project->id }}">{{ $project->project_name }}</option>
                                     @endforeach
                                 @endif
@@ -2911,10 +2964,11 @@
                         <!-- State Selection -->
                         <div>
                             <label class="block text-sm mb-1 light-text-black">Role</label>
-                            <select  id="e_role_id" class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                            <select id="e_role_id"
+                                class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="" hidden selected>Select Role</option>
-                                @if($roles->count() > 0)
-                                    @foreach($roles as $role)
+                                @if ($roles->count() > 0)
+                                    @foreach ($roles as $role)
                                         <option value="{{ $role->id }}">{{ $role->name }}</option>
                                     @endforeach
                                 @endif
@@ -2923,7 +2977,7 @@
                     </div>
                     <div class="">
                         <!-- State Selection -->
-                        
+
                     </div>
 
                 </div>
@@ -2937,7 +2991,8 @@
                             class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                             Cancel
                         </button>
-                        <button id="edit-member" type="submit" class="px-4 py-2 btn-orange text-white rounded-lg hover:bg-orange-600">
+                        <button id="edit-member" type="submit"
+                            class="px-4 py-2 btn-orange text-white rounded-lg hover:bg-orange-600">
                             Save
                         </button>
                     </div>

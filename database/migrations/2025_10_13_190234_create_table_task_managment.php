@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('task_name');
             $table->string('task_category');
             $table->string('project');
-            $table->string('assign_to');
+            $table->foreignId('assign_to')->nullable()->constrained('users')->nullOnDelete();
             $table->date('start_date');
             $table->date('due_date');
             $table->string('description');

@@ -751,6 +751,10 @@
             /* orange placeholder */
             font-style: italic;
         }
+        .ql-snow .ql-editor.ql-blank::before {
+            color: #616060; /* orange placeholder */
+            font-style: italic;
+        }
     </style>
 
 </head>

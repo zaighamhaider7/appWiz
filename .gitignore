@@ -1,2 +1,4 @@
 # GA4 credentials file
 ga4Credentials.json
+
+.env
