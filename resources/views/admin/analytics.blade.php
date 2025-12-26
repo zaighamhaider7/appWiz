@@ -2158,7 +2158,7 @@
             url: '/earnings-data',
             type: 'GET',
             success: function(response) {
-                console.log(response);
+                console.log("Earning Fetch",response);
                 // Fill chart labels & data
                 earningsChart.data.labels = response.labels;
                 earningsChart.data.datasets[0].data = response.values;
@@ -2170,10 +2170,11 @@
 
                 earningsChart.update();
             },
-            error: function() {
-                console.error('Error fetching GA4 data');
+            error: function(err) {
+                console.error('Error fetching GA4 data', err);
             }
         });
+        
         $.ajax({
             url: '/device-type-data', // endpoint returning % data
             type: 'GET',

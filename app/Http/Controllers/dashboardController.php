@@ -71,7 +71,7 @@ class dashboardController extends Controller
             $currentRequest = (new RunReportRequest)
                 ->setProperty('properties/'.$propertyId)
                 ->setDateRanges([
-                    new DateRange(['start_date' => '2024-09-01', 'end_date' => '2024-09-30']),
+                    new DateRange(['start_date' => '365daysAgo', 'end_date' => 'today']),
                 ])
                 ->setDimensions($dimensions)
                 ->setMetrics($metrics);
@@ -106,7 +106,7 @@ class dashboardController extends Controller
             $request = (new RunReportRequest)
                 ->setProperty('properties/'.$propertyId)
                 ->setDateRanges([
-                    new DateRange(['start_date' => '2024-09-01', 'end_date' => '2024-09-30']),
+                    new DateRange(['start_date' => '365daysAgo', 'end_date' => 'today']),
                 ])
                 ->setDimensions($dimensions)
                 ->setMetrics($metrics);
@@ -131,7 +131,7 @@ class dashboardController extends Controller
             $previousRequest = (new RunReportRequest)
                 ->setProperty('properties/'.$propertyId)
                 ->setDateRanges([
-                    new DateRange(['start_date' => '2024-08-01', 'end_date' => '2024-08-31']),
+                    new DateRange(['start_date' => '365daysAgo', 'end_date' => 'today']),
                 ])
                 ->setDimensions([
                     new Dimension(['name' => 'country']),
