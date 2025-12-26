@@ -65,7 +65,7 @@ class User extends Authenticatable
     public function assignedProjects()
     {
         return $this->belongsToMany(
-            Project::class,
+            project::class,
             'assign_to',      // table name
             'assign_to',      // user id column
             'project_id'      // project id column
