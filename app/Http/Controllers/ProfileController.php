@@ -12,7 +12,7 @@ use App\Models\User;
 use App\Models\userDevices;
 use App\Models\Roles;
 use App\Models\project;
-use App\Models\ActivityLog;
+use App\Models\activityLog;
 use App\Models\NotificationPreference;
 
 class ProfileController extends Controller
@@ -31,7 +31,7 @@ class ProfileController extends Controller
         $roles = Roles::all();
         $allProjects = project::all();
         $projects = collect();
-        $activity_logs = ActivityLog::where('user_id', auth()->id())->latest()->get();
+        $activity_logs = activityLog::where('user_id', auth()->id())->latest()->get();
         $preferences = NotificationPreference::where('user_id', auth()->id())
         ->pluck('is_enabled', 'notification_type');
 
