@@ -7,7 +7,7 @@ use App\Models\project;
 use App\Models\User;
 use App\Models\TaskManagment;
 use App\Models\task_status;
-use App\Models\taskChat;
+use App\Models\TaskChat;
 
 
 class TaskManagmentController extends Controller
