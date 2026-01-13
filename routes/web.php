@@ -78,9 +78,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/impression-data', [analyticsController::class, 'impressionsData']);
     Route::get('/bounce-rate-data', [analyticsController::class, 'bounceRateData']);
     Route::get('/conversion-rate-data', [analyticsController::class, 'conversionRateData']);
-
-
-
+    Route::get('/traffic-by-countries', [analyticsController::class, 'trafficByCountries']);
 
     // project start
 

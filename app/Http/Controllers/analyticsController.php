@@ -11,6 +11,7 @@ use App\Models\Role;
 use App\Models\project;
 use App\Models\User;
 use App\Models\ticket;
+use Google\Analytics\Data\V1beta\OrderBy;
 
 class AnalyticsController extends Controller
 {
@@ -30,6 +31,7 @@ class AnalyticsController extends Controller
             $dimensions = [
                 new Dimension(['name' => 'date']),         // Date of visit
                 new Dimension(['name' => 'country']),
+                new Dimension(['name' => 'countryId']), // ✅ ISO code
                 new Dimension(['name' => 'sessionSource']),
                 new Dimension(['name' => 'sessionMedium']),
                 // <--- new
@@ -64,9 +66,12 @@ class AnalyticsController extends Controller
                 $metricValues = $row->getMetricValues();
 
                 $country = $dimensionValues[1]->getValue(); // index 1 = country
+                $countryCode = strtolower($dimensionValues[2]->getValue()); // ISO-2
+
                 $currentData[] = [
                     'date' => $dimensionValues[0]->getValue(),
                     'country' => $country,
+                    'countryCode' => $countryCode,
                     'browser' => $dimensionValues[2]->getValue(),
                     'pagePath' => $dimensionValues[3]->getValue(),
                     'sessions' => (int) $metricValues[0]->getValue(),
@@ -443,6 +448,8 @@ public function deviceTypeData()
         ]);
     }
 
+
+
     //  user analytics view
     public function sessionDurationData()
     {
@@ -739,5 +746,64 @@ public function deviceTypeData()
             'msg'    => 'ok'
         ]);
     }
+
+public function trafficByCountries()
+{
+    $propertyId  = env('property_id');
+    $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
+
+    $client = new BetaAnalyticsDataClient([
+        'credentials' => $credentials,
+    ]);
+
+    $dimensions = [
+        new Dimension(['name' => 'country']),
+        new Dimension(['name' => 'countryId']), // ISO-2 code
+    ];
+
+    $metrics = [
+        new Metric(['name' => 'sessions']),
+    ];
+
+    $request = (new RunReportRequest())
+        ->setProperty('properties/' . $propertyId)
+        ->setDateRanges([
+            new DateRange([
+                'start_date' => '365daysAgo',
+                'end_date'   => 'today',
+            ]),
+        ])
+        ->setDimensions($dimensions)
+        ->setMetrics($metrics)
+        ->setOrderBys([
+            new OrderBy([
+                'metric' => new OrderBy\MetricOrderBy([
+                    'metric_name' => 'sessions',
+                ]),
+                'desc' => true,
+            ]),
+        ]);
+
+    try {
+        $response = $client->runReport($request);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+
+    $countries = [];
+
+    foreach ($response->getRows() as $row) {
+        $countries[] = [
+            'country'     => $row->getDimensionValues()[0]->getValue(),
+            'countryCode' => strtolower($row->getDimensionValues()[1]->getValue()),
+            'sessions'    => (int) $row->getMetricValues()[0]->getValue(),
+        ];
+    }
+
+    return response()->json([
+        'data' => $countries,
+        'msg'  => 'ok',
+    ]);
+}
 
 }

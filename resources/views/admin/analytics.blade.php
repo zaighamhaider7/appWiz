@@ -943,8 +943,14 @@
                                     <div class="flex items-center">
                                         <div
                                             class="w-8 h-8 rounded-full bg-cyan-100 flex items-center justify-center mr-3">
-                                            <img src="{{ asset('assets/cn 1.png') }}" class="rounded-full"
-                                                alt="">
+                                            <!-- <img src="{{ asset('assets/cn 1.png') }}" class="rounded-full"
+                                                alt=""> -->
+                                                <img
+    src="https://flagcdn.com/w40/{{ $d['countryCode'] }}.png"
+    class="rounded-full w-8 h-8 object-cover"
+    alt="{{ $d['country'] }}"
+    onerror="this.src='{{ asset('assets/flag-fallback.svg') }}'"
+>
                                         </div>
                                         <div>
                                             <p class="text-sm font-medium">{{ $d['totalUsers'] }}</p>

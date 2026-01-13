@@ -34,7 +34,7 @@
 
         .chart-wrapper {
             width: 120px !important;
-            height: 120px;          
+            height: 120px;
         }
 
         .chart-wrapper canvas {
@@ -903,7 +903,7 @@
 
                         <div class="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-6 pl-8 pr-14 pb-5">
                             <!-- Average Session Duration Chart (60% width) -->
-                            <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm">
+                            <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm" style="height: 25em !important;">
                                 <div class="mb-6">
                                     <h3 class="text-lg font-semibold light-text-gray-800">Average Session Duration</h3>
                                     <p class="text-sm text-gray-400">Yearly Average Session Duration</p>
@@ -925,138 +925,8 @@
                                     <p class="text-sm text-gray-400">Monthly Sales Overview</p>
                                 </div>
 
-                                <div class="space-y-4">
-                                    <!-- Country 1 -->
-                                    <div class="flex justify-between items-center">
-                                        <div class="flex items-center">
-                                            <div
-                                                class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                <div class="space-y-4 traffic-countries overflow-y-auto" style="height: 25em !important;">
 
-                                                <img src="{{ asset('assets/contents.png') }}" class="rounded-full"
-                                                    alt="">
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-medium">8.45k</p>
-                                                <p class="text-xs text-gray-500">United States</p>
-                                            </div>
-                                        </div>
-                                        <span class="flex items-center text-sm font-semibold text-green-500"><svg
-                                                class="w-4 h-4 text-green-500" fill="currentColor"
-                                                viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd"
-                                                    d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-                                                    clip-rule="evenodd"></path>
-                                            </svg>25.6%</span>
-                                    </div>
-
-                                    <!-- Country 2 -->
-                                    <div class="flex justify-between items-center">
-                                        <div class="flex items-center">
-                                            <div
-                                                class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                                <img src="{{ asset('assets/br 1.png') }}" class="rounded-full"
-                                                    alt="">
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-medium">7.78k</p>
-                                                <p class="text-xs text-gray-500">Brazil</p>
-                                            </div>
-                                        </div>
-                                        <span class="flex items-center text-sm font-semibold text-red-500"><svg
-                                                class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd"
-                                                    d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-                                                    clip-rule="evenodd"></path>
-                                            </svg>16.2%</span>
-                                    </div>
-
-                                    <!-- Country 3 -->
-                                    <div class="flex justify-between items-center">
-                                        <div class="flex items-center">
-                                            <div
-                                                class="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center mr-3">
-                                                <img src="{{ asset('assets/in 1.png') }}" class="rounded-full"
-                                                    alt="">
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-medium">6.48k</p>
-                                                <p class="text-xs text-gray-500">India</p>
-                                            </div>
-                                        </div>
-
-                                        <span class="flex items-center text-sm font-semibold text-green-500"> <svg
-                                                class="w-4 h-4 text-green-500" fill="currentColor"
-                                                viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd"
-                                                    d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-                                                    clip-rule="evenodd"></path>
-                                            </svg>12.3%</span>
-                                    </div>
-
-                                    <!-- Country 4 -->
-                                    <div class="flex justify-between items-center">
-                                        <div class="flex items-center">
-                                            <div
-                                                class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mr-3">
-                                                <img src="{{ asset('assets/au 1.png') }}" class="rounded-full"
-                                                    alt="">
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-medium">5.12k</p>
-                                                <p class="text-xs text-gray-500">Australia</p>
-                                            </div>
-                                        </div>
-                                        <span class=" flex items-center text-sm font-semibold text-red-500"><svg
-                                                class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd"
-                                                    d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-                                                    clip-rule="evenodd"></path>
-                                            </svg>11.9%</span>
-                                    </div>
-
-                                    <!-- Country 5 -->
-                                    <div class="flex justify-between items-center">
-                                        <div class="flex items-center">
-                                            <div
-                                                class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3">
-                                                <img src="{{ asset('assets/fr 1.png') }}" class="rounded-full"
-                                                    alt="">
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-medium">4.45k</p>
-                                                <p class="text-xs text-gray-500">France</p>
-                                            </div>
-                                        </div>
-                                        <span class="flex items-center  text-sm font-semibold text-green-500"><svg
-                                                class="w-4 h-4 text-green-500" fill="currentColor"
-                                                viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd"
-                                                    d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-                                                    clip-rule="evenodd"></path>
-                                            </svg>16.2%</span>
-                                    </div>
-
-                                    <!-- Country 6 -->
-                                    <div class="flex justify-between items-center">
-                                        <div class="flex items-center">
-                                            <div
-                                                class="w-8 h-8 rounded-full bg-cyan-100 flex items-center justify-center mr-3">
-                                                <img src="{{ asset('assets/cn 1.png') }}" class="rounded-full"
-                                                    alt="">
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-medium">3.90k</p>
-                                                <p class="text-xs text-gray-500">China</p>
-                                            </div>
-                                        </div>
-                                        <span class="flex items-center text-sm font-semibold text-green-500"><svg
-                                                class="w-4 h-4 text-green-500" fill="currentColor"
-                                                viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd"
-                                                    d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-                                                    clip-rule="evenodd"></path>
-                                            </svg>14.8%</span>
-                                    </div>
                                 </div>
                             </div>
 
@@ -1324,7 +1194,7 @@
                 // Add this line inside your toggleDarkMode function:
                 // updateModalColors();
             });
-            
+
             // Earnings chart
             const ctxEarnings = document.getElementById('earningsChart').getContext('2d');
 
@@ -1334,7 +1204,7 @@
                     labels: [],
                     datasets: [{
                         label: 'Earnings',
-                        data: ['10', '15', '8', '12', '20', '18', '25', '22','30'],
+                        data: ['10', '15', '8', '12', '20', '18', '25', '22', '30'],
                         backgroundColor: [
                             '#3b3b3b',
                             '#3b3b3b',
@@ -1696,7 +1566,6 @@
                     });
                 }
             });
-
         </script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -1706,10 +1575,10 @@
             $(document).ready(function() {
 
                 $.ajax({
-                    url: '/session-data', 
+                    url: '/session-data',
                     type: 'GET',
-                    success: function (response) {
-                        console.log("Session Duration Data Fetch",response);
+                    success: function(response) {
+                        console.log("Session Duration Data Fetch", response);
 
                         earningsChart.data.labels = response.labels;
                         earningsChart.data.datasets[0].data = response.values;
@@ -1721,16 +1590,16 @@
 
                         earningsChart.update();
                     },
-                    error: function (err) {
+                    error: function(err) {
                         console.error('Error fetching session duration data', err);
                     }
                 });
-                
+
                 $.ajax({
-                    url: '/active-visitors', 
+                    url: '/active-visitors',
                     type: 'GET',
-                    success: function (response) {
-                        console.log("Active Visitors Data Fetch",response);
+                    success: function(response) {
+                        console.log("Active Visitors Data Fetch", response);
 
                         activeVisitorsChart.data.labels = response.labels;
                         activeVisitorsChart.data.datasets[0].data = response.values;
@@ -1742,7 +1611,7 @@
 
                         activeVisitorsChart.update();
                     },
-                    error: function (err) {
+                    error: function(err) {
                         console.error('Error fetching session duration data', err);
                     }
                 });
@@ -1751,16 +1620,16 @@
                     url: '/traffic-data',
                     type: 'GET',
                     success: function(response) {
-                        console.log("Session fetch",response);
+                        console.log("Session fetch", response);
 
                         $('#current_month_session').text(response.current_month_sessions);
                         let percent = response.percent_change;
 
                         $('#sessionPercent').text(percent);
 
-                        if(percent.startsWith('+')) {
+                        if (percent.startsWith('+')) {
                             $('#sessionPercent').removeClass('text-red-500').addClass('text-green-500');
-                        } else if(percent.startsWith('-')) {
+                        } else if (percent.startsWith('-')) {
                             $('#sessionPercent').removeClass('text-green-500').addClass('text-red-500');
                         }
 
@@ -1782,7 +1651,7 @@
                     url: '/impression-data',
                     type: 'GET',
                     success: function(response) {
-                        console.log("impressionsData fetch",response);
+                        console.log("impressionsData fetch", response);
 
                         // Fill chart labels & data
                         impressionsChart.data.labels = response.labels;
@@ -1798,7 +1667,7 @@
                 $.ajax({
                     url: '/bounce-rate-data',
                     type: 'GET',
-                    success: function (response) {
+                    success: function(response) {
                         console.log("bounceRateData fetch", response);
 
                         // Fill chart labels & data
@@ -1807,7 +1676,7 @@
 
                         bounceRateChart.update();
                     },
-                    error: function (err) {
+                    error: function(err) {
                         console.error('Error fetching Bounce Rate data', err);
                     }
                 });
@@ -1815,7 +1684,7 @@
                 $.ajax({
                     url: '/conversion-rate-data',
                     type: 'GET',
-                    success: function (response) {
+                    success: function(response) {
                         console.log("conversionRateData fetch", response);
 
                         conversitionRateChart.data.labels = response.labels;
@@ -1823,10 +1692,52 @@
 
                         conversitionRateChart.update();
                     },
-                    error: function (err) {
+                    error: function(err) {
                         console.error('Error fetching Conversion Rate data', err);
                     }
                 });
+
+                function formatNumber(num) {
+                    if (num >= 1000000) return (num / 1000000).toFixed(2) + 'M';
+                    if (num >= 1000) return (num / 1000).toFixed(2) + 'k';
+                    return num;
+                }
+
+
+               $.ajax({
+    url: '/traffic-by-countries',
+    type: 'GET',
+    success: function (response) {
+        console.log('trafficByCountries fetch', response);
+
+        const container = $('.traffic-countries');
+        container.empty();
+
+        response.data.forEach(item => {
+            const flagUrl = `https://flagcdn.com/w40/${item.countryCode}.png`;
+
+            const html = `
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 rounded-full overflow-hidden mr-3">
+                            <img src="${flagUrl}" alt="${item.country}" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium">${formatNumber(item.sessions)}</p>
+                            <p class="text-xs text-gray-500">${item.country}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.append(html);
+        });
+    },
+    error: function (err) {
+        console.error('Error fetching Traffic by Countries', err);
+    }
+});
+
+
 
 
 
