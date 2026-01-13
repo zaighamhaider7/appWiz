@@ -921,7 +921,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6" id="seo-cards">
 
                     <!-- Traffic by Countries Box (40% width) -->
-                    <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm">
+                    <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm overflow-y-auto" style="height: 30em !important">
                         <div class="mb-6">
                             <div class="flex justify-between items-start mb-1">
                                 <h3 class="text-lg font-medium light-text-gray-800">Visitor geo-locations </h3>
@@ -946,11 +946,11 @@
                                             <!-- <img src="{{ asset('assets/cn 1.png') }}" class="rounded-full"
                                                 alt=""> -->
                                                 <img
-    src="https://flagcdn.com/w40/{{ $d['countryCode'] }}.png"
-    class="rounded-full w-8 h-8 object-cover"
-    alt="{{ $d['country'] }}"
-    onerror="this.src='{{ asset('assets/flag-fallback.svg') }}'"
->
+                                                    src="https://flagcdn.com/w40/{{ $d['countryCode'] }}.png"
+                                                    class="rounded-full w-8 h-8 object-cover"
+                                                    alt="{{ $d['country'] }}"
+                                                    onerror="this.src='{{ asset('assets/flag-fallback.svg') }}'"
+                                                >
                                         </div>
                                         <div>
                                             <p class="text-sm font-medium">{{ $d['totalUsers'] }}</p>
@@ -987,7 +987,7 @@
                         </div>
                     </div>
                     <!-- Traffic by Countries Box (40% width) -->
-                    <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm">
+                    <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm overflow-y-auto" style="height: 30em !important">
                         <div class="mb-6">
                             <h3 class="text-lg font-medium light-text-gray-800">Source Visits</h3>
                             <p class="text-sm text-gray-400">Monthly Visitors Source</p>
@@ -1022,7 +1022,7 @@
                     </div>
 
                     <!-- Traffic by Countries Box (40% width) -->
-                    <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm">
+                    <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm overflow-y-auto" style="height: 30em !important">
                         <div class="mb-6">
                             <h3 class="text-lg font-medium light-text-gray-800">Most clicked packages </h3>
                             <p class="text-sm text-gray-400">Monthly Overview</p>
