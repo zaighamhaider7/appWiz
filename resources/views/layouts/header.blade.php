@@ -84,7 +84,7 @@
                     </div>
                 </a>
             </li>
-
+            @if(auth()->user()->role_id == 1)
             <li>
                 <a href="{{ route('clients') }}"
                     class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] border-b border-[#171717] hover:bg-[#191919] group">
@@ -95,7 +95,9 @@
                     <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
                 </a>
             </li>
+            @endif
 
+            @if(auth()->user()->role_id == 1)
             <li>
                 <a href="{{ route('task.view') }}"
                     class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] border-b border-[#171717] hover:bg-[#191919] group">
@@ -107,6 +109,7 @@
                     <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
                 </a>
             </li>
+            @endif
 
             <li>
                 <a href="{{ route('project.create') }}"
@@ -120,6 +123,7 @@
                 </a>
             </li>
 
+            @if(auth()->user()->role_id == 1)
             <li>
                 <a href="{{ route('leads') }}"
                     class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] border-b border-[#171717] hover:bg-[#191919] group">
@@ -130,6 +134,7 @@
                     <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
                 </a>
             </li>
+            @endif
 
             <li>
                 <a href="{{ route('ticket.view') }}"
@@ -178,6 +183,21 @@
                     <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
                 </a>
             </li>
+
+            @if(auth()->user()->role_id == 2)
+            <li>
+                <a href="{{ route('billing') }}"
+                    class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] hover:bg-[#191919] group">
+                    <div class="flex items-center gap-2">
+                        <img class="w-5 h-5 shrink-0" src="{{ asset('assets/bill-DARK.svg') }}"
+                            alt="Settings Icon" />
+                        <span class="text-sm truncate group-hover:text-orange-500">Billings</span>
+                    </div>
+                    <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
+                </a>
+            </li>
+            @endif
+
             <li class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] hover:bg-[#191919] group "
                 id="noResultsItem" style="display: none;">No results found.</li>
         </ul>
@@ -186,7 +206,7 @@
 
 
     </div>
-
+    
     <!-- Right Side Icons & User -->
     <div class="flex items-center space-x-4 ml-4">
         <!-- Message Button -->

@@ -1324,6 +1324,7 @@
                 // Add this line inside your toggleDarkMode function:
                 // updateModalColors();
             });
+            
             // Earnings chart
             const ctxEarnings = document.getElementById('earningsChart').getContext('2d');
 
