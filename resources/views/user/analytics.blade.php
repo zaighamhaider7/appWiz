@@ -1698,65 +1698,62 @@
                 });
 
                 function formatNumber(num) {
-    if (num >= 1000000) return (num / 1000000).toFixed(2) + 'M';
-    if (num >= 1000) return (num / 1000).toFixed(2) + 'k';
-    return num;
-}
+                    if (num >= 1000000) return (num / 1000000).toFixed(2) + 'M';
+                    if (num >= 1000) return (num / 1000).toFixed(2) + 'k';
+                    return num;
+                }
 
-$.ajax({
-    url: '/traffic-by-countries',
-    type: 'GET',
-    success: function (response) {
-        console.log('trafficByCountries fetch', response);
+                $.ajax({
+                    url: '/traffic-by-countries',
+                    type: 'GET',
+                    success: function (response) {
+                        console.log('trafficByCountries fetch', response);
 
-        const container = $('.traffic-countries');
-        container.empty();
+                        const container = $('.traffic-countries');
+                        container.empty();
 
-        // Calculate total sessions for percentage display
-        const totalSessions = response.data.reduce((sum, item) => sum + item.sessions, 0);
+                        // Calculate total sessions for percentage display
+                        const totalSessions = response.data.reduce((sum, item) => sum + item.sessions, 0);
 
-        response.data.forEach(item => {
-            const flagUrl = `https://flagcdn.com/w40/${item.countryCode.toLowerCase()}.png`;
+                        response.data.forEach(item => {
+                            const flagUrl = `https://flagcdn.com/w40/${item.countryCode.toLowerCase()}.png`;
 
-            // Safely calculate percentage
-            const percent = totalSessions ? ((item.sessions / totalSessions) * 100).toFixed(1) : 0;
+                            // Safely calculate percentage
+                            const percent = totalSessions ? ((item.sessions / totalSessions) * 100).toFixed(1) : 0;
 
-            // If you have change data, use it; otherwise default to 0
-            const change = item.change ?? 0;
-            const isPositive = change >= 0;
+                            // If you have change data, use it; otherwise default to 0
+                            const change = item.change ?? 0;
+                            const isPositive = change >= 0;
 
-            // Set color based on positive/negative
-            const changeColor = isPositive ? 'text-green-500' : 'text-red-300';
-            const changeSign = isPositive ? '↑' : '↓';
+                            // Set color based on positive/negative
+                            const changeColor = isPositive ? 'text-green-500' : 'text-red-300';
+                            const changeSign = isPositive ? '↑' : '↓';
 
-            const changeText = `${changeSign} ${percent}%`;
+                            const changeText = `${changeSign} ${percent}%`;
 
-            const html = `
-                <div class="flex justify-between items-center mb-3">
-                    <div class="flex items-center">
-                        <div class="w-8 h-8 rounded-full overflow-hidden mr-3">
-                            <img src="${flagUrl}" alt="${item.country}" class="w-full h-full object-cover">
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium">${formatNumber(item.sessions)}</p>
-                            <p class="text-xs text-gray-500">${item.country}</p>
-                        </div>
-                    </div>
-                    <div class="font-medium text-sm ${changeColor}">
-                        ${changeText}
-                    </div>
-                </div>
-            `;
-            container.append(html);
-        });
-    },
-    error: function (err) {
-        console.error('Error fetching Traffic by Countries', err);
-    }
-});
-
-
-
+                            const html = `
+                                <div class="flex justify-between items-center mb-3">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full overflow-hidden mr-3">
+                                            <img src="${flagUrl}" alt="${item.country}" class="w-full h-full object-cover">
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium">${formatNumber(item.sessions)}</p>
+                                            <p class="text-xs text-gray-500">${item.country}</p>
+                                        </div>
+                                    </div>
+                                    <div class="font-medium text-sm ${changeColor}">
+                                        ${changeText}
+                                    </div>
+                                </div>
+                            `;
+                            container.append(html);
+                        });
+                    },
+                    error: function (err) {
+                        console.error('Error fetching Traffic by Countries', err);
+                    }
+                });
 
             });
         </script>
