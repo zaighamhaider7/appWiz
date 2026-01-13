@@ -844,9 +844,9 @@
                                 <div class="w-full chart-wrapper">
                                     <canvas id="impressions"></canvas>
                                 </div>
-                                <div class="mt-4 flex justify-between items-center">
+                                <div class="mt-4 flex justify-between">
                                     <p class="text-2xl font-semibold light-text-gray-800">26.1k</p>
-                                    <p class="text-red-500 text-sm flex items-center">
+                                    <p class="text-red-500 text-sm mt-1 flex items-center">
 
                                         -24.5%
                                     </p>
@@ -854,8 +854,8 @@
                             </div>
 
                             <!-- Bounce Rate Box -->
-                            <div class="light-bg-f5f5f5 light-bg-seo rounded-lg shadow-sm overflow-hidden">
-                                <div class="px-6 pt-6">
+                            <div class="light-bg-f5f5f5 light-bg-seo rounded-lg p-6 shadow-sm overflow-hidden">
+                                <div class="">
                                     <div class="flex justify-between items-start">
                                         <div>
                                             <h3 class="light-text-gray-800 text-sm font-medium">Bounce Rate</h3>
@@ -867,9 +867,9 @@
                                     <canvas id="bounceRate"></canvas>
                                 </div>
                                 <!-- Full width image -->
-                                <div class="px-6 pb-6 flex justify-between items-center"> <!-- Text inline -->
+                                <div class="mt-4 flex justify-between items-center"> <!-- Text inline -->
                                     <p class="text-2xl font-semibold light-text-gray-800">75%</p>
-                                    <p class="text-red-500 text-sm flex items-center">
+                                    <p class="text-red-500 text-sm mt-1 flex items-center">
 
                                         -16.2%
                                     </p>
@@ -877,17 +877,17 @@
                             </div>
 
                             <!-- Conversion Rate Box -->
-                            <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-lg shadow-sm">
+                            <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-lg overflow-hidden shadow-sm">
                                 <div class="flex justify-between items-start">
                                     <div>
-                                        <h3 class="light-text-gray-800 text-sm font-medium">Conversion Rate</h3>
+                                        <h3 class="light-text-gray-800 text-sm font-medium">Engagement Rate</h3>
                                         <p class="text-gray-400 text-xs">Last Month</p>
                                     </div>
                                 </div>
                                 <div class="w-full chart-wrapper">
                                     <canvas id="conversitionRate"></canvas>
                                 </div>
-                                <div class="mt-4 flex justify-between">
+                                <div class="mt-4 flex justify-between items-start">
                                     <p class="text-2xl font-semibold light-text-gray-800">62%</p>
                                     <p class="text-green-500 text-sm mt-1 flex items-center">
 
@@ -1794,6 +1794,41 @@
                         console.error('Error fetching GA4 data', err);
                     }
                 });
+
+                $.ajax({
+                    url: '/bounce-rate-data',
+                    type: 'GET',
+                    success: function (response) {
+                        console.log("bounceRateData fetch", response);
+
+                        // Fill chart labels & data
+                        bounceRateChart.data.labels = response.labels;
+                        bounceRateChart.data.datasets[0].data = response.values;
+
+                        bounceRateChart.update();
+                    },
+                    error: function (err) {
+                        console.error('Error fetching Bounce Rate data', err);
+                    }
+                });
+
+                $.ajax({
+                    url: '/conversion-rate-data',
+                    type: 'GET',
+                    success: function (response) {
+                        console.log("conversionRateData fetch", response);
+
+                        conversitionRateChart.data.labels = response.labels;
+                        conversitionRateChart.data.datasets[0].data = response.values;
+
+                        conversitionRateChart.update();
+                    },
+                    error: function (err) {
+                        console.error('Error fetching Conversion Rate data', err);
+                    }
+                });
+
+
 
             });
         </script>

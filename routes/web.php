@@ -76,6 +76,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/session-data', [analyticsController::class, 'sessionDurationData']);
     Route::get('/active-visitors', [analyticsController::class, 'activeVisitorsData']);
     Route::get('/impression-data', [analyticsController::class, 'impressionsData']);
+    Route::get('/bounce-rate-data', [analyticsController::class, 'bounceRateData']);
+    Route::get('/conversion-rate-data', [analyticsController::class, 'conversionRateData']);
+
+
 
 
     // project start

@@ -219,9 +219,9 @@ public function earningsData()
 
   try {
         $response = $client->runReport($request);
-        \Log::info('GA4 earningsData raw response', ['rows' => $response->getRows()]);
+        // \Log::info('GA4 earningsData raw response', ['rows' => $response->getRows()]);
     } catch (\Exception $e) {
-        \Log::error('GA4 API error: ' . $e->getMessage());
+        // \Log::error('GA4 API error: ' . $e->getMessage());
         return response()->json(['error' => $e->getMessage()], 500);
     }
     $labels = [];
@@ -389,9 +389,9 @@ public function deviceTypeData()
 
         try {
             $response = $client->runReport($request);
-            \Log::info('GA4 traffic raw response', ['rows' => $response->getRows()]);
+            // \Log::info('GA4 traffic raw response', ['rows' => $response->getRows()]);
         } catch (\Exception $e) {
-            \Log::error('GA4 API error: ' . $e->getMessage());
+            // \Log::error('GA4 API error: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
@@ -485,7 +485,7 @@ public function deviceTypeData()
         try {
             $response = $client->runReport($request);
         } catch (\Exception $e) {
-            \Log::error('GA4 API error: ' . $e->getMessage());
+            // \Log::error('GA4 API error: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
@@ -542,7 +542,7 @@ public function deviceTypeData()
         try {
             $response = $client->runReport($request);
         } catch (\Exception $e) {
-            \Log::error('GA4 API error: ' . $e->getMessage());
+            // \Log::error('GA4 API error: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
@@ -622,5 +622,124 @@ public function deviceTypeData()
         ]);
     }
 
+    public function bounceRateData()
+    {
+        $propertyId = env('property_id');
+        $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
+
+        $client = new BetaAnalyticsDataClient([
+            'credentials' => $credentials,
+        ]);
+
+        // Dimension: month
+        $dimensions = [
+            new Dimension(['name' => 'month']),
+        ];
+
+        // Metric: bounceRate
+        $metrics = [
+            new Metric(['name' => 'bounceRate']),
+        ];
+
+        $request = (new RunReportRequest())
+            ->setProperty('properties/' . $propertyId)
+            ->setDateRanges([
+                new DateRange([
+                    'start_date' => '365daysAgo',
+                    'end_date'   => 'today'
+                ]),
+            ])
+            ->setDimensions($dimensions)
+            ->setMetrics($metrics);
+
+        try {
+            $response = $client->runReport($request);
+        } catch (\Exception $e) {
+            // \Log::error('GA4 Bounce Rate API error: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+        $labels = [];
+        $values = [];
+
+        foreach ($response->getRows() as $row) {
+            $monthNum  = (int) $row->getDimensionValues()[0]->getValue();
+            $monthName = date('M', mktime(0, 0, 0, $monthNum, 10));
+
+            // Bounce rate comes as decimal percentage
+            $bounceRate = round(
+                (float) $row->getMetricValues()[0]->getValue(),
+                2
+            );
+
+            $labels[] = $monthName;
+            $values[] = $bounceRate;
+        }
+
+        return response()->json([
+            'labels' => $labels,
+            'values' => $values,
+            'msg'    => 'ok'
+        ]);
+    }
+
+    public function conversionRateData()
+    {
+        $propertyId = env('property_id');
+        $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
+
+        $client = new BetaAnalyticsDataClient([
+            'credentials' => $credentials,
+        ]);
+
+        $dimensions = [
+            new Dimension(['name' => 'month']),
+        ];
+
+        $metrics = [
+            new Metric(['name' => 'engagementRate']),
+        ];
+
+        $request = (new RunReportRequest())
+            ->setProperty('properties/' . $propertyId)
+            ->setDateRanges([
+                new DateRange([
+                    'start_date' => '365daysAgo',
+                    'end_date'   => 'today'
+                ]),
+            ])
+            ->setDimensions($dimensions)
+            ->setMetrics($metrics);
+
+        try {
+            $response = $client->runReport($request);
+        } catch (\Exception $e) {
+            // \Log::error('GA4 Conversion Rate API error: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+        $labels = [];
+        $values = [];
+
+        foreach ($response->getRows() as $row) {
+            $monthNum  = (int) $row->getDimensionValues()[0]->getValue();
+            $monthName = date('M', mktime(0, 0, 0, $monthNum, 10));
+
+            // conversion rate already in %
+            $conversionRate = round(
+                (float) $row->getMetricValues()[0]->getValue(),
+                2
+            );
+
+            $labels[] = $monthName;
+            $values[] = $conversionRate;
+        }
+
+        return response()->json([
+            'labels' => $labels,
+            'values' => $values,
+            'msg'    => 'ok'
+        ]);
+    }
 
 }
