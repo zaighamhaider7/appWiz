@@ -443,8 +443,6 @@ public function deviceTypeData()
         ]);
     }
 
-
-
     //  user analytics view
     public function sessionDurationData()
     {

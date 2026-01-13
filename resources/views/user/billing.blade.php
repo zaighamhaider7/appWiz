@@ -827,14 +827,14 @@
                                                     </div>
                                                 </button>
                                                 <div class="flex light-bg-d7d7d7 rounded-md">
-                                                    <button onclick="printTable()"
+                                                    <button onclick="billingTable()"
                                                         class="flex items-center justify-center ml-1 px-4 py-2 rounded-lg bg-white light-bg-d7d7d7 light-text-gray-700   text-gray-700 hover:bg-gray-200 transition-colors ">
                                                         <div class="flex ">
                                                             <span>Print</span>
                                                         </div>
                                                     </button>
                                                     {{-- <div class="w-1 h-full bg-white border-sm border-white"></div> --}}
-                                                    <button onclick="exportToExcel()"
+                                                    <button onclick="BillingExportToExcel()"
                                                         class="flex items-center justify-center mr-2 px-4 py-2 rounded-lg bg-white light-bg-d7d7d7 light-text-gray-700   text-gray-700 hover:bg-gray-200 transition-colors ">
                                                         <div class="flex">
                                                             <span>Excel</span>
@@ -845,8 +845,8 @@
 
                                             {{-- billings print & excel js here  --}}
                                             <script>
-                                                function printTable() {
-                                                    var printContents = document.getElementById('printArea').outerHTML;
+                                                function billingTable() {
+                                                    var printContents = document.getElementById('billingTable').outerHTML;
                                                     var originalContents = document.body.innerHTML;
 
                                                     document.body.innerHTML = `
@@ -861,8 +861,33 @@
                                                     location.reload();
                                                 }
 
-                                                function exportToExcel() {
-                                                    var table = document.getElementById("printArea");
+                                                function BillingExportToExcel() {
+                                                    var table = document.getElementById("billingTable");
+                                                    var wb = XLSX.utils.book_new();
+                                                    var ws = XLSX.utils.table_to_sheet(table);
+
+                                                    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+                                                    XLSX.writeFile(wb, "table_data.xlsx");
+                                                }
+
+                                                function subscriptionTable() {
+                                                    var printContents = document.getElementById('subscriptionTable').outerHTML;
+                                                    var originalContents = document.body.innerHTML;
+
+                                                    document.body.innerHTML = `
+                                                      <table border="1" width="100%">
+                                                          ${printContents}
+                                                      </table>
+                                                  `;
+
+                                                    window.print();
+
+                                                    document.body.innerHTML = originalContents;
+                                                    location.reload();
+                                                }
+
+                                                function SubscriptionExportToExcel() {
+                                                    var table = document.getElementById("subscriptionTable");
                                                     var wb = XLSX.utils.book_new();
                                                     var ws = XLSX.utils.table_to_sheet(table);
 
@@ -898,7 +923,7 @@
                                 </div>
 
                                 <div class="overflow-x-auto">
-                                    <table id="printArea" class="min-w-full border-b-4 light-border-gray-300">
+                                    <table id="billingTable" class="min-w-full border-b-4 light-border-gray-300">
                                         <thead class="light-bg-d9d9d9 border-b-4 light-border-gray-300">
                                             <tr>
                                                 <th scope="col"
@@ -1179,14 +1204,14 @@
                                                     </div>
                                                 </button>
                                                 <div class="flex light-bg-d7d7d7 rounded-md">
-                                                    <button onclick="printTable()"
+                                                    <button onclick="subscriptionTable()"
                                                         class="flex items-center justify-center ml-1 px-4 py-2 rounded-lg bg-white light-bg-d7d7d7 light-text-gray-700   text-gray-700 hover:bg-gray-200 transition-colors ">
                                                         <div class="flex">
                                                             <span>Print</span>
                                                         </div>
                                                     </button>
                                                     {{-- <div class="w-1 h-full light-bg-d9d9d9"></div> --}}
-                                                    <button onclick="exportToExcel()"
+                                                    <button onclick="SubscriptionExportToExcel()"
                                                         class="flex items-center justify-center mr-2 px-4 py-2 rounded-lg bg-white light-bg-d7d7d7 light-text-gray-700   text-gray-700 hover:bg-gray-200 transition-colors ">
                                                         <div class="flex">
                                                             <span>Excel</span>
@@ -1220,7 +1245,7 @@
                                 </div>
 
                                 <div class="overflow-x-auto">
-                                    <table id="printArea" class="min-w-full divide-y divide-gray-200">
+                                    <table id="subscriptionTable" class="min-w-full divide-y divide-gray-200">
                                         <thead class="light-bg-d9d9d9">
                                             <tr>
                                                 <th scope="col"
