@@ -154,9 +154,9 @@ class AnalyticsController extends Controller
             }
 
             // Pass both detailed rows & percentage changes to view
-        //    $id = auth()->user()->id;
-        //    $check = Role::where('userId');
-        //    dd($id);
+            //    $id = auth()->user()->id;
+            //    $check = Role::where('userId');
+            //    dd($id);
 
             // counts
             $ticketData = ticket::with('project', 'user')->get();
@@ -194,177 +194,7 @@ class AnalyticsController extends Controller
         }
     }
 
-public function earningsData()
-{
-    $propertyId = env('property_id');
-    $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
-
-    $client = new BetaAnalyticsDataClient([
-        'credentials' => $credentials,
-    ]);
-
-    // Dimension: Month
-    $dimensions = [
-        new Dimension(['name' => 'month']), // month as 01, 02...
-    ];
-
-    // Metric: purchaseRevenue
-    $metrics = [
-        new Metric(['name' => 'purchaseRevenue']), // total revenue in that month
-    ];
-
-    // Request for the year 2024
-    $request = (new RunReportRequest())
-        ->setProperty('properties/' . $propertyId)
-        ->setDateRanges([
-            new DateRange(['start_date' => '365daysAgo', 'end_date' => 'today']),
-        ])
-        ->setDimensions($dimensions)
-        ->setMetrics($metrics);
-
-  try {
-        $response = $client->runReport($request);
-        // \Log::info('GA4 earningsData raw response', ['rows' => $response->getRows()]);
-    } catch (\Exception $e) {
-        // \Log::error('GA4 API error: ' . $e->getMessage());
-        return response()->json(['error' => $e->getMessage()], 500);
-    }
-    $labels = [];
-    $values = [];
-
-    foreach ($response->getRows() as $row) {
-        // Month number
-        $monthNum = $row->getDimensionValues()[0]->getValue();
-        // Convert to Jan, Feb...
-        $monthName = date('M', mktime(0, 0, 0, $monthNum, 10));
-        // Revenue (GA4 returns string, cast to float)
-        $revenue = (float)$row->getMetricValues()[0]->getValue();
-        $labels[] = $monthName;
-        $values[] = $revenue;
-    }
-
-    return response()->json([
-        'labels' => $labels,
-        'msg'    => 'ok',
-        'values' => $values
-    ]);
-}
-
-public function deviceTypeData()
-{
-    $propertyId = env('property_id');
-    $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
-
-    $client = new BetaAnalyticsDataClient([
-        'credentials' => $credentials,
-    ]);
-
-    $dimensions = [
-        new Dimension(['name' => 'deviceCategory']), // desktop/mobile/tablet
-    ];
-
-    $metrics = [
-        new Metric(['name' => 'sessions']),
-    ];
-
-    $request = (new RunReportRequest())
-        ->setProperty('properties/' . $propertyId)
-        ->setDateRanges([
-            new DateRange([
-                'start_date' => '365daysAgo',
-                'end_date' => 'today',
-            ]),
-        ])
-        ->setDimensions($dimensions)
-        ->setMetrics($metrics);
-
-    $response = $client->runReport($request);
-
-    $labels = [];
-    $percentages = [];
-
-    // First collect totals
-    $sessionsArray = [];
-    foreach ($response->getRows() as $row) {
-        $device = $row->getDimensionValues()[0]->getValue(); // mobile/desktop/tablet
-        $sessions = (int)$row->getMetricValues()[0]->getValue();
-        $sessionsArray[$device] = $sessions;
-    }
-
-    $totalSessions = array_sum($sessionsArray);
-
-    // Convert to %
-    foreach ($sessionsArray as $device => $sessions) {
-        $labels[] = ucfirst($device);
-        $percentages[] = $totalSessions > 0 ? round(($sessions / $totalSessions) * 100, 2) : 0;
-    }
-
-    return response()->json([
-        'labels' => $labels,
-        'values' => $percentages // % per device
-    ]);
-}
-
-    // public function traffic()
-    // {
-    //     $propertyId = env('property_id');
-    //     $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
-
-    //     $client = new BetaAnalyticsDataClient([
-    //         'credentials' => $credentials,
-    //     ]);
-
-    //     // Dimension: Month
-    //     $dimensions = [
-    //         new Dimension(['name' => 'month']), // month as 01, 02...
-    //     ];
-
-    //     // Metric: purchaseRevenue
-    //     $metrics = [
-    //         new Metric(['name' => 'sessions']), // total revenue in that month
-    //     ];
-
-    //     // Request for the year 2024
-    //     $request = (new RunReportRequest())
-    //         ->setProperty('properties/' . $propertyId)
-    //         ->setDateRanges([
-    //             new DateRange(['start_date' => '365daysAgo', 'end_date' => 'today']),
-    //         ])
-    //         ->setDimensions($dimensions)
-    //         ->setMetrics($metrics);
-
-    // try {
-    //         $response = $client->runReport($request);
-    //         \Log::info('GA4 earningsData raw response', ['rows' => $response->getRows()]);
-    //     } catch (\Exception $e) {
-    //         \Log::error('GA4 API error: ' . $e->getMessage());
-    //         return response()->json(['error' => $e->getMessage()], 500);
-    //     }
-    //     $labels = [];
-    //     $values = [];
-
-    //     foreach ($response->getRows() as $row) {
-    //         // Month number
-    //         $monthNum = $row->getDimensionValues()[0]->getValue();
-    //         // Convert to Jan, Feb...
-    //         $monthName = date('M', mktime(0, 0, 0, $monthNum, 10));
-    //         // Revenue (GA4 returns string, cast to float)
-    //         $revenue = (float)$row->getMetricValues()[0]->getValue();
-    //         $labels[] = $monthName;
-    //         $values[] = $revenue;
-    //     }
-
-        
-
-    //     return response()->json([
-    //         'labels' => $labels,
-    //         'msg'    => 'ok',
-    //         'values' => $values
-    //     ]);
-    // }
-
-
-    public function traffic()
+    public function earningsData()
     {
         $propertyId = env('property_id');
         $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
@@ -378,12 +208,12 @@ public function deviceTypeData()
             new Dimension(['name' => 'month']), // month as 01, 02...
         ];
 
-        // Metric: sessions
+        // Metric: purchaseRevenue
         $metrics = [
-            new Metric(['name' => 'sessions']),
+            new Metric(['name' => 'purchaseRevenue']), // total revenue in that month
         ];
 
-        // Request for the last year
+        // Request for the year 2024
         $request = (new RunReportRequest())
             ->setProperty('properties/' . $propertyId)
             ->setDateRanges([
@@ -394,61 +224,172 @@ public function deviceTypeData()
 
         try {
             $response = $client->runReport($request);
-            // \Log::info('GA4 traffic raw response', ['rows' => $response->getRows()]);
+            // \Log::info('GA4 earningsData raw response', ['rows' => $response->getRows()]);
         } catch (\Exception $e) {
             // \Log::error('GA4 API error: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
-
         $labels = [];
         $values = [];
-        $monthData = []; // store month number => sessions
 
         foreach ($response->getRows() as $row) {
+            // Month number
             $monthNum = $row->getDimensionValues()[0]->getValue();
+            // Convert to Jan, Feb...
             $monthName = date('M', mktime(0, 0, 0, $monthNum, 10));
-            $sessions = (int)$row->getMetricValues()[0]->getValue();
-
+            // Revenue (GA4 returns string, cast to float)
+            $revenue = (float)$row->getMetricValues()[0]->getValue();
             $labels[] = $monthName;
-            $values[] = $sessions;
-            $monthData[(int)$monthNum] = $sessions;
+            $values[] = $revenue;
         }
 
-        // Sort monthData by month number ascending
+        return response()->json([
+            'labels' => $labels,
+            'msg'    => 'ok',
+            'values' => $values
+        ]);
+    }
+
+    public function deviceTypeData()
+    {
+        $propertyId = env('property_id');
+        $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
+
+        $client = new BetaAnalyticsDataClient([
+            'credentials' => $credentials,
+        ]);
+
+        $dimensions = [
+            new Dimension(['name' => 'deviceCategory']), // desktop/mobile/tablet
+        ];
+
+        $metrics = [
+            new Metric(['name' => 'sessions']),
+        ];
+
+        $request = (new RunReportRequest())
+            ->setProperty('properties/' . $propertyId)
+            ->setDateRanges([
+                new DateRange([
+                    'start_date' => '365daysAgo',
+                    'end_date' => 'today',
+                ]),
+            ])
+            ->setDimensions($dimensions)
+            ->setMetrics($metrics);
+
+        $response = $client->runReport($request);
+
+        $labels = [];
+        $percentages = [];
+
+        // First collect totals
+        $sessionsArray = [];
+        foreach ($response->getRows() as $row) {
+            $device = $row->getDimensionValues()[0]->getValue(); // mobile/desktop/tablet
+            $sessions = (int)$row->getMetricValues()[0]->getValue();
+            $sessionsArray[$device] = $sessions;
+        }
+
+        $totalSessions = array_sum($sessionsArray);
+
+        // Convert to %
+        foreach ($sessionsArray as $device => $sessions) {
+            $labels[] = ucfirst($device);
+            $percentages[] = $totalSessions > 0 ? round(($sessions / $totalSessions) * 100, 2) : 0;
+        }
+
+        return response()->json([
+            'labels' => $labels,
+            'values' => $percentages // % per device
+        ]);
+    }
+
+    public function traffic()
+    {
+        $propertyId  = env('property_id');
+        $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
+
+        $client = new BetaAnalyticsDataClient([
+            'credentials' => $credentials,
+        ]);
+
+        $dimensions = [
+            new Dimension(['name' => 'yearMonth']),
+        ];
+
+        $metrics = [
+            new Metric(['name' => 'sessions']),
+        ];
+
+        $request = (new RunReportRequest())
+            ->setProperty('properties/' . $propertyId)
+            ->setDateRanges([
+                new DateRange([
+                    'start_date' => '365daysAgo',
+                    'end_date'   => 'today',
+                ]),
+            ])
+            ->setDimensions($dimensions)
+            ->setMetrics($metrics);
+
+        try {
+            $response = $client->runReport($request);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+        $monthData = [];
+        $labels = [];
+        $values = [];
+
+        foreach ($response->getRows() as $row) {
+
+            $yearMonth = $row->getDimensionValues()[0]->getValue(); // e.g. 202412
+            $sessions  = (int) $row->getMetricValues()[0]->getValue();
+
+            $monthData[$yearMonth] = $sessions;
+        }
+
         ksort($monthData);
 
-        // Get last month (latest available)
+        foreach ($monthData as $ym => $sessions) {
+
+            $year  = substr($ym, 0, 4);
+            $month = substr($ym, 4, 2);
+
+            $labels[] = date('M Y', mktime(0, 0, 0, $month, 1, $year));
+            $values[] = $sessions;
+        }
+
         $months = array_keys($monthData);
-        $lastMonth = end($months);
-        $currentSessions = $monthData[$lastMonth] ?? 0;
+        $count  = count($months);
 
-        // Get previous month (the month before the latest available)
-        $prevKey = prev($months); // moves pointer to previous month
-        $previousSessions = $prevKey !== false ? $monthData[$prevKey] : 0;
+        $currentMonthKey  = $months[$count - 1] ?? null;
+        $previousMonthKey = $months[$count - 2] ?? null;
 
-        // Format current sessions (k)
-        $formattedCurrent = $currentSessions >= 1000 
-            ? round($currentSessions / 1000, 1) . 'k' 
+        $currentSessions  = $currentMonthKey  ? $monthData[$currentMonthKey]  : 0;
+        $previousSessions = $previousMonthKey ? $monthData[$previousMonthKey] : 0;
+
+        $formattedCurrent = $currentSessions >= 1000
+            ? round($currentSessions / 1000, 1) . 'k'
             : $currentSessions;
 
-        // Month-over-month % change
         $percentChange = $previousSessions > 0
             ? round((($currentSessions - $previousSessions) / $previousSessions) * 100, 1)
             : 0;
 
-        $percentChangeFormatted = ($percentChange >= 0 ? '+' : '') . $percentChange . '%';
-
+        $percentChangeFormatted =
+            ($percentChange >= 0 ? '+' : '') . $percentChange . '%';
 
         return response()->json([
-            'labels' => $labels,
-            'values' => $values,
-            'current_month_sessions' => $formattedCurrent,
-            'percent_change' => $percentChangeFormatted,
-            'msg' => 'ok'
+            'labels'                  => $labels,
+            'values'                  => $values,
+            'current_month_sessions'  => $formattedCurrent,
+            'percent_change'          => $percentChangeFormatted,
+            'msg'                     => 'ok'
         ]);
     }
-
-
 
     //  user analytics view
     public function sessionDurationData()
@@ -460,21 +401,13 @@ public function deviceTypeData()
             'credentials' => $credentials,
         ]);
 
-        // Dimension: Month
         $dimensions = [
             new Dimension(['name' => 'month']),
         ];
 
-        // Metric: Average Session Duration (seconds)
         $metrics = [
             new Metric(['name' => 'averageSessionDuration']),
         ];
-
-        // new DateRange([
-        //     'start_date' => '2024-01-01',
-        //     'end_date'   => '2024-12-31'
-        // ])
-
 
         $request = (new RunReportRequest())
             ->setProperty('properties/' . $propertyId)
@@ -490,7 +423,7 @@ public function deviceTypeData()
         try {
             $response = $client->runReport($request);
         } catch (\Exception $e) {
-            // \Log::error('GA4 API error: ' . $e->getMessage());
+            \Log::error('GA4 API error: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
@@ -501,7 +434,6 @@ public function deviceTypeData()
             $monthNum = $row->getDimensionValues()[0]->getValue();
             $monthName = date('M', mktime(0, 0, 0, $monthNum, 10));
 
-            // Seconds → Minutes (optional)
             $durationSeconds = (float) $row->getMetricValues()[0]->getValue();
             $durationMinutes = round($durationSeconds / 60, 2);
 
@@ -518,28 +450,28 @@ public function deviceTypeData()
 
     public function activeVisitorsData()
     {
-        $propertyId = env('property_id');
+        $propertyId  = env('property_id');
         $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
 
         $client = new BetaAnalyticsDataClient([
             'credentials' => $credentials,
         ]);
 
-        // Dimension: month
         $dimensions = [
-            new Dimension(['name' => 'month']),
+            new Dimension(['name' => 'yearMonth']),
         ];
 
-        // Metric: active users
         $metrics = [
             new Metric(['name' => 'activeUsers']),
         ];
 
-        // Request for the year 2024
         $request = (new RunReportRequest())
             ->setProperty('properties/' . $propertyId)
             ->setDateRanges([
-                new DateRange(['start_date' => '365daysAgo', 'end_date' => 'today']),
+                new DateRange([
+                    'start_date' => '365daysAgo',
+                    'end_date'   => 'today',
+                ]),
             ])
             ->setDimensions($dimensions)
             ->setMetrics($metrics);
@@ -547,54 +479,86 @@ public function deviceTypeData()
         try {
             $response = $client->runReport($request);
         } catch (\Exception $e) {
-            // \Log::error('GA4 API error: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
+        $monthData = [];
         $labels = [];
         $values = [];
 
         foreach ($response->getRows() as $row) {
-            $monthNum = $row->getDimensionValues()[0]->getValue();
-            $monthName = date('M', mktime(0, 0, 0, $monthNum, 10));
 
+            $yearMonth   = $row->getDimensionValues()[0]->getValue(); // 202510
             $activeUsers = (int) $row->getMetricValues()[0]->getValue();
 
-            $labels[] = $monthName;
-            $values[] = $activeUsers;
+            $monthData[$yearMonth] = $activeUsers;
         }
 
+        // Sort months
+        ksort($monthData);
+
+        foreach ($monthData as $ym => $users) {
+
+            $year  = substr($ym, 0, 4);
+            $month = substr($ym, 4, 2);
+
+            $labels[] = date('M Y', mktime(0, 0, 0, $month, 1, $year));
+            $values[] = $users;
+        }
+
+        $months = array_keys($monthData);
+        $count  = count($months);
+
+        $currentKey  = $months[$count - 1] ?? null;
+        $previousKey = $months[$count - 2] ?? null;
+
+        $currentUsers  = $currentKey  ? $monthData[$currentKey]  : 0;
+        $previousUsers = $previousKey ? $monthData[$previousKey] : 0;
+
+        $formattedCurrent = $currentUsers >= 1000
+            ? round($currentUsers / 1000, 1) . 'k'
+            : $currentUsers;
+
+        $percentChange = $previousUsers > 0
+            ? round((($currentUsers - $previousUsers) / $previousUsers) * 100, 1)
+            : 0;
+
+        $percentChangeFormatted =
+            ($percentChange >= 0 ? '+' : '') . $percentChange . '%';
+
         return response()->json([
-            'labels' => $labels,
-            'msg' => 'ok',
-            'values' => $values
+            'labels'                     => $labels,
+            'values'                     => $values,
+            'current_month_active_users' => $formattedCurrent,
+            'percent_change'             => $percentChangeFormatted,
+            'msg'                        => 'ok',
         ]);
     }
 
     public function impressionsData()
     {
-        $propertyId = env('property_id');
+        $propertyId  = env('property_id');
         $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
 
         $client = new BetaAnalyticsDataClient([
             'credentials' => $credentials,
         ]);
 
-        // Dimension: month
         $dimensions = [
-            new Dimension(['name' => 'month']),
+            new Dimension(['name' => 'yearMonth']),
         ];
 
-        // Metric: screenPageViews
         $metrics = [
             new Metric(['name' => 'screenPageViews']),
         ];
 
-        // Request for the last 365 days
         $request = (new RunReportRequest())
             ->setProperty('properties/' . $propertyId)
             ->setDateRanges([
-                new DateRange(['start_date' => '365daysAgo', 'end_date' => 'today']),
+                new DateRange([
+                    'start_date' => '365daysAgo',
+                    'end_date'   => 'today',
+                ]),
             ])
             ->setDimensions($dimensions)
             ->setMetrics($metrics);
@@ -602,46 +566,77 @@ public function deviceTypeData()
         try {
             $response = $client->runReport($request);
         } catch (\Exception $e) {
-            \Log::error('GA4 API error: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
+        $monthData = [];
         $labels = [];
         $values = [];
 
         foreach ($response->getRows() as $row) {
-            $monthNum = (int) $row->getDimensionValues()[0]->getValue();
-            $monthName = date('M', mktime(0, 0, 0, $monthNum, 10));
 
+            $yearMonth   = $row->getDimensionValues()[0]->getValue(); // e.g. 202510
             $impressions = (int) $row->getMetricValues()[0]->getValue();
 
-            $labels[] = $monthName;
-            $values[] = $impressions;
-            $monthData[$monthNum] = $impressions;
+            $monthData[$yearMonth] = $impressions;
         }
 
+        ksort($monthData);
+
+        foreach ($monthData as $ym => $impressions) {
+
+            $year  = substr($ym, 0, 4);
+            $month = substr($ym, 4, 2);
+
+            $labels[] = date('M Y', mktime(0, 0, 0, $month, 1, $year));
+            $values[] = $impressions;
+        }
+
+        $months = array_keys($monthData);
+        $count  = count($months);
+
+        $currentKey  = $months[$count - 1] ?? null;
+        $previousKey = $months[$count - 2] ?? null;
+
+        $currentImpressions  = $currentKey  ? $monthData[$currentKey]  : 0;
+        $previousImpressions = $previousKey ? $monthData[$previousKey] : 0;
+
+        $formattedCurrent = $currentImpressions >= 1000
+            ? round($currentImpressions / 1000, 1) . 'k'
+            : $currentImpressions;
+
+        $percentChange = $previousImpressions > 0
+            ? round(
+                (($currentImpressions - $previousImpressions) / $previousImpressions) * 100,
+                1
+            )
+            : 0;
+
+        $percentChangeFormatted =
+            ($percentChange >= 0 ? '+' : '') . $percentChange . '%';
+
         return response()->json([
-            'labels' => $labels,
-            'values' => $values,
-            'msg' => 'ok'
+            'labels'                      => $labels,
+            'values'                      => $values,
+            'current_month_impressions'   => $formattedCurrent,
+            'percent_change'              => $percentChangeFormatted,
+            'msg'                         => 'ok',
         ]);
     }
 
     public function bounceRateData()
     {
-        $propertyId = env('property_id');
+        $propertyId  = env('property_id');
         $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
 
         $client = new BetaAnalyticsDataClient([
             'credentials' => $credentials,
         ]);
 
-        // Dimension: month
         $dimensions = [
-            new Dimension(['name' => 'month']),
+            new Dimension(['name' => 'yearMonth']),
         ];
 
-        // Metric: bounceRate
         $metrics = [
             new Metric(['name' => 'bounceRate']),
         ];
@@ -660,37 +655,63 @@ public function deviceTypeData()
         try {
             $response = $client->runReport($request);
         } catch (\Exception $e) {
-            // \Log::error('GA4 Bounce Rate API error: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
+        $monthData = [];
         $labels = [];
         $values = [];
 
         foreach ($response->getRows() as $row) {
-            $monthNum  = (int) $row->getDimensionValues()[0]->getValue();
-            $monthName = date('M', mktime(0, 0, 0, $monthNum, 10));
 
-            // Bounce rate comes as decimal percentage
-            $bounceRate = round(
-                (float) $row->getMetricValues()[0]->getValue(),
-                2
-            );
+            $yearMonth   = $row->getDimensionValues()[0]->getValue(); // e.g. 202510
+            $bounceRate  = round((float) $row->getMetricValues()[0]->getValue(), 2);
 
-            $labels[] = $monthName;
-            $values[] = $bounceRate;
+            $monthData[$yearMonth] = $bounceRate;
         }
 
+        ksort($monthData);
+
+        foreach ($monthData as $ym => $rate) {
+
+            $year  = substr($ym, 0, 4);
+            $month = substr($ym, 4, 2);
+
+            $labels[] = date('M Y', mktime(0, 0, 0, $month, 1, $year));
+            $values[] = $rate;
+        }
+
+        $months = array_keys($monthData);
+        $count  = count($months);
+
+        $currentKey  = $months[$count - 1] ?? null;
+        $previousKey = $months[$count - 2] ?? null;
+
+        $currentBounce  = $currentKey  ? $monthData[$currentKey]  : 0;
+        $previousBounce = $previousKey ? $monthData[$previousKey] : 0;
+
+        // $formattedCurrent = $currentBounce . '%';
+        $formattedCurrent = ($currentBounce * 100) . '%';
+
+        $percentChange = $previousBounce > 0
+            ? round((($currentBounce - $previousBounce) / $previousBounce) * 100, 1)
+            : 0;
+
+        $percentChangeFormatted =
+            ($percentChange >= 0 ? '+' : '') . $percentChange . '%';
+
         return response()->json([
-            'labels' => $labels,
-            'values' => $values,
-            'msg'    => 'ok'
+            'labels'                      => $labels,
+            'values'                      => $values,
+            'current_month_bounce_rate'   => $formattedCurrent,
+            'percent_change'              => $percentChangeFormatted,
+            'msg'                         => 'ok',
         ]);
     }
 
     public function conversionRateData()
     {
-        $propertyId = env('property_id');
+        $propertyId  = env('property_id');
         $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
 
         $client = new BetaAnalyticsDataClient([
@@ -698,7 +719,7 @@ public function deviceTypeData()
         ]);
 
         $dimensions = [
-            new Dimension(['name' => 'month']),
+            new Dimension(['name' => 'yearMonth']),
         ];
 
         $metrics = [
@@ -719,91 +740,116 @@ public function deviceTypeData()
         try {
             $response = $client->runReport($request);
         } catch (\Exception $e) {
-            // \Log::error('GA4 Conversion Rate API error: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
+        $monthData = [];
         $labels = [];
         $values = [];
 
         foreach ($response->getRows() as $row) {
-            $monthNum  = (int) $row->getDimensionValues()[0]->getValue();
-            $monthName = date('M', mktime(0, 0, 0, $monthNum, 10));
 
-            // conversion rate already in %
-            $conversionRate = round(
-                (float) $row->getMetricValues()[0]->getValue(),
-                2
-            );
+            $yearMonth      = $row->getDimensionValues()[0]->getValue(); // e.g. 202510
+            $conversionRate = round((float) $row->getMetricValues()[0]->getValue(), 2);
 
-            $labels[] = $monthName;
-            $values[] = $conversionRate;
+            $monthData[$yearMonth] = $conversionRate;
+        }
+
+        ksort($monthData);
+
+        foreach ($monthData as $ym => $rate) {
+
+            $year  = substr($ym, 0, 4);
+            $month = substr($ym, 4, 2);
+
+            $labels[] = date('M Y', mktime(0, 0, 0, $month, 1, $year));
+            $values[] = $rate;
+        }
+
+        $months = array_keys($monthData);
+        $count  = count($months);
+
+        $currentKey  = $months[$count - 1] ?? null;
+        $previousKey = $months[$count - 2] ?? null;
+
+        $currentConversion  = $currentKey  ? $monthData[$currentKey]  : 0;
+        $previousConversion = $previousKey ? $monthData[$previousKey] : 0;
+
+        $formattedCurrent = ($currentConversion * 100) . '%';
+
+        $percentChange = $previousConversion > 0
+            ? round((($currentConversion - $previousConversion) / $previousConversion) * 100, 1)
+            : 0;
+
+        $percentChangeFormatted =
+            ($percentChange >= 0 ? '+' : '') . $percentChange . '%';
+
+        return response()->json([
+            'labels'                         => $labels,
+            'values'                         => $values,
+            'current_month_conversion_rate'  => $formattedCurrent,
+            'percent_change'                 => $percentChangeFormatted,
+            'msg'                            => 'ok',
+        ]);
+    }
+
+    public function trafficByCountries()
+    {
+        $propertyId  = env('property_id');
+        $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
+
+        $client = new BetaAnalyticsDataClient([
+            'credentials' => $credentials,
+        ]);
+
+        $dimensions = [
+            new Dimension(['name' => 'country']),
+            new Dimension(['name' => 'countryId']), // ISO-2 code
+        ];
+
+        $metrics = [
+            new Metric(['name' => 'sessions']),
+        ];
+
+        $request = (new RunReportRequest())
+            ->setProperty('properties/' . $propertyId)
+            ->setDateRanges([
+                new DateRange([
+                    'start_date' => '365daysAgo',
+                    'end_date'   => 'today',
+                ]),
+            ])
+            ->setDimensions($dimensions)
+            ->setMetrics($metrics)
+            ->setOrderBys([
+                new OrderBy([
+                    'metric' => new OrderBy\MetricOrderBy([
+                        'metric_name' => 'sessions',
+                    ]),
+                    'desc' => true,
+                ]),
+            ]);
+
+        try {
+            $response = $client->runReport($request);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+        $countries = [];
+
+        foreach ($response->getRows() as $row) {
+            $countries[] = [
+                'country'     => $row->getDimensionValues()[0]->getValue(),
+                'countryCode' => strtolower($row->getDimensionValues()[1]->getValue()),
+                'sessions'    => (int) $row->getMetricValues()[0]->getValue(),
+            ];
         }
 
         return response()->json([
-            'labels' => $labels,
-            'values' => $values,
-            'msg'    => 'ok'
+            'data' => $countries,
+            'msg'  => 'ok',
         ]);
     }
-
-public function trafficByCountries()
-{
-    $propertyId  = env('property_id');
-    $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
-
-    $client = new BetaAnalyticsDataClient([
-        'credentials' => $credentials,
-    ]);
-
-    $dimensions = [
-        new Dimension(['name' => 'country']),
-        new Dimension(['name' => 'countryId']), // ISO-2 code
-    ];
-
-    $metrics = [
-        new Metric(['name' => 'sessions']),
-    ];
-
-    $request = (new RunReportRequest())
-        ->setProperty('properties/' . $propertyId)
-        ->setDateRanges([
-            new DateRange([
-                'start_date' => '365daysAgo',
-                'end_date'   => 'today',
-            ]),
-        ])
-        ->setDimensions($dimensions)
-        ->setMetrics($metrics)
-        ->setOrderBys([
-            new OrderBy([
-                'metric' => new OrderBy\MetricOrderBy([
-                    'metric_name' => 'sessions',
-                ]),
-                'desc' => true,
-            ]),
-        ]);
-
-    try {
-        $response = $client->runReport($request);
-    } catch (\Exception $e) {
-        return response()->json(['error' => $e->getMessage()], 500);
-    }
-
-    $countries = [];
-
-    foreach ($response->getRows() as $row) {
-        $countries[] = [
-            'country'     => $row->getDimensionValues()[0]->getValue(),
-            'countryCode' => strtolower($row->getDimensionValues()[1]->getValue()),
-            'sessions'    => (int) $row->getMetricValues()[0]->getValue(),
-        ];
-    }
-
-    return response()->json([
-        'data' => $countries,
-        'msg'  => 'ok',
-    ]);
-}
 
 }

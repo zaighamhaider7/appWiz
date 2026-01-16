@@ -825,8 +825,8 @@
                                     <canvas id="activeVisitors"></canvas>
                                 </div>
                                 <div class="mt-4 flex justify-between">
-                                    <p class="text-2xl font-semibold light-text-gray-800">12k</p>
-                                    <p class="text-green-500 text-sm mt-1 flex items-center">
+                                    <p class="text-2xl font-semibold light-text-gray-800" id="current_month_active_users">12k</p>
+                                    <p class="text-green-500 text-sm mt-1 flex items-center" id="activevisitorPercent">
 
                                         +12.6%
                                     </p>
@@ -845,8 +845,8 @@
                                     <canvas id="impressions"></canvas>
                                 </div>
                                 <div class="mt-4 flex justify-between">
-                                    <p class="text-2xl font-semibold light-text-gray-800">26.1k</p>
-                                    <p class="text-red-500 text-sm mt-1 flex items-center">
+                                    <p class="text-2xl font-semibold light-text-gray-800" id="current_month_impressions">26.1k</p>
+                                    <p class="text-red-500 text-sm mt-1 flex items-center" id="impressionPercent">
 
                                         -24.5%
                                     </p>
@@ -868,8 +868,8 @@
                                 </div>
                                 <!-- Full width image -->
                                 <div class="mt-4 flex justify-between items-center"> <!-- Text inline -->
-                                    <p class="text-2xl font-semibold light-text-gray-800">75%</p>
-                                    <p class="text-red-500 text-sm mt-1 flex items-center">
+                                    <p class="text-2xl font-semibold light-text-gray-800" id="current_month_bounce_rate">75%</p>
+                                    <p class="text-red-500 text-sm mt-1 flex items-center" id="bounceratePercent">
 
                                         -16.2%
                                     </p>
@@ -888,8 +888,8 @@
                                     <canvas id="conversitionRate"></canvas>
                                 </div>
                                 <div class="mt-4 flex justify-between items-start">
-                                    <p class="text-2xl font-semibold light-text-gray-800">62%</p>
-                                    <p class="text-green-500 text-sm mt-1 flex items-center">
+                                    <p class="text-2xl font-semibold light-text-gray-800" id="current_month_conversion_rate">62%</p>
+                                    <p class="text-green-500 text-sm mt-1 flex items-center" id="conversionratepercent">
 
                                         +8.24%
                                     </p>
@@ -1331,6 +1331,7 @@
                     },
                     scales: {
                         x: {
+                            display: false,
                             grid: {
                                 display: false
                             },
@@ -1393,6 +1394,7 @@
                     },
                     scales: {
                         x: {
+                            display:false,
                             grid: {
                                 display: false
                             },
@@ -1601,6 +1603,18 @@
                     success: function(response) {
                         console.log("Active Visitors Data Fetch", response);
 
+                        $('#current_month_active_users').text(response.current_month_active_users);
+
+                        let percent = response.percent_change;
+
+                        $('#activevisitorPercent').text(percent);
+
+                        if (percent.startsWith('+')) {
+                            $('#activevisitorPercent').removeClass('text-red-500').addClass('text-green-500');
+                        } else if (percent.startsWith('-')) {
+                            $('#activevisitorPercent').removeClass('text-green-500').addClass('text-red-500');
+                        }
+
                         activeVisitorsChart.data.labels = response.labels;
                         activeVisitorsChart.data.datasets[0].data = response.values;
 
@@ -1653,6 +1667,17 @@
                     success: function(response) {
                         console.log("impressionsData fetch", response);
 
+                        $('#current_month_impressions').text(response.current_month_impressions);
+                        let percent = response.percent_change;
+
+                        $('#impressionPercent').text(percent);
+
+                        if (percent.startsWith('+')) {
+                            $('#impressionPercent').removeClass('text-red-500').addClass('text-green-500');
+                        } else if (percent.startsWith('-')) {
+                            $('#impressionPercent').removeClass('text-green-500').addClass('text-red-500');
+                        }
+
                         // Fill chart labels & data
                         impressionsChart.data.labels = response.labels;
                         impressionsChart.data.datasets[0].data = response.values;
@@ -1670,6 +1695,17 @@
                     success: function(response) {
                         console.log("bounceRateData fetch", response);
 
+                        $('#current_month_bounce_rate').text(response.current_month_bounce_rate);
+                        let percent = response.percent_change;
+
+                        $('#bounceratePercent').text(percent);
+
+                        if (percent.startsWith('+')) {
+                            $('#bounceratePercent').removeClass('text-red-500').addClass('text-green-500');
+                        } else if (percent.startsWith('-')) {
+                            $('#bounceratePercent').removeClass('text-green-500').addClass('text-red-500');
+                        }
+
                         // Fill chart labels & data
                         bounceRateChart.data.labels = response.labels;
                         bounceRateChart.data.datasets[0].data = response.values;
@@ -1686,6 +1722,17 @@
                     type: 'GET',
                     success: function(response) {
                         console.log("conversionRateData fetch", response);
+
+                        $('#current_month_conversion_rate').text(response.current_month_conversion_rate);
+                        let percent = response.percent_change;
+
+                        $('#conversionratepercent').text(percent);
+
+                        if (percent.startsWith('+')) {
+                            $('#conversionratepercent').removeClass('text-red-500').addClass('text-green-500');
+                        } else if (percent.startsWith('-')) {
+                            $('#conversionratepercent').removeClass('text-green-500').addClass('text-red-500');
+                        }
 
                         conversitionRateChart.data.labels = response.labels;
                         conversitionRateChart.data.datasets[0].data = response.values;
