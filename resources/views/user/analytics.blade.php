@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>WIZSPEED Dashboard</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -714,6 +715,10 @@
 </head>
 
 <body>
+    <div id="analyticserror" class="hidden fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg"
+        style="z-index: 9999 !important">
+    </div>
+
     <div class="flex min-h-screen light-bg-white">
         <!-- Sidebar -->
         @include('layouts.sidebar')
@@ -747,7 +752,7 @@
                     </div>
                 </div>
 
-                <div class="open ">
+                <div class="open hidden">
                     <div class="p-6 -mt-7 lg:p-8 light-bg-bill">
 
                         <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm mb-6">
@@ -806,7 +811,8 @@
                                     <canvas id="sessionChart"></canvas>
                                 </div>
                                 <div class="mt-4 flex justify-between">
-                                    <p class="text-2xl font-semibold light-text-gray-800" id="current_month_session">45.1k</p>
+                                    <p class="text-2xl font-semibold light-text-gray-800" id="current_month_session">
+                                        45.1k</p>
                                     <p class="text-green-500 text-sm mt-1 flex items-center" id="sessionPercent">
                                         +12.6%
                                     </p>
@@ -825,7 +831,8 @@
                                     <canvas id="activeVisitors"></canvas>
                                 </div>
                                 <div class="mt-4 flex justify-between">
-                                    <p class="text-2xl font-semibold light-text-gray-800" id="current_month_active_users">12k</p>
+                                    <p class="text-2xl font-semibold light-text-gray-800"
+                                        id="current_month_active_users">12k</p>
                                     <p class="text-green-500 text-sm mt-1 flex items-center" id="activevisitorPercent">
 
                                         +12.6%
@@ -845,7 +852,8 @@
                                     <canvas id="impressions"></canvas>
                                 </div>
                                 <div class="mt-4 flex justify-between">
-                                    <p class="text-2xl font-semibold light-text-gray-800" id="current_month_impressions">26.1k</p>
+                                    <p class="text-2xl font-semibold light-text-gray-800"
+                                        id="current_month_impressions">26.1k</p>
                                     <p class="text-red-500 text-sm mt-1 flex items-center" id="impressionPercent">
 
                                         -24.5%
@@ -868,9 +876,9 @@
                                 </div>
                                 <!-- Full width image -->
                                 <div class="mt-4 flex justify-between items-center"> <!-- Text inline -->
-                                    <p class="text-2xl font-semibold light-text-gray-800" id="current_month_bounce_rate">75%</p>
+                                    <p class="text-2xl font-semibold light-text-gray-800"
+                                        id="current_month_bounce_rate">75%</p>
                                     <p class="text-red-500 text-sm mt-1 flex items-center" id="bounceratePercent">
-
                                         -16.2%
                                     </p>
                                 </div>
@@ -888,8 +896,10 @@
                                     <canvas id="conversitionRate"></canvas>
                                 </div>
                                 <div class="mt-4 flex justify-between items-start">
-                                    <p class="text-2xl font-semibold light-text-gray-800" id="current_month_conversion_rate">62%</p>
-                                    <p class="text-green-500 text-sm mt-1 flex items-center" id="conversionratepercent">
+                                    <p class="text-2xl font-semibold light-text-gray-800"
+                                        id="current_month_conversion_rate">62%</p>
+                                    <p class="text-green-500 text-sm mt-1 flex items-center"
+                                        id="conversionratepercent">
 
                                         +8.24%
                                     </p>
@@ -903,7 +913,8 @@
 
                         <div class="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-6 pl-8 pr-14 pb-5">
                             <!-- Average Session Duration Chart (60% width) -->
-                            <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm" style="height: 25em !important;">
+                            <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm"
+                                style="height: 25em !important;">
                                 <div class="mb-6">
                                     <h3 class="text-lg font-semibold light-text-gray-800">Average Session Duration</h3>
                                     <p class="text-sm text-gray-400">Yearly Average Session Duration</p>
@@ -925,7 +936,8 @@
                                     <p class="text-sm text-gray-400">Monthly Sales Overview</p>
                                 </div>
 
-                                <div class="space-y-4 traffic-countries overflow-y-auto" style="height: 25em !important;">
+                                <div class="space-y-4 traffic-countries overflow-y-auto"
+                                    style="height: 25em !important;">
 
                                 </div>
                             </div>
@@ -1124,15 +1136,16 @@
                     });
                 }
 
-                const triggerBtn = document.getElementById("triggerBtn");
-                const openEl = document.querySelector(".open");
-                const closeEl = document.querySelector(".close");
+                // const triggerBtn = document.getElementById("triggerBtn");
+                // const openEl = document.querySelector(".open");
+                // const closeEl = document.querySelector(".close");
 
-                triggerBtn.addEventListener("click", () => {
-                    openEl.classList.remove("hidden"); // show .open
-                    closeEl.classList.add("hidden"); // hide .close
-                    document.body.style.overflow = 'auto';
-                });
+                // triggerBtn.addEventListener("click", () => {
+                //     openEl.classList.remove("hidden"); // show .open
+                //     closeEl.classList.add("hidden"); // hide .close
+                //     document.body.style.overflow = 'auto';
+                // });
+
             });
 
             document.addEventListener('DOMContentLoaded', () => {
@@ -1394,7 +1407,7 @@
                     },
                     scales: {
                         x: {
-                            display:false,
+                            display: false,
                             grid: {
                                 display: false
                             },
@@ -1549,261 +1562,659 @@
                 });
 
                 // Confirm button hides modal after validation
-                if (confirmBtn && input && error) {
-                    confirmBtn.addEventListener('click', () => {
-                        const value = input.value.trim();
-                        const ga4Regex = /^G-[A-Z0-9]{8,}$/;
 
-                        if (!ga4Regex.test(value)) {
-                            error.classList.remove('hidden');
-                            return;
-                        }
-
-                        error.classList.add('hidden');
-                        localStorage.setItem('ga4_measurement_id', value);
-                        console.log('GA4 Measurement ID saved:', value);
-
-                        modal.classList.add('hidden'); // hide modal on confirm
-                        input.value = ''; // optional: clear input for next time
-                    });
-                }
             });
         </script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         {{-- charts ajax call --}}
         <script>
             $(document).ready(function() {
 
-                $.ajax({
-                    url: '/session-data',
-                    type: 'GET',
-                    success: function(response) {
-                        console.log("Session Duration Data Fetch", response);
+                // $.ajax({
+                //     url: '/session-data',
+                //     type: 'GET',
+                //     success: function(response) {
+                //         console.log("Session Duration Data Fetch", response);
 
-                        earningsChart.data.labels = response.labels;
-                        earningsChart.data.datasets[0].data = response.values;
+                //         earningsChart.data.labels = response.labels;
+                //         earningsChart.data.datasets[0].data = response.values;
 
-                        const maxVal = Math.max(...response.values);
-                        earningsChart.data.datasets[0].backgroundColor = response.values.map(v =>
-                            v === maxVal ? '#FF6A00' : '#3b3b3b'
-                        );
+                //         const maxVal = Math.max(...response.values);
+                //         earningsChart.data.datasets[0].backgroundColor = response.values.map(v =>
+                //             v === maxVal ? '#FF6A00' : '#3b3b3b'
+                //         );
 
-                        earningsChart.update();
-                    },
-                    error: function(err) {
-                        console.error('Error fetching session duration data', err);
-                    }
-                });
+                //         earningsChart.update();
+                //     },
+                //     error: function(err) {
+                //         console.error('Error fetching session duration data', err);
+                //     }
+                // });
 
-                $.ajax({
-                    url: '/active-visitors',
-                    type: 'GET',
-                    success: function(response) {
-                        console.log("Active Visitors Data Fetch", response);
+                // $.ajax({
+                //     url: '/active-visitors',
+                //     type: 'GET',
+                //     success: function(response) {
+                //         console.log("Active Visitors Data Fetch", response);
 
-                        $('#current_month_active_users').text(response.current_month_active_users);
+                //         $('#current_month_active_users').text(response.current_month_active_users);
 
-                        let percent = response.percent_change;
+                //         let percent = response.percent_change;
 
-                        $('#activevisitorPercent').text(percent);
+                //         $('#activevisitorPercent').text(percent);
 
-                        if (percent.startsWith('+')) {
-                            $('#activevisitorPercent').removeClass('text-red-500').addClass('text-green-500');
-                        } else if (percent.startsWith('-')) {
-                            $('#activevisitorPercent').removeClass('text-green-500').addClass('text-red-500');
-                        }
+                //         if (percent.startsWith('+')) {
+                //             $('#activevisitorPercent').removeClass('text-red-500').addClass('text-green-500');
+                //         } else if (percent.startsWith('-')) {
+                //             $('#activevisitorPercent').removeClass('text-green-500').addClass('text-red-500');
+                //         }
 
-                        activeVisitorsChart.data.labels = response.labels;
-                        activeVisitorsChart.data.datasets[0].data = response.values;
+                //         activeVisitorsChart.data.labels = response.labels;
+                //         activeVisitorsChart.data.datasets[0].data = response.values;
 
-                        const maxVal = Math.max(...response.values);
-                        activeVisitorsChart.data.datasets[0].backgroundColor = response.values.map(v =>
-                            v === maxVal ? '#FF6A00' : '#3b3b3b'
-                        );
+                //         const maxVal = Math.max(...response.values);
+                //         activeVisitorsChart.data.datasets[0].backgroundColor = response.values.map(v =>
+                //             v === maxVal ? '#FF6A00' : '#3b3b3b'
+                //         );
 
-                        activeVisitorsChart.update();
-                    },
-                    error: function(err) {
-                        console.error('Error fetching session duration data', err);
-                    }
-                });
+                //         activeVisitorsChart.update();
+                //     },
+                //     error: function(err) {
+                //         console.error('Error fetching session duration data', err);
+                //     }
+                // });
 
-                $.ajax({
-                    url: '/traffic-data',
-                    type: 'GET',
-                    success: function(response) {
-                        console.log("Session fetch", response);
+                // $.ajax({
+                //     url: '/traffic-data',
+                //     type: 'GET',
+                //     success: function(response) {
+                //         console.log("Session fetch", response);
 
-                        $('#current_month_session').text(response.current_month_sessions);
-                        let percent = response.percent_change;
+                //         $('#current_month_session').text(response.current_month_sessions);
+                //         let percent = response.percent_change;
 
-                        $('#sessionPercent').text(percent);
+                //         $('#sessionPercent').text(percent);
 
-                        if (percent.startsWith('+')) {
-                            $('#sessionPercent').removeClass('text-red-500').addClass('text-green-500');
-                        } else if (percent.startsWith('-')) {
-                            $('#sessionPercent').removeClass('text-green-500').addClass('text-red-500');
-                        }
+                //         if (percent.startsWith('+')) {
+                //             $('#sessionPercent').removeClass('text-red-500').addClass('text-green-500');
+                //         } else if (percent.startsWith('-')) {
+                //             $('#sessionPercent').removeClass('text-green-500').addClass('text-red-500');
+                //         }
 
-                        // Fill chart labels & data
-                        sessionChart.data.labels = response.labels;
-                        sessionChart.data.datasets[0].data = response.values;
+                //         // Fill chart labels & data
+                //         sessionChart.data.labels = response.labels;
+                //         sessionChart.data.datasets[0].data = response.values;
 
-                        // keep gradient fill
-                        sessionChart.data.datasets[0].backgroundColor = "#28C76F";
+                //         // keep gradient fill
+                //         sessionChart.data.datasets[0].backgroundColor = "#28C76F";
 
-                        sessionChart.update();
-                    },
-                    error: function(err) {
-                        console.error('Error fetching GA4 data', err);
-                    }
-                });
+                //         sessionChart.update();
+                //     },
+                //     error: function(err) {
+                //         console.error('Error fetching GA4 data', err);
+                //     }
+                // });
 
-                $.ajax({
-                    url: '/impression-data',
-                    type: 'GET',
-                    success: function(response) {
-                        console.log("impressionsData fetch", response);
+                // $.ajax({
+                //     url: '/impression-data',
+                //     type: 'GET',
+                //     success: function(response) {
+                //         console.log("impressionsData fetch", response);
 
-                        $('#current_month_impressions').text(response.current_month_impressions);
-                        let percent = response.percent_change;
+                //         $('#current_month_impressions').text(response.current_month_impressions);
+                //         let percent = response.percent_change;
 
-                        $('#impressionPercent').text(percent);
+                //         $('#impressionPercent').text(percent);
 
-                        if (percent.startsWith('+')) {
-                            $('#impressionPercent').removeClass('text-red-500').addClass('text-green-500');
-                        } else if (percent.startsWith('-')) {
-                            $('#impressionPercent').removeClass('text-green-500').addClass('text-red-500');
-                        }
+                //         if (percent.startsWith('+')) {
+                //             $('#impressionPercent').removeClass('text-red-500').addClass('text-green-500');
+                //         } else if (percent.startsWith('-')) {
+                //             $('#impressionPercent').removeClass('text-green-500').addClass('text-red-500');
+                //         }
 
-                        // Fill chart labels & data
-                        impressionsChart.data.labels = response.labels;
-                        impressionsChart.data.datasets[0].data = response.values;
+                //         // Fill chart labels & data
+                //         impressionsChart.data.labels = response.labels;
+                //         impressionsChart.data.datasets[0].data = response.values;
 
-                        impressionsChart.update();
-                    },
-                    error: function(err) {
-                        console.error('Error fetching GA4 data', err);
-                    }
-                });
+                //         impressionsChart.update();
+                //     },
+                //     error: function(err) {
+                //         console.error('Error fetching GA4 data', err);
+                //     }
+                // });
 
-                $.ajax({
-                    url: '/bounce-rate-data',
-                    type: 'GET',
-                    success: function(response) {
-                        console.log("bounceRateData fetch", response);
+                // $.ajax({
+                //     url: '/bounce-rate-data',
+                //     type: 'GET',
+                //     success: function(response) {
+                //         console.log("bounceRateData fetch", response);
 
-                        $('#current_month_bounce_rate').text(response.current_month_bounce_rate);
-                        let percent = response.percent_change;
+                //         $('#current_month_bounce_rate').text(response.current_month_bounce_rate);
+                //         let percent = response.percent_change;
 
-                        $('#bounceratePercent').text(percent);
+                //         $('#bounceratePercent').text(percent);
 
-                        if (percent.startsWith('+')) {
-                            $('#bounceratePercent').removeClass('text-red-500').addClass('text-green-500');
-                        } else if (percent.startsWith('-')) {
-                            $('#bounceratePercent').removeClass('text-green-500').addClass('text-red-500');
-                        }
+                //         if (percent.startsWith('+')) {
+                //             $('#bounceratePercent').removeClass('text-red-500').addClass('text-green-500');
+                //         } else if (percent.startsWith('-')) {
+                //             $('#bounceratePercent').removeClass('text-green-500').addClass('text-red-500');
+                //         }
 
-                        // Fill chart labels & data
-                        bounceRateChart.data.labels = response.labels;
-                        bounceRateChart.data.datasets[0].data = response.values;
+                //         // Fill chart labels & data
+                //         bounceRateChart.data.labels = response.labels;
+                //         bounceRateChart.data.datasets[0].data = response.values;
 
-                        bounceRateChart.update();
-                    },
-                    error: function(err) {
-                        console.error('Error fetching Bounce Rate data', err);
-                    }
-                });
+                //         bounceRateChart.update();
+                //     },
+                //     error: function(err) {
+                //         console.error('Error fetching Bounce Rate data', err);
+                //     }
+                // });
 
-                $.ajax({
-                    url: '/conversion-rate-data',
-                    type: 'GET',
-                    success: function(response) {
-                        console.log("conversionRateData fetch", response);
+                // $.ajax({
+                //     url: '/conversion-rate-data',
+                //     type: 'GET',
+                //     success: function(response) {
+                //         console.log("conversionRateData fetch", response);
 
-                        $('#current_month_conversion_rate').text(response.current_month_conversion_rate);
-                        let percent = response.percent_change;
+                //         $('#current_month_conversion_rate').text(response.current_month_conversion_rate);
+                //         let percent = response.percent_change;
 
-                        $('#conversionratepercent').text(percent);
+                //         $('#conversionratepercent').text(percent);
 
-                        if (percent.startsWith('+')) {
-                            $('#conversionratepercent').removeClass('text-red-500').addClass('text-green-500');
-                        } else if (percent.startsWith('-')) {
-                            $('#conversionratepercent').removeClass('text-green-500').addClass('text-red-500');
-                        }
+                //         if (percent.startsWith('+')) {
+                //             $('#conversionratepercent').removeClass('text-red-500').addClass('text-green-500');
+                //         } else if (percent.startsWith('-')) {
+                //             $('#conversionratepercent').removeClass('text-green-500').addClass('text-red-500');
+                //         }
 
-                        conversitionRateChart.data.labels = response.labels;
-                        conversitionRateChart.data.datasets[0].data = response.values;
+                //         conversitionRateChart.data.labels = response.labels;
+                //         conversitionRateChart.data.datasets[0].data = response.values;
 
-                        conversitionRateChart.update();
-                    },
-                    error: function(err) {
-                        console.error('Error fetching Conversion Rate data', err);
-                    }
-                });
+                //         conversitionRateChart.update();
+                //     },
+                //     error: function(err) {
+                //         console.error('Error fetching Conversion Rate data', err);
+                //     }
+                // });
 
-                function formatNumber(num) {
-                    if (num >= 1000000) return (num / 1000000).toFixed(2) + 'M';
-                    if (num >= 1000) return (num / 1000).toFixed(2) + 'k';
-                    return num;
+                // function formatNumber(num) {
+                //     if (num >= 1000000) return (num / 1000000).toFixed(2) + 'M';
+                //     if (num >= 1000) return (num / 1000).toFixed(2) + 'k';
+                //     return num;
+                // }
+
+                // $.ajax({
+                //     url: '/traffic-by-countries',
+                //     type: 'GET',
+                //     success: function (response) {
+                //         console.log('trafficByCountries fetch', response);
+
+                //         const container = $('.traffic-countries');
+                //         container.empty();
+
+                //         // Calculate total sessions for percentage display
+                //         const totalSessions = response.data.reduce((sum, item) => sum + item.sessions, 0);
+
+                //         response.data.forEach(item => {
+                //             const flagUrl = `https://flagcdn.com/w40/${item.countryCode.toLowerCase()}.png`;
+
+                //             // Safely calculate percentage
+                //             const percent = totalSessions ? ((item.sessions / totalSessions) * 100).toFixed(1) : 0;
+
+                //             // If you have change data, use it; otherwise default to 0
+                //             const change = item.change ?? 0;
+                //             const isPositive = change >= 0;
+
+                //             // Set color based on positive/negative
+                //             const changeColor = isPositive ? 'text-green-500' : 'text-red-300';
+                //             const changeSign = isPositive ? '↑' : '↓';
+
+                //             const changeText = `${changeSign} ${percent}%`;
+
+                //             const html = `
+        //                 <div class="flex justify-between items-center mb-3">
+        //                     <div class="flex items-center">
+        //                         <div class="w-8 h-8 rounded-full overflow-hidden mr-3">
+        //                             <img src="${flagUrl}" alt="${item.country}" class="w-full h-full object-cover">
+        //                         </div>
+        //                         <div>
+        //                             <p class="text-sm font-medium">${formatNumber(item.sessions)}</p>
+        //                             <p class="text-xs text-gray-500">${item.country}</p>
+        //                         </div>
+        //                     </div>
+        //                     <div class="font-medium text-sm ${changeColor}">
+        //                         ${changeText}
+        //                     </div>
+        //                 </div>
+        //             `;
+                //             container.append(html);
+                //         });
+                //     },
+                //     error: function (err) {
+                //         console.error('Error fetching Traffic by Countries', err);
+                //     }
+                // });
+
+                function handleOpenCloseUI() {
+                    const $openEl = $(".open");
+                    const $closeEl = $(".close");
+
+                    const $propertyIdModal = $('#propertyIdModal');
+
+                    $openEl.removeClass("hidden");
+                    $closeEl.addClass("hidden");
+                    $propertyIdModal.addClass("hidden");
+                    $("body").css("overflow", "auto");
                 }
 
-                $.ajax({
-                    url: '/traffic-by-countries',
-                    type: 'GET',
-                    success: function (response) {
-                        console.log('trafficByCountries fetch', response);
+                function showAnalyticsError(message) {
+                    const $errorDiv = $('#analyticserror');
 
-                        const container = $('.traffic-countries');
-                        container.empty();
+                    $errorDiv
+                        .text(message)
+                        .removeClass('hidden')
+                        .fadeIn();
 
-                        // Calculate total sessions for percentage display
-                        const totalSessions = response.data.reduce((sum, item) => sum + item.sessions, 0);
-
-                        response.data.forEach(item => {
-                            const flagUrl = `https://flagcdn.com/w40/${item.countryCode.toLowerCase()}.png`;
-
-                            // Safely calculate percentage
-                            const percent = totalSessions ? ((item.sessions / totalSessions) * 100).toFixed(1) : 0;
-
-                            // If you have change data, use it; otherwise default to 0
-                            const change = item.change ?? 0;
-                            const isPositive = change >= 0;
-
-                            // Set color based on positive/negative
-                            const changeColor = isPositive ? 'text-green-500' : 'text-red-300';
-                            const changeSign = isPositive ? '↑' : '↓';
-
-                            const changeText = `${changeSign} ${percent}%`;
-
-                            const html = `
-                                <div class="flex justify-between items-center mb-3">
-                                    <div class="flex items-center">
-                                        <div class="w-8 h-8 rounded-full overflow-hidden mr-3">
-                                            <img src="${flagUrl}" alt="${item.country}" class="w-full h-full object-cover">
-                                        </div>
-                                        <div>
-                                            <p class="text-sm font-medium">${formatNumber(item.sessions)}</p>
-                                            <p class="text-xs text-gray-500">${item.country}</p>
-                                        </div>
-                                    </div>
-                                    <div class="font-medium text-sm ${changeColor}">
-                                        ${changeText}
-                                    </div>
-                                </div>
-                            `;
-                            container.append(html);
+                    setTimeout(function() {
+                        $errorDiv.fadeOut(function() {
+                            $errorDiv.addClass('hidden');
                         });
-                    },
-                    error: function (err) {
-                        console.error('Error fetching Traffic by Countries', err);
+                    }, 5000);
+                }
+
+                function showAnalyticsLoader() {
+                    $('#analyticsLoader').removeClass('hidden');
+                    $('body').css('overflow', 'hidden');
+                }
+
+                function hideAnalyticsLoader() {
+                    $('#analyticsLoader').addClass('hidden');
+                    $('body').css('overflow', 'auto');
+                }
+
+                $('#triggerBtn').on('click', function(e) {
+                    e.preventDefault();
+                    let analyticsErrorShown = false;
+
+                    const properyId = $('#gaPropertyInput').val();
+
+                    if (!properyId) {
+                        if (analyticsErrorShown) return;
+
+                        analyticsErrorShown = true;
+                        const msg = "Please enter GA4 Property ID";
+                        showAnalyticsError(msg);
+                        return;
                     }
+
+
+                    $.ajax({
+                        url: '/session-data',
+                        type: 'POST',
+                        data: {
+                            propertyId: properyId,
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            console.log("Session Duration Data Fetch", response);
+
+                            earningsChart.data.labels = response.labels;
+                            earningsChart.data.datasets[0].data = response.values;
+
+                            const maxVal = Math.max(...response.values);
+                            earningsChart.data.datasets[0].backgroundColor = response.values.map(
+                                v =>
+                                v === maxVal ? '#FF6A00' : '#3b3b3b'
+                            );
+
+                            earningsChart.update();
+
+                            handleOpenCloseUI();
+                        },
+                        error: function(xhr) {
+                            if (analyticsErrorShown) return;
+
+                            analyticsErrorShown = true;
+                            let msg = 'Error fetching session duration data.';
+
+                            if (xhr.responseJSON && xhr.responseJSON.error) {
+                                msg = xhr.responseJSON.error;
+                            }
+
+                            showAnalyticsError(msg);
+                        }
+                    });
+
+                    $.ajax({
+                        url: '/active-visitors',
+                        type: 'POST',
+                        data: {
+                            propertyId: properyId,
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            console.log("Active Visitors Data Fetch", response);
+
+                            $('#current_month_active_users').text(response
+                                .current_month_active_users);
+
+                            let percent = response.percent_change;
+
+                            $('#activevisitorPercent').text(percent);
+
+                            if (percent.startsWith('+')) {
+                                $('#activevisitorPercent').removeClass('text-red-500').addClass(
+                                    'text-green-500');
+                            } else if (percent.startsWith('-')) {
+                                $('#activevisitorPercent').removeClass('text-green-500').addClass(
+                                    'text-red-500');
+                            }
+
+                            activeVisitorsChart.data.labels = response.labels;
+                            activeVisitorsChart.data.datasets[0].data = response.values;
+
+                            const maxVal = Math.max(...response.values);
+                            activeVisitorsChart.data.datasets[0].backgroundColor = response.values
+                                .map(v =>
+                                    v === maxVal ? '#FF6A00' : '#3b3b3b'
+                                );
+
+                            activeVisitorsChart.update();
+                            handleOpenCloseUI();
+                        },
+                        error: function(xhr) {
+                            if (analyticsErrorShown) return;
+
+                            analyticsErrorShown = true;
+                            let msg = 'Error fetching session duration data.';
+
+                            if (xhr.responseJSON && xhr.responseJSON.error) {
+                                msg = xhr.responseJSON.error;
+                            }
+
+                            showAnalyticsError(msg);
+                        }
+                    });
+
+                    $.ajax({
+                        url: '/traffic-data-user',
+                        type: 'POST',
+                        data: {
+                            propertyId: properyId,
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            console.log("Session fetch", response);
+
+                            $('#current_month_session').text(response.current_month_sessions);
+                            let percent = response.percent_change;
+
+                            $('#sessionPercent').text(percent);
+
+                            if (percent.startsWith('+')) {
+                                $('#sessionPercent').removeClass('text-red-500').addClass(
+                                    'text-green-500');
+                            } else if (percent.startsWith('-')) {
+                                $('#sessionPercent').removeClass('text-green-500').addClass(
+                                    'text-red-500');
+                            }
+
+                            // Fill chart labels & data
+                            sessionChart.data.labels = response.labels;
+                            sessionChart.data.datasets[0].data = response.values;
+
+                            // keep gradient fill
+                            sessionChart.data.datasets[0].backgroundColor = "#28C76F";
+
+                            sessionChart.update();
+                            handleOpenCloseUI();
+                        },
+                        error: function(xhr) {
+                            if (analyticsErrorShown) return;
+
+                            analyticsErrorShown = true;
+                            let msg = 'Error fetching session duration data.';
+
+                            if (xhr.responseJSON && xhr.responseJSON.error) {
+                                msg = xhr.responseJSON.error;
+                            }
+
+                            showAnalyticsError(msg);
+                        }
+                    });
+
+                    $.ajax({
+                        url: '/impression-data',
+                        type: 'POST',
+                        data: {
+                            propertyId: properyId,
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        beforeSend: function () {
+                            showAnalyticsLoader();   
+                        },
+                        success: function(response) {
+                            console.log("impressionsData fetch", response);
+
+                            $('#current_month_impressions').text(response
+                            .current_month_impressions);
+                            let percent = response.percent_change;
+
+                            $('#impressionPercent').text(percent);
+
+                            if (percent.startsWith('+')) {
+                                $('#impressionPercent').removeClass('text-red-500').addClass(
+                                    'text-green-500');
+                            } else if (percent.startsWith('-')) {
+                                $('#impressionPercent').removeClass('text-green-500').addClass(
+                                    'text-red-500');
+                            }
+
+                            // Fill chart labels & data
+                            impressionsChart.data.labels = response.labels;
+                            impressionsChart.data.datasets[0].data = response.values;
+
+                            impressionsChart.update();
+                            handleOpenCloseUI();
+                        },
+                        error: function(xhr) {
+                            if (analyticsErrorShown) return;
+
+                            analyticsErrorShown = true;
+                            let msg = 'Error fetching session duration data.';
+
+                            if (xhr.responseJSON && xhr.responseJSON.error) {
+                                msg = xhr.responseJSON.error;
+                            }
+
+                            showAnalyticsError(msg);
+                        },
+                        complete: function () {
+                            hideAnalyticsLoader();   
+                        }
+                    });
+
+                    $.ajax({
+                        url: '/bounce-rate-data',
+                        type: 'POST',
+                        data: {
+                            propertyId: properyId,
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            console.log("bounceRateData fetch", response);
+
+                            $('#current_month_bounce_rate').text(response
+                            .current_month_bounce_rate);
+                            let percent = response.percent_change;
+
+                            $('#bounceratePercent').text(percent);
+
+                            if (percent.startsWith('+')) {
+                                $('#bounceratePercent').removeClass('text-red-500').addClass(
+                                    'text-green-500');
+                            } else if (percent.startsWith('-')) {
+                                $('#bounceratePercent').removeClass('text-green-500').addClass(
+                                    'text-red-500');
+                            }
+
+                            // Fill chart labels & data
+                            bounceRateChart.data.labels = response.labels;
+                            bounceRateChart.data.datasets[0].data = response.values;
+
+                            bounceRateChart.update();
+                            handleOpenCloseUI();
+                        },
+                        error: function(xhr) {
+                            if (analyticsErrorShown) return;
+
+                            analyticsErrorShown = true;
+                            let msg = 'Error fetching session duration data.';
+
+                            if (xhr.responseJSON && xhr.responseJSON.error) {
+                                msg = xhr.responseJSON.error;
+                            }
+
+                            showAnalyticsError(msg);
+                        }
+                    });
+
+                    $.ajax({
+                        url: '/conversion-rate-data',
+                        type: 'POST',
+                        data: {
+                            propertyId: properyId,
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            console.log("conversionRateData fetch", response);
+
+                            $('#current_month_conversion_rate').text(response
+                                .current_month_conversion_rate);
+                            let percent = response.percent_change;
+
+                            $('#conversionratepercent').text(percent);
+
+                            if (percent.startsWith('+')) {
+                                $('#conversionratepercent').removeClass('text-red-500').addClass(
+                                    'text-green-500');
+                            } else if (percent.startsWith('-')) {
+                                $('#conversionratepercent').removeClass('text-green-500').addClass(
+                                    'text-red-500');
+                            }
+
+                            conversitionRateChart.data.labels = response.labels;
+                            conversitionRateChart.data.datasets[0].data = response.values;
+
+                            conversitionRateChart.update();
+                            handleOpenCloseUI();
+                        },
+                        error: function(xhr) {
+                            if (analyticsErrorShown) return;
+
+                            analyticsErrorShown = true;
+                            let msg = 'Error fetching session duration data.';
+
+                            if (xhr.responseJSON && xhr.responseJSON.error) {
+                                msg = xhr.responseJSON.error;
+                            }
+
+                            showAnalyticsError(msg);
+                        }
+                    });
+
+                    function formatNumber(num) {
+                        if (num >= 1000000) return (num / 1000000).toFixed(2) + 'M';
+                        if (num >= 1000) return (num / 1000).toFixed(2) + 'k';
+                        return num;
+                    }
+
+                    $.ajax({
+                        url: '/traffic-by-countries',
+                        type: 'POST',
+                        data: {
+                            propertyId: properyId,
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            console.log('trafficByCountries fetch', response);
+
+                            const container = $('.traffic-countries');
+                            container.empty();
+
+                            // Calculate total sessions for percentage display
+                            const totalSessions = response.data.reduce((sum, item) => sum + item
+                                .sessions, 0);
+
+                            response.data.forEach(item => {
+                                const flagUrl =
+                                    `https://flagcdn.com/w40/${item.countryCode.toLowerCase()}.png`;
+
+                                // Safely calculate percentage
+                                const percent = totalSessions ? ((item.sessions /
+                                    totalSessions) * 100).toFixed(1) : 0;
+
+                                // If you have change data, use it; otherwise default to 0
+                                const change = item.change ?? 0;
+                                const isPositive = change >= 0;
+
+                                // Set color based on positive/negative
+                                const changeColor = isPositive ? 'text-green-500' :
+                                    'text-red-300';
+                                const changeSign = isPositive ? '↑' : '↓';
+
+                                const changeText = `${changeSign} ${percent}%`;
+
+                                const html = `
+                                        <div class="flex justify-between items-center mb-3">
+                                            <div class="flex items-center">
+                                                <div class="w-8 h-8 rounded-full overflow-hidden mr-3">
+                                                    <img src="${flagUrl}" alt="${item.country}" class="w-full h-full object-cover">
+                                                </div>
+                                                <div>
+                                                    <p class="text-sm font-medium">${formatNumber(item.sessions)}</p>
+                                                    <p class="text-xs text-gray-500">${item.country}</p>
+                                                </div>
+                                            </div>
+                                            <div class="font-medium text-sm ${changeColor}">
+                                                ${changeText}
+                                            </div>
+                                        </div>
+                                    `;
+                                container.append(html);
+
+                                handleOpenCloseUI();
+                            });
+                        },
+                        error: function(xhr) {
+                            if (analyticsErrorShown) return;
+
+                            analyticsErrorShown = true;
+                            let msg = 'Error fetching session duration data.';
+
+                            if (xhr.responseJSON && xhr.responseJSON.error) {
+                                msg = xhr.responseJSON.error;
+                            }
+
+                            showAnalyticsError(msg);
+                        }
+                    });
+
                 });
 
             });
         </script>
+
+        <div id="analyticsLoader"
+            class="hidden fixed inset-0 flex items-center justify-center bg-black/20 z-50">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+        </div>
+
 </body>
 
 </html>

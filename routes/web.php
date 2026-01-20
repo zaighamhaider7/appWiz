@@ -68,17 +68,18 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/analytics',[analyticsController::class,'index'])->name('analytics');
+    Route::post('/analytics',[analyticsController::class,'propertyId'])->name('propertyid');
     Route::get('/earnings-data', [analyticsController::class, 'earningsData']);
     Route::get('/device-type-data',[AnalyticsController::class,'deviceTypeData']);
     Route::get('/traffic-data',[AnalyticsController::class,'traffic']);
+    Route::post('/traffic-data-user',[AnalyticsController::class,'trafficUser']);
 
-
-    Route::get('/session-data', [analyticsController::class, 'sessionDurationData']);
-    Route::get('/active-visitors', [analyticsController::class, 'activeVisitorsData']);
-    Route::get('/impression-data', [analyticsController::class, 'impressionsData']);
-    Route::get('/bounce-rate-data', [analyticsController::class, 'bounceRateData']);
-    Route::get('/conversion-rate-data', [analyticsController::class, 'conversionRateData']);
-    Route::get('/traffic-by-countries', [analyticsController::class, 'trafficByCountries']);
+    Route::post('/session-data', [analyticsController::class, 'sessionDurationData']);
+    Route::post('/active-visitors', [analyticsController::class, 'activeVisitorsData']);
+    Route::post('/impression-data', [analyticsController::class, 'impressionsData']);
+    Route::post('/bounce-rate-data', [analyticsController::class, 'bounceRateData']);
+    Route::post('/conversion-rate-data', [analyticsController::class, 'conversionRateData']);
+    Route::post('/traffic-by-countries', [analyticsController::class, 'trafficByCountries']);
 
     // project start
 

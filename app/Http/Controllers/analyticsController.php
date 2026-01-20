@@ -7,11 +7,14 @@ use Google\Analytics\Data\V1beta\DateRange;
 use Google\Analytics\Data\V1beta\Dimension;
 use Google\Analytics\Data\V1beta\Metric;
 use Google\Analytics\Data\V1beta\RunReportRequest;
+use Google\ApiCore\ApiException;
 use App\Models\Role;
 use App\Models\project;
 use App\Models\User;
 use App\Models\ticket;
 use Google\Analytics\Data\V1beta\OrderBy;
+use Illuminate\Http\Request;
+
 
 class AnalyticsController extends Controller
 {
@@ -392,9 +395,108 @@ class AnalyticsController extends Controller
     }
 
     //  user analytics view
-    public function sessionDurationData()
+    public function trafficUser(Request $request)
     {
-        $propertyId = env('property_id');
+        $propertyId = $request->propertyId;
+        $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
+
+        $client = new BetaAnalyticsDataClient([
+            'credentials' => $credentials,
+        ]);
+
+        $dimensions = [
+            new Dimension(['name' => 'yearMonth']),
+        ];
+
+        $metrics = [
+            new Metric(['name' => 'sessions']),
+        ];
+
+        $request = (new RunReportRequest())
+            ->setProperty('properties/' . $propertyId)
+            ->setDateRanges([
+                new DateRange([
+                    'start_date' => '365daysAgo',
+                    'end_date'   => 'today',
+                ]),
+            ])
+            ->setDimensions($dimensions)
+            ->setMetrics($metrics);
+
+        try {
+            $response = $client->runReport($request);
+        }
+        catch (ApiException $e) {
+            \Log::error('GA4 API error: ' . $e->getMessage());
+            // return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json([
+                'error' => 'Invalid Property ID. Please check and try again.'
+            ], 400);
+        }
+        catch (\Exception $e) {
+            \Log::error('Unexpected error: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Something went wrong. Please try again later.'
+            ], 500);
+        }
+
+        $monthData = [];
+        $labels = [];
+        $values = [];
+
+        foreach ($response->getRows() as $row) {
+
+            $yearMonth = $row->getDimensionValues()[0]->getValue(); // e.g. 202412
+            $sessions  = (int) $row->getMetricValues()[0]->getValue();
+
+            $monthData[$yearMonth] = $sessions;
+        }
+
+        ksort($monthData);
+
+        foreach ($monthData as $ym => $sessions) {
+
+            $year  = substr($ym, 0, 4);
+            $month = substr($ym, 4, 2);
+
+            $labels[] = date('M Y', mktime(0, 0, 0, $month, 1, $year));
+            $values[] = $sessions;
+        }
+
+        $months = array_keys($monthData);
+        $count  = count($months);
+
+        $currentMonthKey  = $months[$count - 1] ?? null;
+        $previousMonthKey = $months[$count - 2] ?? null;
+
+        $currentSessions  = $currentMonthKey  ? $monthData[$currentMonthKey]  : 0;
+        $previousSessions = $previousMonthKey ? $monthData[$previousMonthKey] : 0;
+
+        $formattedCurrent = $currentSessions >= 1000
+            ? round($currentSessions / 1000, 1) . 'k'
+            : $currentSessions;
+
+        $percentChange = $previousSessions > 0
+            ? round((($currentSessions - $previousSessions) / $previousSessions) * 100, 1)
+            : 0;
+
+        $percentChangeFormatted =
+            ($percentChange >= 0 ? '+' : '') . $percentChange . '%';
+
+        return response()->json([
+            'labels'                  => $labels,
+            'values'                  => $values,
+            'current_month_sessions'  => $formattedCurrent,
+            'percent_change'          => $percentChangeFormatted,
+            'msg'                     => 'ok'
+        ]);
+    }
+
+    public function sessionDurationData(Request $request)
+    {
+
+        $propertyId = $request->propertyId;
+
         $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
 
         $client = new BetaAnalyticsDataClient([
@@ -422,9 +524,19 @@ class AnalyticsController extends Controller
 
         try {
             $response = $client->runReport($request);
-        } catch (\Exception $e) {
+        }
+        catch (ApiException $e) {
             \Log::error('GA4 API error: ' . $e->getMessage());
-            return response()->json(['error' => $e->getMessage()], 500);
+            // return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json([
+                'error' => 'Invalid Property ID. Please check and try again.'
+            ], 400);
+        }
+        catch (\Exception $e) {
+            \Log::error('Unexpected error: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Something went wrong. Please try again later.'
+            ], 500);
         }
 
         $labels = [];
@@ -448,9 +560,9 @@ class AnalyticsController extends Controller
         ]);
     }
 
-    public function activeVisitorsData()
+    public function activeVisitorsData(Request $request)
     {
-        $propertyId  = env('property_id');
+        $propertyId = $request->propertyId;
         $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
 
         $client = new BetaAnalyticsDataClient([
@@ -478,8 +590,19 @@ class AnalyticsController extends Controller
 
         try {
             $response = $client->runReport($request);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+        }
+        catch (ApiException $e) {
+            \Log::error('GA4 API error: ' . $e->getMessage());
+            // return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json([
+                'error' => 'Invalid Property ID. Please check and try again.'
+            ], 400);
+        }
+        catch (\Exception $e) {
+            \Log::error('Unexpected error: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Something went wrong. Please try again later.'
+            ], 500);
         }
 
         $monthData = [];
@@ -535,9 +658,9 @@ class AnalyticsController extends Controller
         ]);
     }
 
-    public function impressionsData()
+    public function impressionsData(Request $request)
     {
-        $propertyId  = env('property_id');
+        $propertyId = $request->propertyId;
         $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
 
         $client = new BetaAnalyticsDataClient([
@@ -565,8 +688,19 @@ class AnalyticsController extends Controller
 
         try {
             $response = $client->runReport($request);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+        }
+        catch (ApiException $e) {
+            \Log::error('GA4 API error: ' . $e->getMessage());
+            // return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json([
+                'error' => 'Invalid Property ID. Please check and try again.'
+            ], 400);
+        }
+        catch (\Exception $e) {
+            \Log::error('Unexpected error: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Something went wrong. Please try again later.'
+            ], 500);
         }
 
         $monthData = [];
@@ -624,9 +758,9 @@ class AnalyticsController extends Controller
         ]);
     }
 
-    public function bounceRateData()
+    public function bounceRateData(Request $request)
     {
-        $propertyId  = env('property_id');
+        $propertyId = $request->propertyId;
         $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
 
         $client = new BetaAnalyticsDataClient([
@@ -654,8 +788,19 @@ class AnalyticsController extends Controller
 
         try {
             $response = $client->runReport($request);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+        }
+        catch (ApiException $e) {
+            \Log::error('GA4 API error: ' . $e->getMessage());
+            // return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json([
+                'error' => 'Invalid Property ID. Please check and try again.'
+            ], 400);
+        }
+        catch (\Exception $e) {
+            \Log::error('Unexpected error: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Something went wrong. Please try again later.'
+            ], 500);
         }
 
         $monthData = [];
@@ -709,9 +854,9 @@ class AnalyticsController extends Controller
         ]);
     }
 
-    public function conversionRateData()
+    public function conversionRateData(Request $request)
     {
-        $propertyId  = env('property_id');
+        $propertyId = $request->propertyId;
         $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
 
         $client = new BetaAnalyticsDataClient([
@@ -739,8 +884,19 @@ class AnalyticsController extends Controller
 
         try {
             $response = $client->runReport($request);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+        }
+        catch (ApiException $e) {
+            \Log::error('GA4 API error: ' . $e->getMessage());
+            // return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json([
+                'error' => 'Invalid Property ID. Please check and try again.'
+            ], 400);
+        }
+        catch (\Exception $e) {
+            \Log::error('Unexpected error: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Something went wrong. Please try again later.'
+            ], 500);
         }
 
         $monthData = [];
@@ -793,9 +949,9 @@ class AnalyticsController extends Controller
         ]);
     }
 
-    public function trafficByCountries()
+    public function trafficByCountries(Request $request)
     {
-        $propertyId  = env('property_id');
+        $propertyId = $request->propertyId;
         $credentials = env('GOOGLE_APPLICATION_CREDENTIALS');
 
         $client = new BetaAnalyticsDataClient([
@@ -804,7 +960,7 @@ class AnalyticsController extends Controller
 
         $dimensions = [
             new Dimension(['name' => 'country']),
-            new Dimension(['name' => 'countryId']), // ISO-2 code
+            new Dimension(['name' => 'countryId']), 
         ];
 
         $metrics = [
@@ -832,8 +988,19 @@ class AnalyticsController extends Controller
 
         try {
             $response = $client->runReport($request);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+        }
+        catch (ApiException $e) {
+            \Log::error('GA4 API error: ' . $e->getMessage());
+            // return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json([
+                'error' => 'Invalid Property ID. Please check and try again.'
+            ], 400);
+        }
+        catch (\Exception $e) {
+            \Log::error('Unexpected error: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Something went wrong. Please try again later.'
+            ], 500);
         }
 
         $countries = [];
@@ -851,5 +1018,7 @@ class AnalyticsController extends Controller
             'msg'  => 'ok',
         ]);
     }
+
+
 
 }
