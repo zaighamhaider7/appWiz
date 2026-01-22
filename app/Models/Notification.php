@@ -10,6 +10,7 @@ class Notification extends Model
         'user_id',
         'type',
         'message',
-        'is_read'
+        'is_read',
+        'notification_category'
     ];
 }

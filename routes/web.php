@@ -199,11 +199,20 @@ Route::middleware('auth')->group(function () {
             $notification->save();
         }
 
-        $unreadCount = \App\Models\Notification::where('is_read', 0)->count();
+        $unreadCount = \App\Models\Notification::where('is_read', 0)
+        ->where('user_id', auth()->id())
+        ->where('notification_category', 'general')
+        ->count();
+
+        $MsgunreadCount = \App\Models\Notification::where('is_read', 0)
+        ->where('user_id', auth()->id())
+        ->where('notification_category', 'message')
+        ->count();
 
         return response()->json([
             'success' => true,
-            'unreadCount' => $unreadCount
+            'unreadCount' => $unreadCount,
+            'MsgunreadCount' => $MsgunreadCount
         ]);
     });
 

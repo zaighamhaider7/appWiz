@@ -47,7 +47,8 @@ class ticketController extends Controller
         NotificationLogger::notify(
             1, 
             'ticket_received', 
-            'New ticket created: ' . $validated['title']
+            'New ticket created: ' . $validated['title'],
+            'general'
         );
 
         ticket::create($validated);

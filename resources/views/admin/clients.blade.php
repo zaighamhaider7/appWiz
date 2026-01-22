@@ -688,336 +688,343 @@ use App\Models\User;
             display: none;
         }
 
-/* Extra small screens (xs) - 480px and below */
-@media (max-width: 480px) {
+        /* Extra small screens (xs) - 480px and below */
+        @media (max-width: 480px) {
 
-    /* ================= HEADER / GLOBAL ================= */
-    .header {
-        padding: 0 0.5rem;
-        font-size: 14px;
-    }
+            /* ================= HEADER / GLOBAL ================= */
+            .header {
+                padding: 0 0.5rem;
+                font-size: 14px;
+            }
 
-    aside {
-        display: none !important;
-    }
+            aside {
+                display: none !important;
+            }
 
-    .hamburger-menu {
-        display: block;
-    }
+            .hamburger-menu {
+                display: block;
+            }
 
-    .container {
-        width: 100%;
-        padding: 0 0.5rem;
-    }
+            .container {
+                width: 100%;
+                padding: 0 0.5rem;
+            }
 
-    img {
-        max-width: 100%;
-        height: auto;
-    }
+            img {
+                max-width: 100%;
+                height: auto;
+            }
 
-    /* ================= TABLES (LEFT + RIGHT) ================= */
-    table th,
-    table td {
-        padding: 0.5rem;
-        font-size: 12px;
-    }
+            /* ================= TABLES (LEFT + RIGHT) ================= */
+            table th,
+            table td {
+                padding: 0.5rem;
+                font-size: 12px;
+            }
 
-    table th .icon.mr-2 {
-        margin-right: 0.25rem;
-    }
+            table th .icon.mr-2 {
+                margin-right: 0.25rem;
+            }
 
-    table th .icon.mr-10 {
-        margin-right: 0.5rem;
-    }
+            table th .icon.mr-10 {
+                margin-right: 0.5rem;
+            }
 
-    /* ================= PROJECT LIST HEADER ================= */
-    .flex.items-center.justify-between.mb-4.p-6.flex-wrap.gap-3 {
-        flex-direction: column;
-        justify-content: center !important;
-        align-items: flex-start;
-        gap: 1rem;
-    }
+            /* ================= PROJECT LIST HEADER ================= */
+            .flex.items-center.justify-between.mb-4.p-6.flex-wrap.gap-3 {
+                flex-direction: column;
+                justify-content: center !important;
+                align-items: flex-start;
+                gap: 1rem;
+            }
 
-    .flex.items-center.space-x-3 {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.5rem;
-        width: 100%;
-    }
+            .flex.items-center.space-x-3 {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+                width: 100%;
+            }
 
-    input[type="search"],
-    select.dt-input,
-    button.openTicketModal {
-        width: 100% !important;
-    }
+            input[type="search"],
+            select.dt-input,
+            button.openTicketModal {
+                width: 100% !important;
+            }
 
-    /* ================= RIGHT SECTION (NEW – SAFE) ================= */
-    #rightSection {
-        width: 100%;
-        padding: 0;
-    }
+            /* ================= RIGHT SECTION (NEW – SAFE) ================= */
+            #rightSection {
+                width: 100%;
+                padding: 0;
+            }
 
-    /* Stack 35% / 65% columns */
-    #rightSection > .flex.gap-6 {
-        flex-direction: column;
-        gap: 1rem;
-    }
+            /* Stack 35% / 65% columns */
+            #rightSection>.flex.gap-6 {
+                flex-direction: column;
+                gap: 1rem;
+            }
 
-    #rightSection .w-\[35\%\],
-    #rightSection .w-\[65\%\] {
-        width: 100% !important;
-        height: auto !important;
-    }
+            #rightSection .w-\[35\%\],
+            #rightSection .w-\[65\%\] {
+                width: 100% !important;
+                height: auto !important;
+            }
 
-    /* Remove fixed heights on mobile */
-    #rightSection [class*="h-["] {
-        height: auto !important;
-    }
+            /* Remove fixed heights on mobile */
+            #rightSection [class*="h-["] {
+                height: auto !important;
+            }
 
-    /* Center client stats */
-    #rightSection .flex.justify-between.gap-10 {
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-    }
+            /* Center client stats */
+            #rightSection .flex.justify-between.gap-10 {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
 
-    /* Tables scroll instead of breaking */
-    #rightSection table {
-        display: block;
-        width: 100%;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
+            /* Tables scroll instead of breaking */
+            #rightSection table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
 
-    /* Pagination */
-        /* BOTH paginations – unified fix */
-    #custom-pagination,
-    #custom-pagination-1 {
-        display: flex !important;
-        flex-wrap: nowrap !important;
-        overflow-x: auto !important;
-        max-width: 100% !important;
-        width: 100% !important;
-        -webkit-overflow-scrolling: touch;
-    }
+            /* Pagination */
+            /* BOTH paginations – unified fix */
+            #custom-pagination,
+            #custom-pagination-1 {
+                display: flex !important;
+                flex-wrap: nowrap !important;
+                overflow-x: auto !important;
+                max-width: 100% !important;
+                width: 100% !important;
+                -webkit-overflow-scrolling: touch;
+            }
 
-    /* Prevent buttons from shrinking */
-    #custom-pagination button,
-    #custom-pagination-1 button {
-        flex: 0 0 auto !important;
-        white-space: nowrap;
-    }
+            /* Prevent buttons from shrinking */
+            #custom-pagination button,
+            #custom-pagination-1 button {
+                flex: 0 0 auto !important;
+                white-space: nowrap;
+            }
 
-    /* Hide scrollbar */
-    #custom-pagination::-webkit-scrollbar,
-    #custom-pagination-1::-webkit-scrollbar {
-        display: none;
-    }
+            /* Hide scrollbar */
+            #custom-pagination::-webkit-scrollbar,
+            #custom-pagination-1::-webkit-scrollbar {
+                display: none;
+            }
 
-    #rightSection
-    .flex.items-center.justify-between.mt-4.p-6.flex-wrap.gap-4 {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.75rem;
-        padding: 1rem;
-    }
+            #rightSection .flex.items-center.justify-between.mt-4.p-6.flex-wrap.gap-4 {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+                padding: 1rem;
+            }
 
-    #rightSection .flex.space-x-2 {
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
+            #rightSection .flex.space-x-2 {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
 
-    /* ================= RIGHT SECTION – 2nd COLUMN FONT SIZE ================= */
-#rightSection .w-\[65\%\] {
-    font-size: 12px; /* base text smaller */
-}
+            /* ================= RIGHT SECTION – 2nd COLUMN FONT SIZE ================= */
+            #rightSection .w-\[65\%\] {
+                font-size: 12px;
+                /* base text smaller */
+            }
 
-/* Paragraphs / labels / spans inside 2nd column */
-#rightSection .w-\[65\%\] p,
-#rightSection .w-\[65\%\] span,
-#rightSection .w-\[65\%\] label {
-    font-size: 10px;
-}
+            /* Paragraphs / labels / spans inside 2nd column */
+            #rightSection .w-\[65\%\] p,
+            #rightSection .w-\[65\%\] span,
+            #rightSection .w-\[65\%\] label {
+                font-size: 10px;
+            }
 
-/* Headings inside 2nd column */
-#rightSection .w-\[65\%\] h1 {
-    font-size: 16px;
-}
-#rightSection .w-\[65\%\] h2 {
-    font-size: 14px;
-}
-#rightSection .w-\[65\%\] h3 {
-    font-size: 13px;
-}
+            /* Headings inside 2nd column */
+            #rightSection .w-\[65\%\] h1 {
+                font-size: 16px;
+            }
 
-/* Tables inside 2nd column (if any) */
-#rightSection .w-\[65\%\] table th,
-#rightSection .w-\[65\%\] table td {
-    font-size: 11px;
-}
+            #rightSection .w-\[65\%\] h2 {
+                font-size: 14px;
+            }
 
-    /* Modal width adjustment */
-    #ticketModal .w-[900px] {
-        width: 95% !important;
-        max-width: 95% !important;
-    }
+            #rightSection .w-\[65\%\] h3 {
+                font-size: 13px;
+            }
 
-    /* Stack all grid rows into single column */
-    #ticketModal form#ticketForm .grid {
-        grid-template-columns: 1fr !important; /* force single column */
-        gap: 0.5rem !important; /* smaller vertical gap */
-    }
+            /* Tables inside 2nd column (if any) */
+            #rightSection .w-\[65\%\] table th,
+            #rightSection .w-\[65\%\] table td {
+                font-size: 11px;
+            }
 
-    /* Inner grids (like grid-cols-2 / grid-cols-3) also stack */
-    #ticketModal form#ticketForm .grid > .grid {
-        grid-template-columns: 1fr !important;
-        gap: 0.5rem !important;
-    }
+            /* Modal width adjustment */
+            #ticketModal .w-[900px] {
+                width: 95% !important;
+                max-width: 95% !important;
+            }
 
-    /* Inputs, selects, buttons full width */
-    #ticketModal form#ticketForm input,
-    #ticketModal form#ticketForm select,
-    #ticketModal form#ticketForm button {
-        width: 100% !important;
-    }
+            /* Stack all grid rows into single column */
+            #ticketModal form#ticketForm .grid {
+                grid-template-columns: 1fr !important;
+                /* force single column */
+                gap: 0.5rem !important;
+                /* smaller vertical gap */
+            }
 
-    /* Reduce modal padding for small screens */
-    #ticketModal form#ticketForm {
-        padding: 1rem !important;
-    }
-}
-/* Small screens (sm) - 640px and below */
-@media (max-width: 640px) {
+            /* Inner grids (like grid-cols-2 / grid-cols-3) also stack */
+            #ticketModal form#ticketForm .grid>.grid {
+                grid-template-columns: 1fr !important;
+                gap: 0.5rem !important;
+            }
 
-    .header .sm\:block {
-        display: block;
-    }
+            /* Inputs, selects, buttons full width */
+            #ticketModal form#ticketForm input,
+            #ticketModal form#ticketForm select,
+            #ticketModal form#ticketForm button {
+                width: 100% !important;
+            }
 
-    aside {
-        display: none !important;
-    }
+            /* Reduce modal padding for small screens */
+            #ticketModal form#ticketForm {
+                padding: 1rem !important;
+            }
+        }
 
-    table th,
-    table td {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-    }
+        /* Small screens (sm) - 640px and below */
+        @media (max-width: 640px) {
 
-    table th .icon.mr-2 {
-        margin-right: 0.5rem;
-    }
+            .header .sm\:block {
+                display: block;
+            }
 
-    table th .icon.mr-10 {
-        margin-right: 1rem;
-    }
+            aside {
+                display: none !important;
+            }
 
-    /* ================= RIGHT SECTION (NEW – SAFE) ================= */
-    #rightSection {
-        width: 100%;
-        padding: 0;
-    }
+            table th,
+            table td {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+            }
 
-    /* Stack 35% / 65% columns */
-    #rightSection > .flex.gap-6 {
-        flex-direction: column;
-        gap: 1rem;
-    }
+            table th .icon.mr-2 {
+                margin-right: 0.5rem;
+            }
 
-    #rightSection .w-\[35\%\],
-    #rightSection .w-\[65\%\] {
-        width: 100% !important;
-        height: auto !important;
-    }
+            table th .icon.mr-10 {
+                margin-right: 1rem;
+            }
 
-    /* Remove fixed heights on mobile */
-    #rightSection [class*="h-["] {
-        height: auto !important;
-    }
+            /* ================= RIGHT SECTION (NEW – SAFE) ================= */
+            #rightSection {
+                width: 100%;
+                padding: 0;
+            }
 
-    /* Center client stats */
-    #rightSection .flex.justify-between.gap-10 {
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-    }
+            /* Stack 35% / 65% columns */
+            #rightSection>.flex.gap-6 {
+                flex-direction: column;
+                gap: 1rem;
+            }
 
-    /* Tables scroll instead of breaking */
-    #rightSection table {
-        display: block;
-        width: 100%;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-}
-/* Medium screens (md) - 768px and up */
-@media (max-width: 768px) {
+            #rightSection .w-\[35\%\],
+            #rightSection .w-\[65\%\] {
+                width: 100% !important;
+                height: auto !important;
+            }
 
-    table th .icon.mr-10 {
-        margin-right: 2.5rem;
-    }
+            /* Remove fixed heights on mobile */
+            #rightSection [class*="h-["] {
+                height: auto !important;
+            }
 
-    .openTicketModal {
-        font-size: 12px;
-        padding: 0.5rem 1rem;
-    }
+            /* Center client stats */
+            #rightSection .flex.justify-between.gap-10 {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
 
-    select.dt-input,
-    button.openTicketModal {
-        width: 100% !important;
-        white-space: nowrap;
-    }
+            /* Tables scroll instead of breaking */
+            #rightSection table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
 
-    input[type="search"] {
-        width: 100%;
-    }
+        /* Medium screens (md) - 768px and up */
+        @media (max-width: 768px) {
 
-   /* Force main wrapper to stack */
-    #rightSection > .flex.gap-6 {
-        flex-direction: column !important;
-    }
+            table th .icon.mr-10 {
+                margin-right: 2.5rem;
+            }
 
-    /* Kill Tailwind width utilities */
-    #rightSection > .flex.gap-6 > div {
-        width: 100% !important;
-        max-width: 100% !important;
-        flex: 0 0 100% !important;
-    }
+            .openTicketModal {
+                font-size: 12px;
+                padding: 0.5rem 1rem;
+            }
 
-    /* Remove fixed heights */
-    #rightSection > .flex.gap-6 > div {
-        height: auto !important;
-        min-height: auto !important;
-    }
-}
-/* Large screens (lg) - 1024px and up */
-@media (min-width: 1024px) {
+            select.dt-input,
+            button.openTicketModal {
+                width: 100% !important;
+                white-space: nowrap;
+            }
 
-    aside {
-        position: sticky;
-        left: 0;
-        width: 16rem;
-        flex-shrink: 0;
-        transform: none !important;
-    }
+            input[type="search"] {
+                width: 100%;
+            }
 
-    .hamburger-menu {
-        display: none;
-    }
+            /* Force main wrapper to stack */
+            #rightSection>.flex.gap-6 {
+                flex-direction: column !important;
+            }
 
-    .sidebar-overlay {
-        display: none !important;
-    }
+            /* Kill Tailwind width utilities */
+            #rightSection>.flex.gap-6>div {
+                width: 100% !important;
+                max-width: 100% !important;
+                flex: 0 0 100% !important;
+            }
 
-    body.sidebar-open {
-        overflow: visible;
-    }
+            /* Remove fixed heights */
+            #rightSection>.flex.gap-6>div {
+                height: auto !important;
+                min-height: auto !important;
+            }
+        }
 
-    #rightSection {
-        padding-left: 1rem;
-    }
-}
+        /* Large screens (lg) - 1024px and up */
+        @media (min-width: 1024px) {
+
+            aside {
+                position: sticky;
+                left: 0;
+                width: 16rem;
+                flex-shrink: 0;
+                transform: none !important;
+            }
+
+            .hamburger-menu {
+                display: none;
+            }
+
+            .sidebar-overlay {
+                display: none !important;
+            }
+
+            body.sidebar-open {
+                overflow: visible;
+            }
+
+            #rightSection {
+                padding-left: 1rem;
+            }
+        }
 
 
         /* Limit dropdown height to show 5 items */
@@ -1132,6 +1139,12 @@ use App\Models\User;
                                 </div>
                                 <div>
                                     <button
+                                        class="px-4 py-2 rounded-lg light-bg-d7d7d7 text-white font-semibold hover:bg-orange-700 transition-colors openTrashModal">
+                                        Show Trash
+                                    </button>
+                                </div>
+                                <div>
+                                    <button
                                         class="px-4 py-2 rounded-lg light-bg-d7d7d7 text-white font-semibold hover:bg-orange-700 transition-colors openTicketModal">
                                         Add New Client
                                     </button>
@@ -1190,8 +1203,8 @@ use App\Models\User;
                                                 <span class="whitespace-nowrap">PHONE #</span>
                                                 <div class="flex flex-col ml-10">
                                                     <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round">
+                                                        stroke="currentColor" stroke-width="1.5"
+                                                        stroke-linecap="round" stroke-linejoin="round">
                                                         <!-- Up chevron (positioned higher) -->
                                                         <path d="M7 8 L12 3 L17 8" />
                                                         <!-- Down chevron (positioned lower with gap) -->
@@ -1252,20 +1265,21 @@ use App\Models\User;
                                                         <div
                                                             class="text-sm flex items-center gap-2 font-medium light-text-gray-900">
                                                             <img src="Avatar.svg" alt="">
-                                                            <p class="light-text-black">{{ $client->name ?? 'N/A' }}</p>
+                                                            <p class="light-text-black">{{ $client->name ?? 'N/A' }}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                    {{ $client->email ?? "N/A"}}</td>
+                                                    {{ $client->email ?? 'N/A' }}</td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                    {{ $client->phone ?? "N/A" }}
+                                                    {{ $client->phone ?? 'N/A' }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                    {{ $client->business_name ?? "N/A" }}
+                                                    {{ $client->business_name ?? 'N/A' }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                    {{ $client->country ?? "N/A" }}</td>
+                                                    {{ $client->country ?? 'N/A' }}</td>
 
                                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                     <button
@@ -1348,7 +1362,8 @@ use App\Models\User;
                                                         @endif
 
                                                         <!-- Lead Source -->
-                                                        <div class="text-gray-400 text-sm">{{ $client->leads ?? "N/A" }}</div>
+                                                        <div class="text-gray-400 text-sm">
+                                                            {{ $client->leads ?? 'N/A' }}</div>
 
                                                         <!-- Current Project -->
 
@@ -1363,7 +1378,8 @@ use App\Models\User;
 
 
                                                         <!-- Membership Tags -->
-                                                        <div class="text-gray-400 text-sm">{{ $client->membership ?? "N/A" }}
+                                                        <div class="text-gray-400 text-sm">
+                                                            {{ $client->membership ?? 'N/A' }}
                                                         </div>
                                                         {{-- <div class="flex flex-wrap gap-1">
                                                     <span
@@ -1390,7 +1406,7 @@ use App\Models\User;
                                                                 </button>
                                                             </form> --}}
                                                             <a href="{{ route('clients.details', $client->id) }}"
-                                                            class="inline-block pt-[4px]">
+                                                                class="inline-block pt-[4px]">
                                                                 <img src="{{ asset('assets/eye-DARK.svg') }}"
                                                                     alt="View"
                                                                     class="w-6 h-6 switchRight rounded-full p-1 bg-gray-500" />
@@ -1534,14 +1550,16 @@ use App\Models\User;
                                 </div>
                                 <div class="text-md flex items-center gap-2 text-white "><span
                                         class="text-md light-client">Status: </span>
-                                        @if ($singleClientData)
-                                            @if ($singleClientData->status === 'active')
+                                    @if ($singleClientData)
+                                        @if ($singleClientData->status === 'active')
                                             <div class="client_status_wrapper bg-green-900/50 py-1 px-4 rounded-full">
-                                                <p class="client_status_text text-green-500">{{ $singleClientData->status }}</p>
+                                                <p class="client_status_text text-green-500">
+                                                    {{ $singleClientData->status }}</p>
                                             </div>
                                         @else
                                             <div class="client_status_wrapper bg-red-900/50 py-1 px-4 rounded-full">
-                                                <p class="client_status_text text-red-500">{{ $singleClientData->status }}</p>
+                                                <p class="client_status_text text-red-500">
+                                                    {{ $singleClientData->status }}</p>
                                             </div>
                                         @endif
                                     @endif
@@ -1563,22 +1581,24 @@ use App\Models\User;
                             </div>
 
                             <div class="flex justify-center gap-4 mt-4">
-                                @if($singleClientData)
-                                <button data-client-id="{{$singleClientData->id}}" onclick="openStatusModal()"
-                                    class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 edit-client">Edit</button>
+                                @if ($singleClientData)
+                                    <button data-client-id="{{ $singleClientData->id }}" onclick="openStatusModal()"
+                                        class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 edit-client">Edit</button>
                                 @endif
-                                @if($singleClientData)
-                                    <form action="{{ route('client.suspend', $singleClientData->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('{{ $singleClientData->is_suspended == 0 ? 'Are you sure you want to suspend this client?' : 'Are you sure you want to unsuspend this client?' }}')">
-                                    @csrf
+                                @if ($singleClientData)
+                                    <form action="{{ route('client.suspend', $singleClientData->id) }}"
+                                        method="POST" style="display:inline;"
+                                        onsubmit="return confirm('{{ $singleClientData->is_suspended == 0 ? 'Are you sure you want to suspend this client?' : 'Are you sure you want to unsuspend this client?' }}')">
+                                        @csrf
                                         <button type="submit"
-                                            class="px-4 py-2 bg-red-900/50 text-red-500 rounded-lg hover:bg-red-600">{{$singleClientData->is_suspended == 0 ? 'Suspended' : 'Unsuspended'}}</button>
+                                            class="px-4 py-2 bg-red-900/50 text-red-500 rounded-lg hover:bg-red-600">{{ $singleClientData->is_suspended == 0 ? 'Suspended' : 'Unsuspended' }}</button>
                                     </form>
                                 @endif
                             </div>
                         </div>
 
                         <!-- Second Column (60%) -->
-                        <div class="w-[65%] h-[680px] overflow-x-auto rounded-md" >
+                        <div class="w-[65%] h-[680px] overflow-x-auto rounded-md">
 
                             <div class="light-bg-f5f5f5 light-bg-seo  rounded-xl shadow-sm">
                                 <!-- Bottom Cards: Need Help & Free Consulting -->
@@ -1747,12 +1767,15 @@ use App\Models\User;
                                                 <!-- PROJECTS -->
                                                 <td class="px-6 py-4 text-sm light-text-gray-900 min-w-[180px]">
                                                     <div class="flex items-center gap-2">
-                                                        <img class="w-8 h-8 rounded-full" src="{{asset('assets/default-prf.png')}}"
+                                                        <img class="w-8 h-8 rounded-full"
+                                                            src="{{ asset('assets/default-prf.png') }}"
                                                             alt="">
                                                         <div>
-                                                            <p class="text-md">{{ $project->project_name ?? "N/A" }}</p>
+                                                            <p class="text-md">{{ $project->project_name ?? 'N/A' }}
+                                                            </p>
                                                             <p class="text-xs text-gray-400">
-                                                                {{ $project->created_at->format('d-m-Y') ?? "N/A" }}</p>
+                                                                {{ $project->created_at->format('d-m-Y') ?? 'N/A' }}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -1766,12 +1789,13 @@ use App\Models\User;
                                                             class="light-bg-d7d7d7 text-gray-400 px-2 py-1 rounded-md text-xs">Hosting</span>
                                                         <span
                                                             class="light-bg-d7d7d7 text-gray-400 px-2 py-1 rounded-md text-xs">+3</span> --}}
-                                                        {{ $project->membership ?? "N/A" }}
+                                                        {{ $project->membership ?? 'N/A' }}
                                                     </div>
                                                 </td>
 
                                                 <!-- PRICE -->
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm">{{ $project->price ?? "N/A" }}
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                                    {{ $project->price ?? 'N/A' }}
                                                 </td>
 
                                                 <!-- ASSIGNED TO -->
@@ -1780,7 +1804,7 @@ use App\Models\User;
                                                         @foreach ($assignedUsers as $assignment)
                                                             @if ($assignment->project_id === $project->id)
                                                                 <img class="w-10 h-10 rounded-full border-2 border-black"
-                                                                    src="{{ asset($assignment->user->image ?? 'assets/default-prf.png' ) }}"
+                                                                    src="{{ asset($assignment->user->image ?? 'assets/default-prf.png') }}"
                                                                     alt="{{ $assignment->user->name }}">
                                                             @endif
                                                         @endforeach
@@ -2058,7 +2082,7 @@ use App\Models\User;
                         <button type="button" id="cancelTicket"
                             class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                             Cancel
-                        </button> 
+                        </button>
                         <button type="submit" class="px-4 py-2 bg-orange-500  rounded-lg hover:bg-orange-600">
                             Save
                         </button>
@@ -2069,56 +2093,211 @@ use App\Models\User;
         </div>
     </div>
 
-    <!-- Status Update Modal -->
-<div id="statusModal"
-    class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
+    {{-- trash modal --}}
+    <div id="trashModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
+        <div
+            class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto  relative">
+            <!-- Close Button -->
+            <button id="closeTrashModal" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+                ✕
+            </button>
 
-    <div
-        class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[400px] max-h-[90vh] overflow-y-auto relative">
+            <div class="px-6 py-3"> <!-- Container for heading + divider -->
+                <h2 class="text-lg light-text-black  font-semibold">Trash</h2>
+            </div>
+            <div class=""> <!-- Container for heading + divider -->
+                <div class="border-t border-gray-600 w-full mt-4"></div>
+            </div>
 
-        <!-- Close Button -->
-        <button id="closeStatusModal" class="absolute top-3 right-3 text-gray-400 hover:text-white">
-            ✕
-        </button>
 
-        <!-- Heading -->
-        <div class="px-6 py-3">
-            <h2 class="text-lg light-text-black font-semibold">Update Status</h2>
-        </div>
-
-        <!-- Divider -->
-        <div class="border-t border-gray-600 w-full mt-2"></div>
-
-        <!-- Form -->
-        <form id="statusForm" class="space-y-4 p-6">
-            @csrf
-            <!-- Status Dropdown -->
-            <input type="hidden" id="modal-client-id" value="">
             <div>
-                <label class="block text-sm mb-1 light-text-black">Status</label>
-                <select id="statusSelect" name="status"
-                    class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
-                    <option value="active">Active</option>
-                    <option value="In Active">In Active</option>
-                </select>
+                <div class="overflow-x-auto">
+                    <table id="myTable" class="min-w-full divide-y divide-gray-200">
+                        <thead class="light-bg-d9d9d9">
+                            <tr>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        ID
+                                        <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M7 8 L12 3 L17 8" /> <!-- Up chevron -->
+                                            <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        CLIENT
+                                        <svg class="ml-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <!-- Up chevron (positioned higher) -->
+                                            <path d="M7 8 L12 3 L17 8" />
+                                            <!-- Down chevron (positioned lower with gap) -->
+                                            <path d="M7 16 L12 21 L17 16" />
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        EMAIL
+                                        <svg class="ml-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <!-- Up chevron (positioned higher) -->
+                                            <path d="M7 8 L12 3 L17 8" />
+                                            <!-- Down chevron (positioned lower with gap) -->
+                                            <path d="M7 16 L12 21 L17 16" />
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider min-w-[120px]">
+                                    <div class="flex items-center justify-between">
+                                        <span class="whitespace-nowrap">PHONE #</span>
+                                        <div class="flex flex-col ml-10">
+                                            <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <!-- Up chevron (positioned higher) -->
+                                                <path d="M7 8 L12 3 L17 8" />
+                                                <!-- Down chevron (positioned lower with gap) -->
+                                                <path d="M7 16 L12 21 L17 16" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </th>
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-10 icon" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M7 8 L12 3 L17 8" /> <!-- Up chevron -->
+                                            <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                        </svg>
+
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="light-bg-white light-bg-seo border-b-2 light-border-gray-300">
+                            @php
+                                $count = 1;
+                            @endphp
+                            @if (count($TrashclientData) > 0)
+                                @foreach ($TrashclientData as $client)
+                                    <!-- Row 1 -->
+                                    <tr class="border-b-2 light-border-gray-300">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
+                                            {{ $count++ }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium light-text-gray-900">
+                                                <div
+                                                    class="text-sm flex items-center gap-2 font-medium light-text-gray-900">
+                                                    <img src="Avatar.svg" alt="">
+                                                    <p class="light-text-black">{{ $client->name ?? 'N/A' }}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                            {{ $client->email ?? 'N/A' }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                            {{ $client->phone ?? 'N/A' }}
+                                        </td>
+                                        
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <div class="flex items-center justify-end gap-2">
+                                                {{-- href="{{ route('clients.details', $client->id) }}" --}}
+                                                <a 
+                                                    class="inline-block pt-[4px]">
+                                                    <img src="{{ asset('assets/restore.png') }}" alt="View"
+                                                        class="w-6 h-6  rounded-full p-1 bg-gray-500" />
+                                                </a>
+
+                                                <form action="{{ route('clients.delete', $client->id) }}"
+                                                    method="POST" style="display:inline; padding-top:7px;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class=" rounded-full ">
+                                                        <img src="{{ asset('assets/trash.svg') }}" alt="Delete"
+                                                            class="w-6 h-6  rounded-full p-1 bg-gray-500" />
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <td colspan="7"
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
+                                    No clients found.
+                                </td>
+                            @endif
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <!-- Buttons -->
-            <div class="flex justify-end gap-3 pt-3">
-                <button type="button" id="cancelStatusModal"
-                    class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
-                    Cancel
-                </button>
-
-                <button type="submit" id="update-status-btn"
-                    class="px-4 py-2 bg-orange-500 rounded-lg hover:bg-orange-600">
-                    Save
-                </button>
-            </div>
-        </form>
-
+        </div>
     </div>
-</div>
+
+    <!-- Status Update Modal -->
+    <div id="statusModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
+
+        <div
+            class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[400px] max-h-[90vh] overflow-y-auto relative">
+
+            <!-- Close Button -->
+            <button id="closeStatusModal" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+                ✕
+            </button>
+
+            <!-- Heading -->
+            <div class="px-6 py-3">
+                <h2 class="text-lg light-text-black font-semibold">Update Status</h2>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-gray-600 w-full mt-2"></div>
+
+            <!-- Form -->
+            <form id="statusForm" class="space-y-4 p-6">
+                @csrf
+                <!-- Status Dropdown -->
+                <input type="hidden" id="modal-client-id" value="">
+                <div>
+                    <label class="block text-sm mb-1 light-text-black">Status</label>
+                    <select id="statusSelect" name="status"
+                        class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
+                        <option value="active">Active</option>
+                        <option value="In Active">In Active</option>
+                    </select>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex justify-end gap-3 pt-3">
+                    <button type="button" id="cancelStatusModal"
+                        class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
+                        Cancel
+                    </button>
+
+                    <button type="submit" id="update-status-btn"
+                        class="px-4 py-2 bg-orange-500 rounded-lg hover:bg-orange-600">
+                        Save
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
 
 
 
@@ -2204,55 +2383,55 @@ use App\Models\User;
                     }
                 });
 
-                });
+            });
 
-                $('#update-status-btn').on('click', function() {
-                    let clientId = $('#modal-client-id').val();
-                    let newStatus = $('#statusSelect').val();
+            $('#update-status-btn').on('click', function() {
+                let clientId = $('#modal-client-id').val();
+                let newStatus = $('#statusSelect').val();
 
-                    $.ajax({
-                        url: '/update-client-status', 
-                        method: 'POST',
-                        data: {
-                            client_id: clientId,
-                            status: newStatus,
-                            _token: '{{ csrf_token() }}' 
-                        },
-                        success: function(res) {
-                            console.log("Status updated:", res.status);
+                $.ajax({
+                    url: '/update-client-status',
+                    method: 'POST',
+                    data: {
+                        client_id: clientId,
+                        status: newStatus,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(res) {
+                        console.log("Status updated:", res.status);
 
-                            let wrapper = $('.client_status_wrapper'); 
-                            let text = $('.client_status_text');
+                        let wrapper = $('.client_status_wrapper');
+                        let text = $('.client_status_text');
 
-                            let status = res.status.toLowerCase(); 
+                        let status = res.status.toLowerCase();
 
-                            text.text(status);
+                        text.text(status);
 
-                            if(status === 'active'){
-                                wrapper
-                                    .removeClass('bg-red-900/50')
-                                    .addClass('bg-green-900/50');
+                        if (status === 'active') {
+                            wrapper
+                                .removeClass('bg-red-900/50')
+                                .addClass('bg-green-900/50');
 
-                                text
-                                    .removeClass('text-red-500')
-                                    .addClass('text-green-500');
-                            } else {
-                                wrapper
-                                    .removeClass('bg-green-900/50')
-                                    .addClass('bg-red-900/50');
+                            text
+                                .removeClass('text-red-500')
+                                .addClass('text-green-500');
+                        } else {
+                            wrapper
+                                .removeClass('bg-green-900/50')
+                                .addClass('bg-red-900/50');
 
-                                text
-                                    .removeClass('text-green-500')
-                                    .addClass('text-red-500');
-                            }
-
-                            $('#statusModal').addClass('hidden');
-                        },
-                        error: function(err) {
-                            console.log("Error updating status:", err);
+                            text
+                                .removeClass('text-green-500')
+                                .addClass('text-red-500');
                         }
-                    });
-                    });
+
+                        $('#statusModal').addClass('hidden');
+                    },
+                    error: function(err) {
+                        console.log("Error updating status:", err);
+                    }
+                });
+            });
 
 
 
@@ -2838,10 +3017,12 @@ use App\Models\User;
         document.addEventListener('DOMContentLoaded', () => {
             // Initialize Ticket Modal
             const ticketModal = document.getElementById('ticketModal');
+            const trashModal = document.getElementById('trashModal');
             const closeTicketModal = document.getElementById('closeTicketModal');
             const cancelTicket = document.getElementById('cancelTicket');
             const ticketForm = document.getElementById('ticketForm');
             const openTicketButtons = document.querySelectorAll('.openTicketModal');
+            const openTrashButtons = document.querySelectorAll('.openTrashModal');
 
             // Initialize Payment Modal
             const paymentModal = document.getElementById('paymentModal');
@@ -2856,6 +3037,13 @@ use App\Models\User;
             });
             closeTicketModal.addEventListener('click', () => ticketModal.classList.add('hidden'));
             cancelTicket.addEventListener('click', () => ticketModal.classList.add('hidden'));
+
+
+            openTrashButtons.forEach(btn => {
+                btn.addEventListener('click', () => trashModal.classList.remove('hidden'));
+            });
+            closeTrashModal.addEventListener('click', () => trashModal.classList.add('hidden'));
+            cancelTrash.addEventListener('click', () => trashModal.classList.add('hidden'));
 
 
 
@@ -2889,45 +3077,45 @@ use App\Models\User;
         });
     </script>
 
-<script>
-    const statusModal = document.getElementById('statusModal');
-    const closeStatusModal = document.getElementById('closeStatusModal');
-    const cancelStatusModal = document.getElementById('cancelStatusModal');
-    const statusForm = document.getElementById('statusForm');
-    const statusSelect = document.getElementById('statusSelect');
+    <script>
+        const statusModal = document.getElementById('statusModal');
+        const closeStatusModal = document.getElementById('closeStatusModal');
+        const cancelStatusModal = document.getElementById('cancelStatusModal');
+        const statusForm = document.getElementById('statusForm');
+        const statusSelect = document.getElementById('statusSelect');
 
-    // Open modal
-    function openStatusModal() {
-        statusModal.classList.remove('hidden');
-    }
-
-    // Close modal
-    function hideStatusModal() {
-        statusModal.classList.add('hidden');
-    }
-
-    closeStatusModal.addEventListener('click', hideStatusModal);
-    cancelStatusModal.addEventListener('click', hideStatusModal);
-
-    // Close when clicking outside
-    statusModal.addEventListener('click', (e) => {
-        if (e.target === statusModal) {
-            hideStatusModal();
+        // Open modal
+        function openStatusModal() {
+            statusModal.classList.remove('hidden');
         }
-    });
 
-    // Submit
-    statusForm.addEventListener('submit', function (e) {
-        e.preventDefault();
+        // Close modal
+        function hideStatusModal() {
+            statusModal.classList.add('hidden');
+        }
 
-        const status = statusSelect.value;
-        console.log('Selected Status:', status);
+        closeStatusModal.addEventListener('click', hideStatusModal);
+        cancelStatusModal.addEventListener('click', hideStatusModal);
 
-        // 👉 send via fetch / axios / form submit here
+        // Close when clicking outside
+        statusModal.addEventListener('click', (e) => {
+            if (e.target === statusModal) {
+                hideStatusModal();
+            }
+        });
 
-        hideStatusModal();
-    });
-</script>
+        // Submit
+        statusForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const status = statusSelect.value;
+            console.log('Selected Status:', status);
+
+            // 👉 send via fetch / axios / form submit here
+
+            hideStatusModal();
+        });
+    </script>
 </body>
 
 </html>

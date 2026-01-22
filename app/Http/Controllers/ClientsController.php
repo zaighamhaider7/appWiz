@@ -16,7 +16,13 @@ class ClientsController extends Controller
 
     public function ClientView()
     {
-        $clientData = User::where('role_id', '!=', 1)->get();
+        $clientData = User::where('role_id', '!=', 1)
+        ->where('is_deleted', false)
+        ->get();
+
+        $TrashclientData = User::where('role_id', '!=', 1)
+        ->where('is_deleted', true)
+        ->get();
 
         $latestProjectByClient = [];
 
@@ -31,7 +37,7 @@ class ClientsController extends Controller
         $totalProjectPrice = null;
         $activity_logs = null;
 
-        return view('admin.clients', compact('clientData', 'latestProjectByClient', 'singleClientData', 'clientProjects', 'totalProjects', 'totalProjectPrice', 'activity_logs'));
+        return view('admin.clients', compact('clientData', 'latestProjectByClient', 'singleClientData', 'clientProjects', 'totalProjects', 'totalProjectPrice', 'activity_logs', 'TrashclientData'));
     }
 
 
@@ -73,7 +79,10 @@ class ClientsController extends Controller
     public function ClientDelete($id)
     {
         $client = User::findOrFail($id);
-        $client->delete();
+        $client->is_deleted = true;
+        $client->save();
+
+        // $client->delete();
 
         // ActivityLogger::log('Client Deleted', 'The client "' . $client->name . '" was deleted by ' . auth()->user()->name . '.');
 
@@ -82,7 +91,13 @@ class ClientsController extends Controller
 
     public function ClientDetails($id)
     {
-        $clientData = User::where('name', '!=', 'Admin')->get();
+        $clientData = User::where('name', '!=', 'Admin')
+        ->where('is_deleted', false)
+        ->get();
+
+        $TrashclientData = User::where('role_id', '!=', 1)
+        ->where('is_deleted', true)
+        ->get();
 
         $latestProjectByClient = [];
 
@@ -105,7 +120,7 @@ class ClientsController extends Controller
 
         // $activity_logs = ActivityLog::where('user_id', auth()->id())->latest()->get();
 
-        return view('admin.clients', compact('clientData', 'latestProjectByClient', 'singleClientData', 'clientProjects', 'assignedUsers', 'totalProjects', 'totalProjectPrice', 'activity_logs'));
+        return view('admin.clients', compact('clientData', 'latestProjectByClient', 'singleClientData', 'clientProjects', 'assignedUsers', 'totalProjects', 'totalProjectPrice', 'activity_logs', 'TrashclientData'));
     }
 
     public function suspend($id)

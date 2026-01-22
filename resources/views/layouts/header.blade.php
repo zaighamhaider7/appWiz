@@ -84,31 +84,32 @@
                     </div>
                 </a>
             </li>
-            @if(auth()->user()->role_id == 1)
-            <li>
-                <a href="{{ route('clients') }}"
-                    class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] border-b border-[#171717] hover:bg-[#191919] group">
-                    <div class="flex items-center gap-2">
-                        <img class="w-5 h-5 shrink-0" src="{{ asset('assets/uni-01-DARK.svg') }}" alt="Clients Icon" />
-                        <span class="text-sm truncate group-hover:text-orange-500">Clients</span>
-                    </div>
-                    <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
-                </a>
-            </li>
+            @if (auth()->user()->role_id == 1)
+                <li>
+                    <a href="{{ route('clients') }}"
+                        class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] border-b border-[#171717] hover:bg-[#191919] group">
+                        <div class="flex items-center gap-2">
+                            <img class="w-5 h-5 shrink-0" src="{{ asset('assets/uni-01-DARK.svg') }}"
+                                alt="Clients Icon" />
+                            <span class="text-sm truncate group-hover:text-orange-500">Clients</span>
+                        </div>
+                        <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
+                    </a>
+                </li>
             @endif
 
-            @if(auth()->user()->role_id == 1)
-            <li>
-                <a href="{{ route('task.view') }}"
-                    class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] border-b border-[#171717] hover:bg-[#191919] group">
-                    <div class="flex items-center gap-2">
-                        <img class="w-5 h-5 shrink-0" src="{{ asset('assets/archive-book-DARK.svg') }}"
-                            alt="Task Icon" />
-                        <span class="text-sm truncate group-hover:text-orange-500">Task Management</span>
-                    </div>
-                    <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
-                </a>
-            </li>
+            @if (auth()->user()->role_id == 1)
+                <li>
+                    <a href="{{ route('task.view') }}"
+                        class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] border-b border-[#171717] hover:bg-[#191919] group">
+                        <div class="flex items-center gap-2">
+                            <img class="w-5 h-5 shrink-0" src="{{ asset('assets/archive-book-DARK.svg') }}"
+                                alt="Task Icon" />
+                            <span class="text-sm truncate group-hover:text-orange-500">Task Management</span>
+                        </div>
+                        <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
+                    </a>
+                </li>
             @endif
 
             <li>
@@ -123,17 +124,17 @@
                 </a>
             </li>
 
-            @if(auth()->user()->role_id == 1)
-            <li>
-                <a href="{{ route('leads') }}"
-                    class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] border-b border-[#171717] hover:bg-[#191919] group">
-                    <div class="flex items-center gap-2">
-                        <img class="w-5 h-5 shrink-0" src="{{ asset('assets/20-DARK.svg') }}" alt="Leads Icon" />
-                        <span class="text-sm truncate group-hover:text-orange-500">Leads</span>
-                    </div>
-                    <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
-                </a>
-            </li>
+            @if (auth()->user()->role_id == 1)
+                <li>
+                    <a href="{{ route('leads') }}"
+                        class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] border-b border-[#171717] hover:bg-[#191919] group">
+                        <div class="flex items-center gap-2">
+                            <img class="w-5 h-5 shrink-0" src="{{ asset('assets/20-DARK.svg') }}" alt="Leads Icon" />
+                            <span class="text-sm truncate group-hover:text-orange-500">Leads</span>
+                        </div>
+                        <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
+                    </a>
+                </li>
             @endif
 
             <li>
@@ -184,18 +185,18 @@
                 </a>
             </li>
 
-            @if(auth()->user()->role_id == 2)
-            <li>
-                <a href="{{ route('billing') }}"
-                    class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] hover:bg-[#191919] group">
-                    <div class="flex items-center gap-2">
-                        <img class="w-5 h-5 shrink-0" src="{{ asset('assets/bill-DARK.svg') }}"
-                            alt="Settings Icon" />
-                        <span class="text-sm truncate group-hover:text-orange-500">Billings</span>
-                    </div>
-                    <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
-                </a>
-            </li>
+            @if (auth()->user()->role_id == 2)
+                <li>
+                    <a href="{{ route('billing') }}"
+                        class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] hover:bg-[#191919] group">
+                        <div class="flex items-center gap-2">
+                            <img class="w-5 h-5 shrink-0" src="{{ asset('assets/bill-DARK.svg') }}"
+                                alt="Settings Icon" />
+                            <span class="text-sm truncate group-hover:text-orange-500">Billings</span>
+                        </div>
+                        <span class="text-white group-hover:text-orange-500 text-2xl  transition-all shrink-0">></span>
+                    </a>
+                </li>
             @endif
 
             <li class="flex justify-between items-center px-4 py-3 text-white bg-[#171717] hover:bg-[#191919] group "
@@ -206,15 +207,24 @@
 
 
     </div>
-    
+
     <!-- Right Side Icons & User -->
     <div class="flex items-center space-x-4 ml-4">
         <!-- Message Button -->
-        <button class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
-            <img src="{{ asset('assets/message.svg') }}" alt="icon"
-                class="w-6 h-6 light-text-gray-900 rounded-full light-mode-icon"
-                data-dark-src="{{ asset('assets/message-DARK.svg') }}">
-        </button>
+        <div class="relative" id="notificationDropdown2">
+            <button id="msgButton"
+                class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
+                <img src="{{ asset('assets/message.svg') }}" alt="icon"
+                    class="w-6 h-6 light-text-gray-900 rounded-full light-mode-icon"
+                    data-dark-src="{{ asset('assets/message-DARK.svg') }}">
+
+                <span id="MsgunreadBadge"
+                    class=" absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full"
+                    @if ($MsgunreadCount == 0) style="display:none;" @endif>
+                    {{ $MsgunreadCount }}
+                </span>
+            </button>
+        </div>
 
         <!-- Notification Button -->
         <div class="relative" id="notificationDropdown">
@@ -224,8 +234,8 @@
                     class="w-6 h-6 light-text-gray-900 rounded-full light-mode-icon"
                     data-dark-src="{{ asset('assets/notification-DARK.svg') }}">
 
-                <span id="unreadBadge"
-                    class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full"
+                <span id="unreadBadge"  
+                    class=" absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full"
                     @if ($unreadCount == 0) style="display:none;" @endif>
                     {{ $unreadCount }}
                 </span>
@@ -247,13 +257,31 @@
                     @endforelse
                 </ul>
             </div>
+
+            <div id="dropdownMenu3"
+                class="absolute right-5 mt-1 w-80  bg-black text-white shadow-lg rounded-lg z-50 hidden">
+                <ul id="notificationList">
+                    @forelse($Msgnotifications ?? [] as $Msgnotification)
+                        <li data-id="{{ $Msgnotification->id }}"
+                            class="notification-item cursor-pointer flex items-center  justify-between p-4 border-b {{ $Msgnotification->is_read ? 'bg-black' : 'bg-gray-800' }}">
+                            {{ $Msgnotification->message }}
+                            <span
+                                class="text-xs text-gray-400 float-right">{{ $Msgnotification->created_at->diffForHumans() }}</span>
+                        </li>
+                    @empty
+                        <li class="p-3 text-gray-400">No Messages</li>
+                    @endforelse
+                </ul>
+            </div>
         </div>
 
 
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const button = document.getElementById('notificationButton');
+                const msgbutton = document.getElementById('msgButton');
                 const dropdown2 = document.getElementById('dropdownMenu2');
+                const dropdown3 = document.getElementById('dropdownMenu3');
 
                 button.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -263,6 +291,17 @@
                 document.addEventListener('click', (e) => {
                     if (!document.getElementById('notificationDropdown').contains(e.target)) {
                         dropdown2.classList.add('hidden');
+                    }
+                });
+
+                msgbutton.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    dropdown3.classList.toggle('hidden');
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!document.getElementById('notificationDropdown').contains(e.target)) {
+                        dropdown3.classList.add('hidden');
                     }
                 });
             });
@@ -402,13 +441,34 @@
                         li.classList.remove('bg-gray-800');
                         li.classList.add('bg-black');
 
-                        const badge = document.getElementById('unreadBadge');
+                        const unreadBadge = document.getElementById('unreadBadge');
                         if (data.unreadCount > 0) {
-                            badge.textContent = data.unreadCount;
-                            badge.style.display = 'inline-flex';
+                            unreadBadge.textContent = data.unreadCount;
+                            unreadBadge.style.display = 'inline-flex';
                         } else {
-                            badge.style.display = 'none';
+                            unreadBadge.style.display = 'none';
                         }
+
+                        const MsgunreadBadge = document.getElementById('MsgunreadBadge');
+                        if (data.MsgunreadCount > 0) {
+                            MsgunreadBadge.textContent = data.MsgunreadCount;
+                            MsgunreadBadge.style.display = 'inline-flex';
+                        } else {
+                            MsgunreadBadge.style.display = 'none';
+                        }
+
+
+                        // const badges = document.querySelectorAll('.unreadBadge');
+
+                        // badges.forEach(badge => {
+                        //     if (data.unreadCount > 0) {
+                        //         badge.textContent = data.unreadCount;
+                        //         badge.style.display = 'inline-flex';
+                        //     } else {
+                        //         badge.style.display = 'none';
+                        //     }
+                        // });
+
                     }
                 });
         });

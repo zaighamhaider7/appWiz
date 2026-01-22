@@ -71,13 +71,15 @@ class ticketChatsController extends Controller
             NotificationLogger::notify(
                 1,
                 'Ticket Chat',
-                'New message from user on Ticket #' . $ticket->id
+                'New message from user on Ticket #' . $ticket->id,
+                'message'
             );
         } else {
             NotificationLogger::notify(
                 $ticket->user_id,
                 'Ticket Chat',
-                'New message from admin on your Ticket #' . $ticket->id
+                'New message from admin on your Ticket #' . $ticket->id,
+                'message'
             );
         }
         

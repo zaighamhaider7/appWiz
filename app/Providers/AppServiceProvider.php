@@ -24,15 +24,29 @@ class AppServiceProvider extends ServiceProvider
                 if(auth()->check()) {
                     $notifications = Notification::where('user_id', auth()->id())
                         ->where('is_read', 0)
+                        ->where('notification_category', 'general')
+                        ->latest()
+                        ->take(10)
+                        ->get();
+
+                    $Msgnotifications = Notification::where('user_id', auth()->id())
+                        ->where('is_read', 0)
+                        ->where('notification_category', 'message')
                         ->latest()
                         ->take(10)
                         ->get();
 
                     $unreadCount = Notification::where('user_id', auth()->id())
                         ->where('is_read', 0)
+                        ->where('notification_category', 'general')
                         ->count();
 
-                    $view->with(compact('notifications', 'unreadCount'));
+                    $MsgunreadCount = Notification::where('user_id', auth()->id())
+                        ->where('is_read', 0)
+                        ->where('notification_category', 'message')
+                        ->count();
+
+                    $view->with(compact('notifications', 'unreadCount', 'Msgnotifications', 'MsgunreadCount'));
                 }
             });
     }

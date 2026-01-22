@@ -91,8 +91,8 @@
             right: 0;
             bottom: 0;
             background-image: url("{{ asset('assets/hc.png') }}");
-            /* Update the path */
-            background-repeat: repeat;
+            background-repeat: no-repeat;
+            background-size: cover;
             opacity: 1;
             z-index: 0;
         }
