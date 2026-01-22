@@ -1574,232 +1574,6 @@
         <script>
             $(document).ready(function() {
 
-                // $.ajax({
-                //     url: '/session-data',
-                //     type: 'GET',
-                //     success: function(response) {
-                //         console.log("Session Duration Data Fetch", response);
-
-                //         earningsChart.data.labels = response.labels;
-                //         earningsChart.data.datasets[0].data = response.values;
-
-                //         const maxVal = Math.max(...response.values);
-                //         earningsChart.data.datasets[0].backgroundColor = response.values.map(v =>
-                //             v === maxVal ? '#FF6A00' : '#3b3b3b'
-                //         );
-
-                //         earningsChart.update();
-                //     },
-                //     error: function(err) {
-                //         console.error('Error fetching session duration data', err);
-                //     }
-                // });
-
-                // $.ajax({
-                //     url: '/active-visitors',
-                //     type: 'GET',
-                //     success: function(response) {
-                //         console.log("Active Visitors Data Fetch", response);
-
-                //         $('#current_month_active_users').text(response.current_month_active_users);
-
-                //         let percent = response.percent_change;
-
-                //         $('#activevisitorPercent').text(percent);
-
-                //         if (percent.startsWith('+')) {
-                //             $('#activevisitorPercent').removeClass('text-red-500').addClass('text-green-500');
-                //         } else if (percent.startsWith('-')) {
-                //             $('#activevisitorPercent').removeClass('text-green-500').addClass('text-red-500');
-                //         }
-
-                //         activeVisitorsChart.data.labels = response.labels;
-                //         activeVisitorsChart.data.datasets[0].data = response.values;
-
-                //         const maxVal = Math.max(...response.values);
-                //         activeVisitorsChart.data.datasets[0].backgroundColor = response.values.map(v =>
-                //             v === maxVal ? '#FF6A00' : '#3b3b3b'
-                //         );
-
-                //         activeVisitorsChart.update();
-                //     },
-                //     error: function(err) {
-                //         console.error('Error fetching session duration data', err);
-                //     }
-                // });
-
-                // $.ajax({
-                //     url: '/traffic-data',
-                //     type: 'GET',
-                //     success: function(response) {
-                //         console.log("Session fetch", response);
-
-                //         $('#current_month_session').text(response.current_month_sessions);
-                //         let percent = response.percent_change;
-
-                //         $('#sessionPercent').text(percent);
-
-                //         if (percent.startsWith('+')) {
-                //             $('#sessionPercent').removeClass('text-red-500').addClass('text-green-500');
-                //         } else if (percent.startsWith('-')) {
-                //             $('#sessionPercent').removeClass('text-green-500').addClass('text-red-500');
-                //         }
-
-                //         // Fill chart labels & data
-                //         sessionChart.data.labels = response.labels;
-                //         sessionChart.data.datasets[0].data = response.values;
-
-                //         // keep gradient fill
-                //         sessionChart.data.datasets[0].backgroundColor = "#28C76F";
-
-                //         sessionChart.update();
-                //     },
-                //     error: function(err) {
-                //         console.error('Error fetching GA4 data', err);
-                //     }
-                // });
-
-                // $.ajax({
-                //     url: '/impression-data',
-                //     type: 'GET',
-                //     success: function(response) {
-                //         console.log("impressionsData fetch", response);
-
-                //         $('#current_month_impressions').text(response.current_month_impressions);
-                //         let percent = response.percent_change;
-
-                //         $('#impressionPercent').text(percent);
-
-                //         if (percent.startsWith('+')) {
-                //             $('#impressionPercent').removeClass('text-red-500').addClass('text-green-500');
-                //         } else if (percent.startsWith('-')) {
-                //             $('#impressionPercent').removeClass('text-green-500').addClass('text-red-500');
-                //         }
-
-                //         // Fill chart labels & data
-                //         impressionsChart.data.labels = response.labels;
-                //         impressionsChart.data.datasets[0].data = response.values;
-
-                //         impressionsChart.update();
-                //     },
-                //     error: function(err) {
-                //         console.error('Error fetching GA4 data', err);
-                //     }
-                // });
-
-                // $.ajax({
-                //     url: '/bounce-rate-data',
-                //     type: 'GET',
-                //     success: function(response) {
-                //         console.log("bounceRateData fetch", response);
-
-                //         $('#current_month_bounce_rate').text(response.current_month_bounce_rate);
-                //         let percent = response.percent_change;
-
-                //         $('#bounceratePercent').text(percent);
-
-                //         if (percent.startsWith('+')) {
-                //             $('#bounceratePercent').removeClass('text-red-500').addClass('text-green-500');
-                //         } else if (percent.startsWith('-')) {
-                //             $('#bounceratePercent').removeClass('text-green-500').addClass('text-red-500');
-                //         }
-
-                //         // Fill chart labels & data
-                //         bounceRateChart.data.labels = response.labels;
-                //         bounceRateChart.data.datasets[0].data = response.values;
-
-                //         bounceRateChart.update();
-                //     },
-                //     error: function(err) {
-                //         console.error('Error fetching Bounce Rate data', err);
-                //     }
-                // });
-
-                // $.ajax({
-                //     url: '/conversion-rate-data',
-                //     type: 'GET',
-                //     success: function(response) {
-                //         console.log("conversionRateData fetch", response);
-
-                //         $('#current_month_conversion_rate').text(response.current_month_conversion_rate);
-                //         let percent = response.percent_change;
-
-                //         $('#conversionratepercent').text(percent);
-
-                //         if (percent.startsWith('+')) {
-                //             $('#conversionratepercent').removeClass('text-red-500').addClass('text-green-500');
-                //         } else if (percent.startsWith('-')) {
-                //             $('#conversionratepercent').removeClass('text-green-500').addClass('text-red-500');
-                //         }
-
-                //         conversitionRateChart.data.labels = response.labels;
-                //         conversitionRateChart.data.datasets[0].data = response.values;
-
-                //         conversitionRateChart.update();
-                //     },
-                //     error: function(err) {
-                //         console.error('Error fetching Conversion Rate data', err);
-                //     }
-                // });
-
-                // function formatNumber(num) {
-                //     if (num >= 1000000) return (num / 1000000).toFixed(2) + 'M';
-                //     if (num >= 1000) return (num / 1000).toFixed(2) + 'k';
-                //     return num;
-                // }
-
-                // $.ajax({
-                //     url: '/traffic-by-countries',
-                //     type: 'GET',
-                //     success: function (response) {
-                //         console.log('trafficByCountries fetch', response);
-
-                //         const container = $('.traffic-countries');
-                //         container.empty();
-
-                //         // Calculate total sessions for percentage display
-                //         const totalSessions = response.data.reduce((sum, item) => sum + item.sessions, 0);
-
-                //         response.data.forEach(item => {
-                //             const flagUrl = `https://flagcdn.com/w40/${item.countryCode.toLowerCase()}.png`;
-
-                //             // Safely calculate percentage
-                //             const percent = totalSessions ? ((item.sessions / totalSessions) * 100).toFixed(1) : 0;
-
-                //             // If you have change data, use it; otherwise default to 0
-                //             const change = item.change ?? 0;
-                //             const isPositive = change >= 0;
-
-                //             // Set color based on positive/negative
-                //             const changeColor = isPositive ? 'text-green-500' : 'text-red-300';
-                //             const changeSign = isPositive ? '↑' : '↓';
-
-                //             const changeText = `${changeSign} ${percent}%`;
-
-                //             const html = `
-        //                 <div class="flex justify-between items-center mb-3">
-        //                     <div class="flex items-center">
-        //                         <div class="w-8 h-8 rounded-full overflow-hidden mr-3">
-        //                             <img src="${flagUrl}" alt="${item.country}" class="w-full h-full object-cover">
-        //                         </div>
-        //                         <div>
-        //                             <p class="text-sm font-medium">${formatNumber(item.sessions)}</p>
-        //                             <p class="text-xs text-gray-500">${item.country}</p>
-        //                         </div>
-        //                     </div>
-        //                     <div class="font-medium text-sm ${changeColor}">
-        //                         ${changeText}
-        //                     </div>
-        //                 </div>
-        //             `;
-                //             container.append(html);
-                //         });
-                //     },
-                //     error: function (err) {
-                //         console.error('Error fetching Traffic by Countries', err);
-                //     }
-                // });
-
                 function handleOpenCloseUI() {
                     const $openEl = $(".open");
                     const $closeEl = $(".close");
@@ -1837,9 +1611,45 @@
                     $('body').css('overflow', 'auto');
                 }
 
+                let ajaxRequestsInProgress = 0;
+
+                function showLoader() {
+                    if (ajaxRequestsInProgress === 0) {
+                        showAnalyticsLoader();
+                    }
+                    ajaxRequestsInProgress++;
+                }
+
+                function hideLoader() {
+                    ajaxRequestsInProgress--;
+                    if (ajaxRequestsInProgress <= 0) {
+                        ajaxRequestsInProgress = 0;
+                        hideAnalyticsLoader();
+                    }
+                }
+
+                let totalRequests = 7;
+                let successCount = 0;
+                let hasError = false;
+
+                function onAjaxSuccess() {
+                    if (hasError) return;
+
+                    successCount++;
+
+                    if (successCount === totalRequests) {
+                        handleOpenCloseUI();
+                    }
+                }
+
+
+
                 $('#triggerBtn').on('click', function(e) {
                     e.preventDefault();
                     let analyticsErrorShown = false;
+
+                    successCount = 0;
+                    hasError = false;
 
                     const properyId = $('#gaPropertyInput').val();
 
@@ -1860,6 +1670,10 @@
                             propertyId: properyId,
                             _token: $('meta[name="csrf-token"]').attr('content')
                         },
+
+                        beforeSend: function() {
+                            showLoader();
+                        },
                         success: function(response) {
                             console.log("Session Duration Data Fetch", response);
 
@@ -1873,10 +1687,10 @@
                             );
 
                             earningsChart.update();
-
-                            handleOpenCloseUI();
+                            onAjaxSuccess();
                         },
                         error: function(xhr) {
+                            hasError = true;
                             if (analyticsErrorShown) return;
 
                             analyticsErrorShown = true;
@@ -1887,6 +1701,9 @@
                             }
 
                             showAnalyticsError(msg);
+                        },
+                        complete: function() {
+                            hideLoader();
                         }
                     });
 
@@ -1896,6 +1713,9 @@
                         data: {
                             propertyId: properyId,
                             _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        beforeSend: function() {
+                            showLoader();
                         },
                         success: function(response) {
                             console.log("Active Visitors Data Fetch", response);
@@ -1925,19 +1745,23 @@
                                 );
 
                             activeVisitorsChart.update();
-                            handleOpenCloseUI();
+                            onAjaxSuccess();
                         },
                         error: function(xhr) {
+                            hasError = true;
                             if (analyticsErrorShown) return;
 
                             analyticsErrorShown = true;
-                            let msg = 'Error fetching session duration data.';
+                            let msg = 'Error fetching active visitor data.';
 
                             if (xhr.responseJSON && xhr.responseJSON.error) {
                                 msg = xhr.responseJSON.error;
                             }
 
                             showAnalyticsError(msg);
+                        },
+                        complete: function() {
+                            hideLoader();
                         }
                     });
 
@@ -1947,6 +1771,9 @@
                         data: {
                             propertyId: properyId,
                             _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        beforeSend: function() {
+                            showLoader();
                         },
                         success: function(response) {
                             console.log("Session fetch", response);
@@ -1972,19 +1799,23 @@
                             sessionChart.data.datasets[0].backgroundColor = "#28C76F";
 
                             sessionChart.update();
-                            handleOpenCloseUI();
+                            onAjaxSuccess();
                         },
                         error: function(xhr) {
+                            hasError = true;
                             if (analyticsErrorShown) return;
 
                             analyticsErrorShown = true;
-                            let msg = 'Error fetching session duration data.';
+                            let msg = 'Error fetching traffic data.';
 
                             if (xhr.responseJSON && xhr.responseJSON.error) {
                                 msg = xhr.responseJSON.error;
                             }
 
                             showAnalyticsError(msg);
+                        },
+                        complete: function() {
+                            hideLoader();
                         }
                     });
 
@@ -1995,14 +1826,14 @@
                             propertyId: properyId,
                             _token: $('meta[name="csrf-token"]').attr('content')
                         },
-                        beforeSend: function () {
-                            showAnalyticsLoader();   
+                        beforeSend: function() {
+                            showLoader();
                         },
                         success: function(response) {
                             console.log("impressionsData fetch", response);
 
                             $('#current_month_impressions').text(response
-                            .current_month_impressions);
+                                .current_month_impressions);
                             let percent = response.percent_change;
 
                             $('#impressionPercent').text(percent);
@@ -2020,13 +1851,14 @@
                             impressionsChart.data.datasets[0].data = response.values;
 
                             impressionsChart.update();
-                            handleOpenCloseUI();
+                            onAjaxSuccess();
                         },
                         error: function(xhr) {
+                            hasError = true;
                             if (analyticsErrorShown) return;
 
                             analyticsErrorShown = true;
-                            let msg = 'Error fetching session duration data.';
+                            let msg = 'Error fetching impression data.';
 
                             if (xhr.responseJSON && xhr.responseJSON.error) {
                                 msg = xhr.responseJSON.error;
@@ -2034,8 +1866,8 @@
 
                             showAnalyticsError(msg);
                         },
-                        complete: function () {
-                            hideAnalyticsLoader();   
+                        complete: function() {
+                            hideLoader();
                         }
                     });
 
@@ -2046,11 +1878,14 @@
                             propertyId: properyId,
                             _token: $('meta[name="csrf-token"]').attr('content')
                         },
+                        beforeSend: function() {
+                            showLoader();
+                        },
                         success: function(response) {
                             console.log("bounceRateData fetch", response);
 
                             $('#current_month_bounce_rate').text(response
-                            .current_month_bounce_rate);
+                                .current_month_bounce_rate);
                             let percent = response.percent_change;
 
                             $('#bounceratePercent').text(percent);
@@ -2068,19 +1903,23 @@
                             bounceRateChart.data.datasets[0].data = response.values;
 
                             bounceRateChart.update();
-                            handleOpenCloseUI();
+                            onAjaxSuccess();
                         },
                         error: function(xhr) {
+                            hasError = true;
                             if (analyticsErrorShown) return;
 
                             analyticsErrorShown = true;
-                            let msg = 'Error fetching session duration data.';
+                            let msg = 'Error fetching bounce rate data.';
 
                             if (xhr.responseJSON && xhr.responseJSON.error) {
                                 msg = xhr.responseJSON.error;
                             }
 
                             showAnalyticsError(msg);
+                        },
+                        complete: function() {
+                            hideLoader();
                         }
                     });
 
@@ -2090,6 +1929,9 @@
                         data: {
                             propertyId: properyId,
                             _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        beforeSend: function() {
+                            showLoader();
                         },
                         success: function(response) {
                             console.log("conversionRateData fetch", response);
@@ -2112,19 +1954,23 @@
                             conversitionRateChart.data.datasets[0].data = response.values;
 
                             conversitionRateChart.update();
-                            handleOpenCloseUI();
+                            onAjaxSuccess();
                         },
                         error: function(xhr) {
+                            hasError = true;
                             if (analyticsErrorShown) return;
 
                             analyticsErrorShown = true;
-                            let msg = 'Error fetching session duration data.';
+                            let msg = 'Error fetching conversion rate data.';
 
                             if (xhr.responseJSON && xhr.responseJSON.error) {
                                 msg = xhr.responseJSON.error;
                             }
 
                             showAnalyticsError(msg);
+                        },
+                        complete: function() {
+                            hideLoader();
                         }
                     });
 
@@ -2140,6 +1986,9 @@
                         data: {
                             propertyId: properyId,
                             _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        beforeSend: function() {
+                            showLoader();
                         },
                         success: function(response) {
                             console.log('trafficByCountries fetch', response);
@@ -2187,21 +2036,24 @@
                                         </div>
                                     `;
                                 container.append(html);
-
-                                handleOpenCloseUI();
                             });
+                            onAjaxSuccess();
                         },
                         error: function(xhr) {
+                            hasError = true;
                             if (analyticsErrorShown) return;
 
                             analyticsErrorShown = true;
-                            let msg = 'Error fetching session duration data.';
+                            let msg = 'Error fetching traffic by countries data.';
 
                             if (xhr.responseJSON && xhr.responseJSON.error) {
                                 msg = xhr.responseJSON.error;
                             }
 
                             showAnalyticsError(msg);
+                        },
+                        complete: function() {
+                            hideLoader();
                         }
                     });
 
@@ -2210,8 +2062,7 @@
             });
         </script>
 
-        <div id="analyticsLoader"
-            class="hidden fixed inset-0 flex items-center justify-center bg-black/20 z-50">
+        <div id="analyticsLoader" class="hidden fixed inset-0 flex items-center justify-center bg-black/20 z-50">
             <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
         </div>
 

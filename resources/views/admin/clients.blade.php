@@ -1390,7 +1390,7 @@ use App\Models\User;
                                                                 </button>
                                                             </form> --}}
                                                             <a href="{{ route('clients.details', $client->id) }}"
-                                                            class="inline-block pt-[7px]">
+                                                            class="inline-block pt-[4px]">
                                                                 <img src="{{ asset('assets/eye-DARK.svg') }}"
                                                                     alt="View"
                                                                     class="w-6 h-6 switchRight rounded-full p-1 bg-gray-500" />
