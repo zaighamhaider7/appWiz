@@ -76,7 +76,8 @@ class ClientsController extends Controller
 
     }
 
-    public function ClientDelete($id)
+    // soft delete client
+    public function SoftDelete($id)
     {
         $client = User::findOrFail($id);
         $client->is_deleted = true;
@@ -87,6 +88,26 @@ class ClientsController extends Controller
         // ActivityLogger::log('Client Deleted', 'The client "' . $client->name . '" was deleted by ' . auth()->user()->name . '.');
 
         return redirect()->back()->with('DeleteClient', 'Client deleted successfully.');
+    }
+
+    // delete client
+    public function ClientDelete($id)
+    {
+        $client = User::findOrFail($id);
+
+        $client->delete();
+
+        return redirect()->back()->with('DeleteClient', 'Client deleted successfully.');
+    }
+
+    // restore client
+    public function ClientRestore($id)
+    {
+        $client = User::findOrFail($id);
+        $client->is_deleted = false;
+        $client->save();
+
+        return redirect()->back()->with('RestoreClient', 'Client restored successfully.');
     }
 
     public function ClientDetails($id)

@@ -116,7 +116,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/clients', [ClientsController::class, 'ClientView'])->name('clients');
     Route::post('/clients', [ClientsController::class, 'ClientStore'])->name('client.store');
-    Route::delete('/clients/{id}', [ClientsController::class, 'ClientDelete'])->name('clients.delete');
+    Route::delete('/clients/delete/{id}', [ClientsController::class, 'ClientDelete'])->name('clients.delete');
+    Route::post('/clients/soft-delete/{id}', [ClientsController::class, 'SoftDelete'])->name('clients.softdelete');
+    Route::post('/clients/restore/{id}', [ClientsController::class, 'ClientRestore'])->name('clients.restore');
     Route::get('/clients/{id}', [ClientsController::class, 'ClientDetails'])->name('clients.details');
     Route::post('/clients/suspend/{id}', [ClientsController::class, 'suspend'])->name('client.suspend');
     Route::get('/get-client-status/{id}', [ClientsController::class, 'getStatus']);

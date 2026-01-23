@@ -1230,7 +1230,6 @@ use App\Models\User;
                                         <th scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
                                             <div class="flex mr-10 items-center">
-
                                                 Country
                                             </div>
                                         </th>
@@ -1412,11 +1411,11 @@ use App\Models\User;
                                                                     class="w-6 h-6 switchRight rounded-full p-1 bg-gray-500" />
                                                             </a>
 
-                                                            <form action="{{ route('clients.delete', $client->id) }}"
+                                                            <form action="{{ route('clients.softdelete', $client->id) }}"
                                                                 method="POST"
                                                                 style="display:inline; padding-top:7px;">
                                                                 @csrf
-                                                                @method('DELETE')
+                                                                @method('POST')
                                                                 <button type="submit" class=" rounded-full ">
                                                                     <img src="{{ asset('assets/trash.svg') }}"
                                                                         alt="Delete"
@@ -2214,18 +2213,22 @@ use App\Models\User;
                                         
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <div class="flex items-center justify-end gap-2">
-                                                {{-- href="{{ route('clients.details', $client->id) }}" --}}
-                                                <a 
-                                                    class="inline-block pt-[4px]">
-                                                    <img src="{{ asset('assets/restore.png') }}" alt="View"
+
+                                                <form action="{{ route('clients.restore', $client->id) }}"
+                                                    method="POST" style="display:inline; padding-top:7px;">
+                                                    @csrf
+                                                    @method('POST')
+                                                    <button type="submit" class=" rounded-full ">
+                                                        <img src="{{ asset('assets/restore.png') }}" alt="View"
                                                         class="w-6 h-6  rounded-full p-1 bg-gray-500" />
-                                                </a>
+                                                    </button>
+                                                </form>
 
                                                 <form action="{{ route('clients.delete', $client->id) }}"
                                                     method="POST" style="display:inline; padding-top:7px;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class=" rounded-full ">
+                                                    <button onclick="return confirm('Are you sure you want to delete this client?')" type="submit" class=" rounded-full ">
                                                         <img src="{{ asset('assets/trash.svg') }}" alt="Delete"
                                                             class="w-6 h-6  rounded-full p-1 bg-gray-500" />
                                                     </button>
@@ -2237,7 +2240,7 @@ use App\Models\User;
                             @else
                                 <td colspan="7"
                                     class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
-                                    No clients found.
+                                    No Trash found.
                                 </td>
                             @endif
 
@@ -2322,6 +2325,19 @@ use App\Models\User;
         <div style="z-index: 9999 !important;"
             class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
             {{ session('AddClient') }}
+        </div>
+
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
+    @endif
+
+    @if (session('RestoreClient'))
+        <div style="z-index: 9999 !important;"
+            class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+            {{ session('RestoreClient') }}
         </div>
 
         <style>
