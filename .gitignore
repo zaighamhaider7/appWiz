@@ -2,3 +2,5 @@
 ga4Credentials.json
 
 .env
+
+/vendor
