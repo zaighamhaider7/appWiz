@@ -329,9 +329,9 @@
                     class="hidden absolute -right-10 mt-5 w-60 light-bg-d9d9d9 rounded-md shadow-lg z-50">
                     <a href="{{ route('profile.edit') }}"
                         class="block px-4 py-2 text-sm text-white hover:bg-gray-800">Settings</a>
-                    <form action="{{ route('logout') }}" method="POST">
+                    <form action="{{ route('logout') }}" method="POST" onsubmit="localStorage.removeItem('activeLink')">
                         @csrf
-                        <button
+                        <button type="submit"
                             class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-800">Logout</button>
                     </form>
                 </div>

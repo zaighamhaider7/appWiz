@@ -12,7 +12,7 @@
 <aside
     class="fixed top-0 left-0 h-full w-full light-bg-f5f5f5 light-bg-seo p-10 z-50 transition-transform duration-300
               transform -translate-x-full
-              md:relative md:transform-none md:h-auto md:translate-x-0 md:w-64"
+              md:relative md:transform-none md:h-auto md:translate-x-0 md:w-72"
     id="sidebar">
 
 
@@ -20,8 +20,13 @@
 
     <div class="mb-8 pl-4 flex justify-between">
         <div>
-            <img src="{{ asset('assets/Frame 2147224409.png') }}" alt="WIZSPEED Logo" class="h-14 light-mode-logo"
-                data-dark-src="{{ asset('assets/wizspeed-white2-2-1 1.png') }}">
+                    <img
+                    src="{{ asset('assets/Frame-2147224409.png') }}"
+                    alt="WIZSPEED Logo"
+                    class="h-14 theme-img"
+                    data-light-src="{{ asset('assets/Frame-2147224409.png') }}"
+                    data-dark-src="{{ asset('assets/wizspeed-white2-2-1-1.png') }}"
+                >
         </div>
 
         <div><button id="hamburgerOpen" class="hamburger-menu lg:hidden " aria-label="Toggle navigation">
@@ -140,7 +145,7 @@
                     <li class="mb-2">
                         <a href="#"
                             class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
-                            <img src="headphones.svg" alt="icon" class="w-8 h-6 light-mode-icon"
+                            <img src="{{asset('assets/headphones.svg')}}" alt="icon" class="w-8 h-6 light-mode-icon"
                                 data-dark-src="{{ asset('assets/headphones-DARK.svg') }}">
                             Support
                         </a>
@@ -156,7 +161,7 @@
         <div class="mt-auto pt-4">
             <a href="#" id="knowledgeButton"
                 class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
-                <img src="fi_2961545.svg" alt="icon" class="w-8 h-6 light-mode-icon"
+                <img src="{{asset('assets/fi_2961545.svg')}}" alt="icon" class="w-8 h-6 light-mode-icon"
                     data-dark-src="{{ asset('assets/fi_2961545-DARK.svg') }}">
                 Knowledge
             </a>
@@ -166,7 +171,7 @@
                 @csrf
                 <button type="submit"
                     class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
-                    <img src="logout.svg" alt="icon" class="w-8 h-6 light-mode-icon"
+                    <img src="{{asset('assets/logout.svg')}}" alt="icon" class="w-8 h-6 light-mode-icon"
                         data-dark-src="{{ asset('assets/logout-DARK.svg') }}">
                     Logout
                 </button>
@@ -219,12 +224,15 @@
     });
 </script> --}}
 
-
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const links = document.querySelectorAll(".sidebar-link");
+    // Only select sidebar links that have a real href
+    const links = Array.from(document.querySelectorAll(".sidebar-link")).filter(link => {
+        const href = link.getAttribute("href");
+        return href && href !== "#" && !link.id; // exclude theme toggle (#knowledgeButton) and placeholder links
+    });
 
-    // Detect dark mode from Tailwind 'dark' class or media query
+    // Detect dark mode
     const isDarkMode = () =>
         document.documentElement.classList.contains("dark") ||
         window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -232,7 +240,13 @@ document.addEventListener("DOMContentLoaded", function () {
     // Remove active classes
     function resetActiveLinks() {
         links.forEach(link => {
-            link.classList.remove("bg-orange-500", "text-white", "font-semibold", "shadow-md", "sidebar-link-dark-active");
+            link.classList.remove(
+                "bg-orange-500",
+                "text-white",
+                "font-semibold",
+                "shadow-md",
+                "sidebar-link-dark-active"
+            );
             link.style.border = "";
         });
     }
@@ -246,10 +260,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // On load: restore from localStorage
+    // On load: restore active link from localStorage
     const activeHref = localStorage.getItem("activeLink");
     if (activeHref) {
-        const activeLink = Array.from(links).find(link => link.getAttribute("href") === activeHref);
+        const activeLink = links.find(link => link.getAttribute("href") === activeHref);
         if (activeLink) applyActiveStyles(activeLink);
     }
 
@@ -261,5 +275,77 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem("activeLink", this.getAttribute("href"));
         });
     });
+});
+
+
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const links = document.querySelectorAll(".sidebar-link");
+    const themeButton = document.getElementById("knowledgeButton"); // if any theme button
+
+    // Detect dark mode from Tailwind 'dark' class or media query
+    const isDarkMode = () =>
+        document.documentElement.classList.contains("dark") ||
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    // Remove active classes from all links except the theme button
+    function resetActiveLinks() {
+        links.forEach(link => {
+            if (link === themeButton) return; // skip theme button
+            link.classList.remove(
+                "bg-orange-500",
+                "text-white",
+                "font-semibold",
+                "shadow-md",
+                "sidebar-link-dark-active"
+            );
+            link.style.border = "";
+        });
+    }
+
+    // Apply correct active styles
+    function applyActiveStyles(link) {
+        if (link === themeButton) return; // skip theme button
+        if (isDarkMode()) {
+            link.classList.add("sidebar-link-dark-active");
+        } else {
+            link.classList.add("bg-orange-500", "text-white", "font-semibold", "shadow-md");
+        }
+    }
+
+    // --- On load ---
+    // Try to restore from localStorage
+    let activeHref = localStorage.getItem("activeLink");
+
+    // If nothing in localStorage, default to dashboard
+    if (!activeHref) {
+        const dashboardLink = Array.from(links).find(link => link.classList.contains("dashboard-link"));
+        if (dashboardLink) {
+            activeHref = dashboardLink.getAttribute("href");
+        }
+    }
+
+    const activeLink = Array.from(links).find(link => link.getAttribute("href") === activeHref);
+    if (activeLink) applyActiveStyles(activeLink);
+
+    // --- On click ---
+    links.forEach(link => {
+        link.addEventListener("click", function () {
+            if (this === themeButton) return; // theme button never active
+            resetActiveLinks();
+            applyActiveStyles(this);
+            localStorage.setItem("activeLink", this.getAttribute("href"));
+        });
+    });
+
+    // Optional: clear activeLink on logout
+    const logoutForm = document.querySelector("form[action*='logout']");
+    if (logoutForm) {
+        logoutForm.addEventListener("submit", function () {
+            localStorage.removeItem("activeLink");
+        });
+    }
 });
 </script>

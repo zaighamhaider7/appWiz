@@ -352,7 +352,7 @@
                 <div class="w-full">
                     <!-- Logo section - centered on mobile, right-aligned on desktop -->
                     <div class="flex justify-center lg:justify-start lg:mt-20">
-                        <img src="{{ asset('assets/wizspeed-white2-2-1 1.png') }}" alt="WIZSPEED Logo"
+                        <img src="{{ asset('assets/wizspeed-white2-2-1-1.png') }}" alt="WIZSPEED Logo"
                             class="h-16 sm:h-20 md:h-24 lg:h-16" />
                     </div>
 

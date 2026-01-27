@@ -1468,370 +1468,345 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <script>
-      // Initialize hidden Quill (no default toolbar)
-      document.addEventListener('DOMContentLoaded', function() {
-          const quill = new Quill("#editor", {
-                theme: "snow",
-                placeholder: '@type here',
-                modules: {
-                toolbar: '#hidden-toolbar',
-                "emoji-toolbar": true,
-                "emoji-textarea": false,
-                "emoji-shortname": true,
-                },
-            });
+document.addEventListener('DOMContentLoaded', function() {
+    const body = document.body;
 
+    // ====== QUILL INITIALIZATION ======
+    const quill = new Quill("#editor", {
+        theme: "snow",
+        placeholder: '@type here',
+        modules: {
+            toolbar: '#hidden-toolbar',
+            "emoji-toolbar": true,
+            "emoji-textarea": false,
+            "emoji-shortname": true
+        },
+    });
 
-            // Toolbar button actions
-            document.getElementById("btn-bold").onclick = () =>
-                quill.format("bold", !quill.getFormat().bold);
-            document.getElementById("btn-italic").onclick = () =>
-                quill.format("italic", !quill.getFormat().italic);
-            document.getElementById("btn-underline").onclick = () =>
-                quill.format("underline", !quill.getFormat().underline);
-            document.getElementById("btn-bullet").onclick = () =>
-                quill.format("list", "bullet");
-            document.getElementById("btn-ordered").onclick = () =>
-                quill.format("list", "ordered");
-            document.getElementById("btn-code").onclick = () =>
-                quill.format("code-block", !quill.getFormat()["code-block"]);
-
-            document.getElementById('btn-left').onclick = () => {
-                const range = quill.getSelection();
-                if (range) {
-                    quill.format('align', 'left');
-                }
-            };
-
-
-            // Simple link & image handler
-            document.getElementById("btn-link").onclick = () => {
-                const url = prompt("Enter link URL:");
-                if (url) {
-                quill.format("link", url);
-                }
-            };
-
-
-            document.getElementById("btn-image").onclick = () => {
-             
-                const input = document.createElement("input");
-                input.setAttribute("type", "file");
-                input.setAttribute("accept", "image/*"); 
-                input.click(); 
-
-                // When the file is selected
-                input.onchange = () => {
-                    const file = input.files[0];  
-                    if (file) {
-                        const reader = new FileReader();  // Create a new FileReader to read the file
-                        reader.onload = (e) => {
-                            const range = quill.getSelection();  // Get the current selection or cursor position in the editor
-                            quill.insertEmbed(range.index, 'image', e.target.result);  // Insert the image at the current cursor position
-                        };
-                        reader.readAsDataURL(file);  // Convert the file to Base64 format (so it can be embedded directly)
-                    }
-                };
-            };
-
-
-            document.getElementById("btn-emoji").onclick = () => {
-                
-                const emojiButton = document.querySelector('.ql-emoji');
-                if (emojiButton) {
-                    emojiButton.click();  
-                }
-            };
-
-        document.getElementById("send-btn").onclick = async (e) => {
-            e.preventDefault();
-
-            var chatMessage = quill.root.innerHTML; 
-            var ticketId = $('#chat-ticket-id').val();
-            var senderId = $('#chat-sender-id').val();
-
-            let imageFiles = [];
-            quill.root.querySelectorAll('img').forEach(img => {
-                if (img.src.startsWith("data:")) {
-                    let blob = dataURLtoBlob(img.src);
-                    let file = new File([blob], "image.png", { type: blob.type });
-                    imageFiles.push({ file: file, element: img });
-                }
-            });
-
-            for (let i = 0; i < imageFiles.length; i++) {
-                let formData = new FormData();
-                formData.append('image', imageFiles[i].file);
-                formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
-
-                let response = await fetch("{{ route('ticket.chat.upload_image') }}", {
-                    method: "POST",
-                    body: formData
-                });
-                let data = await response.json();
-                imageFiles[i].element.src = data.url;
+    // ====== QUILL TOOLBAR BUTTONS ======
+    const formatMap = {
+        "btn-bold": "bold",
+        "btn-italic": "italic",
+        "btn-underline": "underline",
+        "btn-bullet": { list: "bullet" },
+        "btn-ordered": { list: "ordered" },
+        "btn-code": "code-block",
+    };
+    for (const id in formatMap) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        el.onclick = () => {
+            const format = formatMap[id];
+            if (typeof format === "string") {
+                quill.format(format, !quill.getFormat()[format]);
+            } else {
+                quill.format(Object.keys(format)[0], Object.values(format)[0]);
             }
-
-            chatMessage = quill.root.innerHTML;
-
-            $.ajax({
-                url: "{{ route('ticket.chat') }}",
-                method: "POST",
-                data: {
-                    ticket_id: ticketId,
-                    sender_id: senderId,
-                    message: chatMessage,
-                    _token: $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    quill.setContents([]); 
-                    loadTaskChats(ticketId); 
-                },
-                error: function(xhr) {
-                    console.error("Error sending chat:", xhr.responseText);
-                }
-            });
         };
+    }
 
-        function dataURLtoBlob(dataurl) {
-            let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-            while(n--){
-                u8arr[n] = bstr.charCodeAt(n);
-            }
-            return new Blob([u8arr], {type:mime});
-        }
+    document.getElementById('btn-left')?.addEventListener('click', () => {
+        const range = quill.getSelection();
+        if (range) quill.format('align', 'left');
+    });
 
-      });
-    </script>
+    document.getElementById('btn-link')?.addEventListener('click', () => {
+        const url = prompt("Enter link URL:");
+        if (url) quill.format("link", url);
+    });
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const body = document.body;
-            const knowledgeButton = document.getElementById('knowledgeButton');
-            const filterButton = document.getElementById('filterButton');
-            const filterDropdown = document.getElementById('filterDropdown');
-            const hamburgerOpen = document.getElementById('hamburgerOpen');
-            const hamburgerClose = document.getElementById('hamburgerClose');
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
-
-            // ✅ Dropdown toggle
-            if (filterButton && filterDropdown) {
-                filterButton.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    filterDropdown.classList.toggle('hidden');
-                });
-
-                document.addEventListener('click', () => {
-                    filterDropdown.classList.add('hidden');
-                });
-            }
-
-            // ✅ Sidebar toggle
-            function toggleSidebar() {
-                const isOpen = sidebar.classList.contains('translate-x-0');
-
-                if (isOpen) {
-                    sidebar.classList.remove('translate-x-0');
-                    sidebar.classList.add('-translate-x-full');
-                    overlay.classList.add('hidden');
-                    body.classList.remove('overflow-hidden');
-                } else {
-                    sidebar.classList.remove('-translate-x-full');
-                    sidebar.classList.add('translate-x-0');
-                    overlay.classList.remove('hidden');
-                    body.classList.add('overflow-hidden');
-                }
-            }
-
-            if (hamburgerOpen) hamburgerOpen.addEventListener('click', toggleSidebar);
-            if (hamburgerClose) hamburgerClose.addEventListener('click', toggleSidebar);
-            if (overlay) overlay.addEventListener('click', toggleSidebar);
-
-            // ✅ Dark mode toggle
-            const toggleDarkMode = () => {
-                body.classList.toggle('dark-mode');
-                updateImageSources(body.classList.contains('dark-mode'));
-                updateDropdownColors();
-                localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+    document.getElementById('btn-image')?.addEventListener('click', () => {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
+        input.click();
+        input.onchange = () => {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const range = quill.getSelection();
+                quill.insertEmbed(range ? range.index : 0, 'image', e.target.result);
             };
+            reader.readAsDataURL(file);
+        };
+    });
 
-            // ✅ Update images for dark/light mode
-            const updateImageSources = (isDarkMode) => {
-                const icons = document.querySelectorAll('.light-mode-icon');
-                icons.forEach(icon => {
-                    const darkSrc = icon.dataset.darkSrc;
-                    const originalSrc = icon.src.replace('-DARK.svg', '.svg');
-                    if (darkSrc) icon.src = isDarkMode ? darkSrc : originalSrc;
-                });
+    document.getElementById('btn-emoji')?.addEventListener('click', () => {
+        const emojiButton = document.querySelector('.ql-emoji');
+        emojiButton?.click();
+    });
 
-                const images = document.querySelectorAll('.light-mode-img');
-                images.forEach(img => {
-                    const darkSrc = img.dataset.darkSrc;
-                    const originalSrc = img.src.replace('-DARK.png', '.png');
-                    if (darkSrc) img.src = isDarkMode ? darkSrc : originalSrc;
-                });
+    // ====== SEND CHAT ======
+    document.getElementById('send-btn')?.addEventListener('click', async (e) => {
+        e.preventDefault();
+        let chatMessage = quill.root.innerHTML;
+        const ticketId = $('#chat-ticket-id').val();
+        const senderId = $('#chat-sender-id').val();
 
-                const logo = document.querySelector('.light-mode-logo');
-                if (logo) {
-                    const darkLogoSrc = logo.dataset.darkSrc;
-                    const lightLogoSrc = 'Frame 2147224409.png';
-                    logo.src = isDarkMode ? darkLogoSrc : lightLogoSrc;
-                }
-            };
-
-            // ✅ Dropdown color update for dark/light
-            const updateDropdownColors = () => {
-                const isDarkMode = body.classList.contains('dark-mode');
-                if (filterDropdown) {
-                    filterDropdown.style.color = isDarkMode ? 'white' : 'black';
-                    filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
-                }
-            };
-
-            // ✅ Apply theme from localStorage
-            if (localStorage.getItem('theme') === 'dark') {
-                body.classList.add('dark-mode');
-            }
-
-            updateImageSources(body.classList.contains('dark-mode'));
-            updateDropdownColors();
-
-            // ✅ Attach dark mode toggle
-            if (knowledgeButton) {
-                knowledgeButton.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    toggleDarkMode();
-                });
-            }
-
-            // ✅ SEO card "View More" toggle
-            const seoCards = document.getElementById('seo-cards');
-            if (seoCards) {
-                seoCards.addEventListener('click', function(event) {
-                    if (event.target.classList.contains('toggle-btn')) {
-                        const card = event.target.closest('div[class*="p-10"]');
-                        const content = card.querySelector('.card-content');
-                        const icon = event.target.querySelector('img.toggle-icon');
-                        const textNode = event.target.childNodes[0];
-
-                        if (!content.style.maxHeight || content.style.maxHeight === '0px') {
-                            content.style.maxHeight = content.scrollHeight + 'px';
-                            textNode.textContent = 'View Less ';
-                        } else {
-                            content.style.maxHeight = '0px';
-                            textNode.textContent = 'View More ';
-                        }
-                    }
-                });
+        // Convert base64 images to File
+        const imageFiles = [];
+        quill.root.querySelectorAll('img').forEach(img => {
+            if (img.src.startsWith("data:")) {
+                const blob = dataURLtoBlob(img.src);
+                const file = new File([blob], "image.png", { type: blob.type });
+                imageFiles.push({ file, element: img });
             }
         });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const ticketChatModal = document.getElementById('ticketChatModal');
-            const closeChatModal = document.getElementById('closeChatModal');
-            const openChatButtons = document.querySelectorAll('.open-chat-modal'); // 👈 select all buttons
-
-            // Open chat modal for all buttons
-            openChatButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    ticketChatModal.classList.remove('hidden');
-                    document.body.style.overflow = 'hidden';
-                });
-            });
-
-            // Close chat modal button
-            closeChatModal.addEventListener('click', () => {
-                ticketChatModal.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-            });
-
-            // Close chat modal when clicking outside
-            ticketChatModal.addEventListener('click', (e) => {
-                if (e.target === ticketChatModal) {
-                    ticketChatModal.classList.add('hidden');
-                    document.body.style.overflow = 'auto';
-                }
-            });
-        });
-    </script>
-
-    {{-- ajax --}}
-
-    <script>
-        function loadTaskChats(ticketId) {
-                $.ajax({
-                    url: `/tickets/getTicketChats/${ticketId}`, 
-                    method: 'GET',
-                    success: function(response) {
-                        var chatContainer = $('#chatMessages');
-                        chatContainer.html(''); 
-
-                        response.chats.forEach(function(chat) {
-
-                            let chatDate = new Date(chat.created_at);
-                            let dateString = chatDate.toLocaleDateString('en-US', {
-                                weekday: 'long', month: 'long', day: 'numeric'
-                            });
-
-                            
-                            chatContainer.append(`
-                                <div class="flex items-start space-x-3">
-                                    <img src="${chat.sender.image || '{{ asset('assets/default-prf.png') }}'}"
-                                        class="w-10 h-10 rounded-md" alt="user" />
-                                    <div>
-                                        <p class="text-sm light-text-black font-semibold">
-                                            ${chat.sender.name} 
-                                            <span class="text-xs light-text-black ml-1">
-                                                ${chatDate.getHours()}:${chatDate.getMinutes().toString().padStart(2,'0')} 
-                                            </span>
-                                        </p>
-                                        <pre class="text-sm light-text-black">${chat.message}</pre>
-                                        <div class="flex space-x-2 mt-1 text-xs">
-                                            <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl like-btn" data-chat-id="${chat.id}">❤️ 
-                                                <span class="like-count">${chat.likes_count || 0}</span>
-                                            </button>
-                                            <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl">
-                                                <img src="Icon (12).svg" alt="">
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            `);
-                        });
-                    },
-                    error: function(err) {
-                        console.error("Error loading chats:", err);
-                    }
-                });
+        for (let i = 0; i < imageFiles.length; i++) {
+            const formData = new FormData();
+            formData.append('image', imageFiles[i].file);
+            formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+            const res = await fetch("{{ route('ticket.chat.upload_image') }}", { method: "POST", body: formData });
+            const data = await res.json();
+            imageFiles[i].element.src = data.url;
         }
 
-        $(document).ready(function() {
-            $(document).on('click', '.ticket-chat', function() {
-                var ticketId = $(this).data('ticket-id');
-                $('#chat-ticket-id').val(ticketId);
+        chatMessage = quill.root.innerHTML;
+
+        $.ajax({
+            url: "{{ route('ticket.chat') }}",
+            method: "POST",
+            data: {
+                ticket_id: ticketId,
+                sender_id: senderId,
+                message: chatMessage,
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: () => {
+                quill.setContents([]);
                 loadTaskChats(ticketId);
-            })
+            },
+            error: xhr => console.error("Error sending chat:", xhr.responseText)
         });
+    });
 
-        $(document).on('click', '.like-btn', function() {
-            let btn = $(this);
-            let chatId = btn.data('chat-id');
+    function dataURLtoBlob(dataurl) {
+        const arr = dataurl.split(',');
+        const mime = arr[0].match(/:(.*?);/)[1];
+        const bstr = atob(arr[1]);
+        const n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        for (let i = 0; i < n; i++) u8arr[i] = bstr.charCodeAt(i);
+        return new Blob([u8arr], { type: mime });
+    }
 
-            $.ajax({
-                url: `/tickets/chat/${chatId}/like`,
-                method: 'POST',
-                data: {
-                    _token: $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(res) {
-                    btn.find('.like-count').text(res.count);
-                }
-            });
+    // ====== LOAD CHATS ======
+    function loadTaskChats(ticketId) {
+        $.ajax({
+            url: `/tickets/getTicketChats/${ticketId}`,
+            method: 'GET',
+            success: function(response) {
+                const chatContainer = $('#chatMessages');
+                chatContainer.html('');
+                response.chats.forEach(chat => {
+                    const chatDate = new Date(chat.created_at);
+                    chatContainer.append(`
+                        <div class="flex items-start space-x-3">
+                            <img src="${chat.sender.image || '{{ asset('assets/default-prf.png') }}'}" class="w-10 h-10 rounded-md" alt="user" />
+                            <div>
+                                <p class="text-sm light-text-black font-semibold">
+                                    ${chat.sender.name}
+                                    <span class="text-xs light-text-black ml-1">${chatDate.getHours()}:${chatDate.getMinutes().toString().padStart(2,'0')}</span>
+                                </p>
+                                <pre class="text-sm light-text-black">${chat.message}</pre>
+                                <div class="flex space-x-2 mt-1 text-xs">
+                                    <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl like-btn" data-chat-id="${chat.id}">❤️ <span class="like-count">${chat.likes_count || 0}</span></button>
+                                    <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-xl"><img src="Icon (12).svg" alt=""></button>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                });
+            },
+            error: err => console.error("Error loading chats:", err)
         });
+    }
 
-    </script>
+    $(document).on('click', '.like-btn', function() {
+        const btn = $(this);
+        const chatId = btn.data('chat-id');
+        $.post(`/tickets/chat/${chatId}/like`, { _token: $('meta[name="csrf-token"]').attr('content') }, res => {
+            btn.find('.like-count').text(res.count);
+        });
+    });
+
+    $(document).on('click', '.ticket-chat', function() {
+        const ticketId = $(this).data('ticket-id');
+        $('#chat-ticket-id').val(ticketId);
+        loadTaskChats(ticketId);
+    });
+
+    // ====== DARK MODE ======
+    const updateImageSources = () => {
+        const isDarkMode = body.classList.contains('dark-mode');
+        document.querySelectorAll('.theme-img').forEach(img => {
+            const lightSrc = img.dataset.lightSrc;
+            const darkSrc = img.dataset.darkSrc;
+            if (!lightSrc || !darkSrc) return;
+            img.src = isDarkMode ? darkSrc : lightSrc;
+        });
+    };
+    const updateDropdownColors = () => {
+        const isDarkMode = body.classList.contains('dark-mode');
+        if (filterDropdown) {
+            filterDropdown.style.color = isDarkMode ? 'white' : 'black';
+            filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
+        }
+    };
+    const toggleDarkMode = () => {
+        body.classList.toggle('dark-mode');
+        updateImageSources();
+        updateDropdownColors();
+        localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+    };
+    if (localStorage.getItem('theme') === 'dark') body.classList.add('dark-mode');
+    updateImageSources();
+    updateDropdownColors();
+    knowledgeButton?.addEventListener('click', e => { e.preventDefault(); toggleDarkMode(); });
+
+    // ====== SIDEBAR ======
+    const toggleSidebar = () => {
+        const isOpen = sidebar.classList.contains('translate-x-0');
+        if (isOpen) {
+            sidebar.classList.remove('translate-x-0'); sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden'); body.classList.remove('overflow-hidden');
+        } else {
+            sidebar.classList.remove('-translate-x-full'); sidebar.classList.add('translate-x-0');
+            overlay.classList.remove('hidden'); body.classList.add('overflow-hidden');
+        }
+    };
+    hamburgerOpen?.addEventListener('click', toggleSidebar);
+    hamburgerClose?.addEventListener('click', toggleSidebar);
+    overlay?.addEventListener('click', toggleSidebar);
+
+    // ====== DROPDOWN ======
+    if (filterButton && filterDropdown) {
+        filterButton.addEventListener('click', e => { e.stopPropagation(); filterDropdown.classList.toggle('hidden'); });
+        document.addEventListener('click', () => { filterDropdown.classList.add('hidden'); });
+    }
+
+    // ====== SEO CARDS ======
+    const seoCards = document.getElementById('seo-cards');
+    seoCards?.addEventListener('click', event => {
+        if (!event.target.classList.contains('toggle-btn')) return;
+        const card = event.target.closest('div[class*="p-10"]');
+        const content = card.querySelector('.card-content');
+        const textNode = event.target.childNodes[0];
+        if (!content.style.maxHeight || content.style.maxHeight === '0px') {
+            content.style.maxHeight = content.scrollHeight + 'px';
+            textNode.textContent = 'View Less ';
+        } else {
+            content.style.maxHeight = '0px';
+            textNode.textContent = 'View More ';
+        }
+    });
+
+    // ====== CHAT MODAL ======
+    openChatButtons.forEach(btn => btn.addEventListener('click', () => {
+        ticketChatModal.classList.remove('hidden');
+        body.style.overflow = 'hidden';
+    }));
+    closeChatModal?.addEventListener('click', () => { ticketChatModal.classList.add('hidden'); body.style.overflow = 'auto'; });
+    ticketChatModal?.addEventListener('click', e => {
+        if (e.target === ticketChatModal) { ticketChatModal.classList.add('hidden'); body.style.overflow = 'auto'; }
+    });
+
+});
+
+// ====== DARK/LIGHT MODE ======
+const knowledgeButton = document.getElementById('knowledgeButton'); // dark mode toggle button
+const filterDropdown = document.getElementById('filterDropdown');
+
+// Apply theme from localStorage
+if (localStorage.getItem('theme') === 'dark') {
+    body.classList.add('dark-mode');
+}
+
+// Function to update images based on theme
+function updateImageSources() {
+    const isDarkMode = body.classList.contains('dark-mode');
+    document.querySelectorAll('.theme-img').forEach(img => {
+        const lightSrc = img.dataset.lightSrc;
+        const darkSrc = img.dataset.darkSrc;
+        if (!lightSrc || !darkSrc) return;
+        img.src = isDarkMode ? darkSrc : lightSrc;
+    });
+}
+
+function updateImageSources() {
+    const isDarkMode = body.classList.contains('dark-mode');
+    document.querySelectorAll('.theme-img').forEach(img => {
+        const lightSrc = img.dataset.lightSrc;
+        const darkSrc = img.dataset.darkSrc;
+        if (!lightSrc || !darkSrc) return;
+        img.src = isDarkMode ? darkSrc : lightSrc;
+    });
+}
+
+function updateDropdownColors() {
+    const isDarkMode = body.classList.contains('dark-mode');
+    if (filterDropdown) {
+        filterDropdown.style.color = isDarkMode ? 'white' : 'black';
+        filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
+    }
+}
+
+// Preserve active button styles
+function preserveActiveButton() {
+    const activeButton = document.querySelector('.nav-button.active'); // replace with your selector
+    if (activeButton) {
+        activeButton.classList.add('active'); // just make sure active stays
+    }
+}
+
+function toggleDarkMode() {
+    body.classList.toggle('dark-mode');
+    updateImageSources();
+    updateDropdownColors();
+    preserveActiveButton(); // <-- preserve active button
+    localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+}
+
+if (knowledgeButton) {
+    knowledgeButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleDarkMode();
+    });
+}
+
+
+// Function to update dropdown colors
+function updateDropdownColors() {
+    const isDarkMode = body.classList.contains('dark-mode');
+    if (filterDropdown) {
+        filterDropdown.style.color = isDarkMode ? 'white' : 'black';
+        filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
+    }
+}
+
+// Toggle dark mode
+function toggleDarkMode() {
+    body.classList.toggle('dark-mode');
+    updateImageSources();
+    updateDropdownColors();
+    localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+}
+
+// Attach toggle button
+if (knowledgeButton) {
+    knowledgeButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleDarkMode();
+    });
+}
+
+// Initial update on page load
+updateImageSources();
+updateDropdownColors();
+
+</script>
 
 </body>
 
