@@ -1141,7 +1141,6 @@
                             class="tab-btn text-xs font-medium light-text-gray-500 dark:text-gray-400 hover:light-text-gray-700 dark:hover:text-gray-300"
                             data-tab="teamMember">Team Member</button>
                     </div>
-
                     <!-- Tab 5: Roles & Permission -->
                     <div
                         class="flex items-center px-2 justify-center border border-gray-200 rounded-lg hover:rounded-md  light-hover-bg-gray-300 tab-wrapper">
@@ -1635,7 +1634,7 @@
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <svg class="icon text-gray-400" viewBox="0 0 24 24">
                                         <circle cx="11" cy="11" r="8"></circle>
-                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                                     </svg>
                                 </div>
                             </div>
@@ -1685,7 +1684,7 @@
                     </div>
 
                     <div class="overflow-x-auto">
-                        <table id="memberTable" class="min-w-full table table-bordered divide-y divide-gray-200">
+                 <table id="memberTable" class="min-w-full table table-bordered divide-y divide-gray-200">
                             <thead class="light-bg-d9d9d9 w-full">
                                 <tr>
                                     <th scope="col"
@@ -1718,7 +1717,6 @@
                                 </tr>
                             </thead>
                             <tbody id="user-table-body" class="light-bg-white light-bg-seo divide-y divide-gray-200">
-
                             </tbody>
                         </table>
                     </div>
@@ -1738,7 +1736,7 @@
                                             stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                             stroke-linejoin="round">
                                             <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                <!-- </svg> -->
+                         <!-- </svg> -->
                                 <!-- </div> -->
                                 <!-- </button> -->
 
@@ -2473,7 +2471,7 @@
                                                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                                         </svg>
                                                     </button>
-                           <!-- Trash Button -->
+                    <!-- Trash Button -->
                                                     <button data-user-id="${ user.id }"
                                                         class="delete-member text-gray-400 bg-gray-200 p-2 rounded-full hover:bg-orange-100 transition-colors">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
@@ -2498,7 +2496,6 @@
             }
 
             memberData();
-
 
             function renderProjects(projects) {
                 const tableBody = document.getElementById('projectsTableBody');

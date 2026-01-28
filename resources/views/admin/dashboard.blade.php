@@ -522,7 +522,6 @@
             /* White in dark mode */
         }
 
-       
 
         .dark-mode .light-hover-text-orange-700:hover {
             color: #FC5E14 !important;
@@ -1407,8 +1406,7 @@
                 </div>
 
 
-            </div>
-           
+            </div>    
         </main>
     </div>
 
@@ -1428,8 +1426,7 @@
                 </button>
             </div>
 
-            <div id="chatMessages" class="space-y-4 p-10">
-                       
+            <div id="chatMessages" class="space-y-4 p-10">                
             </div>
 
             <!-- Input -->
