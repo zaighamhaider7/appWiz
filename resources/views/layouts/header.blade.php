@@ -210,6 +210,7 @@
 
     <!-- Right Side Icons & User -->
     <div class="flex items-center space-x-4 ml-4">
+
         <!-- Message Button -->
         <div class="relative" id="notificationDropdown2">
             <button id="msgButton"
@@ -257,6 +258,7 @@
                     @endforelse
                 </ul>
             </div>
+            
 
             <div id="dropdownMenu3"
                 class="absolute right-5 mt-1 w-80  bg-black text-white shadow-lg rounded-lg z-50 hidden">

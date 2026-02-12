@@ -434,8 +434,14 @@ class ProjectController extends Controller
                         ->where('project_id', $projectId)
                         ->get();
 
+        $trashedDocumentData = Document::with(['project', 'uploader']) 
+                    ->onlyTrashed()
+                    ->where('project_id', $projectId)
+                    ->get();
+
         return response([
-            'documentData' => $documentData
+            'documentData' => $documentData,
+             'trashedDocumentData' => $trashedDocumentData
         ]);
     }
 
@@ -465,8 +471,15 @@ class ProjectController extends Controller
                     ->where('project_id', $projectId)
                     ->get();
 
+        $trashedDocumentData = Document::with(['project', 'uploader']) 
+                    ->onlyTrashed()
+                    ->where('project_id', $projectId)
+                    ->get();
+
+
         return response([
-            'documentData' => $documentData
+            'documentData' => $documentData,
+            'trashedDocumentData' => $trashedDocumentData
         ]);
     }
 
@@ -498,6 +511,50 @@ class ProjectController extends Controller
 
         return response([
             'success' => 'Document Uploaded'
+        ]);
+    }
+
+    public function restoreDocument($id, Request $request)
+    {
+        $projectId = $request->project_id;
+        $document = Document::withTrashed()->findOrFail($id);
+        $document->restore();
+
+        $documentData = Document::with(['project', 'uploader']) 
+                        ->where('project_id', $projectId)
+                        ->get();
+
+        $trashedDocumentData = Document::with(['project', 'uploader']) 
+                    ->onlyTrashed()
+                    ->where('project_id', $projectId)
+                    ->get();
+
+        return response()->json([
+            'trashedDocumentData' => $trashedDocumentData,
+            'documentData' => $documentData
+        ]);
+    }
+
+    public function forceDeleteDocument($id, Request $request)
+    {
+        $projectId = $request->project_id;
+
+        $document = Document::withTrashed()->findOrFail($id);
+
+        $document->forceDelete();
+
+        $documentData = Document::with(['project', 'uploader']) 
+                        ->where('project_id', $projectId)
+                        ->get();
+
+        $trashedDocumentData = Document::with(['project', 'uploader']) 
+                    ->onlyTrashed()
+                    ->where('project_id', $projectId)
+                    ->get();
+
+        return response()->json([
+            'trashedDocumentData' => $trashedDocumentData,
+            'documentData' => $documentData
         ]);
     }
 

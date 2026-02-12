@@ -16,6 +16,7 @@ use App\Http\Controllers\billingController;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home;
+
 Route::get('/',[Home::class,'index']);
 
 // Route::get('/dashboard', function () {
@@ -119,6 +120,10 @@ Route::middleware('auth')->group(function () {
     Route::post('document/delete', [ProjectController::class, 'deleteDocument']);
     Route::post('/document/list', [ProjectController::class, 'Documentlist']);
     Route::post('/documents', [ProjectController::class, 'uploadDocument'])->name('document.store');
+
+    Route::post('/document/{id}/restore', [ProjectController::class, 'restoredocument']);
+    Route::delete('/document/{id}/force-delete', [ProjectController::class, 'forceDeletedocument']);
+
 
     // client start
 

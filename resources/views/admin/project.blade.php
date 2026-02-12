@@ -1026,6 +1026,11 @@
         Document Upload successfully!
     </div>
 
+    <div id="documentRestore" style="display: none; z-index: 9999 !important;"
+        class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        Document Restored successfully!
+    </div>
+
 
     <div style="display: none; z-index: 9999 !important;"
         class="Errors fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg ">
@@ -1337,6 +1342,7 @@
         </main>
     </div>
 
+    <!-- project trash modal -->
     <div class=" bg-black trashModal fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div
             class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto  relative">
@@ -1472,6 +1478,7 @@
         </div>
     </div>
 
+    <!-- milestone trash modal  -->
     <div class=" bg-black trashmilemodal fixed inset-0 bg-opacity-50 flex items-center justify-center hidden" style="z-index: 9999 !important;">
         <div
             class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto  relative">
@@ -1598,6 +1605,142 @@
                             </tr>
                         </thead>
                         <tbody id="trashmilestoneTableBody" class="light-bg-white light-bg-seo divide-y divide-gray-200">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- document trash modal  -->
+    <div class=" bg-black trashdocmodal fixed inset-0 bg-opacity-50 flex items-center justify-center hidden" style="z-index: 9999 !important;">
+        <div
+            class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto  relative">
+            <!-- Close Button -->
+            <button id="closeDocTrashModal" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+                ✕
+            </button>
+
+            <div class="px-6 py-3"> <!-- Container for heading + divider -->
+                <h2 class="text-lg light-text-black  font-semibold">Trash Documents</h2>
+            </div>
+            <div class=""> <!-- Container for heading + divider -->
+                <div class="border-t border-gray-600 w-full mt-4"></div>
+            </div>
+
+
+            <div>
+                <div class="overflow-x-auto">
+                    <table id="myTable" class="min-w-full divide-y divide-gray-200">
+                        <thead class="light-bg-d9d9d9">
+                            <tr>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        ID
+                                        <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M7 8 L12 3 L17 8" /> <!-- Up chevron -->
+                                            <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        LEADS
+                                        <svg class="ml-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <!-- Up chevron (positioned higher) -->
+                                            <path d="M7 8 L12 3 L17 8" />
+                                            <!-- Down chevron (positioned lower with gap) -->
+                                            <path d="M7 16 L12 21 L17 16" />
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        EMAIL
+                                        <svg class="ml-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <!-- Up chevron (positioned higher) -->
+                                            <path d="M7 8 L12 3 L17 8" />
+                                            <!-- Down chevron (positioned lower with gap) -->
+                                            <path d="M7 16 L12 21 L17 16" />
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider min-w-[120px]">
+                                    <div class="flex items-center justify-between">
+                                        <span class="whitespace-nowrap">PHONE #</span>
+                                        <div class="flex flex-col ml-10">
+                                            <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <!-- Up chevron (positioned higher) -->
+                                                <path d="M7 8 L12 3 L17 8" />
+                                                <!-- Down chevron (positioned lower with gap) -->
+                                                <path d="M7 16 L12 21 L17 16" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </th>
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider min-w-[120px]">
+                                    <div class="flex items-center justify-between">
+                                        <span class="whitespace-nowrap">LEAD SOURCE</span>
+                                        <div class="flex flex-col ml-10">
+                                            <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <!-- Up chevron (positioned higher) -->
+                                                <path d="M7 8 L12 3 L17 8" />
+                                                <!-- Down chevron (positioned lower with gap) -->
+                                                <path d="M7 16 L12 21 L17 16" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider min-w-[120px]">
+                                    <div class="flex items-center justify-between">
+                                        <span class="whitespace-nowrap">BUSINESS NAME</span>
+                                        <div class="flex flex-col ml-10">
+                                            <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <!-- Up chevron (positioned higher) -->
+                                                <path d="M7 8 L12 3 L17 8" />
+                                                <!-- Down chevron (positioned lower with gap) -->
+                                                <path d="M7 16 L12 21 L17 16" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </th>
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-10 icon" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M7 8 L12 3 L17 8" /> <!-- Up chevron -->
+                                            <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                        </svg>
+
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="trashdocTableBody" class="light-bg-white light-bg-seo divide-y divide-gray-200">
 
                         </tbody>
                     </table>
@@ -2571,6 +2714,10 @@
                                 <option value="25">25</option>
                                 <option value="50">50</option>
                             </select>
+                            <button id="opendoctrashBtn"
+                                class="px-4 py-2 rounded-lg light-bg-d7d7d7 text-white font-semibold hover:bg-orange-700 transition-colors openTrashModal">
+                                Show Trash
+                            </button>
                             <button
                                 class="open-upload-modal light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
                                 Upload Documents
@@ -2951,6 +3098,13 @@
                 $('.trashmilemodal').addClass('hidden');
             });
 
+            $('#opendoctrashBtn').on('click', function() {
+                $('.trashdocmodal').removeClass('hidden');
+            });
+            $('#closeDocTrashModal').on('click', function() {
+                $('.trashdocmodal').addClass('hidden');
+            });
+
         });
     </script>
 
@@ -3197,7 +3351,7 @@
 
         }
 
-        // project restore and force delete functions
+        // milestone restore and force delete functions
         function restoremilestone(id, project_id) {
             if (!confirm("Restore this milestone?")) return;
 
@@ -3251,6 +3405,213 @@
 
 
         }
+
+        // milestone restore and force delete functions
+        function restoredocument(id, project_id) {
+            if (!confirm("Restore this document?")) return;
+
+            $.ajax({
+                type: "POST",
+                url: `/document/${id}/restore`,
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    project_id: project_id    
+                },
+                success: function(response) {
+                    $('#documentRestore').fadeIn(400);
+                    setTimeout(() => {
+                        $('#documentRestore').fadeOut(600);
+                    }, 3000);
+                    renderDocumentsTrash(response.trashedDocumentData);
+                    renderDocuments(response.documentData);
+                },
+                error: function(xhr) {
+                    console.error("Restore error:", xhr.responseText);
+                }
+            });
+        }
+
+        function forceDeletedocument(id, project_id) {
+            if (!confirm("This will permanently delete the document. Continue?")) return;
+
+            $.ajax({
+                type: "DELETE",
+                url: `/document/${id}/force-delete`,
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    project_id : project_id
+                },
+                success: function(response) {
+                    TrashprodustData();
+                    projectData();
+                    $('#document_delete_msg').fadeIn(400);
+                    setTimeout(() => {
+                        $('#document_delete_msg').fadeOut(600);
+                    }, 3000);
+
+                    renderDocumentsTrash(response.trashedDocumentData);
+                    renderDocuments(response.documentData);
+                },
+                error: function(xhr) {
+                    console.error("Delete error:", xhr.responseText);
+                }
+            });
+
+
+
+        }
+
+        // fetch documents start
+
+        function renderDocuments(documents) {
+                let tbody = $('#document-table');
+
+                tbody.empty();
+
+                if (documents.length === 0) {
+                    let row = `
+                        <tr class="border-2 light-border-gray2">
+                            <td colspan="5" class="px-6 py-4 whitespace-nowrap text-center text-sm light-text-black">
+                                Documents not found
+                            </td>
+                        </tr>
+                    `;
+                    tbody.append(row);
+                } else {
+                    documents.forEach(function(document, index) {
+                        let createdDate = document.created_at.split("T")[0];
+                        let row = `
+                        <tr class="border-2 light-border-gray2">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${index + 1}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
+                                <div class="flex items-center gap-1">
+                                    <img class="w-8 h-8 rounded-full" src="${document.uploader.image || '/assets/profile-circle-DARK.svg'}" alt="User Image">
+                                    <div>
+                                        <p class="text-md">${document.uploader.name}</p>
+                                        <p class="text-xs text-gray-400">${document.project.client_name}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
+                                <a href="${document.document_name}" target="_blank"
+                                    class="flex items-center bg-gray-200 rounded-md w-36
+                                    p-2 light-text-gray-600 dark:text-gray-400 hover:underline">
+                                    View File
+                                    <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
+                                            stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
+                                            stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
+                                            stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                        <path d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
+                                            stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </a>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${createdDate}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                <button class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                    <div class="flex gap-2">
+                                        <img data-document-id="${document.id}" data-d_project-id="${document.project_id}" src="{{ asset('assets/trash.svg') }}" alt="eye" class="delete-document-btn bg-gray-200 p-1 rounded-full">
+                                    </div>
+                                </button>
+                            </td>
+                        </tr>
+                        `;
+                        tbody.append(row);
+                    });
+                }
+
+
+            }
+
+            function renderDocumentsTrash(documents) {
+                let tbody = $('#trashdocTableBody');
+
+                tbody.empty();
+
+                documents = documents || [];
+                if (documents.length === 0) {
+                    let row = `
+                        <tr class="border-2 light-border-gray2">
+                            <td colspan="5" class="px-6 py-4 whitespace-nowrap text-center text-sm light-text-black">
+                                Documents not found
+                            </td>
+                        </tr>
+                    `;
+                    tbody.append(row);
+                } else {
+                    documents.forEach(function(document, index) {
+                        let createdDate = document.created_at.split("T")[0];
+                        let row = `
+                        <tr class="border-2 light-border-gray2">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${index + 1}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
+                                <div class="flex items-center gap-1">
+                                    <img class="w-8 h-8 rounded-full" src="${document.uploader.image || '/assets/profile-circle-DARK.svg'}" alt="User Image">
+                                    <div>
+                                        <p class="text-md">${document.uploader.name}</p>
+                                        <p class="text-xs text-gray-400">${document.project.client_name}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
+                                <a href="${document.document_name}" target="_blank"
+                                    class="flex items-center bg-gray-200 rounded-md w-36
+                                    p-2 light-text-gray-600 dark:text-gray-400 hover:underline">
+                                    View File
+                                    <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
+                                            stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
+                                            stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
+                                            stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                        <path d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
+                                            stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </a>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${createdDate}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                <div class="flex items-center gap-3">
+
+                                                    <!-- Restore -->
+                                                    <button onclick="restoredocument(${document.id}, ${document.project_id})"
+                                                        class="text-green-600 hover:text-green-800 transition"
+                                                        title="Restore">
+                                                        <img src="{{ asset('assets/restore.png') }}" alt="View"
+                                                                class="w-6 h-6  rounded-full p-1 bg-gray-500" />
+                                                    </button>
+
+                                                    <!-- Permanent Delete -->
+                                                    <button onclick="forceDeletedocument(${document.id}, ${document.project_id})"
+                                                        class="text-red-600 hover:text-red-800 transition"
+                                                        title="Delete Permanently">
+                                                        <img src="{{ asset('assets/trash.svg') }}" alt="Delete"
+                                                            class="w-6 h-6  rounded-full p-1 bg-gray-500" />
+                                                    </button>
+
+                                                </div>
+                                            </td>
+                        </tr>
+                        `;
+                        tbody.append(row);
+                    });
+                }
+
+
+            }
+
+
+        // fetch documents end
 
         function TrashprodustData() {
             $.ajax({
@@ -4073,72 +4434,6 @@
 
             // document work start
 
-            function renderDocuments(documents) {
-                let tbody = $('#document-table');
-
-                tbody.empty();
-
-                if (documents.length === 0) {
-                    let row = `
-                        <tr class="border-2 light-border-gray2">
-                            <td colspan="5" class="px-6 py-4 whitespace-nowrap text-center text-sm light-text-black">
-                                Documents not found
-                            </td>
-                        </tr>
-                    `;
-                    tbody.append(row);
-                } else {
-                    documents.forEach(function(document, index) {
-                        let createdDate = document.created_at.split("T")[0];
-                        let row = `
-                        <tr class="border-2 light-border-gray2">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${index + 1}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
-                                <div class="flex items-center gap-1">
-                                    <img class="w-8 h-8 rounded-full" src="${document.uploader.image || '/assets/profile-circle-DARK.svg'}" alt="User Image">
-                                    <div>
-                                        <p class="text-md">${document.uploader.name}</p>
-                                        <p class="text-xs text-gray-400">${document.project.client_name}</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
-                                <a href="${document.document_name}" target="_blank"
-                                    class="flex items-center bg-gray-200 rounded-md w-36
-                                    p-2 light-text-gray-600 dark:text-gray-400 hover:underline">
-                                    View File
-                                    <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                            stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                            stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
-                                            stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                        <path d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
-                                            stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                    </svg>
-                                </a>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${createdDate}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                <button class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                    <div class="flex gap-2">
-                                        <img data-document-id="${document.id}" data-d_project-id="${document.project_id}" src="{{ asset('assets/trash.svg') }}" alt="eye" class="delete-document-btn bg-gray-200 p-1 rounded-full">
-                                    </div>
-                                </button>
-                            </td>
-                        </tr>
-                        `;
-                        tbody.append(row);
-                    });
-                }
-
-
-            }
-
             $(document).on('click', '.openModalBtn', function() {
                 let project_id = $(this).data('d-project-id');
                 $.ajax({
@@ -4148,7 +4443,9 @@
                         project_id: project_id
                     },
                     success: function(documentresponse) {
+                        console.log(documentresponse);
                         renderDocuments(documentresponse.documentData);
+                        renderDocumentsTrash(documentresponse.trashedDocumentData);
                         $('#upload-document-btn').attr('data-project-id', project_id);
                     }
 
@@ -4179,6 +4476,7 @@
                             },
                             success: function(documentResponse) {
                                 renderDocuments(documentResponse.documentData);
+                                renderDocumentsTrash(documentResponse.trashedDocumentData);
                             },
                             error: function() {
                                 alert(
