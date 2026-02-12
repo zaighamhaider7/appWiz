@@ -44,7 +44,7 @@ class RegisteredUserController extends Controller
         ]);
 
         NotificationLogger::notify(
-            2, 
+            5, 
             'new_user_registration', 
             'New user registered: ' . $user->name,
             'general'

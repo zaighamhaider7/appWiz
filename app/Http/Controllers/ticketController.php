@@ -45,7 +45,7 @@ class ticketController extends Controller
         }
 
         NotificationLogger::notify(
-            2, 
+            5, 
             'ticket_received', 
             'New ticket created: ' . $validated['title'],
             'general'

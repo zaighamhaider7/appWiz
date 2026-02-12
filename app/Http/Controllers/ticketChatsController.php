@@ -69,7 +69,7 @@ class ticketChatsController extends Controller
 
         if ($ticket->user_id == $senderId) {
             NotificationLogger::notify(
-                2,
+                5,
                 'Ticket Chat',
                 'New message from user on Ticket #' . $ticket->id,
                 'message'
