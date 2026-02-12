@@ -17,6 +17,7 @@ use App\Models\Subscription;
 use App\Models\Credentials;
 
 
+
 class ProjectController extends Controller
 {
     // project start
@@ -134,6 +135,10 @@ class ProjectController extends Controller
 
         $milestoneData = milestone::where('project_id', $projectId)->get();
 
+        $trashedMilestoneData = Milestone::onlyTrashed()
+        ->where('project_id', $projectId)
+        ->get();
+
         $documentData = Document::where('project_id', $projectId)->get();
 
         $assignedUsers = AssignTo::with('user')->where('project_id', $projectId)->get();
@@ -143,7 +148,8 @@ class ProjectController extends Controller
             "data" => $projectData,
             "milestoneData" => $milestoneData,
             "documentData" => $documentData,
-            "assignedUsers" => $assignedUsers
+            "assignedUsers" => $assignedUsers,
+            "trashedMilestoneData" => $trashedMilestoneData
         ]);
     }
 
@@ -200,6 +206,25 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function restore($id)
+    {
+        $project = Project::withTrashed()->findOrFail($id);
+        $project->restore();
+
+        return back()->with('projectRestore', 'Project restored successfully.');
+    }
+
+    public function forceDelete($id)
+    {
+        $project = \App\Models\Project::withTrashed()->findOrFail($id);
+
+        $project->forceDelete();
+
+        return response()->json([
+            'success' => true,
+            'permenant_delete' => 'Project permanently deleted.'
+        ]);
+    }
 
     public function projectStatus(Request $request){
         if($request->project_status_id){
@@ -222,10 +247,14 @@ class ProjectController extends Controller
         
         if($user->role_id == 1){
             $projects = project::with('creator')->get();
+
+            $Trashprojects = Project::onlyTrashed()->get();
+
             $assignedUsers = AssignTo::with(['user', 'project'])->whereHas('user')->get();
 
             return response()->json([
                 'success' => $projects,
+                'trashProjects' => $Trashprojects,
                 'assignedUsers' => $assignedUsers
             ]);
         }
@@ -329,8 +358,13 @@ class ProjectController extends Controller
     {
         $milestones = milestone::where('project_id', $request->project_id)->get();
 
+        $trashedMilestoneData = Milestone::onlyTrashed()
+        ->where('project_id', $request->project_id)
+        ->get();
+
         return response()->json([
-            'milestonesData' => $milestones
+            'milestonesData' => $milestones,
+            'trashedMilestoneData' => $trashedMilestoneData
         ]);
     }
 
@@ -347,6 +381,44 @@ class ProjectController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Milestone status updated'
+        ]);
+    }
+
+    public function restoreMilestone($id, Request $request)
+    {
+        $projectId = $request->project_id;
+        $milestone = milestone::withTrashed()->findOrFail($id);
+        $milestone->restore();
+
+        $milestoneData = milestone::where('project_id', $projectId)->get();
+
+        $trashedMilestoneData = Milestone::onlyTrashed()
+        ->where('project_id', $projectId)
+        ->get();
+
+        return response()->json([
+            'trashedMilestoneData' => $trashedMilestoneData,
+            'milestoneData' => $milestoneData
+        ]);
+    }
+
+    public function forceDeleteMilestone($id, Request $request)
+    {
+        $projectId = $request->project_id;
+
+        $milestone = milestone::withTrashed()->findOrFail($id);
+
+        $milestone->forceDelete();
+
+        $milestoneData = milestone::where('project_id', $projectId)->get();
+
+        $trashedMilestoneData = Milestone::onlyTrashed()
+        ->where('project_id', $projectId)
+        ->get();
+
+        return response()->json([
+            'trashedMilestoneData' => $trashedMilestoneData,
+            'milestoneData' => $milestoneData
         ]);
     }
 

@@ -58,12 +58,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/projects', [ProjectController::class, 'create'])->name('project.create');
     Route::post('/projects', [ProjectController::class, 'store'])->name('project.store');
     Route::post('/projects/status', [ProjectController::class, 'projectStatus']);
+    Route::post('/projects/{id}/restore', [ProjectController::class, 'restore']);
+    Route::delete('/projects/{id}/force-delete', [ProjectController::class, 'forceDelete']);
+
+    // Route::post('/projects/{id}/restore', [ProjectController::class, 'restore'])->name('projects.restore');
+
 
 
 
     Route::post('/projects/milestone', [ProjectController::class, 'milestoneStore'])->name('milestone.store');
     Route::post('/milestone/status', [ProjectController::class, 'milestoneStatus']);
     Route::post('/milestones/update-status', [ProjectController::class, 'updateStatus']);
+
+    Route::post('/milestones/{id}/restore', [ProjectController::class, 'restoreMilestone']);
+    Route::delete('/milestones/{id}/force-delete', [ProjectController::class, 'forceDeleteMilestone']);
 
 
 
@@ -129,7 +137,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/leads', [LeadsController::class, 'LeadsView'])->name('leads');
     Route::post('/leads', [LeadsController::class, 'LeadsStore'])->name('lead.store');
     Route::post('leads/{id}', [LeadsController::class, 'LeadsUpdate'])->name('lead.update');
-    Route::delete('leads/{id}', [LeadsController::class, 'LeadsDelete'])->name('lead.delete');
+    Route::delete('leads/{id}', [LeadsController::class, 'LeadsDelete'])->name('leads.delete');
+    Route::delete('lead/{id}', [LeadsController::class, 'LeadDelete'])->name('lead.delete');
+    Route::post('/leads/soft-delete/{id}', [LeadsController::class, 'SoftDelete'])->name('leads.softdelete');
+    Route::post('/leads/restore/{id}', [LeadsController::class, 'LeadsRestore'])->name('leads.restore');
 
 
     // task management start

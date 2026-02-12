@@ -18,5 +18,6 @@ class Leads extends Model
         'lead_source',
         'lead_status',
         'memberships',
+        'is_deleted',
     ];
 }

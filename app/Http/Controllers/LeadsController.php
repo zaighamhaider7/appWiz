@@ -10,8 +10,9 @@ use App\Models\ActivityLog;
 class LeadsController extends Controller
 {
     public function LeadsView(){
-        $leadsData = Leads::all();
-        return view('admin.Leads', compact('leadsData'));
+        $leadsData = Leads::where('is_deleted', false)->get();
+        $TrashleadsData = Leads::where('is_deleted', true)->get();
+        return view('admin.Leads', compact('leadsData', 'TrashleadsData'));
     }
 
     public function LeadsStore(Request $request){
@@ -62,5 +63,23 @@ class LeadsController extends Controller
         // ActivityLogger::log('Lead Deleted', 'The lead "' . $lead->lead_name . '" was deleted by ' . auth()->user()->name . '.');
 
         return redirect()->back()->with('DeleteLead', 'Lead deleted successfully.');
+    }
+    public function SoftDelete($id){
+        $lead = Leads::findOrFail($id);
+        $lead->is_deleted = true;
+        $lead->save();
+
+        // ActivityLogger::log('Lead Soft Deleted', 'The lead "' . $lead->lead_name . '" was soft deleted by ' . auth()->user()->name . '.');
+
+        return redirect()->back()->with('SoftDeleteLead', 'Lead soft deleted successfully.');
+    }
+    public function LeadsRestore($id){
+        $lead = Leads::findOrFail($id);
+        $lead->is_deleted = false;
+        $lead->save();
+
+        // ActivityLogger::log('Lead Restored', 'The lead "' . $lead->lead_name . '" was restored by ' . auth()->user()->name . '.');
+
+        return redirect()->back()->with('RestoreLead', 'Lead restored successfully.');
     }
 }

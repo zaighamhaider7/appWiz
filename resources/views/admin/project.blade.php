@@ -991,6 +991,20 @@
         class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
         Project Deleted successfully!
     </div>
+    <div id="permenant_delete" style="display: none; z-index: 9999 !important;"
+        class="fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        Project Deleted permanently!
+    </div>
+
+    <div id="projectRestore" style="display: none; z-index: 9999 !important;"
+        class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        Project Restored successfully!
+    </div>
+
+    <div id="milestoneRestore" style="display: none; z-index: 9999 !important;"
+        class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
+        Milestone Restored successfully!
+    </div>
 
     <div id="Projectstatus" style="display: none; z-index: 9999 !important;"
         class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50">
@@ -1015,7 +1029,6 @@
 
     <div style="display: none; z-index: 9999 !important;"
         class="Errors fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg ">
-
     </div>
 
 
@@ -1064,14 +1077,20 @@
 
                                 <!-- Filter + Add Button -->
                                 <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3 w-full sm:w-auto">
-                                    <select
-                                        class="w-full sm:w-32 px-3 py-2 rounded-md text-sm bg-white text-gray-800 border border-gray-300
-                           dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-orange-500">
-                                        <option value="Filter">Filter</option>
-                                        <option value="10">10</option>
+                                    <select aria-controls="myTable" id="dt-length-0" fdprocessedid="9gl4x"
+                                        class="dt-input w-20 px-3 py-2 rounded-md text-sm
+                                                bg-white text-gray-800 border border-gray-300
+                                                dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600
+                                                focus:outline-none focus:ring-2 focus:ring-orange-500">
+                                        <option value="Filter" selected hidden>Filter</option>
+                                        <option value="5">5</option>
                                         <option value="25">25</option>
                                         <option value="50">50</option>
                                     </select>
+                                    <button id="opentrashBtn"
+                                        class="px-4 py-2 rounded-lg light-bg-d7d7d7 text-white font-semibold hover:bg-orange-700 transition-colors openTrashModal">
+                                        Show Trash
+                                    </button>
                                     <button id="openTaskModalBtn"
                                         class="w-full sm:w-40 py-2 rounded-lg light-bg-d7d7d7 text-white hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
                                         Add New Projects
@@ -1318,6 +1337,276 @@
         </main>
     </div>
 
+    <div class=" bg-black trashModal fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div
+            class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto  relative">
+            <!-- Close Button -->
+            <button id="closeTrashModal" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+                ✕
+            </button>
+
+            <div class="px-6 py-3"> <!-- Container for heading + divider -->
+                <h2 class="text-lg light-text-black  font-semibold">Trash</h2>
+            </div>
+            <div class=""> <!-- Container for heading + divider -->
+                <div class="border-t border-gray-600 w-full mt-4"></div>
+            </div>
+
+
+            <div>
+                <div class="overflow-x-auto">
+                    <table id="myTable" class="min-w-full divide-y divide-gray-200">
+                        <thead class="light-bg-d9d9d9">
+                            <tr>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        ID
+                                        <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M7 8 L12 3 L17 8" /> <!-- Up chevron -->
+                                            <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        LEADS
+                                        <svg class="ml-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <!-- Up chevron (positioned higher) -->
+                                            <path d="M7 8 L12 3 L17 8" />
+                                            <!-- Down chevron (positioned lower with gap) -->
+                                            <path d="M7 16 L12 21 L17 16" />
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        EMAIL
+                                        <svg class="ml-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <!-- Up chevron (positioned higher) -->
+                                            <path d="M7 8 L12 3 L17 8" />
+                                            <!-- Down chevron (positioned lower with gap) -->
+                                            <path d="M7 16 L12 21 L17 16" />
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider min-w-[120px]">
+                                    <div class="flex items-center justify-between">
+                                        <span class="whitespace-nowrap">PHONE #</span>
+                                        <div class="flex flex-col ml-10">
+                                            <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <!-- Up chevron (positioned higher) -->
+                                                <path d="M7 8 L12 3 L17 8" />
+                                                <!-- Down chevron (positioned lower with gap) -->
+                                                <path d="M7 16 L12 21 L17 16" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </th>
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider min-w-[120px]">
+                                    <div class="flex items-center justify-between">
+                                        <span class="whitespace-nowrap">LEAD SOURCE</span>
+                                        <div class="flex flex-col ml-10">
+                                            <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <!-- Up chevron (positioned higher) -->
+                                                <path d="M7 8 L12 3 L17 8" />
+                                                <!-- Down chevron (positioned lower with gap) -->
+                                                <path d="M7 16 L12 21 L17 16" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider min-w-[120px]">
+                                    <div class="flex items-center justify-between">
+                                        <span class="whitespace-nowrap">BUSINESS NAME</span>
+                                        <div class="flex flex-col ml-10">
+                                            <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <!-- Up chevron (positioned higher) -->
+                                                <path d="M7 8 L12 3 L17 8" />
+                                                <!-- Down chevron (positioned lower with gap) -->
+                                                <path d="M7 16 L12 21 L17 16" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </th>
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-10 icon" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M7 8 L12 3 L17 8" /> <!-- Up chevron -->
+                                            <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                        </svg>
+
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="trashproject-table-body" class="light-bg-white light-bg-seo divide-y divide-gray-200">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class=" bg-black trashmilemodal fixed inset-0 bg-opacity-50 flex items-center justify-center hidden" style="z-index: 9999 !important;">
+        <div
+            class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto  relative">
+            <!-- Close Button -->
+            <button id="closeMileTrashModal" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+                ✕
+            </button>
+
+            <div class="px-6 py-3"> <!-- Container for heading + divider -->
+                <h2 class="text-lg light-text-black  font-semibold">Trash</h2>
+            </div>
+            <div class=""> <!-- Container for heading + divider -->
+                <div class="border-t border-gray-600 w-full mt-4"></div>
+            </div>
+
+
+            <div>
+                <div class="overflow-x-auto">
+                    <table id="myTable" class="min-w-full divide-y divide-gray-200">
+                        <thead class="light-bg-d9d9d9">
+                            <tr>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        ID
+                                        <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M7 8 L12 3 L17 8" /> <!-- Up chevron -->
+                                            <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        LEADS
+                                        <svg class="ml-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <!-- Up chevron (positioned higher) -->
+                                            <path d="M7 8 L12 3 L17 8" />
+                                            <!-- Down chevron (positioned lower with gap) -->
+                                            <path d="M7 16 L12 21 L17 16" />
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        EMAIL
+                                        <svg class="ml-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <!-- Up chevron (positioned higher) -->
+                                            <path d="M7 8 L12 3 L17 8" />
+                                            <!-- Down chevron (positioned lower with gap) -->
+                                            <path d="M7 16 L12 21 L17 16" />
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider min-w-[120px]">
+                                    <div class="flex items-center justify-between">
+                                        <span class="whitespace-nowrap">PHONE #</span>
+                                        <div class="flex flex-col ml-10">
+                                            <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <!-- Up chevron (positioned higher) -->
+                                                <path d="M7 8 L12 3 L17 8" />
+                                                <!-- Down chevron (positioned lower with gap) -->
+                                                <path d="M7 16 L12 21 L17 16" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </th>
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider min-w-[120px]">
+                                    <div class="flex items-center justify-between">
+                                        <span class="whitespace-nowrap">LEAD SOURCE</span>
+                                        <div class="flex flex-col ml-10">
+                                            <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <!-- Up chevron (positioned higher) -->
+                                                <path d="M7 8 L12 3 L17 8" />
+                                                <!-- Down chevron (positioned lower with gap) -->
+                                                <path d="M7 16 L12 21 L17 16" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider min-w-[120px]">
+                                    <div class="flex items-center justify-between">
+                                        <span class="whitespace-nowrap">BUSINESS NAME</span>
+                                        <div class="flex flex-col ml-10">
+                                            <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <!-- Up chevron (positioned higher) -->
+                                                <path d="M7 8 L12 3 L17 8" />
+                                                <!-- Down chevron (positioned lower with gap) -->
+                                                <path d="M7 16 L12 21 L17 16" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </th>
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-10 icon" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M7 8 L12 3 L17 8" /> <!-- Up chevron -->
+                                            <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                        </svg>
+
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="trashmilestoneTableBody" class="light-bg-white light-bg-seo divide-y divide-gray-200">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <div id="projectModal"
         class="fixed inset-0 bg-black light-bg-000000 bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="light-bg-white  rounded-xl  w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-xl">
@@ -1445,430 +1734,434 @@
                                         class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black"
                                         {{ $users->isEmpty() ? 'disabled' : '' }}>
 
+                                @if ($users->isEmpty())
+                                <option value="" hidden selected>No users available</option>
+                                @else
+                                <option value="" hidden selected>Select User</option>
+                                @foreach ($users as $user)
+                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @endforeach
+                                @endif
+
+                                </select>
+
+                            </div> --}}
+
+                            {{-- edit assign user --}}
+
+                            <div>
+                                <label class="block text-sm mb-1 light-text-black">Assign To</label>
+                                <div class="custom-dropdown relative w-full">
+                                    <div class="dropdown-toggle edit-assign-toggle p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black cursor-pointer h-10 flex items-center justify-between"
+                                        onclick="edittoggleDropdown()">
+                                        Select Users
+                                    </div>
+                                    <div class="dropdown-menu absolute left-0 right-0 bg-white border border-gray-700 mt-1 max-h-40 overflow-y-auto rounded shadow-lg z-10 hidden"
+                                        id="edituserDropdown">
                                         @if ($users->isEmpty())
-                                            <option value="" hidden selected>No users available</option>
+                                        <div class="no-users p-2 text-gray-500">No users available</div>
                                         @else
-                                            <option value="" hidden selected>Select User</option>
-                                            @foreach ($users as $user)
-                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                            @endforeach
+                                        @foreach ($users as $user)
+                                        <div
+                                            class="dropdown-item flex items-center px-3 py-2 cursor-pointer hover:bg-gray-100">
+                                            <input type="checkbox" name="edit_assign_to[]"
+                                                value="{{ $user->id }}"
+                                                id="edit_user_{{ $user->id }}" class="mr-2">
+                                            <label
+                                                for="edit_user_{{ $user->id }}">{{ $user->name }}</label>
+                                        </div>
+                                        @endforeach
                                         @endif
-
-                                    </select>
-
-                                </div> --}}
-
-                                {{-- edit assign user --}}
-
-                                <div>
-                                    <label class="block text-sm mb-1 light-text-black">Assign To</label>
-                                    <div class="custom-dropdown relative w-full">
-                                        <div class="dropdown-toggle edit-assign-toggle p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black cursor-pointer h-10 flex items-center justify-between"
-                                            onclick="edittoggleDropdown()">
-                                            Select Users
-                                        </div>
-                                        <div class="dropdown-menu absolute left-0 right-0 bg-white border border-gray-700 mt-1 max-h-40 overflow-y-auto rounded shadow-lg z-10 hidden"
-                                            id="edituserDropdown">
-                                            @if ($users->isEmpty())
-                                                <div class="no-users p-2 text-gray-500">No users available</div>
-                                            @else
-                                                @foreach ($users as $user)
-                                                    <div
-                                                        class="dropdown-item flex items-center px-3 py-2 cursor-pointer hover:bg-gray-100">
-                                                        <input type="checkbox" name="edit_assign_to[]"
-                                                            value="{{ $user->id }}"
-                                                            id="edit_user_{{ $user->id }}" class="mr-2">
-                                                        <label
-                                                            for="edit_user_{{ $user->id }}">{{ $user->name }}</label>
-                                                    </div>
-                                                @endforeach
-                                            @endif
-                                        </div>
                                     </div>
                                 </div>
-
-
-                            </div>
-                        </div>
-
-
-                        <div class="grid grid-cols-3  gap-4">
-                            <div>
-                                <label class="block text-sm mb-1 light-text-black"> Price</label>
-                                <input type="text" id="edit_price" name="price" placeholder="$10,000"
-                                    class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
                             </div>
 
-                            <div>
-                                <label class="block text-sm mb-1 light-text-black">Start Date</label>
-                                <input type="date" id="edit_start_date" name="start_date" placeholder="05-7-2024"
-                                    class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
-                            </div>
-
-                            <div>
-                                <label class="block text-sm mb-1 light-text-black">Deadline</label>
-                                <input type="date" id="edit_end_date" name="end_date" placeholder="05-10-2024"
-                                    class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
-                            </div>
 
                         </div>
+                    </div>
 
 
-                        <div class="flex items-center gap-2">
-                            <input type="checkbox" id="edit_is_hight_priority" class="accent-orange-500 w-4 h-4">
-                            <p class="text-xs font-light">Mark As High Priority</p>
+                    <div class="grid grid-cols-3  gap-4">
+                        <div>
+                            <label class="block text-sm mb-1 light-text-black"> Price</label>
+                            <input type="text" id="edit_price" name="price" placeholder="$10,000"
+                                class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
                         </div>
 
+                        <div>
+                            <label class="block text-sm mb-1 light-text-black">Start Date</label>
+                            <input type="date" id="edit_start_date" name="start_date" placeholder="05-7-2024"
+                                class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
+                        </div>
 
-
-
+                        <div>
+                            <label class="block text-sm mb-1 light-text-black">Deadline</label>
+                            <input type="date" id="edit_end_date" name="end_date" placeholder="05-10-2024"
+                                class="file-input w-full light-text-black light-bg-d7d7d7 p-2 rounded-md focus:outline-none">
+                        </div>
 
                     </div>
 
 
-                    <!-- Buttons -->
-                    <div class="flex justify-end items-center">
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="edit_is_hight_priority" class="accent-orange-500 w-4 h-4">
+                        <p class="text-xs font-light">Mark As High Priority</p>
+                    </div>
 
-                        <div class="flex justify-end gap-3 pt-3">
-                            {{-- <button type="button" id="cancelTicket"
+
+
+
+
+            </div>
+
+
+            <!-- Buttons -->
+            <div class="flex justify-end items-center">
+
+                <div class="flex justify-end gap-3 pt-3">
+                    {{-- <button type="button" id="cancelTicket"
                                 class="px-4 py-2 light-text-black light-bg-d7d7d7 rounded-lg hover:bg-gray-600">
                                 Cancel
                             </button> --}}
 
-                            <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
-                                class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
-                                id="updateMsg" style="display: none;">
-                                Project Updated successfully!
-                            </div>
-
-                            <button type="submit"
-                                class="edit-project px-4 py-2 bg-orange-500  rounded-lg hover:bg-orange-600">
-                                Edit Project
-                            </button>
-                        </div>
+                    <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 1000)" x-show="show" x-transition
+                        class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg z-50"
+                        id="updateMsg" style="display: none;">
+                        Project Updated successfully!
                     </div>
-                </form>
 
+                    <button type="submit"
+                        class="edit-project px-4 py-2 bg-orange-500  rounded-lg hover:bg-orange-600">
+                        Edit Project
+                    </button>
+                </div>
+            </div>
+            </form>
+
+        </div>
+
+        <div id="notesContent" class="tab-content hidden">
+
+            <div class="px-5 items-center">
+                <div class="mb-1 text-base font-medium text-green-700 dark:text-green-500"></div>
+                <div>
+                    <button class="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700"
+                        onclick="myFunction()">
+                        <progress class="w-full rounded-full bg-blue-400" id="myProgress" value="22"
+                            max="100"></progress></button>
+                </div>
+                <span class="justify-center flex ml-2 text-sm light-text-black">20%</span>
             </div>
 
-            <div id="notesContent" class="tab-content hidden">
+            <div class="flex justify-between items-center px-8 mb-4 gap-4">
 
-                <div class="px-5 items-center">
-                    <div class="mb-1 text-base font-medium text-green-700 dark:text-green-500"></div>
-                    <div>
-                        <button class="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700"
-                            onclick="myFunction()">
-                            <progress class="w-full rounded-full bg-blue-400" id="myProgress" value="22"
-                                max="100"></progress></button>
-                    </div>
-                    <span class="justify-center flex ml-2 text-sm light-text-black">20%</span>
-                </div>
+                <div class="flex justify-between items-center p-4 mb-4">
 
-                <div class="flex justify-between items-center px-8 mb-4 gap-4">
-
-                    <div class="flex justify-between items-center p-4 mb-4">
-
-                        <div class="flex justify-between items-center  ">
-                            <h3 class="text-2xl">Milestones</h3>
-                            <div class="relative w-full max-w-xs pl-2">
-
-                            </div>
-                            <div class="flex space-x-2">
-                                <div class="relative w-full">
-                                    <!-- Search Icon (Left-aligned) -->
-                                    <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
-                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                    </svg>
-
-                                    <!-- Input with padding to avoid icon overlap -->
-                                    <input type="text" placeholder="Search here"
-                                        class="block w-full pl-10 pr-4 py-2 border border-gray-200 light-text-gray-900 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400" />
-                                </div>
-                                <!-- Button -->
-                                <select
-                                    class="w-20 px-3 py-2 rounded-md text-sm
-                                bg-white text-gray-800 border border-gray-300
-                                dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600
-                                focus:outline-none focus:ring-2 focus:ring-orange-500">
-                                    <option value="Filter">Filter</option>
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                </select>
-                                <button
-                                    class="open-milestone-modal light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
-                                    Add New Milestone
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="overflow-x-auto ">
-                    <table class="min-w-full divide-y bg-transparent">
-                        <thead class="bg-gray-500">
-                            <tr class="light-bg-d9d9d9">
-                                <th
-                                    class="px-8 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider whitespace-nowrap">
-                                    ID
-                                    <svg class="inline ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider whitespace-nowrap">
-                                    MILESTONE NAME
-                                    <svg class="inline ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider whitespace-nowrap">
-                                    START DATE
-                                    <svg class="inline ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider whitespace-nowrap">
-                                    DEADLINE
-                                    <svg class="inline ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider whitespace-nowrap">
-                                    STATUS
-                                    <svg class="inline ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider whitespace-nowrap">
-                                    ACTION
-                                    <svg class="inline ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                            </tr>
-                        </thead>
-
-                        <tbody class="bg-transparent light-border-gray2  " id="milestoneTableBody">
-
-                        </tbody>
-
-                    </table>
-                </div>
-
-            </div>
-
-            <div id="uploadedDocumentContent" class="tab-content hidden">
-                <div class="px-5 items-center">
-                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                        <div class="bg-green-500 h-2.5 rounded-full" style="width: 20%"></div>
-                    </div>
-                    <span class="justify-center flex ml-2 text-sm light-text-black">Progress 20%</span>
-                </div>
-                <div class="flex justify-between items-center px-4 mb-4">
-                    <div class="flex justify-between items-center p-4 mb-4">
-                        <h3 class="text-2xl">Memberships</h3>
+                    <div class="flex justify-between items-center  ">
+                        <h3 class="text-2xl">Milestones</h3>
                         <div class="relative w-full max-w-xs pl-2">
 
                         </div>
                         <div class="flex space-x-2">
-                            <input type="text" placeholder="Search here"
-                                class="block w-full px-4 py-2 border border-gray-200 light-text-gray-900 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
-                            <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                            <button
-                                class="flex items-center px-4 py-2 border border-gray-200 dark:text-gray-300 rounded-lg hover:light-bg-gray-300 dark:hover:bg-gray-600">
-                                Filters
-                                <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="relative w-full">
+                                <!-- Search Icon (Left-aligned) -->
+                                <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
-                            </button>
-                            <button
-                                class="light-bg-d7d7d7 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
-                                Add New Memberships
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y light-divide-gray-200 dark:divide-gray-700">
-                        <thead class="light-bg-gray-50 dark:bg-gray-700">
-                            <tr class="light-bg-d9d9d9">
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    MEMBERSHIP
-                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    PRICE
-                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    DATE
-                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
-                                    ACTION
-                                    <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
-                                    </svg>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-transparent border  light-border-gray2">
-                            <tr class="border-2 light-border-gray2">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Domain</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
-                                    <p class="text-gray-400">$100</p>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">10-5-2024</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-start text-sm font-medium">
-                                    <button
-                                        class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                        <div class="flex gap-2">
-                                            <img src="trash.png" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                        </div>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="border-2 light-border-gray2">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Hosting</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
-                                    <p class="text-gray-400">$100</p>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">10-5-2024</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-start text-sm font-medium">
-                                    <button
-                                        class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                        <div class="flex gap-2">
-                                            <img src="trash.png" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                        </div>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="border-2 light-border-gray2">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Deployment</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
-                                    <p class="text-gray-400">$100</p>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">10-5-2024</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-start text-sm font-medium">
-                                    <button
-                                        class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                        <div class="flex gap-2">
-                                            <img src="trash.png" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                        </div>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="border-2 light-border-gray2">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Maintenance</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
-                                    <p class="text-gray-400">$100</p>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">10-5-2024</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-start text-sm font-medium">
-                                    <button
-                                        class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                        <div class="flex gap-2">
-                                            <img src="trash.png" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                        </div>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="border-2 light-border-gray2">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">01</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
-                                    <p class="text-gray-400">$100</p>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">10-5-2024</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-start text-sm font-medium">
-                                    <button
-                                        class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                        <div class="flex gap-2">
-                                            <img src="trash.png" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                        </div>
 
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="flex justify-between items-center px-8 mt-4">
-                    <div class="flex items-center">
-                        <span class="text-sm light-text-gray-700 dark:text-gray-400">Showing 1 to 5 of 100
-                            entries</span>
-                        <select
-                            class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
-                            <option>5</option>
-                            <option>10</option>
-                            <option>25</option>
-                        </select>
-                    </div>
-                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                        <div class="flex space-x-2">
+                                <!-- Input with padding to avoid icon overlap -->
+                                <input type="text" placeholder="Search here"
+                                    class="block w-full pl-10 pr-4 py-2 border border-gray-200 light-text-gray-900 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400" />
+                            </div>
+                            <!-- Button -->
+                            <select
+                                class="w-20 px-3 py-2 rounded-md text-sm
+                                bg-white text-gray-800 border border-gray-300
+                                dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600
+                                focus:outline-none focus:ring-2 focus:ring-orange-500">
+                                <option value="Filter">Filter</option>
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                            </select>
+                            <button id="openmiletrashBtn"
+                                class="px-4 py-2 rounded-lg light-bg-d7d7d7 text-white font-semibold hover:bg-orange-700 transition-colors openTrashModal">
+                                Show Trash
+                            </button>
                             <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                                class="open-milestone-modal light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
+                                Add New Milestone
+                            </button>
                         </div>
-                    </nav>
+                    </div>
+
                 </div>
             </div>
 
+            <div class="overflow-x-auto ">
+                <table class="min-w-full divide-y bg-transparent">
+                    <thead class="bg-gray-500">
+                        <tr class="light-bg-d9d9d9">
+                            <th
+                                class="px-8 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider whitespace-nowrap">
+                                ID
+                                <svg class="inline ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                </svg>
+                            </th>
+                            <th
+                                class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider whitespace-nowrap">
+                                MILESTONE NAME
+                                <svg class="inline ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                </svg>
+                            </th>
+                            <th
+                                class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider whitespace-nowrap">
+                                START DATE
+                                <svg class="inline ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                </svg>
+                            </th>
+                            <th
+                                class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider whitespace-nowrap">
+                                DEADLINE
+                                <svg class="inline ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                </svg>
+                            </th>
+                            <th
+                                class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider whitespace-nowrap">
+                                STATUS
+                                <svg class="inline ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                </svg>
+                            </th>
+                            <th
+                                class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider whitespace-nowrap">
+                                ACTION
+                                <svg class="inline ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                </svg>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="bg-transparent light-border-gray2  " id="milestoneTableBody">
+
+                    </tbody>
+
+                </table>
+            </div>
 
         </div>
+
+        <div id="uploadedDocumentContent" class="tab-content hidden">
+            <div class="px-5 items-center">
+                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                    <div class="bg-green-500 h-2.5 rounded-full" style="width: 20%"></div>
+                </div>
+                <span class="justify-center flex ml-2 text-sm light-text-black">Progress 20%</span>
+            </div>
+            <div class="flex justify-between items-center px-4 mb-4">
+                <div class="flex justify-between items-center p-4 mb-4">
+                    <h3 class="text-2xl">Memberships</h3>
+                    <div class="relative w-full max-w-xs pl-2">
+
+                    </div>
+                    <div class="flex space-x-2">
+                        <input type="text" placeholder="Search here"
+                            class="block w-full px-4 py-2 border border-gray-200 light-text-gray-900 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
+                        <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <button
+                            class="flex items-center px-4 py-2 border border-gray-200 dark:text-gray-300 rounded-lg hover:light-bg-gray-300 dark:hover:bg-gray-600">
+                            Filters
+                            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <button
+                            class="light-bg-d7d7d7 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
+                            Add New Memberships
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y light-divide-gray-200 dark:divide-gray-700">
+                    <thead class="light-bg-gray-50 dark:bg-gray-700">
+                        <tr class="light-bg-d9d9d9">
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                MEMBERSHIP
+                                <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                </svg>
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                PRICE
+                                <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                </svg>
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                DATE
+                                <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                </svg>
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium light-text-black uppercase tracking-wider">
+                                ACTION
+                                <svg class="inline-block ml-1 w-3 h-3" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path>
+                                </svg>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-transparent border  light-border-gray2">
+                        <tr class="border-2 light-border-gray2">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Domain</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
+                                <p class="text-gray-400">$100</p>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">10-5-2024</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-start text-sm font-medium">
+                                <button
+                                    class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                    <div class="flex gap-2">
+                                        <img src="trash.png" alt="eye" class="bg-gray-200 p-1 rounded-full">
+                                    </div>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="border-2 light-border-gray2">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Hosting</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
+                                <p class="text-gray-400">$100</p>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">10-5-2024</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-start text-sm font-medium">
+                                <button
+                                    class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                    <div class="flex gap-2">
+                                        <img src="trash.png" alt="eye" class="bg-gray-200 p-1 rounded-full">
+                                    </div>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="border-2 light-border-gray2">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Deployment</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
+                                <p class="text-gray-400">$100</p>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">10-5-2024</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-start text-sm font-medium">
+                                <button
+                                    class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                    <div class="flex gap-2">
+                                        <img src="trash.png" alt="eye" class="bg-gray-200 p-1 rounded-full">
+                                    </div>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="border-2 light-border-gray2">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">Maintenance</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
+                                <p class="text-gray-400">$100</p>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">10-5-2024</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-start text-sm font-medium">
+                                <button
+                                    class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                    <div class="flex gap-2">
+                                        <img src="trash.png" alt="eye" class="bg-gray-200 p-1 rounded-full">
+                                    </div>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="border-2 light-border-gray2">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">01</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
+                                <p class="text-gray-400">$100</p>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">10-5-2024</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-start text-sm font-medium">
+                                <button
+                                    class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                    <div class="flex gap-2">
+                                        <img src="trash.png" alt="eye" class="bg-gray-200 p-1 rounded-full">
+                                    </div>
+
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex justify-between items-center px-8 mt-4">
+                <div class="flex items-center">
+                    <span class="text-sm light-text-gray-700 dark:text-gray-400">Showing 1 to 5 of 100
+                        entries</span>
+                    <select
+                        class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
+                        <option>5</option>
+                        <option>10</option>
+                        <option>25</option>
+                    </select>
+                </div>
+                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                    <div class="flex space-x-2">
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+
+    </div>
     </div>
 
     <div id="taskModal"
@@ -1992,17 +2285,17 @@
                                     <div class="dropdown-menu absolute left-0 right-0 bg-white border border-gray-700 mt-1 max-h-40 overflow-y-auto rounded shadow-lg z-10 hidden"
                                         id="userDropdown">
                                         @if ($users->isEmpty())
-                                            <div class="no-users p-2 text-gray-500">No users available</div>
+                                        <div class="no-users p-2 text-gray-500">No users available</div>
                                         @else
-                                            @foreach ($users as $user)
-                                                <div
-                                                    class="dropdown-item flex items-center px-3 py-2 cursor-pointer hover:bg-gray-100">
-                                                    <input type="checkbox" name="assign_to[]"
-                                                        value="{{ $user->id }}" id="user_{{ $user->id }}"
-                                                        class="mr-2">
-                                                    <label for="user_{{ $user->id }}">{{ $user->name }}</label>
-                                                </div>
-                                            @endforeach
+                                        @foreach ($users as $user)
+                                        <div
+                                            class="dropdown-item flex items-center px-3 py-2 cursor-pointer hover:bg-gray-100">
+                                            <input type="checkbox" name="assign_to[]"
+                                                value="{{ $user->id }}" id="user_{{ $user->id }}"
+                                                class="mr-2">
+                                            <label for="user_{{ $user->id }}">{{ $user->name }}</label>
+                                        </div>
+                                        @endforeach
                                         @endif
                                     </div>
                                 </div>
@@ -2091,6 +2384,7 @@
 
 
     </div>
+
     </div>
 
 
@@ -2382,47 +2676,47 @@
                                         class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
                                         <div class="flex gap-2">
                                             <img src="{{asset('assets/trash.svg')}}" alt="eye" class="bg-gray-200 p-1 rounded-full">
-                                        </div>
-                                    </button>
-                                </td>
-                            </tr> --}}
-                        </tbody>
-                    </table>
                 </div>
-
-                <div class="flex justify-between items-center p-8 mt-4">
-                    <div class="flex items-center">
-                        <span class="text-sm light-text-gray-700 dark:text-gray-400">Showing 1 to 5 of 100
-                            entries</span>
-                        <select
-                            class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
-                            <option>5</option>
-                            <option>10</option>
-                            <option>25</option>
-                        </select>
-                    </div>
-                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                        <div class="flex space-x-1">
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
-                        </div>
-                    </nav>
-                </div>
-
+                </button>
+                </td>
+                </tr> --}}
+                </tbody>
+                </table>
             </div>
+
+            <div class="flex justify-between items-center p-8 mt-4">
+                <div class="flex items-center">
+                    <span class="text-sm light-text-gray-700 dark:text-gray-400">Showing 1 to 5 of 100
+                        entries</span>
+                    <select
+                        class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
+                        <option>5</option>
+                        <option>10</option>
+                        <option>25</option>
+                    </select>
+                </div>
+                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                    <div class="flex space-x-1">
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                    </div>
+                </nav>
+            </div>
+
         </div>
+    </div>
     </div>
 
     <!-- Upload Modal -->
@@ -2594,6 +2888,9 @@
         </div>
     </div>
 
+    <!-- Table Modal -->
+
+
     <!-- MEMBERSHIP MODAL -->
     <div id="membershipModal"
         class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
@@ -2630,9 +2927,32 @@
     </div>
 
 
+    <!-- Trash Modal -->
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+
+            $('#opentrashBtn').on('click', function() {
+                $('.trashModal').removeClass('hidden');
+                console.log("trash btn click");
+            });
+            $('#closeTrashModal').on('click', function() {
+                $('.trashModal').addClass('hidden');
+                console.log("trash modal closed");
+            });
+
+            $('#openmiletrashBtn').on('click', function() {
+                $('.trashmilemodal').removeClass('hidden');
+            });
+            $('#closeMileTrashModal').on('click', function() {
+                $('.trashmilemodal').addClass('hidden');
+            });
+
+        });
+    </script>
 
     <script>
         //  milestone data fetch funtion start
@@ -2685,7 +3005,72 @@
             });
 
         }
-        //  milestone data fetch funtion start
+        //  milestone data fetch funtion end
+
+
+        //  milestone trash data fetch funtion start
+        function renderMilestonesTrash(milestoneData) {
+            const tableBody = document.getElementById('trashmilestoneTableBody');
+            tableBody.innerHTML = '';
+
+            if (milestoneData.length === 0) {
+                const noDataTr = document.createElement('tr');
+                noDataTr.innerHTML = `
+                            <td colspan="6" class="px-6 py-4 text-center text-gray-500 italic">
+                            No milestones found.
+                            </td>
+                        `;
+                tableBody.appendChild(noDataTr);
+                return;
+            }
+
+            milestoneData.forEach((milestone, index) => {
+                const tr = document.createElement('tr');
+                tr.classList.add('border-2', 'light-border-gray2');
+
+                tr.innerHTML = `
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${index + 1}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${milestone.milestone_name}</td>
+                            <td class="px-6 py-4 text-sm light-text-black">${milestone.start_date}</td>
+                            <td class="px-6 py-4 text-sm light-text-black">${milestone.deadline}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                <input type="hidden" id="milestone_status_id" value="${milestone.id}">
+                                <select id="milestone_status" name="milestone_status" class="w-32 px-4 py-2 rounded-lg bg-success-900/50 text-gray-700 hover:bg-gray-200 transition-colors">
+                                    <option value="${milestone.status}" selected>${milestone.status}</option>
+                                    <option value="In Process">In Process</option>
+                                    <option value="Delay">Delay</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                </select>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                <div class="flex items-center gap-3">
+
+                                                    <!-- Restore -->
+                                                    <button onclick="restoremilestone(${milestone.id}, ${milestone.project_id})"
+                                                        class="text-green-600 hover:text-green-800 transition"
+                                                        title="Restore">
+                                                        <img src="{{ asset('assets/restore.png') }}" alt="View"
+                                                                class="w-6 h-6  rounded-full p-1 bg-gray-500" />
+                                                    </button>
+
+                                                    <!-- Permanent Delete -->
+                                                    <button onclick="forceDeletemilestone(${milestone.id}, ${milestone.project_id})"
+                                                        class="text-red-600 hover:text-red-800 transition"
+                                                        title="Delete Permanently">
+                                                        <img src="{{ asset('assets/trash.svg') }}" alt="Delete"
+                                                            class="w-6 h-6  rounded-full p-1 bg-gray-500" />
+                                                    </button>
+
+                                                </div>
+                                            </td>
+                        `;
+
+                tableBody.appendChild(tr);
+            });
+
+        }
+        //  milestone trash data fetch funtion end
 
         // edit milestone code start
         document.addEventListener("DOMContentLoaded", function() {
@@ -2713,7 +3098,7 @@
                     formData.append('project_id', project_id);
                     formData.append('milestone_id', milestone_id);
 
-                    fetch('{{ route('milestone.edit') }}', {
+                        fetch('{{ route('milestone.edit') }}', {
                             method: 'POST',
                             body: formData,
                         })
@@ -2762,85 +3147,290 @@
         });
         // edit milestone code start
 
-        //  jquery work
-        $(document).ready(function() {
+        // project restore and force delete functions
+        function restoreProject(id) {
+            if (!confirm("Restore this project?")) return;
 
-            $('.tab-btn').click(function() {
-                const tab = $(this).data('tab');
-
-                if (tab === 'overview') {
-                    $('#overviewContent').removeClass('hidden').show();
-                    $('#notesContent').hide().addClass('hidden');
-                } else if (tab === 'notes') {
-                    $('#notesContent').removeClass('hidden').show();
-                    $('#overviewContent').hide().addClass('hidden');
+            $.ajax({
+                type: "POST",
+                url: `/projects/${id}/restore`,
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    TrashprodustData();
+                    projectData();
+                    $('#projectRestore').fadeIn(400);
+                    setTimeout(() => {
+                        $('#projectRestore').fadeOut(600);
+                    }, 3000);
+                },
+                error: function(xhr) {
+                    console.error("Restore error:", xhr.responseText);
                 }
+            });
+        }
 
-                $('.tab-wrapper')
-                    .removeClass('bg-gray-500 text-orange-500 dark:text-orange-400 dark:border-orange-400')
-                    .addClass(
-                        'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300');
+        function forceDeleteProject(id) {
+            if (!confirm("This will permanently delete the project. Continue?")) return;
 
-                $(this).closest('.tab-wrapper')
-                    .removeClass(
-                        'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300')
-                    .addClass('bg-gray-500 text-orange-500 dark:text-orange-400');
-
+            $.ajax({
+                type: "DELETE",
+                url: `/projects/${id}/force-delete`,
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    TrashprodustData();
+                    projectData();
+                    $('#permenant_delete').fadeIn(400);
+                    setTimeout(() => {
+                        $('#permenant_delete').fadeOut(600);
+                    }, 3000);
+                },
+                error: function(xhr) {
+                    console.error("Delete error:", xhr.responseText);
+                }
             });
 
-            $('#closeModal').click(function() {
-                $('#projectModal').css('display', 'none');
+
+
+        }
+
+        // project restore and force delete functions
+        function restoremilestone(id, project_id) {
+            if (!confirm("Restore this milestone?")) return;
+
+            $.ajax({
+                type: "POST",
+                url: `/milestones/${id}/restore`,
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    project_id: project_id    
+                },
+                success: function(response) {
+                    $('#milestoneRestore').fadeIn(400);
+                    setTimeout(() => {
+                        $('#milestoneRestore').fadeOut(600);
+                    }, 3000);
+                    renderMilestonesTrash(response.trashedMilestoneData);
+                    renderMilestones(response.milestoneData);
+                },
+                error: function(xhr) {
+                    console.error("Restore error:", xhr.responseText);
+                }
+            });
+        }
+
+        function forceDeletemilestone(id, project_id) {
+            if (!confirm("This will permanently delete the milestone. Continue?")) return;
+
+            $.ajax({
+                type: "DELETE",
+                url: `/milestones/${id}/force-delete`,
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    project_id : project_id
+                },
+                success: function(response) {
+                    TrashprodustData();
+                    projectData();
+                    $('#milestonedelete').fadeIn(400);
+                    setTimeout(() => {
+                        $('#milestonedelete').fadeOut(600);
+                    }, 3000);
+
+                    renderMilestonesTrash(response.trashedMilestoneData);
+                    renderMilestones(response.milestoneData);
+                },
+                error: function(xhr) {
+                    console.error("Delete error:", xhr.responseText);
+                }
             });
 
-            $('#closeMilestoneModal').click(function() {
-                $('#taskMilestoneModal').css('display', 'none');
-            });
 
-            // project data fetch using ajax start
-            function projectData() {
-                $.ajax({
-                    type: 'GET',
-                    url: '/project/list',
-                    success: function(response) {
-                        if (response.success) {
-                            let rows = '';
-                            let count = 0;
-                            let index = 1;
 
-                            // Prepare a map: projectId => array of assigned users
-                            const assignedUsersMap = {};
-                            if (response.assignedUsers && response.assignedUsers.length > 0) {
-                                response.assignedUsers.forEach(user => {
-                                    const pid = user
-                                        .project_id; // adjust field name if different
-                                    if (!assignedUsersMap[pid]) assignedUsersMap[pid] = [];
-                                    assignedUsersMap[pid].push(user);
-                                });
-                            }
+        }
 
-                            if (response.success.length > 0) {
-                                response.success.forEach(function(project) {
-                                    count++;
+        function TrashprodustData() {
+            $.ajax({
+                type: 'GET',
+                url: '/project/list',
+                success: function(response) {
+                    if (response.success) {
+                        let rows = '';
+                        let count = 0;
+                        let index = 1;
 
-                                    // Get assigned users for current project from map
-                                    const assignedUsers = assignedUsersMap[project.id] || [];
+                        // Prepare a map: projectId => array of assigned users
+                        const assignedUsersMap = {};
+                        if (response.assignedUsers && response.assignedUsers.length > 0) {
+                            response.assignedUsers.forEach(user => {
+                                const pid = user
+                                    .project_id; // adjust field name if different
+                                if (!assignedUsersMap[pid]) assignedUsersMap[pid] = [];
+                                assignedUsersMap[pid].push(user);
+                            });
+                        }
 
-                                    // Build assigned users HTML inside one <td>
-                                    let assignedUsersHtml =
-                                        '<td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900"><div class="flex items-center -space-x-2">';
-                                    if (assignedUsers.length > 0) {
-                                        assignedUsers.forEach(function(users) {
-                                            assignedUsersHtml += `
+                        if (response.trashProjects.length > 0) {
+                            response.trashProjects.forEach(function(project) {
+                                count++;
+
+                                // Get assigned users for current project from map
+                                const assignedUsers = assignedUsersMap[project.id] || [];
+
+                                // Build assigned users HTML inside one <td>
+                                let assignedUsersHtml =
+                                    '<td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900"><div class="flex items-center -space-x-2">';
+                                if (assignedUsers.length > 0) {
+                                    assignedUsers.forEach(function(users) {
+                                        assignedUsersHtml += `
                                                     <!-- User avatars -->
                                                     <img src="${users.user.image || 'assets/default-prf.png'}" alt="${users.user.name}" class="w-10 h-10 rounded-full border-2 border-black">
                                                 `;
-                                        });
-                                    } else {
-                                        assignedUsersHtml += 'No users assigned';
-                                    }
-                                    assignedUsersHtml += '</div></td>';
+                                    });
+                                } else {
+                                    assignedUsersHtml += 'No users assigned';
+                                }
+                                assignedUsersHtml += '</div></td>';
 
-                                    rows += `
+                                rows += `
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
+                                                ${index++}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm font-medium light-text-gray-900">
+                                                    ${project.project_name}
+                                                </div>
+                                                    ${
+                                                        project.is_high_priority == 1
+                                                        ? `
+                                                                    <div class="rounded-sm text-center w-20 light-bg-ea54547a mt-1">
+                                                                        <div class="text-xs light-text-ff0000">High Priority</div>
+                                                                    </div>
+                                                                    `
+                                                        : ''
+                                                    }
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
+                                                <div class="flex items-center gap-1">
+                                                    <p>${project.client_name}</p>
+                                                </div>
+                                            </td>
+
+                                            ${assignedUsersHtml}
+
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex flex-col justify-start gap-2">
+                                                    <span id="progressText" class="ml-2 text-sm light-text-gray-700 align-middle">24%</span>
+                                                    <progress id="myProgress" value="70" max="100" class="w-52 h-2.5 mb-4 rounded-full"></progress>                                                 
+                                                </div>
+                                            </td>
+                                            
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                                <input type="hidden" class="project_status_id" value="${project.id}">
+                                                <select id="project_status" name="project_status" class="w-32 px-4 py-2 rounded-lg bg-success-900/50 text-gray-700 hover:bg-gray-200 transition-colors">
+                                                    <option value="${project.status}" selected>${project.status}</option>
+                                                    <option value="In Progress">In Progress</option>
+                                                    <option value="Delay">Delay</option>
+                                                    <option value="Completed">Completed</option>
+                                                    <option value="Cancelled">Cancelled</option>
+                                                </select>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                                <div class="flex items-center gap-3">
+
+                                                    <!-- Restore -->
+                                                    <button onclick="restoreProject(${project.id})"
+                                                        class="text-green-600 hover:text-green-800 transition"
+                                                        title="Restore">
+                                                        <img src="{{ asset('assets/restore.png') }}" alt="View"
+                                                                class="w-6 h-6  rounded-full p-1 bg-gray-500" />
+                                                    </button>
+
+                                                    <!-- Permanent Delete -->
+                                                    <button onclick="forceDeleteProject(${project.id})"
+                                                        class="text-red-600 hover:text-red-800 transition"
+                                                        title="Delete Permanently">
+                                                        <img src="{{ asset('assets/trash.svg') }}" alt="Delete"
+                                                            class="w-6 h-6  rounded-full p-1 bg-gray-500" />
+                                                    </button>
+
+                                                </div>
+                                            </td>
+                                          
+                                        </tr>
+
+                                        
+                                    `;
+                            });
+                        } else {
+                            rows = `
+                                    <tr>
+                                        <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
+                                            No projects found.
+                                        </td>
+                                    </tr>
+                                `;
+                        }
+                        $('#trashproject-table-body').html(rows);
+                    }
+                },
+                error: function(xhr) {
+                    console.error('Error fetching project data:', xhr.responseText);
+                }
+            });
+        }
+
+        TrashprodustData();
+
+        // project data fetch using ajax start
+        function projectData() {
+            $.ajax({
+                type: 'GET',
+                url: '/project/list',
+                success: function(response) {
+                    if (response.success) {
+                        let rows = '';
+                        let count = 0;
+                        let index = 1;
+
+                        // Prepare a map: projectId => array of assigned users
+                        const assignedUsersMap = {};
+                        if (response.assignedUsers && response.assignedUsers.length > 0) {
+                            response.assignedUsers.forEach(user => {
+                                const pid = user
+                                    .project_id; // adjust field name if different
+                                if (!assignedUsersMap[pid]) assignedUsersMap[pid] = [];
+                                assignedUsersMap[pid].push(user);
+                            });
+                        }
+
+                        if (response.success.length > 0) {
+                            response.success.forEach(function(project) {
+                                count++;
+
+                                // Get assigned users for current project from map
+                                const assignedUsers = assignedUsersMap[project.id] || [];
+
+                                // Build assigned users HTML inside one <td>
+                                let assignedUsersHtml =
+                                    '<td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900"><div class="flex items-center -space-x-2">';
+                                if (assignedUsers.length > 0) {
+                                    assignedUsers.forEach(function(users) {
+                                        assignedUsersHtml += `
+                                                    <!-- User avatars -->
+                                                    <img src="${users.user.image || 'assets/default-prf.png'}" alt="${users.user.name}" class="w-10 h-10 rounded-full border-2 border-black">
+                                                `;
+                                    });
+                                } else {
+                                    assignedUsersHtml += 'No users assigned';
+                                }
+                                assignedUsersHtml += '</div></td>';
+
+                                rows += `
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
                                                 ${index++}
@@ -2946,26 +3536,64 @@
                                             </td>
                                         </tr>
                                     `;
-                                });
-                            } else {
-                                rows = `
+                            });
+                        } else {
+                            rows = `
                                     <tr>
                                         <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
                                             No projects found.
                                         </td>
                                     </tr>
                                 `;
-                            }
-                            $('#project-table-body').html(rows);
                         }
-                    },
-                    error: function(xhr) {
-                        console.error('Error fetching project data:', xhr.responseText);
+                        $('#project-table-body').html(rows);
                     }
-                });
-            }
+                },
+                error: function(xhr) {
+                    console.error('Error fetching project data:', xhr.responseText);
+                }
+            });
+        }
 
-            projectData();
+        projectData();
+
+        //  jquery work
+        $(document).ready(function() {
+
+
+
+            $('.tab-btn').click(function() {
+                const tab = $(this).data('tab');
+
+                if (tab === 'overview') {
+                    $('#overviewContent').removeClass('hidden').show();
+                    $('#notesContent').hide().addClass('hidden');
+                } else if (tab === 'notes') {
+                    $('#notesContent').removeClass('hidden').show();
+                    $('#overviewContent').hide().addClass('hidden');
+                }
+
+                $('.tab-wrapper')
+                    .removeClass('bg-gray-500 text-orange-500 dark:text-orange-400 dark:border-orange-400')
+                    .addClass(
+                        'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300');
+
+                $(this).closest('.tab-wrapper')
+                    .removeClass(
+                        'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300')
+                    .addClass('bg-gray-500 text-orange-500 dark:text-orange-400');
+
+            });
+
+            $('#closeModal').click(function() {
+                $('#projectModal').css('display', 'none');
+            });
+
+            $('#closeMilestoneModal').click(function() {
+                $('#taskMilestoneModal').css('display', 'none');
+            });
+
+
 
             $('#project-table-body').on('click', '.toggle-btn', function() {
                 const targetId = $(this).data('target');
@@ -3116,11 +3744,15 @@
                         $('#edit_user_id').val(response.data.user_id);
                         $('#edit_project_id').val(response.data.id);
                         if (response.data.is_high_priority == 1) {
-                            $('#edit_is_hight_priority').prop('checked', true);  
+                            $('#edit_is_hight_priority').prop('checked', true);
                         } else {
-                            $('#edit_is_hight_priority').prop('checked', false); 
+                            $('#edit_is_hight_priority').prop('checked', false);
                         }
                         renderMilestones(response.milestoneData);
+
+                        renderMilestonesTrash(response.trashedMilestoneData);
+
+                        console.log(response.trashedMilestoneData)
 
                         $('input[name="edit_assign_to[]"]').prop('checked', false);
 
@@ -3212,6 +3844,7 @@
                     },
                     success: function(response) {
                         projectData();
+                        TrashprodustData();
                         $('#deleteProject').fadeIn(400);
                         setTimeout(() => {
                             $('#deleteProject').fadeOut(600);
@@ -3643,6 +4276,7 @@
             if (!editDropdown.contains(e.target) && !editToggle.contains(e.target)) {
                 editDropdown.classList.remove("open");
             }
+
         });
 
 
@@ -3834,10 +4468,21 @@
                 });
             });
 
+
+
             // Open/Close task modal
             openTaskModalBtn?.addEventListener('click', () => {
                 taskModal.classList.remove('hidden');
             });
+
+            // trash modal btn
+            // const trashModal = document.getElementById('trashModal');
+            // const opentrashBtn = document.getElementById('opentrashBtn');
+            // opentrashBtn?.addEventListener('click', () => {
+            //     trashModal.classList.remove('hidden');
+            //                     console.log("trash btn click");
+
+            // });
 
             closeTaskModalBtn?.addEventListener('click', () => {
                 taskModal.classList.add('hidden');
@@ -3865,6 +4510,9 @@
                     modals.classList.remove("hidden");
                 }
             });
+
+
+
 
 
             // ✅ Close modal on click of any close button
@@ -4193,6 +4841,8 @@
                                     success: function(milestoneResponse) {
                                         renderMilestones(milestoneResponse
                                             .milestonesData);
+                                        renderMilestonesTrash(milestoneResponse
+                                            .trashedMilestoneData);
                                     },
                                     error: function() {
                                         alert(
@@ -4304,6 +4954,7 @@
             });
         });
     </script>
+
 
 
 </body>

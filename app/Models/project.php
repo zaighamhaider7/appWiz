@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class project extends Model
 {
+    use SoftDeletes; // 👈 Add this
+
     protected $fillable = [
         'project_name',
         'client_name',

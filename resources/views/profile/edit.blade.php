@@ -1641,17 +1641,16 @@
                             <div class="relative inline-block">
                                 <!-- Button -->
                                 <div class="flex gap-3">
-                                    <button id="filterButton"
-                                        class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
-                                        <div class="flex">
-                                            <span>Filters</span>
-                                            <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                            </svg>
-                                        </div>
-                                    </button>
+                                    <select
+                                    id="filterSelect"
+                                    class="px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer"
+                                >
+                                    <option value="" disabled selected>Filters</option>
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                   </select>
+
                                     <button id="openPopup"
                                         class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d7d7d7 light-text-gray-700 border light-border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors ">
                                         <div class="flex">
@@ -2248,6 +2247,14 @@
             });
             updateTableInfo(memberTable);
             updatePagination(memberTable);
+
+            // Listen for changes on your filter select
+$('#filterSelect').on('change', function() {
+    let selectedValue = parseInt(this.value); // convert to number
+    if (!isNaN(selectedValue)) {
+        memberTable.page.len(selectedValue).draw(); // set page length
+    }
+});
 
             $.ajaxSetup({
                 headers: {

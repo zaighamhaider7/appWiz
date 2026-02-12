@@ -729,19 +729,7 @@
         max-width: 100% !important;
     }
 
-    /* Pagination */
-    #custom-pagination {
-        overflow-x: auto;
-        flex-wrap: nowrap;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    #custom-pagination::-webkit-scrollbar {
-        display: none;
-    }
-
-
-    /* Modal width adjustment */
+     /* Modal width adjustment */
     #ticketModal .w-[900px] {
         width: 95% !important;
         max-width: 95% !important;
@@ -749,8 +737,8 @@
 
     /* Stack all grid rows into single column */
     #ticketModal form#ticketForm .grid {
-        grid-template-columns: 1fr !important; /* force single column */
-        gap: 0.5rem !important; /* smaller vertical gap */
+        grid-template-columns: 1fr !important; 
+        gap: 0.5rem !important;
     }
 
     /* Inner grids (like grid-cols-2 / grid-cols-3) also stack */
@@ -770,7 +758,22 @@
     #ticketModal form#ticketForm {
         padding: 1rem !important;
     }
+
 }
+    /* Pagination */
+    #custom-pagination {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    #custom-pagination::-webkit-scrollbar {
+        display: none;
+    }
+    
+
+
+   
 
 /* ================= Small screens (sm) - ≤640px ================= */
 @media (max-width: 640px) {
@@ -804,6 +807,24 @@
         white-space: nowrap;
     }
 }
+
+/* Modal width adjustment */
+    /* #ticketModal .w-[900px] {
+        width: 95% !important;
+        max-width: 95% !important;
+    } */
+
+    /* Stack all grid rows into single column */
+    /* #ticketModal form#ticketForm .grid {
+        grid-template-columns: 1fr !important; 
+        gap: 0.5rem !important;
+    } */
+
+    /* Inner grids (like grid-cols-2 / grid-cols-3) also stack */
+    /* #ticketModal form#ticketForm .grid > .grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.5rem !important;
+    } */
 
 /* ================= Medium screens (md) - ≥768px ================= */
 @media (min-width: 768px) {
@@ -964,6 +985,10 @@
                                                 <option value="25">25</option>
                                                 <option value="50">50</option>
                                             </select>
+                                            <button
+                                                class="px-4 py-2 rounded-lg light-bg-d7d7d7 text-white font-semibold hover:bg-orange-700 transition-colors openTrashModal">
+                                                Show Trash
+                                            </button>
                                             <button
                                                 class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d7d7d7 light-text-gray-700 border light-border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors openTicketModal">
                                                 <div class="flex">
@@ -1129,7 +1154,7 @@
                                                     id="filterButton"
                                                     class="flex items-center justify-center px-4 py-2 rounded-lg light-text-gray-700  text-gray-700 hover:bg-gray-200 bg-green-900/50 transition-colors">
                                                     <div
-                                                        class="w-32 flex items-center justify-center text-green-500  justify-between ">
+                                                        class="w-32 flex items-center text-green-500  justify-between ">
                                                         <span>Converted</span>
                                                         <svg class="-mt-2 w-6 h-6" viewBox="0 0 24 24" fill="none"
                                                             stroke="currentColor" stroke-width="1.5"
@@ -1178,9 +1203,9 @@
 
                                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                 <div class="flex justify-end gap-2">
-                                                    <form action="{{route('lead.delete', $lead->id)}}" method="POST">
+                                                    <form action="{{route('leads.softdelete', $lead->id)}}" method="POST">
                                                         @csrf
-                                                        @method('DELETE')
+                                                        @method('POST')
                                                         <button
                                                             class="light-text-orange-500 bg-gray-200 p-1 rounded-full light-hover-text-orange-700 open-ticket-modal"
                                                             data-action="view-project">
@@ -1662,7 +1687,7 @@
                                     <button
                                         class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors light-bg-d9d9d9 light-text-gray-700">Previous</button>
                                     <button
-                                        class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200 bg-orange-600 light-bg-orange-600 text-white font-semibold light-bg-d9d9d9 light-text-gray-700">1</button>
+                                        class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200 bg-orange-600 light-bg-orange-600 font-semibold light-bg-d9d9d9 light-text-gray-700">1</button>
                                     <button
                                         class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">2</button>
                                     <button
@@ -2287,10 +2312,208 @@
         </div>
     </div>
 
+{{-- trash modal --}}
+    <div id="trashModal" class="fixed inset-0 bg-black bg-opacity-50 flex  items-center z-50 justify-center hidden">
+        <div
+            class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto  relative">
+            <!-- Close Button -->
+            <button id="closeTrashModal" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+                ✕
+            </button>
 
+            <div class="px-6 py-3"> <!-- Container for heading + divider -->
+                <h2 class="text-lg light-text-black  font-semibold">Trash</h2>
+            </div>
+            <div class=""> <!-- Container for heading + divider -->
+                <div class="border-t border-gray-600 w-full mt-4"></div>
+            </div>
+
+
+            <div>
+                <div class="overflow-x-auto">
+                    <table id="myTable" class="min-w-full divide-y divide-gray-200">
+                        <thead class="light-bg-d9d9d9">
+                            <tr>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        ID
+                                        <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M7 8 L12 3 L17 8" /> <!-- Up chevron -->
+                                            <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        LEADS
+                                        <svg class="ml-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <!-- Up chevron (positioned higher) -->
+                                            <path d="M7 8 L12 3 L17 8" />
+                                            <!-- Down chevron (positioned lower with gap) -->
+                                            <path d="M7 16 L12 21 L17 16" />
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        EMAIL
+                                        <svg class="ml-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <!-- Up chevron (positioned higher) -->
+                                            <path d="M7 8 L12 3 L17 8" />
+                                            <!-- Down chevron (positioned lower with gap) -->
+                                            <path d="M7 16 L12 21 L17 16" />
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider min-w-[120px]">
+                                    <div class="flex items-center justify-between">
+                                        <span class="whitespace-nowrap">PHONE #</span>
+                                        <div class="flex flex-col ml-10">
+                                            <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <!-- Up chevron (positioned higher) -->
+                                                <path d="M7 8 L12 3 L17 8" />
+                                                <!-- Down chevron (positioned lower with gap) -->
+                                                <path d="M7 16 L12 21 L17 16" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </th>
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider min-w-[120px]">
+                                    <div class="flex items-center justify-between">
+                                        <span class="whitespace-nowrap">LEAD SOURCE</span>
+                                        <div class="flex flex-col ml-10">
+                                            <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <!-- Up chevron (positioned higher) -->
+                                                <path d="M7 8 L12 3 L17 8" />
+                                                <!-- Down chevron (positioned lower with gap) -->
+                                                <path d="M7 16 L12 21 L17 16" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider min-w-[120px]">
+                                    <div class="flex items-center justify-between">
+                                        <span class="whitespace-nowrap">BUSINESS NAME</span>
+                                        <div class="flex flex-col ml-10">
+                                            <svg class="icon mr-10 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <!-- Up chevron (positioned higher) -->
+                                                <path d="M7 8 L12 3 L17 8" />
+                                                <!-- Down chevron (positioned lower with gap) -->
+                                                <path d="M7 16 L12 21 L17 16" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </th>
+
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-10 icon" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M7 8 L12 3 L17 8" /> <!-- Up chevron -->
+                                            <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                        </svg>
+
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                         <tbody class="light-bg-white light-bg-seo border-b-2 light-border-gray-300">
+                            @php
+                                $count = 1;
+                            @endphp
+                            @if (count($TrashleadsData) > 0)
+                                @foreach ($TrashleadsData as $lead) 
+                                    <!-- Row 1 -->
+                                     <tr class="border-b-2 light-border-gray-300">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
+                                            {{ $count++ }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium light-text-gray-900">
+                                                <div
+                                                    class="text-sm flex items-center gap-2 font-medium light-text-gray-900">
+                                                    <img src="Avatar.svg" alt="">
+                                                    <p class="light-text-black">{{ $lead->lead_name ?? 'N/A' }}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                            {{ $lead->email ?? 'N/A' }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                            {{ $lead->phone ?? 'N/A' }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                            {{ $lead->lead_source ?? 'N/A' }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                            {{ $lead->business_name ?? 'N/A' }}
+                                        </td>
+                                        
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <div class="flex items-center justify-end gap-2">
+                                                
+                                            <form action="{{ route('leads.restore', $lead   ->id) }}"
+                                                    method="POST" style="display:inline; padding-top:7px;">
+                                                    @csrf
+                                                    @method('POST')
+                                                    <button type="submit" class=" rounded-full ">
+                                                        <img src="{{ asset('assets/restore.png') }}" alt="View"
+                                                        class="w-6 h-6  rounded-full p-1 bg-gray-500" />
+                                                    </button>
+                                                </form> 
+
+                                                 <form action="{{ route('leads.delete', $lead->id) }}"
+                                                    method="POST" style="display:inline; padding-top:7px;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button onclick="return confirm('Are you sure you want to delete this lead?')" type="submit" class=" rounded-full ">
+                                                        <img src="{{ asset('assets/trash.svg') }}" alt="Delete"
+                                                            class="w-6 h-6  rounded-full p-1 bg-gray-500" />
+                                                    </button>
+                                                </form> 
+                                                
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <td colspan="7"
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
+                                    No Trash found.
+                                </td>
+                            @endif
+
+                        </tbody> 
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <!-- Edit Modal -->
     <div id="paymentModal"
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-center z-50 justify-center hidden">
+        class="fixed inset-0 bg-black bg-opacity-50 items-center z-50 justify-center hidden">
         <div
             class="light-bg-d9d9d9 bg-white text-white rounded-lg shadow-lg w-[900px] max-h-[90vh] overflow-y-auto relative">
             <button id="closePaymentModal" class="absolute top-3 right-3 text-gray-400 hover:text-white">✕</button>
@@ -2428,6 +2651,28 @@
             }
         </style>
     @endif
+    @if (session('SoftDeleteLead'))
+        <div style="z-index: 9999 !important;"
+            class="success-message fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
+            {{ session('SoftDeleteLead') }}
+        </div>
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
+    @endif
+    @if (session('RestoreLead'))
+        <div style="z-index: 9999 !important;"
+            class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+            {{ session('RestoreLead') }}
+        </div>
+        <style>
+            #page-loader {
+                display: none !important;
+            }
+        </style>
+    @endif
 
     @if ($errors->any())
         <div style="z-index: 9999 !important;"
@@ -2485,321 +2730,274 @@
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
      <script src="//cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Initialize DataTable
-            const table = new DataTable('#myTable',{
-                dom: 't',
-                ordering: false,
-                pageLength: 5,
-                drawCallback: function(settings) {
-                    var api = this.api();
-                    var pageInfo = api.page.info();
-                    var currentPage = pageInfo.page; // zero-based page index
-                    var totalPages = pageInfo.pages;
+<script>
+window.addEventListener("load", function () {
 
-                    // Enable/disable Previous button
+    console.log("Application Loaded ✅");
+
+    /* =====================================================
+       DATATABLE
+    ===================================================== */
+    let table = null;
+
+    if (document.querySelector('#myTable')) {
+
+        table = new DataTable('#myTable', {
+            dom: 't',
+            ordering: false,
+            pageLength: 5,
+            drawCallback: function () {
+
+                const api = this.api();
+                const pageInfo = api.page.info();
+                const currentPage = pageInfo.page;
+                const totalPages = pageInfo.pages;
+
+                if (document.getElementById('prev-btn'))
                     $('#prev-btn').prop('disabled', currentPage === 0);
-                    // Enable/disable Next button
-                    $('#next-btn').prop('disabled', currentPage === (totalPages - 1));
 
-                    // Update page buttons active style
-                    $('.page-btn').each(function(index) {
-                        if (index === currentPage) {
-                        $(this).addClass('bg-orange-600 text-white font-semibold').removeClass('hover:bg-orange-600 text-white');
-                        } else {
-                        $(this).removeClass('bg-orange-600 text-white font-semibold').addClass('hover:bg-orange-600 text-white');
-                        }
-                    });
-                }
-            });
+                if (document.getElementById('next-btn'))
+                    $('#next-btn').prop('disabled', currentPage === totalPages - 1);
 
-            // Page button clicks
-            $('.page-btn').on('click', function() {
-                var pageNum = parseInt($(this).text()) - 1; // convert to zero-based index
-                table.page(pageNum).draw('page');
-            });
+                $('.page-btn').each(function (index) {
+                    if (index === currentPage) {
+                        $(this)
+                            .addClass('bg-orange-600 text-white font-semibold')
+                            .removeClass('hover:bg-orange-600 text-white');
+                    } else {
+                        $(this)
+                            .removeClass('bg-orange-600 text-white font-semibold')
+                            .addClass('hover:bg-orange-600 text-white');
+                    }
+                });
+            }
+        });
 
-            // Previous button click
-            $('#prev-btn').on('click', function() {
-                table.page('previous').draw('page');
-            });
+        // Pagination
+        $('.page-btn').on('click', function () {
+            const pageNum = parseInt($(this).text()) - 1;
+            table.page(pageNum).draw('page');
+        });
 
-            // Next button click
-            $('#next-btn').on('click', function() {
-                table.page('next').draw('page');
-            });
+        $('#prev-btn').on('click', function () {
+            table.page('previous').draw('page');
+        });
 
-            // Custom search input
-            const customSearch = document.getElementById('dt-search-0');
+        $('#next-btn').on('click', function () {
+            table.page('next').draw('page');
+        });
 
-            customSearch.addEventListener('input', function () {    
+        // Search
+        const customSearch = document.getElementById('dt-search-0');
+        if (customSearch) {
+            customSearch.addEventListener('input', function () {
                 table.search(this.value).draw();
             });
+        }
 
-            // ✅ Custom page length selector
-            const customLength = document.getElementById('dt-length-0');
+        // Length selector
+        const customLength = document.getElementById('dt-length-0');
+        if (customLength) {
             customLength.addEventListener('change', function () {
-            const val = parseInt(this.value);
-            if (!isNaN(val)) {
-                table.page.len(val).draw();
+                const val = parseInt(this.value);
+                if (!isNaN(val)) {
+                    table.page.len(val).draw();
+                }
+            });
+        }
+
+        // Info text
+        table.on('draw', function () {
+            const info = table.page.info();
+            const infoEl = document.getElementById('myTable_info');
+            if (infoEl) {
+                infoEl.textContent =
+                    `Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`;
             }
-            });
-
-            // ✅ Custom Info Updater
-            table.on('draw', function () {
-                const info = table.page.info();
-                document.getElementById('myTable_info').textContent =
-                `Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`;
-            });
-
-
-            
         });
-    </script>
+    }
 
+    /* =====================================================
+       COUNTRY SELECT + CHOICES
+    ===================================================== */
+    const select = document.getElementById('mySelect');
 
-    <script>
-        
-        document.addEventListener('DOMContentLoaded', () => {
-
-
-            const select = document.getElementById('mySelect');
-
-            fetch('https://restcountries.com/v3.1/all?fields=name')
+    if (select) {
+        fetch('https://restcountries.com/v3.1/all?fields=name')
             .then(res => res.json())
             .then(data => {
-                
-                data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+
+                data.sort((a, b) =>
+                    a.name.common.localeCompare(b.name.common)
+                );
 
                 data.forEach(country => {
-                const option = document.createElement('option');
-                option.value = country.name.common;
-                option.textContent = country.name.common;
-                select.appendChild(option);
+                    const option = document.createElement('option');
+                    option.value = country.name.common;
+                    option.textContent = country.name.common;
+                    select.appendChild(option);
                 });
 
-                new Choices(select, {
-                searchEnabled: true,
-                itemSelectText: '',
-                shouldSort: false,
-                });
+                if (typeof Choices !== "undefined") {
+                    new Choices(select, {
+                        searchEnabled: true,
+                        itemSelectText: '',
+                        shouldSort: false,
+                    });
+                }
             })
-            .catch(err => {
-                console.error('Error fetching countries:', err);
-            });
+            .catch(err => console.error(err));
+    }
 
+    /* =====================================================
+       AUTO HIDE SUCCESS MESSAGE
+    ===================================================== */
+    setTimeout(() => {
+        document.querySelectorAll('.success-message')
+            .forEach(el => el.style.display = 'none');
+    }, 5000);
 
-            setTimeout(function() {
-                const messages = document.querySelectorAll('.success-message');
-                messages.forEach(function(el) {
-                    el.style.display = 'none';
-                });
-            }, 5000);
-            
-            const body = document.body;
-            const knowledgeButton = document.getElementById('knowledgeButton');
-            const filterButton = document.getElementById('filterButton');
-            const filterDropdown = document.getElementById('filterDropdown');
+    /* =====================================================
+       DARK MODE
+    ===================================================== */
+    const body = document.body;
+    const knowledgeButton = document.getElementById('knowledgeButton');
 
-            // ✅ Dropdown toggle
-            const filterButtons = document.querySelectorAll('[id^="filterButton"]');
-            const filterDropdowns = document.querySelectorAll('[id^="filterDropdown"]');
+    if (localStorage.getItem('theme') === 'dark') {
+        body.classList.add('dark-mode');
+    }
 
-            filterButtons.forEach((button, index) => {
-                button.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    filterDropdowns[index].classList.toggle('hidden');
-                });
-            });
-
-            document.addEventListener('click', () => {
-                filterDropdowns.forEach(dropdown => {
-                    dropdown.classList.add('hidden');
-                });
-            });
-
-            // ✅ Dropdown color update
-            const updateDropdownColors = () => {
-                const isDarkMode = body.classList.contains('dark-mode');
-                if (filterDropdown) {
-                    filterDropdown.style.color = isDarkMode ? 'white' : 'black';
-                    filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
-                }
-            };
-
-            // ✅ Dark mode toggle
-            const toggleDarkMode = () => {
-                body.classList.toggle('dark-mode');
-                updateImageSources(body.classList.contains('dark-mode'));
-                updateDropdownColors();
-                localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-            };
-
-            // ✅ Update images for dark/light
-            const updateImageSources = (isDarkMode) => {
-                const icons = document.querySelectorAll('.light-mode-icon');
-                icons.forEach(icon => {
-                    const darkSrc = icon.dataset.darkSrc;
-                    const originalSrc = icon.src.replace('-DARK.svg', '.svg');
-                    if (darkSrc) icon.src = isDarkMode ? darkSrc : originalSrc;
-                });
-
-                const images = document.querySelectorAll('.light-mode-img');
-                images.forEach(img => {
-                    const darkSrc = img.dataset.darkSrc;
-                    const originalSrc = img.src.replace('-DARK.png', '.png');
-                    if (darkSrc) img.src = isDarkMode ? darkSrc : originalSrc;
-                });
-
-                const logo = document.querySelector('.light-mode-logo');
-                if (logo) {
-                    const darkLogoSrc = logo.dataset.darkSrc;
-                    const lightLogoSrc = 'Frame 2147224409.png';
-                    logo.src = isDarkMode ? darkLogoSrc : lightLogoSrc;
-                }
-            };
-
-            // ✅ Apply theme from localStorage
-            if (localStorage.getItem('theme') === 'dark') {
-                body.classList.add('dark-mode');
-            }
-
-            updateImageSources(body.classList.contains('dark-mode'));
-            updateDropdownColors();
-
-            // ✅ Dark mode toggle button
-            if (knowledgeButton) {
-                knowledgeButton.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    toggleDarkMode();
-                });
-            }
-
-            // ✅ SEO card "View More" toggle
-            const seoCards = document.getElementById('seo-cards');
-
-            if (seoCards) {
-                seoCards.addEventListener('click', function(event) {
-                    if (event.target.classList.contains('toggle-btn')) {
-                        const card = event.target.closest('div[class*="p-10"]');
-                        const content = card.querySelector('.card-content');
-                        const icon = event.target.querySelector('img.toggle-icon'); // Get the icon
-                        const textNode = event.target.childNodes[
-                        0]; // Get the text node (assuming it's first)
-
-                        if (!content.style.maxHeight || content.style.maxHeight === '0px') {
-                            content.style.maxHeight = content.scrollHeight + 'px';
-                            textNode.textContent = 'View Less '; // Update text only
-                        } else {
-                            content.style.maxHeight = '0px';
-                            textNode.textContent = 'View More '; // Update text only
-                        }
-                    }
-                });
-            }
+    if (knowledgeButton) {
+        knowledgeButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            body.classList.toggle('dark-mode');
+            localStorage.setItem(
+                'theme',
+                body.classList.contains('dark-mode') ? 'dark' : 'light'
+            );
         });
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize Ticket Modal
-            const ticketModal = document.getElementById('ticketModal');
-            const closeTicketModal = document.getElementById('closeTicketModal');
-            const cancelTicket = document.getElementById('cancelTicket');
-            const ticketForm = document.getElementById('ticketForm');
-            const openTicketButtons = document.querySelectorAll('.openTicketModal');
+    }
 
-            // Initialize Payment Modal
-            const paymentModal = document.getElementById('paymentModal');
-            const closePaymentModal = document.getElementById('closePaymentModal');
-            const cancelPayment = document.getElementById('cancelPayment');
-            const paymentForm = document.getElementById('paymentForm');
-            const openPaymentButtons = document.querySelectorAll('.openPaymentModal');
+    /* =====================================================
+       FILTER DROPDOWNS (SAFE)
+    ===================================================== */
+    document.addEventListener('click', function (e) {
 
-            // Ticket Modal Handlers
-            openTicketButtons.forEach(btn => {
-                btn.addEventListener('click', () => ticketModal.classList.remove('hidden'));
-            });
-            closeTicketModal.addEventListener('click', () => ticketModal.classList.add('hidden'));
-            cancelTicket.addEventListener('click', () => ticketModal.classList.add('hidden'));
+        const filterBtn = e.target.closest('[id^="filterButton"]');
+        if (filterBtn) {
+            e.stopPropagation();
+            const dropdownId = filterBtn.id.replace('Button', 'Dropdown');
+            const dropdown = document.getElementById(dropdownId);
+            if (dropdown) dropdown.classList.toggle('hidden');
+            return;
+        }
 
-            // Payment Modal Handlers
-            openPaymentButtons.forEach(btn => {
-                btn.addEventListener('click', () => paymentModal.classList.remove('hidden'));
-            });
-            closePaymentModal.addEventListener('click', () => paymentModal.classList.add('hidden'));
-            cancelPayment.addEventListener('click', () => paymentModal.classList.add('hidden'));
-            paymentForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                console.log('Payment form submitted');
-                paymentModal.classList.add('hidden');
-            });
+        document.querySelectorAll('[id^="filterDropdown"]')
+            .forEach(drop => drop.classList.add('hidden'));
+    });
 
-            // Outside click handler for both modals
-            window.addEventListener('click', (e) => {
-                if (e.target === ticketModal) ticketModal.classList.add('hidden');
-                if (e.target === paymentModal) paymentModal.classList.add('hidden');
-            });
+    /* =====================================================
+       MODALS (DELEGATED - DATATABLE SAFE)
+    ===================================================== */
+    document.addEventListener('click', function (e) {
+
+        // OPEN
+        if (e.target.closest('.openTicketModal')) {
+            document.getElementById('ticketModal')?.classList.remove('hidden');
+        }
+
+        if (e.target.closest('.openTrashModal')) {
+            document.getElementById('trashModal')?.classList.remove('hidden');
+        }
+
+        if (e.target.closest('.openPaymentModal')) {
+            document.getElementById('paymentModal')?.classList.remove('hidden');
+        }
+
+        // CLOSE
+        if (e.target.closest('#closeTicketModal') ||
+            e.target.closest('#cancelTicket')) {
+            document.getElementById('ticketModal')?.classList.add('hidden');
+        }
+
+        if (e.target.closest('#closeTrashModal') ||
+            e.target.closest('#cancelTrash')) {
+            document.getElementById('trashModal')?.classList.add('hidden');
+        }
+
+        if (e.target.closest('#closePaymentModal') ||
+            e.target.closest('#cancelPayment')) {
+            document.getElementById('paymentModal')?.classList.add('hidden');
+        }
+    });
+
+    /* =====================================================
+       PAYMENT FORM
+    ===================================================== */
+    const paymentForm = document.getElementById('paymentForm');
+    if (paymentForm) {
+        paymentForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            console.log("Payment submitted");
+            document.getElementById('paymentModal')?.classList.add('hidden');
         });
+    }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
-            const tabWrappers = document.querySelectorAll('.tab-wrapper');
+    /* =====================================================
+       TABS
+    ===================================================== */
+    const tabButtons = document.querySelectorAll('.tab-btn');
 
-            function activateTab(tabId) {
-                // Reset all tabs first
-                tabContents.forEach(content => content.classList.add('hidden'));
-                tabWrappers.forEach(wrapper => {
-                    wrapper.classList.remove(
-                        'active',
-                        'light-bg-gray-1',
-                        'light-bg-orange-500',
-                        'rounded-full'
-                    );
-                });
-                tabButtons.forEach(button => {
-                    button.classList.remove('text-black', 'dark:text-white');
-                    button.classList.add('light-text-gray-500', 'dark:text-gray-400');
-                });
+    function activateTab(tabId) {
 
-                // Activate the selected tab
-                const selectedTab = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
-                if (selectedTab) {
-                    const wrapper = selectedTab.closest('.tab-wrapper');
-                    const content = document.getElementById(`${tabId}Content`);
+        document.querySelectorAll('.tab-content')
+            .forEach(c => c.classList.add('hidden'));
 
-                    if (wrapper) {
-                        wrapper.classList.add(
-                            'active',
-                            'light-bg-orange-500',
-                            'light-bg-gray-1',
-                            'rounded-full',
-                            'light-hover-bg-gray-300'
-                        );
-                    }
+        document.querySelectorAll('.tab-wrapper')
+            .forEach(w => w.classList.remove(
+                'active',
+                'light-bg-gray-1',
+                'light-bg-orange-500',
+                'rounded-full'
+            ));
 
-                    selectedTab.classList.remove('light-text-gray-500', 'dark:text-gray-400');
-                    selectedTab.classList.add('text-black', 'dark:text-white');
-
-                    if (content) {
-                        content.classList.remove('hidden');
-                    }
-                }
-            }
-
-            // Add click handlers
-            tabButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const tabId = this.getAttribute('data-tab');
-                    activateTab(tabId);
-                });
+        document.querySelectorAll('.tab-btn')
+            .forEach(b => {
+                b.classList.remove('text-black', 'dark:text-white');
+                b.classList.add('light-text-gray-500', 'dark:text-gray-400');
             });
 
-            // ✅ Set first tab as default
-            if (tabButtons.length > 0) {
-                activateTab(tabButtons[0].getAttribute('data-tab'));
-            }
+        const selectedBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+        const content = document.getElementById(`${tabId}Content`);
+
+        if (selectedBtn) {
+            const wrapper = selectedBtn.closest('.tab-wrapper');
+            wrapper?.classList.add(
+                'active',
+                'light-bg-orange-500',
+                'rounded-full'
+            );
+
+            selectedBtn.classList.remove('light-text-gray-500', 'dark:text-gray-400');
+            selectedBtn.classList.add('text-black', 'dark:text-white');
+        }
+
+        if (content) content.classList.remove('hidden');
+    }
+
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+            activateTab(this.getAttribute('data-tab'));
         });
-    </script>
+    });
+
+    if (tabButtons.length > 0) {
+        activateTab(tabButtons[0].getAttribute('data-tab'));
+    }
+
+});
+</script>
+
 
 </body>
 
