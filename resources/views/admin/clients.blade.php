@@ -1,4 +1,5 @@
 <?php
+
 use App\Models\User;
 ?>
 <!DOCTYPE html>
@@ -1079,6 +1080,11 @@ use App\Models\User;
             align-items: center;
             border-color: #374151 !important;
         }
+
+
+        .dt-length {
+            display: hidden;
+        }
     </style>
 
 </head>
@@ -1114,7 +1120,7 @@ use App\Models\User;
                                 <div class="relative">
                                     <input type="search" placeholder="Search here"
                                         class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500 dt-input"
-                                        id="dt-search-0" aria-controls="myTable">
+                                        id="memberSearch1" aria-controls="myTable">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <svg class="icon text-gray-400" viewBox="0 0 24 24">
                                             <circle cx="11" cy="11" r="8"></circle>
@@ -1124,15 +1130,13 @@ use App\Models\User;
                                 </div>
                                 <div class="relative inline-block">
                                     <!-- Button -->
-                                    <select aria-controls="myTable" id="dt-length-0" fdprocessedid="9gl4x"
-                                        class="dt-input w-20 px-3 py-2 rounded-md text-sm
-                                                bg-white text-gray-800 border border-gray-300
-                                                dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600
-                                                focus:outline-none focus:ring-2 focus:ring-orange-500">
-                                        <option value="Filter" selected hidden>Filter</option>
-                                        <option value="1">1</option>
+                                    <select
+                                        id="filterSelect1"
+                                        class="px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer">
+                                        <option value="" disabled selected>Filters</option>
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
                                         <option value="25">25</option>
-                                        <option value="50">50</option>
                                     </select>
 
 
@@ -1154,7 +1158,7 @@ use App\Models\User;
                         </div>
 
                         <div class="overflow-x-auto">
-                            <table id="myTable" class="min-w-full divide-y divide-gray-200">
+                            <table id="memberTable1" class="min-w-full divide-y divide-gray-200">
                                 <thead class="light-bg-d9d9d9">
                                     <tr>
                                         <th scope="col"
@@ -1250,189 +1254,192 @@ use App\Models\User;
                                 </thead>
                                 <tbody class="light-bg-white light-bg-seo border-b-2 light-border-gray-300">
                                     @php
-                                        $count = 1;
+                                    $count = 1;
                                     @endphp
                                     @if (count($clientData) > 0)
-                                        @foreach ($clientData as $client)
-                                            <!-- Row 1 -->
-                                            <tr class="border-b-2 light-border-gray-300">
-                                                <td
-                                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                                    {{ $count++ }}</td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="text-sm font-medium light-text-gray-900">
-                                                        <div
-                                                            class="text-sm flex items-center gap-2 font-medium light-text-gray-900">
-                                                            <img src="Avatar.svg" alt="">
-                                                            <p class="light-text-black">{{ $client->name ?? 'N/A' }}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                    {{ $client->email ?? 'N/A' }}</td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                    {{ $client->phone ?? 'N/A' }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                    {{ $client->business_name ?? 'N/A' }}
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                                    {{ $client->country ?? 'N/A' }}</td>
+                                    @foreach ($clientData as $client)
+                                    <!-- Row 1 -->
+                                    <tr class="border-b-2 light-border-gray-300" data-client-id="{{ $client->id }}">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
+                                            {{ $count++ }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium light-text-gray-900">
+                                                <div
+                                                    class="text-sm flex items-center gap-2 font-medium light-text-gray-900">
+                                                    <img src="Avatar.svg" alt="">
+                                                    <p class="light-text-black">{{ $client->name ?? 'N/A' }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                            {{ $client->email ?? 'N/A' }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                            {{ $client->phone ?? 'N/A' }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                            {{ $client->business_name ?? 'N/A' }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                            {{ $client->country ?? 'N/A' }}
+                                        </td>
 
-                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    <button
-                                                        class="light-text-orange-500 light-hover-text-orange-700 toggle-btn"
-                                                        data-target="expand-0{{ $loop->iteration }}">
-                                                        <img class="icon w-full h-full"
-                                                            src="{{ asset('assets/Frame 2147224370.svg') }}" />
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <!-- Expandable Row (Sub-Header + Sub-Row) -->
-                                            <tr id="expand-0{{ $loop->iteration }}" class="hidden light-text-black">
-                                                <td colspan="7" class="px-6 py-4 ">
-                                                    <!-- Sub-table Head -->
-                                                    <div
-                                                        class="grid font-semibold light-text-black border-b-2 light-border-gray-300 items-center py-3 px-2
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button
+                                                class="light-text-orange-500 light-hover-text-orange-700 toggle-btn">                                                <img class="icon w-full h-full"
+                                                    src="{{ asset('assets/Frame 2147224370.svg') }}" />
+                                            </button>
+                                        </td>
+                                        <!-- <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button
+                                                class="light-text-orange-500 light-hover-text-orange-700 toggle-btn"
+                                                data-target="expand-0{{ $loop->iteration }}">
+                                                <img class="icon w-full h-full"
+                                                    src="{{ asset('assets/Frame 2147224370.svg') }}" />
+                                            </button>
+                                        </td> -->
+                                    </tr>
+                                    <!-- Expandable Row (Sub-Header + Sub-Row) -->
+                                    <!-- <tr id="expand-0{{ $loop->iteration }}" class="hidden light-text-black">
+                                        <td colspan="7" class="px-6 py-4 ">
+                                            <div
+                                                class="grid font-semibold light-text-black border-b-2 light-border-gray-300 items-center py-3 px-2
                                                     grid-cols-[6rem_10rem_14rem_14rem_15rem_6rem]">
 
-                                                        <div>#</div>
+                                                <div>#</div>
 
-                                                        <div class="flex items-center gap-1">
-                                                            AMOUNT
-                                                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                                <path d="M7 8 L12 3 L17 8" />
-                                                                <path d="M7 16 L12 21 L17 16" />
-                                                            </svg>
-                                                        </div>
+                                                <div class="flex items-center gap-1">
+                                                    AMOUNT
+                                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor" stroke-width="1.5"
+                                                        stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M7 8 L12 3 L17 8" />
+                                                        <path d="M7 16 L12 21 L17 16" />
+                                                    </svg>
+                                                </div>
 
-                                                        <div class="flex items-center gap-1">
-                                                            LEAD SOURCE
-                                                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                                <path d="M7 8 L12 3 L17 8" />
-                                                                <path d="M7 16 L12 21 L17 16" />
-                                                            </svg>
-                                                        </div>
+                                                <div class="flex items-center gap-1">
+                                                    LEAD SOURCE
+                                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor" stroke-width="1.5"
+                                                        stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M7 8 L12 3 L17 8" />
+                                                        <path d="M7 16 L12 21 L17 16" />
+                                                    </svg>
+                                                </div>
 
-                                                        <div class="flex items-center gap-1">
-                                                            CURRENT PROJECT
-                                                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                                <path d="M7 8 L12 3 L17 8" />
-                                                                <path d="M7 16 L12 21 L17 16" />
-                                                            </svg>
-                                                        </div>
+                                                <div class="flex items-center gap-1">
+                                                    CURRENT PROJECT
+                                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor" stroke-width="1.5"
+                                                        stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M7 8 L12 3 L17 8" />
+                                                        <path d="M7 16 L12 21 L17 16" />
+                                                    </svg>
+                                                </div>
 
-                                                        <div class="flex items-center gap-1">
-                                                            MEMBERSHIP
-                                                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                                <path d="M7 8 L12 3 L17 8" />
-                                                                <path d="M7 16 L12 21 L17 16" />
-                                                            </svg>
-                                                        </div>
+                                                <div class="flex items-center gap-1">
+                                                    MEMBERSHIP
+                                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor" stroke-width="1.5"
+                                                        stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M7 8 L12 3 L17 8" />
+                                                        <path d="M7 16 L12 21 L17 16" />
+                                                    </svg>
+                                                </div>
 
-                                                        <div class="text-right">ACTION</div>
-                                                    </div>
+                                                <div class="text-right">ACTION</div>
+                                            </div>
 
-                                                    <!-- Sub-table Row -->
-                                                    <div
-                                                        class="grid pt-2 mt-2 light-text-black items-center
+                                            <div
+                                                class="grid pt-2 mt-2 light-text-black items-center
                                                     grid-cols-[7rem_10rem_14rem_14rem_15rem_6rem]">
 
-                                                        <!-- # -->
-                                                        <div></div>
-
-                                                        <!-- Amount -->
-
-                                                        @if (isset($latestProjectByClient[$client->id]) && $latestProjectByClient[$client->id])
-                                                            <div class="text-gray-400 text-sm">
-                                                                {{ $latestProjectByClient[$client->id]->price }}</div>
-                                                        @else
-                                                            <div class="text-gray-400 text-sm">Client has no projects.
-                                                            </div>
-                                                        @endif
-
-                                                        <!-- Lead Source -->
-                                                        <div class="text-gray-400 text-sm">
-                                                            {{ $client->leads ?? 'N/A' }}</div>
-
-                                                        <!-- Current Project -->
-
-                                                        @if (isset($latestProjectByClient[$client->id]) && $latestProjectByClient[$client->id])
-                                                            <div class="text-gray-400 text-sm">
-                                                                {{ $latestProjectByClient[$client->id]->project_name }}
-                                                            </div>
-                                                        @else
-                                                            <div class="text-gray-400 text-sm">Client has no projects.
-                                                            </div>
-                                                        @endif
+                                                <div></div>
 
 
-                                                        <!-- Membership Tags -->
-                                                        <div class="text-gray-400 text-sm">
-                                                            {{ $client->membership ?? 'N/A' }}
-                                                        </div>
-                                                        {{-- <div class="flex flex-wrap gap-1">
+                                                @if (isset($latestProjectByClient[$client->id]) && $latestProjectByClient[$client->id])
+                                                <div class="text-gray-400 text-sm">
+                                                    {{ $latestProjectByClient[$client->id]->price }}
+                                                </div>
+                                                @else
+                                                <div class="text-gray-400 text-sm">Client has no projects.
+                                                </div>
+                                                @endif
+
+                                                <div class="text-gray-400 text-sm">
+                                                    {{ $client->leads ?? 'N/A' }}
+                                                </div>
+
+
+                                                @if (isset($latestProjectByClient[$client->id]) && $latestProjectByClient[$client->id])
+                                                <div class="text-gray-400 text-sm">
+                                                    {{ $latestProjectByClient[$client->id]->project_name }}
+                                                </div>
+                                                @else
+                                                <div class="text-gray-400 text-sm">Client has no projects.
+                                                </div>
+                                                @endif
+
+
+                                                <div class="text-gray-400 text-sm">
+                                                    {{ $client->membership ?? 'N/A' }}
+                                                </div>
+                                                 <div class="flex flex-wrap gap-1">
                                                     <span
                                                         class="light-bg-d7d7d7 text-gray-400 px-2 py-1 rounded-md text-xs">Domain</span>
                                                     <span
                                                         class="light-bg-d7d7d7 text-gray-400 px-2 py-1 rounded-md text-xs">Hosting</span>
                                                     <span
                                                         class="light-bg-d7d7d7 text-gray-400 px-2 py-1 rounded-md text-xs">+3</span>
-                                                </div> --}}
+                                                </div>
 
-                                                        <!-- Action Buttons -->
-                                                        <div class="flex items-center justify-end gap-2">
+                                                <div class="flex items-center justify-end gap-2">
 
 
-                                                            {{-- <form action="{{ route('clients.details', $client->id) }}"
-                                                                method="POST"
-                                                                style="display:inline; padding-top:7px;">
-                                                                @csrf
-                                                                @method('POST')
-                                                                <button type="submit" class=" rounded-full ">
-                                                                    <img src="{{ asset('assets/eye-DARK.svg') }}"
-                                                                        alt="View"
-                                                                        class="w-6 h-6 switchRight rounded-full p-1 bg-gray-500" />
-                                                                </button>
-                                                            </form> --}}
-                                                            <a href="{{ route('clients.details', $client->id) }}"
-                                                                class="inline-block pt-[4px]">
-                                                                <img src="{{ asset('assets/eye-DARK.svg') }}"
-                                                                    alt="View"
-                                                                    class="w-6 h-6 switchRight rounded-full p-1 bg-gray-500" />
-                                                            </a>
+                                                    <form action="{{ route('clients.details', $client->id) }}"
+                                                    method="POST"
+                                                    style="display:inline; padding-top:7px;">
+                                                    @csrf
+                                                    @method('POST')
+                                                    <button type="submit" class=" rounded-full ">
+                                                        <img src="{{ asset('assets/eye-DARK.svg') }}"
+                                                            alt="View"
+                                                            class="w-6 h-6 switchRight rounded-full p-1 bg-gray-500" />
+                                                    </button>
+                                                    </form> 
+                                                    <a href="{{ route('clients.details', $client->id) }}"
+                                                        class="inline-block pt-[4px]">
+                                                        <img src="{{ asset('assets/eye-DARK.svg') }}"
+                                                            alt="View"
+                                                            class="w-6 h-6 switchRight rounded-full p-1 bg-gray-500" />
+                                                    </a>
 
-                                                            <form action="{{ route('clients.softdelete', $client->id) }}"
-                                                                method="POST"
-                                                                style="display:inline; padding-top:7px;">
-                                                                @csrf
-                                                                @method('POST')
-                                                                <button type="submit" class=" rounded-full ">
-                                                                    <img src="{{ asset('assets/trash.svg') }}"
-                                                                        alt="Delete"
-                                                                        class="w-6 h-6  rounded-full p-1 bg-gray-500" />
-                                                                </button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
+                                                    <form action="{{ route('clients.softdelete', $client->id) }}"
+                                                        method="POST"
+                                                        style="display:inline; padding-top:7px;">
+                                                        @csrf
+                                                        @method('POST')
+                                                        <button type="submit" class=" rounded-full ">
+                                                            <img src="{{ asset('assets/trash.svg') }}"
+                                                                alt="Delete"
+                                                                class="w-6 h-6  rounded-full p-1 bg-gray-500" />
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
 
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @else
-                                        <td colspan="7"
-                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
-                                            No clients found.
                                         </td>
+                                    </tr> -->
+                                    @endforeach
+                                    @else
+                                    <td colspan="7"
+                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
+                                        No clients found.
+                                    </td>
                                     @endif
 
                                 </tbody>
@@ -1443,27 +1450,59 @@ use App\Models\User;
 
                         <!-- Table Pagination -->
                         <div
-                            class="flex items-center justify-between mt-4 text-sm p-6 light-text-gray-600 flex-wrap gap-2">
+                            class="flex items-center p-6 justify-between mt-4 text-sm light-text-gray-600 flex-wrap gap-2">
                             <div>
-                                <span class="dt-info" aria-live="polite" id="myTable_info" role="status"
-                                    bis_skin_checked="1">Showing 1 to 2 of 2 entries</span>
+                                <span id="tableInfo1"></span>
+                                <div class="relative inline-block">
+                                    <!-- Button -->
+                                    <!-- <button id="filterButton2"
+                                    class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
+                                    <div class="flex">
+                                        <span>Filters</span>
+                                        <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                    <!-- </svg> -->
+                                    <!-- </div> -->
+                                    <!-- </button> -->
 
+                                    <!-- Dropdown Content -->
+                                    <div id="filterDropdown"
+                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
+                                        <div class="py-1" role="menu" aria-orientation="vertical">
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">1</a>
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">2</a>
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">3</a>
+                                            <div class="border-t border-gray-100"></div>
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">Reset Filters</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div id="custom-pagination" class="flex space-x-2 mt-4">
-                                <button id="prev-btn"
-                                    class="px-4 py-2 rounded-md border border-gray-300 text-white hover:bg-orange-600  transition-colors">Previous</button>
+                                <div id="customPagination1" class="flex space-x-2">
                                 <button
-                                    class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">1</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
                                 <button
-                                    class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">2</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
                                 <button
-                                    class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">3</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
                                 <button
-                                    class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">4</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
                                 <button
-                                    class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">5</button>
-                                <button id="next-btn"
-                                    class="px-4 py-2 rounded-md border border-gray-300 text-white hover:bg-orange-600  transition-colors">Next</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
                             </div>
                         </div>
                     </div>
@@ -1490,17 +1529,17 @@ use App\Models\User;
                         <div class="w-[35%] h-[680px] p-4 light-bg-d9d9d9 rounded-md">
                             <div class="flex flex-col  mt-5 pb-4 items-center border-b light-border-black">
                                 @if ($singleClientData)
-                                    <img class="pb-4 rounded" height="150" width="150"
-                                        src="{{ asset($singleClientData->image ?? 'assets/default-prf.png') }}" />
+                                <img class="pb-4 rounded" height="150" width="150"
+                                    src="{{ asset($singleClientData->image ?? 'assets/default-prf.png') }}" />
                                 @else
-                                    <img height="150" width="150" src="{{ asset('assets/AvatarTeam.png') }}"
-                                        class="pb-4 rounded" alt="">
+                                <img height="150" width="150" src="{{ asset('assets/AvatarTeam.png') }}"
+                                    class="pb-4 rounded" alt="">
                                 @endif
 
                                 @if ($singleClientData)
-                                    <h3 class="text-2xl">{{ $singleClientData->name }}</h3>
+                                <h3 class="text-2xl">{{ $singleClientData->name }}</h3>
                                 @else
-                                    <p>No client selected.</p>
+                                <p>No client selected.</p>
                                 @endif
 
                                 <div class="flex justify-between gap-10 items-center">
@@ -1532,48 +1571,50 @@ use App\Models\User;
                                 <div class="text-md gap-2 text-white">
                                     <span class="text-md light-client">Username:</span>
                                     @if ($singleClientData)
-                                        {{ $singleClientData->name }}
+                                    {{ $singleClientData->name }}
                                     @endif
                                 </div>
                                 <div class="text-md gap-2 text-white"><span class="text-md light-client">Email:
                                     </span>
                                     @if ($singleClientData)
-                                        {{ $singleClientData->email }}
+                                    {{ $singleClientData->email }}
                                     @endif
                                 </div>
                                 <div class="text-md gap-2 text-white"><span class="text-md light-client">Phone Number:
                                     </span>
                                     @if ($singleClientData)
-                                        {{ $singleClientData->phone ?? 'No phone number available.' }}
+                                    {{ $singleClientData->phone ?? 'No phone number available.' }}
                                     @endif
                                 </div>
                                 <div class="text-md flex items-center gap-2 text-white "><span
                                         class="text-md light-client">Status: </span>
                                     @if ($singleClientData)
-                                        @if ($singleClientData->status === 'active')
-                                            <div class="client_status_wrapper bg-green-900/50 py-1 px-4 rounded-full">
-                                                <p class="client_status_text text-green-500">
-                                                    {{ $singleClientData->status }}</p>
-                                            </div>
-                                        @else
-                                            <div class="client_status_wrapper bg-red-900/50 py-1 px-4 rounded-full">
-                                                <p class="client_status_text text-red-500">
-                                                    {{ $singleClientData->status }}</p>
-                                            </div>
-                                        @endif
+                                    @if ($singleClientData->status === 'active')
+                                    <div class="client_status_wrapper bg-green-900/50 py-1 px-4 rounded-full">
+                                        <p class="client_status_text text-green-500">
+                                            {{ $singleClientData->status }}
+                                        </p>
+                                    </div>
+                                    @else
+                                    <div class="client_status_wrapper bg-red-900/50 py-1 px-4 rounded-full">
+                                        <p class="client_status_text text-red-500">
+                                            {{ $singleClientData->status }}
+                                        </p>
+                                    </div>
+                                    @endif
                                     @endif
 
                                 </div>
                                 <div class="text-md gap-2 text-white"><span class="text-md light-client">Country:
                                     </span>
                                     @if ($singleClientData)
-                                        {{ $singleClientData->country ?? 'No country available.' }}
+                                    {{ $singleClientData->country ?? 'No country available.' }}
                                     @endif
                                 </div>
                                 <div class="text-md gap-2 text-white mb-4"><span class="text-md light-client">City:
                                     </span>
                                     @if ($singleClientData)
-                                        {{ $singleClientData->city ?? 'No city available.' }}
+                                    {{ $singleClientData->city ?? 'No city available.' }}
                                     @endif
                                 </div>
 
@@ -1581,17 +1622,17 @@ use App\Models\User;
 
                             <div class="flex justify-center gap-4 mt-4">
                                 @if ($singleClientData)
-                                    <button data-client-id="{{ $singleClientData->id }}" onclick="openStatusModal()"
-                                        class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 edit-client">Edit</button>
+                                <button data-client-id="{{ $singleClientData->id }}" onclick="openStatusModal()"
+                                    class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 edit-client">Edit</button>
                                 @endif
                                 @if ($singleClientData)
-                                    <form action="{{ route('client.suspend', $singleClientData->id) }}"
-                                        method="POST" style="display:inline;"
-                                        onsubmit="return confirm('{{ $singleClientData->is_suspended == 0 ? 'Are you sure you want to suspend this client?' : 'Are you sure you want to unsuspend this client?' }}')">
-                                        @csrf
-                                        <button type="submit"
-                                            class="px-4 py-2 bg-red-900/50 text-red-500 rounded-lg hover:bg-red-600">{{ $singleClientData->is_suspended == 0 ? 'Suspended' : 'Unsuspended' }}</button>
-                                    </form>
+                                <form action="{{ route('client.suspend', $singleClientData->id) }}"
+                                    method="POST" style="display:inline;"
+                                    onsubmit="return confirm('{{ $singleClientData->is_suspended == 0 ? 'Are you sure you want to suspend this client?' : 'Are you sure you want to unsuspend this client?' }}')">
+                                    @csrf
+                                    <button type="submit"
+                                        class="px-4 py-2 bg-red-900/50 text-red-500 rounded-lg hover:bg-red-600">{{ $singleClientData->is_suspended == 0 ? 'Suspended' : 'Unsuspended' }}</button>
+                                </form>
                                 @endif
                             </div>
                         </div>
@@ -1611,29 +1652,29 @@ use App\Models\User;
                                             <div class="relative border-l border-gray-700 ml-3">
 
                                                 @if (!empty($activity_logs) && count($activity_logs) > 0)
-                                                    @foreach ($activity_logs as $log)
-                                                        <div class="mb-8 relative pl-6">
-                                                            <span
-                                                                class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
-                                                            <div>
-                                                                <p class="font-medium">{{ $log->action }}</p>
-                                                                <p class="text-gray-400 text-sm">
-                                                                    {{ $log->description }}
-                                                                </p>
-                                                                <span
-                                                                    class="absolute right-0 top-0 text-gray-400 text-sm">{{ $log->created_at->diffForHumans() }}</span>
-                                                            </div>
-                                                        </div>
-                                                    @endforEach
-                                                @else
-                                                    <div class="mb-8 relative pl-6">
+                                                @foreach ($activity_logs as $log)
+                                                <div class="mb-8 relative pl-6">
+                                                    <span
+                                                        class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
+                                                    <div>
+                                                        <p class="font-medium">{{ $log->action }}</p>
+                                                        <p class="text-gray-400 text-sm">
+                                                            {{ $log->description }}
+                                                        </p>
                                                         <span
-                                                            class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
-                                                        <div>
-                                                            <p class="text-gray-400 text-sm">No activity logs found.
-                                                            </p>
-                                                        </div>
+                                                            class="absolute right-0 top-0 text-gray-400 text-sm">{{ $log->created_at->diffForHumans() }}</span>
                                                     </div>
+                                                </div>
+                                                @endforEach
+                                                @else
+                                                <div class="mb-8 relative pl-6">
+                                                    <span
+                                                        class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full border border-gray-800"></span>
+                                                    <div>
+                                                        <p class="text-gray-400 text-sm">No activity logs found.
+                                                        </p>
+                                                    </div>
+                                                </div>
                                                 @endif
 
                                             </div>
@@ -1651,7 +1692,7 @@ use App\Models\User;
                             <h2 class="text-xl font-semibold light-text-gray-800">Projects Lists</h2>
                             <div class="flex items-center space-x-3">
                                 <div class="relative">
-                                    <input type="text" placeholder="Search here"
+                                    <input type="text" placeholder="Search here" id="memberSearch"
                                         class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <svg class="icon text-gray-400" viewBox="0 0 24 24">
@@ -1664,45 +1705,24 @@ use App\Models\User;
                                 <div class="relative inline-block">
                                     <div class="flex gap-3">
                                         <!-- Button -->
-                                        <button id="filterButton"
-                                            class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
-                                            <div class="flex">
-                                                <span>Filters</span>
-                                                <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                                </svg>
-                                            </div>
-                                        </button>
+                                        <select
+                                            id="filterSelect"
+                                            class="px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer">
+                                            <option value="" disabled selected>Filters</option>
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                        </select>
 
                                     </div>
 
-                                    <!-- Dropdown Content -->
-                                    <div id="filterDropdown"
-                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                        <div class="py-1" role="menu" aria-orientation="vertical">
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Filter Option 1</a>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Filter Option 2</a>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Filter Option 3</a>
-                                            <div class="border-t border-gray-100"></div>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Reset Filters</a>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
 
                         <div class="overflow-x-auto w-full">
-                            <table class="table-auto min-w-full divide-y divide-gray-200">
+                            <table id="memberTable" class="table-auto min-w-full divide-y divide-gray-200">
                                 <thead class="light-bg-d9d9d9">
                                     <tr>
                                         <th
@@ -1761,98 +1781,98 @@ use App\Models\User;
                                 <tbody class="light-bg-white divide-y divide-gray-200">
 
                                     @if (!empty($clientProjects) && count($clientProjects) > 0)
-                                        @foreach ($clientProjects as $project)
-                                            <tr>
-                                                <!-- PROJECTS -->
-                                                <td class="px-6 py-4 text-sm light-text-gray-900 min-w-[180px]">
-                                                    <div class="flex items-center gap-2">
-                                                        <img class="w-8 h-8 rounded-full"
-                                                            src="{{ asset('assets/default-prf.png') }}"
-                                                            alt="">
-                                                        <div>
-                                                            <p class="text-md">{{ $project->project_name ?? 'N/A' }}
-                                                            </p>
-                                                            <p class="text-xs text-gray-400">
-                                                                {{ $project->created_at->format('d-m-Y') ?? 'N/A' }}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
+                                    @foreach ($clientProjects as $project)
+                                    <tr>
+                                        <!-- PROJECTS -->
+                                        <td class="px-6 py-4 text-sm light-text-gray-900 min-w-[180px]">
+                                            <div class="flex items-center gap-2">
+                                                <img class="w-8 h-8 rounded-full"
+                                                    src="{{ asset('assets/default-prf.png') }}"
+                                                    alt="">
+                                                <div>
+                                                    <p class="text-md">{{ $project->project_name ?? 'N/A' }}
+                                                    </p>
+                                                    <p class="text-xs text-gray-400">
+                                                        {{ $project->created_at->format('d-m-Y') ?? 'N/A' }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
 
-                                                <!-- MEMBERSHIPS -->
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="flex flex-wrap gap-1">
-                                                        {{-- <span
+                                        <!-- MEMBERSHIPS -->
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex flex-wrap gap-1">
+                                                    <!-- <span
                                                             class="light-bg-d7d7d7 text-gray-400 px-2 py-1 rounded-md text-xs">Domain</span>
                                                         <span
                                                             class="light-bg-d7d7d7 text-gray-400 px-2 py-1 rounded-md text-xs">Hosting</span>
                                                         <span
-                                                            class="light-bg-d7d7d7 text-gray-400 px-2 py-1 rounded-md text-xs">+3</span> --}}
-                                                        {{ $project->membership ?? 'N/A' }}
-                                                    </div>
-                                                </td>
+                                                            class="light-bg-d7d7d7 text-gray-400 px-2 py-1 rounded-md text-xs">+3</span> -->
+                                                {{ $project->membership ?? 'N/A' }}
+                                            </div>
+                                        </td>
 
-                                                <!-- PRICE -->
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                                    {{ $project->price ?? 'N/A' }}
-                                                </td>
+                                        <!-- PRICE -->
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            {{ $project->price ?? 'N/A' }}
+                                        </td>
 
-                                                <!-- ASSIGNED TO -->
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                                    <div class="flex items-center -space-x-2">
-                                                        @foreach ($assignedUsers as $assignment)
-                                                            @if ($assignment->project_id === $project->id)
-                                                                <img class="w-10 h-10 rounded-full border-2 border-black"
-                                                                    src="{{ asset($assignment->user->image ?? 'assets/default-prf.png') }}"
-                                                                    alt="{{ $assignment->user->name }}">
-                                                            @endif
-                                                        @endforeach
-                                                        {{-- <img class="w-8 h-8 rounded-full border-2 border-black"
+                                        <!-- ASSIGNED TO -->
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            <div class="flex items-center -space-x-2">
+                                                @foreach ($assignedUsers as $assignment)
+                                                @if ($assignment->project_id === $project->id)
+                                                <img class="w-10 h-10 rounded-full border-2 border-black"
+                                                    src="{{ asset($assignment->user->image ?? 'assets/default-prf.png') }}"
+                                                    alt="{{ $assignment->user->name }}">
+                                                @endif
+                                                @endforeach
+                                                 <!-- <img class="w-8 h-8 rounded-full border-2 border-black"
                                                             src="Avatar (3).svg" alt="Avatar 1">
                                                         <img class="w-8 h-8 rounded-full border-2 border-black"
                                                             src="Avatar (2).svg" alt="Avatar 2">
                                                         <img class="w-8 h-8 rounded-full border-2 border-black"
-                                                            src="Avatar (1).svg" alt="Avatar 3"> --}}
-                                                    </div>
-                                                </td>
+                                                            src="Avatar (1).svg" alt="Avatar 3">  -->
+                                            </div>
+                                        </td>
 
-                                                <!-- PROGRESS -->
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="w-full flex justify-between items-center">
-                                                        <div
-                                                            class="bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 w-full">
-                                                            <div class="bg-orange-500 h-2.5 rounded-full"
-                                                                style="width: 78%;">
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-xs mt-1">78%</div>
+                                        <!-- PROGRESS -->
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="w-full flex justify-between items-center">
+                                                <div
+                                                    class="bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 w-full">
+                                                    <div class="bg-orange-500 h-2.5 rounded-full"
+                                                        style="width: 78%;">
                                                     </div>
-                                                </td>
+                                                </div>
+                                                <div class="text-xs mt-1">78%</div>
+                                            </div>
+                                        </td>
 
-                                                <!-- ACTION -->
-                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    <div class="flex justify-end gap-2">
-                                                        <button
-                                                            class="bg-gray-200 p-1 rounded-full hover:text-orange-700">
-                                                            <img src="{{ asset('assets/eye-DARK.svg') }}"
-                                                                alt="View" class="w-5 h-5">
-                                                        </button>
-                                                        <button
-                                                            class="bg-gray-200 p-1 rounded-full hover:text-orange-700">
-                                                            <img src="{{ asset('assets/Frame 2147224372.svg') }}"
-                                                                alt="Edit" class="w-5 h-5">
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                        <!-- ACTION -->
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <div class="flex justify-end gap-2">
+                                                <button
+                                                    class="bg-gray-200 p-1 rounded-full hover:text-orange-700">
+                                                    <img src="{{ asset('assets/eye-DARK.svg') }}"
+                                                        alt="View" class="w-5 h-5">
+                                                </button>
+                                                <button
+                                                    class="bg-gray-200 p-1 rounded-full hover:text-orange-700">
+                                                    <img src="{{ asset('assets/Frame 2147224372.svg') }}"
+                                                        alt="Edit" class="w-5 h-5">
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforeach
                                     @else
-                                        <tr>
-                                            <td colspan="6"
-                                                class="px-6 py-4 text-left text-sm light-text-gray-900">
-                                                No projects found for this client.
-                                            </td>
-                                        </tr>
+                                    <!-- <tr>
+                                        <td colspan="6"
+                                            class="px-6 py-4 text-left text-sm light-text-gray-900">
+                                            No projects found for this client.
+                                        </td>
+                                    </tr> -->
                                     @endif
 
                                 </tbody>
@@ -1862,27 +1882,26 @@ use App\Models\User;
 
                         <!-- Table Pagination -->
                         <div
-                            class="flex items-center justify-between mt-4 p-6 text-sm light-text-gray-600 flex-wrap gap-4">
+                            class="flex items-center p-6 justify-between mt-4 text-sm light-text-gray-600 flex-wrap gap-2">
                             <div>
-
-                                <span>Showing 1 to 3 of 100 entries </span>
+                                <span id="tableInfo"></span>
                                 <div class="relative inline-block">
                                     <!-- Button -->
-                                    <button id="filterButton2"
-                                        class="flex items-center justify-center ml-2 px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
-                                        <div class="flex">
-                                            <span>Filters</span>
-                                            <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                            </svg>
-                                        </div>
-                                    </button>
+                                    <!-- <button id="filterButton2"
+                                    class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
+                                    <div class="flex">
+                                        <span>Filters</span>
+                                        <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                    <!-- </svg> -->
+                                    <!-- </div> -->
+                                    <!-- </button> -->
 
                                     <!-- Dropdown Content -->
                                     <div id="filterDropdown"
-                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9  light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
+                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
                                         <div class="py-1" role="menu" aria-orientation="vertical">
                                             <a href="#"
                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -1901,17 +1920,21 @@ use App\Models\User;
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex space-x-2" id="custom-pagination-1">
+                            <div id="customPagination" class="flex space-x-2">
                                 <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors light-bg-d9d9d9 light-text-gray-700">Previous</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
                                 <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200 bg-orange-600 light-bg-orange-600 text-white font-semibold light-bg-d9d9d9 light-text-gray-700">1</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
                                 <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">2</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
                                 <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">3</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
                                 <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">Next</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
                             </div>
                         </div>
                     </div>
@@ -1996,7 +2019,7 @@ use App\Models\User;
 
                             <select id="mySelect" name="country"
                                 class=" w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
-                                <option value=""selected hidden style="color: #fff">Choose Country</option>
+                                <option value="" selected hidden style="color: #fff">Choose Country</option>
                             </select>
                         </div>
 
@@ -2006,14 +2029,14 @@ use App\Models\User;
                             {{-- <select name="city"
                                 class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 light-text-black">
                                 <option value="" {{ old('city') ? '' : 'selected' }} hidden>Select City
-                                </option>
-                                <option value="KPK" {{ old('city') == 'KPK' ? 'selected' : '' }}>KPK</option>
-                                <option value="Punjab" {{ old('city') == 'Punjab' ? 'selected' : '' }}>Punjab
-                                </option>
-                                <option value="Manshera" {{ old('city') == 'Manshera' ? 'selected' : '' }}>Manshera
-                                </option>
-                                <option value="Balochistan" {{ old('city') == 'Balochistan' ? 'selected' : '' }}>
-                                    Balochistan</option>
+                            </option>
+                            <option value="KPK" {{ old('city') == 'KPK' ? 'selected' : '' }}>KPK</option>
+                            <option value="Punjab" {{ old('city') == 'Punjab' ? 'selected' : '' }}>Punjab
+                            </option>
+                            <option value="Manshera" {{ old('city') == 'Manshera' ? 'selected' : '' }}>Manshera
+                            </option>
+                            <option value="Balochistan" {{ old('city') == 'Balochistan' ? 'selected' : '' }}>
+                                Balochistan</option>
                             </select> --}}
                             <input type="text" name="city" placeholder="City" value="{{ old('city') }}"
                                 class="w-full p-2 rounded light-bg-d7d7d7 border border-gray-700 text-white focus:outline-none">
@@ -2111,7 +2134,7 @@ use App\Models\User;
 
             <div>
                 <div class="overflow-x-auto">
-                    <table id="myTable" class="min-w-full divide-y divide-gray-200">
+                    <table id="trashTable" class="min-w-full divide-y divide-gray-200">
                         <thead class="light-bg-d9d9d9">
                             <tr>
                                 <th scope="col"
@@ -2187,61 +2210,63 @@ use App\Models\User;
                         </thead>
                         <tbody class="light-bg-white light-bg-seo border-b-2 light-border-gray-300">
                             @php
-                                $count = 1;
+                            $count = 1;
                             @endphp
                             @if (count($TrashclientData) > 0)
-                                @foreach ($TrashclientData as $client)
-                                    <!-- Row 1 -->
-                                    <tr class="border-b-2 light-border-gray-300">
-                                        <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                            {{ $count++ }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium light-text-gray-900">
-                                                <div
-                                                    class="text-sm flex items-center gap-2 font-medium light-text-gray-900">
-                                                    <img src="Avatar.svg" alt="">
-                                                    <p class="light-text-black">{{ $client->name ?? 'N/A' }}</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                            {{ $client->email ?? 'N/A' }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                                            {{ $client->phone ?? 'N/A' }}
-                                        </td>
-                                        
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <div class="flex items-center justify-end gap-2">
-
-                                                <form action="{{ route('clients.restore', $client->id) }}"
-                                                    method="POST" style="display:inline; padding-top:7px;">
-                                                    @csrf
-                                                    @method('POST')
-                                                    <button type="submit" class=" rounded-full ">
-                                                        <img src="{{ asset('assets/restore.png') }}" alt="View"
-                                                        class="w-6 h-6  rounded-full p-1 bg-gray-500" />
-                                                    </button>
-                                                </form>
-
-                                                <form action="{{ route('clients.delete', $client->id) }}"
-                                                    method="POST" style="display:inline; padding-top:7px;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button onclick="return confirm('Are you sure you want to delete this client?')" type="submit" class=" rounded-full ">
-                                                        <img src="{{ asset('assets/trash.svg') }}" alt="Delete"
-                                                            class="w-6 h-6  rounded-full p-1 bg-gray-500" />
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @else
-                                <td colspan="7"
-                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
-                                    No Trash found.
+                            @foreach ($TrashclientData as $client)
+                            <!-- Row 1 -->
+                            <tr class="border-b-2 light-border-gray-300">
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
+                                    {{ $count++ }}
                                 </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium light-text-gray-900">
+                                        <div
+                                            class="text-sm flex items-center gap-2 font-medium light-text-gray-900">
+                                            <img src="Avatar.svg" alt="">
+                                            <p class="light-text-black">{{ $client->name ?? 'N/A' }}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                    {{ $client->email ?? 'N/A' }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                    {{ $client->phone ?? 'N/A' }}
+                                </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <div class="flex items-center justify-end gap-2">
+
+                                        <form action="{{ route('clients.restore', $client->id) }}"
+                                            method="POST" style="display:inline; padding-top:7px;">
+                                            @csrf
+                                            @method('POST')
+                                            <button type="submit" class=" rounded-full ">
+                                                <img src="{{ asset('assets/restore.png') }}" alt="View"
+                                                    class="w-6 h-6  rounded-full p-1 bg-gray-500" />
+                                            </button>
+                                        </form>
+
+                                        <form action="{{ route('clients.delete', $client->id) }}"
+                                            method="POST" style="display:inline; padding-top:7px;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button onclick="return confirm('Are you sure you want to delete this client?')" type="submit" class=" rounded-full ">
+                                                <img src="{{ asset('assets/trash.svg') }}" alt="Delete"
+                                                    class="w-6 h-6  rounded-full p-1 bg-gray-500" />
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @else
+                            <td colspan="7"
+                                class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
+                                No Trash found.
+                            </td>
                             @endif
 
                         </tbody>
@@ -2305,77 +2330,346 @@ use App\Models\User;
 
 
     @if ($errors->any())
-        <div style="z-index: 9999 !important;"
-            class="success-message fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+    <div style="z-index: 9999 !important;"
+        class="success-message fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
 
-        <style>
-            #page-loader {
-                display: none !important;
-            }
-        </style>
+    <style>
+        #page-loader {
+            display: none !important;
+        }
+    </style>
     @endif
 
     @if (session('AddClient'))
-        <div style="z-index: 9999 !important;"
-            class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
-            {{ session('AddClient') }}
-        </div>
+    <div style="z-index: 9999 !important;"
+        class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+        {{ session('AddClient') }}
+    </div>
 
-        <style>
-            #page-loader {
-                display: none !important;
-            }
-        </style>
+    <style>
+        #page-loader {
+            display: none !important;
+        }
+    </style>
     @endif
 
     @if (session('RestoreClient'))
-        <div style="z-index: 9999 !important;"
-            class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
-            {{ session('RestoreClient') }}
-        </div>
+    <div style="z-index: 9999 !important;"
+        class="success-message fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+        {{ session('RestoreClient') }}
+    </div>
 
-        <style>
-            #page-loader {
-                display: none !important;
-            }
-        </style>
+    <style>
+        #page-loader {
+            display: none !important;
+        }
+    </style>
     @endif
 
     @if (session('DeleteClient'))
-        <div style="z-index: 9999 !important;"
-            class="success-message fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
-            {{ session('DeleteClient') }}
-        </div>
+    <div style="z-index: 9999 !important;"
+        class="success-message fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
+        {{ session('DeleteClient') }}
+    </div>
 
-        <style>
-            #page-loader {
-                display: none !important;
-            }
-        </style>
+    <style>
+        #page-loader {
+            display: none !important;
+        }
+    </style>
     @endif
 
     @if ($errors->any())
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const ticketModal = document.getElementById('ticketModal');
-                if (ticketModal) {
-                    ticketModal.classList.remove('hidden');
-                }
-            });
-        </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const ticketModal = document.getElementById('ticketModal');
+            if (ticketModal) {
+                ticketModal.classList.remove('hidden');
+            }
+        });
+    </script>
     @endif
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
-    {{-- <script src="//cdn.datatables.net/2.3.4/js/dataTables.min.js"></script> --}}
+    <script src="//cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
+
+    <script>
+$(document).ready(function() {
+
+    // Initialize DataTable
+    let memberTable = $('#memberTable').DataTable({
+        paging: true,
+        searching: true,
+        ordering: true,
+        lengthChange: false,       // disable default length dropdown
+        pageLength: 6,
+        destroy: true,
+        columnDefs: [
+            { orderable: false, targets: 5 } // ACTION column is not sortable (0-based index)
+        ],
+        dom: 'rt'                  // remove default elements except the table
+    });
+
+    // Custom search
+    $('#memberSearch').on('keyup', function() {
+        memberTable.search(this.value).draw();
+    });
+
+    // Update "Showing X to Y of Z entries"
+    function updateTableInfo(table) {
+        let info = table.page.info();
+        $('#tableInfo').text(`Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`);
+    }
+
+    // Custom pagination
+    function updatePagination(table) {
+        let info = table.page.info();
+        let pagination = $('#customPagination');
+        pagination.empty();
+
+        // Previous button
+        pagination.append(`
+            <button data-page="prev" class="px-4 py-2 rounded-md border border-gray-300
+                ${info.page === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}">
+                Previous
+            </button>
+        `);
+
+        // Page numbers
+        for (let i = 0; i < info.pages; i++) {
+            pagination.append(`
+                <button data-page="${i}" class="px-4 py-2 rounded-md border border-gray-300
+                    ${i === info.page ? 'bg-orange-600 text-white font-semibold' : 'hover:bg-gray-100'}">
+                    ${i + 1}
+                </button>
+            `);
+        }
+
+        // Next button
+        pagination.append(`
+            <button data-page="next" class="px-4 py-2 rounded-md border border-gray-300
+                ${info.page === info.pages - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}">
+                Next
+            </button>
+        `);
+    }
+
+    // Pagination button click
+    $('#customPagination').on('click', 'button', function() {
+        let action = $(this).attr('data-page');
+
+        if (action === 'prev') {
+            memberTable.page('previous').draw('page');
+        } else if (action === 'next') {
+            memberTable.page('next').draw('page');
+        } else {
+            memberTable.page(parseInt(action)).draw('page');
+        }
+    });
+
+    // Trigger updates initially
+    memberTable.on('draw', function() {
+        updateTableInfo(memberTable);
+        updatePagination(memberTable);
+    });
+
+    updateTableInfo(memberTable);
+    updatePagination(memberTable);
+
+    // Custom page length filter
+    $('#filterSelect').on('change', function() {
+        let selectedValue = parseInt(this.value);
+        if (!isNaN(selectedValue)) {
+            memberTable.page.len(selectedValue).draw();
+        }
+    });
+
+});
+</script>
+
+
+
+    <script>
+        $(document).ready(function() {
+
+            let memberTable1 = $('#memberTable1').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                lengthChange: false, // ❌ disable default length dropdown
+                pageLength: 6,
+                destroy: true,
+                columnDefs: [{
+                    orderable: false,
+                    targets: 6 // ACTION column index (0 based!)
+                }],
+                dom: 'rt' // ✅ remove l completely
+            });
+
+
+
+
+            $('#memberSearch1').on('keyup', function() {
+                memberTable1.search(this.value).draw();
+            });
+
+
+
+            // Update “Showing X to Y of Z entries”
+            function updateTableInfo1(table) {
+                let info = table.page.info();
+                $('#tableInfo1').text(`Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`);
+            }
+
+            // Build your custom pagination
+            function updatePagination1(table) {
+                let info = table.page.info();
+                let pagination = $('#customPagination1');
+                pagination.empty();
+
+                // Previous button
+                pagination.append(`
+        <button data-page="prev" class="px-4 py-2 rounded-md border border-gray-300
+            ${info.page === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}">
+            Previous
+        </button>
+                 `);
+
+                // Page numbers
+                for (let i = 0; i < info.pages; i++) {
+                    pagination.append(`
+            <button data-page="${i}" class="px-4 py-2 rounded-md border border-gray-300
+                ${i === info.page ? 'bg-orange-600 text-white font-semibold' : 'hover:bg-gray-100'}">
+                ${i + 1}
+            </button>
+        `);
+                }
+
+                // Next button
+                pagination.append(`
+        <button data-page="next" class="px-4 py-2 rounded-md border border-gray-300
+            ${info.page === info.pages - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}">
+            Next
+        </button>
+    `);
+            }
+
+            $('#customPagination1').on('click', 'button', function() {
+
+                let action = $(this).attr('data-page'); // use attr instead of data()
+
+                if (action === 'prev') {
+                    memberTable1.page('previous').draw('page');
+                } else if (action === 'next') {
+                    memberTable1.page('next').draw('page');
+                } else {
+                    memberTable1.page(parseInt(action)).draw('page'); // force number
+                }
+
+            });
+
+            memberTable1.on('draw', function() {
+                updateTableInfo1(memberTable1);
+                updatePagination1(memberTable1);
+            });
+            updateTableInfo1(memberTable1);
+            updatePagination1(memberTable1);
+
+            // Listen for changes on your filter select
+            $('#filterSelect1').on('change', function() {
+                let selectedValue = parseInt(this.value);
+                if (!isNaN(selectedValue)) {
+                    memberTable1.page.len(selectedValue).draw();
+                }
+            });
+        });
+
+
+        let table = $('#memberTable1').DataTable();
+
+$('#memberTable1 tbody').on('click', '.toggle-btn', function () {
+
+    let tr = $(this).closest('tr');
+    let row = table.row(tr);
+
+    if (row.child.isShown()) {
+        row.child.hide();
+        tr.removeClass('shown');
+    } else {
+
+        let clientId = tr.data('client-id'); // or use data-id if better
+
+        row.child(`
+    <div class="px-6 py-4  light-text-black border-t">
+        <!-- Sub-table Header -->
+        <div class="grid font-semibold light-text-black border-b-2 light-border-gray-300 items-center py-3 px-2 grid-cols-[6rem_10rem_14rem_14rem_15rem_6rem]">
+            <div>#</div>
+            <div class="flex items-center gap-1">
+                AMOUNT
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 8 L12 3 L17 8" />
+                    <path d="M7 16 L12 21 L17 16" />
+                </svg>
+            </div>
+            <div class="flex items-center gap-1">
+                LEAD SOURCE
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 8 L12 3 L17 8" />
+                    <path d="M7 16 L12 21 L17 16" />
+                </svg>
+            </div>
+            <div class="flex items-center gap-1">
+                CURRENT PROJECT
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 8 L12 3 L17 8" />
+                    <path d="M7 16 L12 21 L17 16" />
+                </svg>
+            </div>
+            <div class="flex items-center gap-1">
+                MEMBERSHIP
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 8 L12 3 L17 8" />
+                    <path d="M7 16 L12 21 L17 16" />
+                </svg>
+            </div>
+            <div class="text-right">ACTION</div>
+        </div>
+
+        <!-- Sub-table Row -->
+        <div class="grid pt-2 mt-2 light-text-black items-center grid-cols-[7rem_10rem_14rem_14rem_15rem_6rem]">
+            <div></div>
+            <div class="text-gray-400 text-sm">Dynamic Amount Here</div>
+            <div class="text-gray-400 text-sm">Dynamic Lead Here</div>
+            <div class="text-gray-400 text-sm">Dynamic Project Here</div>
+            <div class="text-gray-400 text-sm">Dynamic Membership Here</div>
+            <div class="flex items-center justify-end gap-2">
+                <a href="/clients/${clientId}" class="inline-block pt-[4px]">
+                    <img src="assets/eye-DARK.svg" alt="View" class="w-6 h-6 switchRight rounded-full p-1 bg-gray-500" />
+                </a>
+                <form action="/clients/softdelete/${clientId}" method="POST" style="display:inline; padding-top:7px;">
+                    <button type="submit" class="rounded-full">
+                        <img src="assets/trash.svg" alt="Delete" class="w-6 h-6 rounded-full p-1 bg-gray-500" />
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+`).show();
+
+        tr.addClass('shown');
+    }
+});
+
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -2453,74 +2747,74 @@ use App\Models\User;
 
 
 
-            // Initialize DataTable
-            const table = new DataTable('#myTable', {
-                dom: 't',
-                ordering: false,
-                pageLength: 1,
-                drawCallback: function(settings) {
-                    var api = this.api();
-                    var pageInfo = api.page.info();
-                    var currentPage = pageInfo.page; // zero-based page index
-                    var totalPages = pageInfo.pages;
+            // // Initialize DataTable
+            // const table = new DataTable('#myTable', {
+            //     dom: 't',
+            //     ordering: false,
+            //     pageLength: 1,
+            //     drawCallback: function(settings) {
+            //         var api = this.api();
+            //         var pageInfo = api.page.info();
+            //         var currentPage = pageInfo.page; // zero-based page index
+            //         var totalPages = pageInfo.pages;
 
-                    // Enable/disable Previous button
-                    $('#prev-btn').prop('disabled', currentPage === 0);
-                    // Enable/disable Next button
-                    $('#next-btn').prop('disabled', currentPage === (totalPages - 1));
+            //         // Enable/disable Previous button
+            //         $('#prev-btn').prop('disabled', currentPage === 0);
+            //         // Enable/disable Next button
+            //         $('#next-btn').prop('disabled', currentPage === (totalPages - 1));
 
-                    // Update page buttons active style
-                    $('.page-btn').each(function(index) {
-                        if (index === currentPage) {
-                            $(this).addClass('bg-orange-600 text-white font-semibold')
-                                .removeClass('hover:bg-orange-600 text-white');
-                        } else {
-                            $(this).removeClass('bg-orange-600 text-white font-semibold')
-                                .addClass('hover:bg-orange-600 text-white');
-                        }
-                    });
-                }
-            });
+            //         // Update page buttons active style
+            //         $('.page-btn').each(function(index) {
+            //             if (index === currentPage) {
+            //                 $(this).addClass('bg-orange-600 text-white font-semibold')
+            //                     .removeClass('hover:bg-orange-600 text-white');
+            //             } else {
+            //                 $(this).removeClass('bg-orange-600 text-white font-semibold')
+            //                     .addClass('hover:bg-orange-600 text-white');
+            //             }
+            //         });
+            //     }
+            // });
 
-            // Page button clicks
-            $('.page-btn').on('click', function() {
-                var pageNum = parseInt($(this).text()) - 1; // convert to zero-based index
-                table.page(pageNum).draw('page');
-            });
+            // // Page button clicks
+            // $('.page-btn').on('click', function() {
+            //     var pageNum = parseInt($(this).text()) - 1; // convert to zero-based index
+            //     table.page(pageNum).draw('page');
+            // });
 
-            // Previous button click
-            $('#prev-btn').on('click', function() {
-                table.page('previous').draw('page');
-            });
+            // // Previous button click
+            // $('#prev-btn').on('click', function() {
+            //     table.page('previous').draw('page');
+            // });
 
-            // Next button click
-            $('#next-btn').on('click', function() {
-                table.page('next').draw('page');
-            });
+            // // Next button click
+            // $('#next-btn').on('click', function() {
+            //     table.page('next').draw('page');
+            // });
 
 
-            // Custom search input
-            const customSearch = document.getElementById('dt-search-0');
+            // // Custom search input
+            // const customSearch = document.getElementById('dt-search-0');
 
-            customSearch.addEventListener('input', function() {
-                table.search(this.value).draw();
-            });
+            // customSearch.addEventListener('input', function() {
+            //     table.search(this.value).draw();
+            // });
 
             // ✅ Custom page length selector
-            const customLength = document.getElementById('dt-length-0');
-            customLength.addEventListener('change', function() {
-                const val = parseInt(this.value);
-                if (!isNaN(val)) {
-                    table.page.len(val).draw();
-                }
-            });
+            // const customLength = document.getElementById('dt-length-0');
+            // customLength.addEventListener('change', function() {
+            //     const val = parseInt(this.value);
+            //     if (!isNaN(val)) {
+            //         table.page.len(val).draw();
+            //     }
+            // });
 
             // ✅ Custom Info Updater
-            table.on('draw', function() {
-                const info = table.page.info();
-                document.getElementById('myTable_info').textContent =
-                    `Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`;
-            });
+            // table.on('draw', function() {
+            //     const info = table.page.info();
+            //     document.getElementById('myTable_info').textContent =
+            //         `Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`;
+            // });
 
 
 
