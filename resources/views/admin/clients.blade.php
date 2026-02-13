@@ -1085,6 +1085,11 @@ use App\Models\User;
         .dt-length {
             display: hidden;
         }
+
+        .dataTables_empty {
+            text-align: center;
+            padding: 1rem;
+        }
     </style>
 
 </head>

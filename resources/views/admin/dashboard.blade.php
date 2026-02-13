@@ -9,17 +9,13 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Quill CSS -->
-    <link
-      href="https://cdn.quilljs.com/1.3.7/quill.snow.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet" />
     <!-- Emoji Plugin -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/quill-emoji@0.2.0/dist/quill-emoji.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/quill-emoji@0.2.0/dist/quill-emoji.css" rel="stylesheet" />
     <style>
         :root {
             --btn-bg: #EA580C;
@@ -205,11 +201,12 @@
         .light-border-black {
             border-color: #000000;
         }
+
         .light-green {
             color: #ffffff;
         }
 
-        .count-head{
+        .count-head {
             color: black;
         }
 
@@ -303,8 +300,8 @@
             color: #28a742 !important;
         }
 
-        .dark-mode .count-head{
-            color: #AFAFAF!important;
+        .dark-mode .count-head {
+            color: #AFAFAF !important;
         }
 
         /* Dark Mode Button Styles */
@@ -748,12 +745,18 @@
         }
 
         .ql-snow .ql-editor.ql-blank::before {
-            color: #616060; /* orange placeholder */
+            color: #616060;
+            /* orange placeholder */
             font-style: italic;
         }
 
         #memberTable_length {
             display: none;
+        }
+
+        .dataTables_empty {
+            text-align: center;
+            padding: 1rem;
         }
     </style>
 
@@ -787,15 +790,15 @@
                             <div class="flex justify-between items-start mb-1">
                                 <p class=" mb-5 text-xs"><span class="count-head">Total
                                         Clients<span></p>
-                                <img src="{{asset('assets/more.svg')}}" alt="Menu" class="h-4 w-4 mt-0.5">
+                                <img src="{{ asset('assets/more.svg') }}" alt="Menu" class="h-4 w-4 mt-0.5">
                             </div>
 
                             <!-- "000" Row (if shown) -->
-                            <p class="text-md text-4xl font-medium light-text-gray-800 mb-2">{{$clientCount}}</p>
+                            <p class="text-md text-4xl font-medium light-text-gray-800 mb-2">{{ $clientCount }}</p>
                             <!-- Light gray, subtle -->
                             <div
                                 class="bg-green-900 px-1 justify-center bg-opacity-50 hover:opacity-100 flex rounded-sm w-28">
-                                <p class="text-xs light-green"> +{{$thisMonthClients}} This Month</p>
+                                <p class="text-xs light-green"> +{{ $thisMonthClients }} This Month</p>
                             </div>
 
 
@@ -809,12 +812,12 @@
                             <div class="flex justify-between items-start mb-1">
                                 <p class="light-text-gray-700 mb-5 text-xs"><span class="count-head">Total
                                         Projects<span></p>
-                                <img src="{{asset('assets/more.svg')}}" alt="Menu" class="h-4 w-4 mt-0.5">
+                                <img src="{{ asset('assets/more.svg') }}" alt="Menu" class="h-4 w-4 mt-0.5">
                             </div>
-                            <p class="text-4xl font-medium mb-2 light-text-gray-800">{{$projectCount}}</p>
+                            <p class="text-4xl font-medium mb-2 light-text-gray-800">{{ $projectCount }}</p>
                             <div
                                 class="bg-green-900 px-1 bg-opacity-50 hover:opacity-100 justify-center flex rounded-sm w-28">
-                                <p class="text-xs  light-green"> +{{$thisMonthProjects}} This Month</p>
+                                <p class="text-xs  light-green"> +{{ $thisMonthProjects }} This Month</p>
                             </div>
 
                         </div>
@@ -826,12 +829,12 @@
                             <div class="flex justify-between items-start mb-1">
                                 <p class="light-text-gray-700 mb-5 text-xs"><span class="count-head">Total
                                         Tickets</span></p>
-                                <img src="{{asset('assets/more.svg')}}" alt="Menu" class="h-4 w-4 mt-0.5">
+                                <img src="{{ asset('assets/more.svg') }}" alt="Menu" class="h-4 w-4 mt-0.5">
                             </div>
-                            <p class="text-4xl font-medium mb-2 light-text-gray-800">{{$ticketCount}}</p>
+                            <p class="text-4xl font-medium mb-2 light-text-gray-800">{{ $ticketCount }}</p>
                             <div
                                 class="bg-green-900 bg-opacity-50 hover:opacity-100 px-1 justify-center flex rounded-sm w-28">
-                                <p class="text-xs  light-green"> +{{$thisMonthTickets}} This Month</p>
+                                <p class="text-xs  light-green"> +{{ $thisMonthTickets }} This Month</p>
                             </div>
 
                         </div>
@@ -843,7 +846,7 @@
                             <div class="flex justify-between items-start mb-1">
                                 <p class="light-text-gray-100 mb-5 text-xs"><span class="count-head">Most
                                         Requested Service</span></p>
-                                <img src="{{asset('assets/more.svg')}}" alt="Menu" class="h-4 w-4 mt-0.5">
+                                <img src="{{ asset('assets/more.svg') }}" alt="Menu" class="h-4 w-4 mt-0.5">
                             </div>
                             <p class="text-4xl font-medium mb-2 light-text-gray-800">SEO</p>
                             <div
@@ -860,11 +863,12 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6" id="seo-cards">
 
                     <!-- Traffic by Countries Box (40% width) -->
-                    <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm overflow-y-auto" style="height: 27em !important">
+                    <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm overflow-y-auto"
+                        style="height: 27em !important">
                         <div class="mb-6">
                             <div class="flex justify-between items-start mb-1">
                                 <h3 class="text-lg font-medium light-text-gray-800">Visitor geo-locations </h3>
-                                <img src="{{asset('assets/more.svg')}}" alt="Menu" class="h-4 w-4 mt-0.5">
+                                <img src="{{ asset('assets/more.svg') }}" alt="Menu" class="h-4 w-4 mt-0.5">
                             </div>
                             <p class="text-sm text-gray-400">Monthly Visitors Overview</p>
                         </div>
@@ -882,13 +886,10 @@
                                     <div class="flex items-center">
                                         <div
                                             class="w-8 h-8 rounded-full bg-cyan-100 flex items-center justify-center mr-3">
-                                            <!-- <img src="{{asset('assets/cn 1.png')}}" class="rounded-full" alt=""> -->
-                                             <img
-                                                    src="https://flagcdn.com/w40/{{ $d['countryCode'] }}.png"
-                                                    class="rounded-full w-8 h-8 object-cover"
-                                                    alt="{{ $d['country'] }}"
-                                                    onerror="this.src='{{ asset('assets/flag-fallback.svg') }}'"
-                                                >
+                                            <!-- <img src="{{ asset('assets/cn 1.png') }}" class="rounded-full" alt=""> -->
+                                            <img src="https://flagcdn.com/w40/{{ $d['countryCode'] }}.png"
+                                                class="rounded-full w-8 h-8 object-cover" alt="{{ $d['country'] }}"
+                                                onerror="this.src='{{ asset('assets/flag-fallback.svg') }}'">
                                         </div>
                                         <div>
                                             <p class="text-sm font-medium">{{ $d['totalUsers'] }}</p>
@@ -900,8 +901,7 @@
                                     @endphp
                                     @if ($change >= 0)
                                         <span class="flex items-center text-sm font-semibold text-green-500">
-                                            <svg class="w-4 h-4 text-green-500" fill="currentColor"
-                                                viewBox="0 0 20 20">
+                                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd"
                                                     d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
                                                     clip-rule="evenodd"></path>
@@ -925,7 +925,8 @@
                         </div>
                     </div>
                     <!-- Traffic by Countries Box (40% width) -->
-                    <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm overflow-y-auto" style="height: 27em !important">
+                    <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm overflow-y-auto"
+                        style="height: 27em !important">
                         <div class="mb-6">
                             <h3 class="text-lg font-medium light-text-gray-800">Source Visits</h3>
                             <p class="text-sm text-gray-400">Monthly Visitors Source</p>
@@ -939,7 +940,8 @@
                                         <div
                                             class="w-8 h-8 rounded-md bg-[#282828] flex items-center justify-center mr-3">
 
-                                            <img src="{{asset('assets/Icon (13).svg')}}" class="rounded-full" alt="">
+                                            <img src="{{ asset('assets/Icon (13).svg') }}" class="rounded-full"
+                                                alt="">
                                         </div>
                                         <div>
                                             <p class="text-md font-medium">{{ $ss['sessionSource'] }}</p>
@@ -956,11 +958,12 @@
                                 </div>
                             @endforeach
                         </div>
-                       
+
                     </div>
 
                     <!-- Traffic by Countries Box (40% width) -->
-                    <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm overflow-y-auto" style="height: 27em !important">
+                    <div class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm overflow-y-auto"
+                        style="height: 27em !important">
                         <div class="mb-6">
                             <h3 class="text-lg font-medium light-text-gray-800">Most clicked packages </h3>
                             <p class="text-sm text-gray-400">Monthly Overview</p>
@@ -972,7 +975,8 @@
                                 <div class="flex items-center mb-2">
                                     <div class="w-8 h-8  flex items-center justify-center mr-3">
 
-                                        <img src="{{asset('assets/Icon (19).svg')}}" class="" alt="">
+                                        <img src="{{ asset('assets/Icon (19).svg') }}" class=""
+                                            alt="">
                                     </div>
                                     <div>
                                         <p class="text-sm font-medium">SEO Optimization</p>
@@ -997,7 +1001,8 @@
                                 <div class="flex items-center mb-2">
                                     <div class="w-8 h-8  flex items-center justify-center mr-3">
 
-                                        <img src="{{asset('assets/Icon (19).svg')}}" class="" alt="">
+                                        <img src="{{ asset('assets/Icon (19).svg') }}" class=""
+                                            alt="">
                                     </div>
                                     <div>
                                         <p class="text-sm font-medium">Social Media Ads</p>
@@ -1022,7 +1027,8 @@
                                 <div class="flex items-center mb-2">
                                     <div class="w-8 h-8  flex items-center justify-center mr-3">
 
-                                        <img src="{{asset('assets/Icon (19).svg')}}" class="" alt="">
+                                        <img src="{{ asset('assets/Icon (19).svg') }}" class=""
+                                            alt="">
                                     </div>
                                     <div>
                                         <p class="text-sm font-medium">Content Marketing</p>
@@ -1048,7 +1054,8 @@
                                 <div class="flex items-center mb-2">
                                     <div class="w-8 h-8  flex items-center justify-center mr-3">
 
-                                        <img src="{{asset('assets/Icon (19).svg')}}" class="" alt="">
+                                        <img src="{{ asset('assets/Icon (19).svg') }}" class=""
+                                            alt="">
                                     </div>
                                     <div>
                                         <p class="text-sm font-medium">Content Marketing</p>
@@ -1073,7 +1080,8 @@
                                 <div class="flex items-center mb-2">
                                     <div class="w-8 h-8  flex items-center justify-center mr-3">
 
-                                        <img src="{{asset('assets/Icon (19).svg')}}" class="" alt="">
+                                        <img src="{{ asset('assets/Icon (19).svg') }}" class=""
+                                            alt="">
                                     </div>
                                     <div>
                                         <p class="text-sm font-medium">Affiliate Mktg</p>
@@ -1098,7 +1106,8 @@
                                 <div class="flex items-center">
                                     <div class="w-8 h-8  flex items-center justify-center mr-3">
 
-                                        <img src="{{asset('assets/Icon (19).svg')}}" class="" alt="">
+                                        <img src="{{ asset('assets/Icon (19).svg') }}" class=""
+                                            alt="">
                                     </div>
                                     <div>
                                         <p class="text-sm font-medium">Influencer Mktg </p>
@@ -1137,7 +1146,7 @@
                                             <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
                                                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                                 stroke-linejoin="round">
-                                                <path d="M7 16 L12 21 L17 16" /> 
+                                                <path d="M7 16 L12 21 L17 16" />
                                             </svg>
                                         </div>
                                     </button> -->
@@ -1159,26 +1168,24 @@
                                 <div class="relative inline-block">
                                     <div class="flex gap-3">
                                         <!-- Button -->
-                                        <select
-                                    id="filterSelect"
-                                    class="px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer"
-                                >
-                                    <option value="" disabled selected>Filters</option>
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                   </select>
+                                        <select id="filterSelect"
+                                            class="px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer">
+                                            <option value="" disabled selected>Filters</option>
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                        </select>
 
                                     </div>
 
                                     <!-- Dropdown Content -->
-                                    
+
                                 </div>
                             </div>
                         </div>
 
                         <div class="overflow-x-auto">
-                            <table id="memberTable" class="min-w-full border-b-4 light-border-gray-300">
+                            <table id="memberTable" class="min-w-full border-b-4 light-border-gray-300 ">
                                 <thead class="light-bg-d9d9d9 border-b-4 light-border-gray-300">
                                     <tr>
                                         <th scope="col"
@@ -1257,84 +1264,99 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody class="light-bg-white light-bg-seo border-b-4 light-border-gray-300">
+                                <tbody class="light-bg-white light-bg-seo border-b-4 light-border-gray-300"
+                                    style="padding: 20px !important">
                                     @php
-                                        $count = 1;  
+                                        $count = 1;
                                     @endphp
-                                @if($ticketData->count() > 0)
-                                    @foreach($ticketData as $ticket)
-                                        <tr class="border-b-4 light-border-gray-300">
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-400">
-                                                Ticket {{$count++}}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-thin light-text-gray-900">{{$ticket->description}}</div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="flex gap-2">
-                                                    <div>
-                                                        <img class="w-8 h-8 rounded-full" src="{{ asset($ticket->user->image ?? 'assets/default-prf.png') }}" alt="">
-                                                    </div>
-                                                    <div>
-                                                        <p class="text-sm">{{$ticket->user->name}}</p>
-                                                        <p class="text-xs text-gray-400">{{$ticket->project->project_name}}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">{{ date('d-m-Y h:i a', strtotime($ticket->created_at)) }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                @if($ticket->status == 'In Progress')                                      
-                                                    <div class="flex ml-8 items-center ">
-                                                        <div class="bg-gray-200 rounded-full w-2.5 h-2.5">
-                                                            <div class="bg-cyan-400 h-2.5 rounded-full w-full"></div>
+                                    @if ($ticketData->count() > 0)
+                                        @foreach ($ticketData as $ticket)
+                                            <tr class="border-b-4 light-border-gray-300">
+                                                <td
+                                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-400">
+                                                    Ticket {{ $count++ }}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="text-sm font-thin light-text-gray-900">
+                                                        {{ $ticket->description }}</div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex gap-2">
+                                                        <div>
+                                                            <img class="w-8 h-8 rounded-full"
+                                                                src="{{ asset($ticket->user->image ?? 'assets/default-prf.png') }}"
+                                                                alt="">
                                                         </div>
-                                                        <span class="ml-2 text-sm items-center text-gray-400">In Progress</span>
+                                                        <div>
+                                                            <p class="text-sm">{{ $ticket->user->name }}</p>
+                                                            <p class="text-xs text-gray-400">
+                                                                {{ $ticket->project->project_name }}</p>
+                                                        </div>
                                                     </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                                                    {{ date('d-m-Y h:i a', strtotime($ticket->created_at)) }}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    @if ($ticket->status == 'In Progress')
+                                                        <div class="flex ml-8 items-center ">
+                                                            <div class="bg-gray-200 rounded-full w-2.5 h-2.5">
+                                                                <div class="bg-cyan-400 h-2.5 rounded-full w-full">
+                                                                </div>
+                                                            </div>
+                                                            <span class="ml-2 text-sm items-center text-gray-400">In
+                                                                Progress</span>
+                                                        </div>
                                                     @elseif($ticket->status == 'Resolved')
-                                                    <div class="flex ml-8 items-center ">
-                                                        <div class="bg-gray-200 rounded-full w-2.5 h-2.5">
-                                                            <div class="bg-green-500 h-2.5 rounded-full w-full"></div>
+                                                        <div class="flex ml-8 items-center ">
+                                                            <div class="bg-gray-200 rounded-full w-2.5 h-2.5">
+                                                                <div class="bg-green-500 h-2.5 rounded-full w-full">
+                                                                </div>
+                                                            </div>
+                                                            <span
+                                                                class="ml-2 text-sm items-center text-gray-400">{{ $ticket->status }}</span>
                                                         </div>
-                                                        <span class="ml-2 text-sm items-center text-gray-400">{{$ticket->status}}</span>
-                                                    </div>
                                                     @elseif($ticket->status == 'Cancelled')
-                                                    <div class="flex ml-8 items-center ">
-                                                        <div class="bg-gray-200 rounded-full w-2.5 h-2.5">
-                                                            <div class="bg-red-500 h-2.5 rounded-full w-full"></div>
+                                                        <div class="flex ml-8 items-center ">
+                                                            <div class="bg-gray-200 rounded-full w-2.5 h-2.5">
+                                                                <div class="bg-red-500 h-2.5 rounded-full w-full">
+                                                                </div>
+                                                            </div>
+                                                            <span
+                                                                class="ml-2 text-sm items-center text-gray-400">Cancelled</span>
                                                         </div>
-                                                        <span class="ml-2 text-sm items-center text-gray-400">Cancelled</span>
-                                                    </div>
-                                                @endif
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                                <button
-                                                    class="light-text-orange-500 light-hover-text-orange-700 open-chat-modal"
-                                                    data-action="view-project">
-                                                    <img  src="{{asset('assets/message.svg')}}" alt="icon" data-ticket-id="{{$ticket->id}}"
-                                                        class="ticket-chat w-6 h-6 light-text-gray-900 rounded-full  light-mode-icon"
-                                                        data-dark-src="{{asset('assets/message-DARK.svg')}}">
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @else
-                                    <tr>
+                                                    @endif
+                                                </td>
+                                                <td
+                                                    class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                                    <button
+                                                        class="light-text-orange-500 light-hover-text-orange-700 open-chat-modal"
+                                                        data-action="view-project">
+                                                        <img src="{{ asset('assets/message.svg') }}" alt="icon"
+                                                            data-ticket-id="{{ $ticket->id }}"
+                                                            class="ticket-chat w-6 h-6 light-text-gray-900 rounded-full  light-mode-icon"
+                                                            data-dark-src="{{ asset('assets/message-DARK.svg') }}">
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        {{-- <tr>
                                         <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-400 text-center">
                                             No tickets found.
                                         </td>
-                                    </tr>
-                                @endif
+                                    </tr> --}}
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
 
                         <!-- Table Pagination -->
-                    <div
-                        class="flex items-center p-6 justify-between mt-4 text-sm light-text-gray-600 flex-wrap gap-2">
-                        <div>
-                            <span id="tableInfo"></span>
-                            <div class="relative inline-block">
-                                <!-- Button -->
-                                <!-- <button id="filterButton2"
+                        <div
+                            class="flex items-center p-6 justify-between mt-4 text-sm light-text-gray-600 flex-wrap gap-2">
+                            <div>
+                                <span id="tableInfo"></span>
+                                <div class="relative inline-block">
+                                    <!-- Button -->
+                                    <!-- <button id="filterButton2"
                                     class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
                                     <div class="flex">
                                         <span>Filters</span>
@@ -1342,55 +1364,55 @@
                                             stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                             stroke-linejoin="round">
                                             <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                         <!-- </svg> -->
-                                <!-- </div> -->
-                                <!-- </button> -->
+                                    <!-- </svg> -->
+                                    <!-- </div> -->
+                                    <!-- </button> -->
 
-                                <!-- Dropdown Content -->
-                                <div id="filterDropdown"
-                                    class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                    <div class="py-1" role="menu" aria-orientation="vertical">
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                            role="menuitem">1</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                            role="menuitem">2</a>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                            role="menuitem">3</a>
-                                        <div class="border-t border-gray-100"></div>
-                                        <a href="#"
-                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                            role="menuitem">Reset Filters</a>
+                                    <!-- Dropdown Content -->
+                                    <div id="filterDropdown"
+                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
+                                        <div class="py-1" role="menu" aria-orientation="vertical">
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">1</a>
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">2</a>
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">3</a>
+                                            <div class="border-t border-gray-100"></div>
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">Reset Filters</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div id="customPagination" class="flex space-x-2">
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                            </div>
                         </div>
-                        <div id="customPagination" class="flex space-x-2">
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
-                        </div>
-                    </div>
                     </div>
 
 
                 </div>
 
 
-            </div>    
+            </div>
         </main>
     </div>
 
@@ -1410,7 +1432,7 @@
                 </button>
             </div>
 
-            <div id="chatMessages" class="space-y-4 p-10">                
+            <div id="chatMessages" class="space-y-4 p-10">
             </div>
 
             <!-- Input -->
@@ -1418,40 +1440,52 @@
                 class="border-t rounded-b-lg rounded-t-lg  border-gray-300 dark:border-gray-700 bg-black light-bg-d7d7d7 ">
                 <div class="flex items-center  px-4">
                     <span class="flex items-center gap-1">
-                        <img class=" w-full h-full" src="{{asset('assets/Icon (1).svg')}}" alt="bold" id="btn-bold">
-                        <img class=" w-full h-full" src="{{asset('assets/Icon.svg')}}" alt="italic" id="btn-italic">
-                        <img class=" w-full h-full" src="{{asset('assets/Icon (2).svg')}}" alt="underline"  >
-                        <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line" >
-                        <img class=" w-full h-full" src="{{asset('assets/Icon (6).svg')}}" alt="link" id="btn-link" >
-                        <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line" >
-                        <img class=" w-full h-full" src="{{asset('assets/Icon (7).svg')}}" alt="ordered" id="btn-ordered" >
-                        <img class=" w-full h-full" src="{{asset('assets/Icon (8).svg')}}" alt="bullet" id="btn-bullet">
-                        <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line"  >
-                        <img class=" w-full h-full" src="{{asset('assets/Icon (9).svg')}}" alt="left" id="btn-left">
-                        <img class=" w-full h-full" src="{{asset('assets/Rectangle 226.svg')}}" alt="line">
-                        <img class=" w-full h-full" src="{{asset('assets/Icon (10).svg')}}" alt="code" id="btn-code">
-                        <img class=" w-full h-full" src="{{asset('assets/Icon (11).svg')}}" alt="">
+                        <img class=" w-full h-full" src="{{ asset('assets/Icon (1).svg') }}" alt="bold"
+                            id="btn-bold">
+                        <img class=" w-full h-full" src="{{ asset('assets/Icon.svg') }}" alt="italic"
+                            id="btn-italic">
+                        <img class=" w-full h-full" src="{{ asset('assets/Icon (2).svg') }}" alt="underline">
+                        <img class=" w-full h-full" src="{{ asset('assets/Rectangle 226.svg') }}" alt="line">
+                        <img class=" w-full h-full" src="{{ asset('assets/Icon (6).svg') }}" alt="link"
+                            id="btn-link">
+                        <img class=" w-full h-full" src="{{ asset('assets/Rectangle 226.svg') }}" alt="line">
+                        <img class=" w-full h-full" src="{{ asset('assets/Icon (7).svg') }}" alt="ordered"
+                            id="btn-ordered">
+                        <img class=" w-full h-full" src="{{ asset('assets/Icon (8).svg') }}" alt="bullet"
+                            id="btn-bullet">
+                        <img class=" w-full h-full" src="{{ asset('assets/Rectangle 226.svg') }}" alt="line">
+                        <img class=" w-full h-full" src="{{ asset('assets/Icon (9).svg') }}" alt="left"
+                            id="btn-left">
+                        <img class=" w-full h-full" src="{{ asset('assets/Rectangle 226.svg') }}" alt="line">
+                        <img class=" w-full h-full" src="{{ asset('assets/Icon (10).svg') }}" alt="code"
+                            id="btn-code">
+                        <img class=" w-full h-full" src="{{ asset('assets/Icon (11).svg') }}" alt="">
                     </span>
                 </div>
                 <div class="flex items-center light-bg-d7d7d7">
-                        <input type="hidden" id="chat-ticket-id" name="ticket_id" value="">
-                        <input type="hidden"  id="chat-sender-id" name="sender_id" value="{{ auth()->id() }}">
-                    <div id="editor" class="w-full p-4 light-bg-d9d9d9 light-text-black text-sm" style="height:80px !important;"></div>
-                    <button id="send-btn" class="light-bg-d9d9d9 hover:bg-orange-600 pt-10 rounded-r text-white relative">
+                    <input type="hidden" id="chat-ticket-id" name="ticket_id" value="">
+                    <input type="hidden" id="chat-sender-id" name="sender_id" value="{{ auth()->id() }}">
+                    <div id="editor" class="w-full p-4 light-bg-d9d9d9 light-text-black text-sm"
+                        style="height:80px !important;"></div>
+                    <button id="send-btn"
+                        class="light-bg-d9d9d9 hover:bg-orange-600 pt-10 rounded-r text-white relative">
                         <span class="absolute bottom-2 right-3 text-lg">➤</span>
                     </button>
                 </div>
 
                 <div class="flex rounded-b-lg light-bg-d9d9d9 items-center justify-between px-4"><span
                         class="flex items-center gap-1">
-                            <img class="pb-2 w-full h-full" src="{{asset('assets/Group 216.svg')}}"alt="img" id="btn-image">
-                            <img class="pb-2 w-full h-full" src="{{asset('assets/Icon (3).svg')}}" alt="" id="btn-underline">
-                            <img class="pb-2 w-full h-full" src="{{asset('assets/Icon (4).svg')}}" alt="emoji" id="btn-emoji">
-                            <div id="hidden-toolbar" style="display:none">
-                                <button class="ql-emoji"></button>
-                            </div>
-                            <img class="pb-2 w-full h-full" src="{{asset('assets/Icon (5).svg')}}" alt="">
-                        </span>
+                        <img class="pb-2 w-full h-full" src="{{ asset('assets/Group 216.svg') }}"alt="img"
+                            id="btn-image">
+                        <img class="pb-2 w-full h-full" src="{{ asset('assets/Icon (3).svg') }}" alt=""
+                            id="btn-underline">
+                        <img class="pb-2 w-full h-full" src="{{ asset('assets/Icon (4).svg') }}" alt="emoji"
+                            id="btn-emoji">
+                        <div id="hidden-toolbar" style="display:none">
+                            <button class="ql-emoji"></button>
+                        </div>
+                        <img class="pb-2 w-full h-full" src="{{ asset('assets/Icon (5).svg') }}" alt="">
+                    </span>
 
                 </div>
 
@@ -1466,11 +1500,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
-<script>
-         $(document).ready(function() {
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
 
             let memberTable = $('#memberTable').DataTable({
                 paging: true,
@@ -1560,153 +1594,168 @@
             updatePagination(memberTable);
 
             // Listen for changes on your filter select
-$('#filterSelect').on('change', function() {
-    let selectedValue = parseInt(this.value); 
-    if (!isNaN(selectedValue)) {
-        memberTable.page.len(selectedValue).draw(); 
-    }
-});
+            $('#filterSelect').on('change', function() {
+                let selectedValue = parseInt(this.value);
+                if (!isNaN(selectedValue)) {
+                    memberTable.page.len(selectedValue).draw();
+                }
+            });
         });
-        </script>
+    </script>
+
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const body = document.body;
+        document.addEventListener('DOMContentLoaded', function() {
+            const body = document.body;
 
 
 
-    // ====== QUILL INITIALIZATION ======
-    const quill = new Quill("#editor", {
-        theme: "snow",
-        placeholder: '@type here',
-        modules: {
-            toolbar: '#hidden-toolbar',
-            "emoji-toolbar": true,
-            "emoji-textarea": false,
-            "emoji-shortname": true
-        },
-    });
+            // ====== QUILL INITIALIZATION ======
+            const quill = new Quill("#editor", {
+                theme: "snow",
+                placeholder: '@type here',
+                modules: {
+                    toolbar: '#hidden-toolbar',
+                    "emoji-toolbar": true,
+                    "emoji-textarea": false,
+                    "emoji-shortname": true
+                },
+            });
 
-    // ====== QUILL TOOLBAR BUTTONS ======
-    const formatMap = {
-        "btn-bold": "bold",
-        "btn-italic": "italic",
-        "btn-underline": "underline",
-        "btn-bullet": { list: "bullet" },
-        "btn-ordered": { list: "ordered" },
-        "btn-code": "code-block",
-    };
-    for (const id in formatMap) {
-        const el = document.getElementById(id);
-        if (!el) continue;
-        el.onclick = () => {
-            const format = formatMap[id];
-            if (typeof format === "string") {
-                quill.format(format, !quill.getFormat()[format]);
-            } else {
-                quill.format(Object.keys(format)[0], Object.values(format)[0]);
-            }
-        };
-    }
-
-    document.getElementById('btn-left')?.addEventListener('click', () => {
-        const range = quill.getSelection();
-        if (range) quill.format('align', 'left');
-    });
-
-    document.getElementById('btn-link')?.addEventListener('click', () => {
-        const url = prompt("Enter link URL:");
-        if (url) quill.format("link", url);
-    });
-
-    document.getElementById('btn-image')?.addEventListener('click', () => {
-        const input = document.createElement("input");
-        input.type = "file";
-        input.accept = "image/*";
-        input.click();
-        input.onchange = () => {
-            const file = input.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const range = quill.getSelection();
-                quill.insertEmbed(range ? range.index : 0, 'image', e.target.result);
+            // ====== QUILL TOOLBAR BUTTONS ======
+            const formatMap = {
+                "btn-bold": "bold",
+                "btn-italic": "italic",
+                "btn-underline": "underline",
+                "btn-bullet": {
+                    list: "bullet"
+                },
+                "btn-ordered": {
+                    list: "ordered"
+                },
+                "btn-code": "code-block",
             };
-            reader.readAsDataURL(file);
-        };
-    });
-
-    document.getElementById('btn-emoji')?.addEventListener('click', () => {
-        const emojiButton = document.querySelector('.ql-emoji');
-        emojiButton?.click();
-    });
-
-    // ====== SEND CHAT ======
-    document.getElementById('send-btn')?.addEventListener('click', async (e) => {
-        e.preventDefault();
-        let chatMessage = quill.root.innerHTML;
-        const ticketId = $('#chat-ticket-id').val();
-        const senderId = $('#chat-sender-id').val();
-
-        // Convert base64 images to File
-        const imageFiles = [];
-        quill.root.querySelectorAll('img').forEach(img => {
-            if (img.src.startsWith("data:")) {
-                const blob = dataURLtoBlob(img.src);
-                const file = new File([blob], "image.png", { type: blob.type });
-                imageFiles.push({ file, element: img });
+            for (const id in formatMap) {
+                const el = document.getElementById(id);
+                if (!el) continue;
+                el.onclick = () => {
+                    const format = formatMap[id];
+                    if (typeof format === "string") {
+                        quill.format(format, !quill.getFormat()[format]);
+                    } else {
+                        quill.format(Object.keys(format)[0], Object.values(format)[0]);
+                    }
+                };
             }
-        });
 
-        for (let i = 0; i < imageFiles.length; i++) {
-            const formData = new FormData();
-            formData.append('image', imageFiles[i].file);
-            formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
-            const res = await fetch("{{ route('ticket.chat.upload_image') }}", { method: "POST", body: formData });
-            const data = await res.json();
-            imageFiles[i].element.src = data.url;
-        }
+            document.getElementById('btn-left')?.addEventListener('click', () => {
+                const range = quill.getSelection();
+                if (range) quill.format('align', 'left');
+            });
 
-        chatMessage = quill.root.innerHTML;
+            document.getElementById('btn-link')?.addEventListener('click', () => {
+                const url = prompt("Enter link URL:");
+                if (url) quill.format("link", url);
+            });
+
+            document.getElementById('btn-image')?.addEventListener('click', () => {
+                const input = document.createElement("input");
+                input.type = "file";
+                input.accept = "image/*";
+                input.click();
+                input.onchange = () => {
+                    const file = input.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const range = quill.getSelection();
+                        quill.insertEmbed(range ? range.index : 0, 'image', e.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                };
+            });
+
+            document.getElementById('btn-emoji')?.addEventListener('click', () => {
+                const emojiButton = document.querySelector('.ql-emoji');
+                emojiButton?.click();
+            });
+
+            // ====== SEND CHAT ======
+            document.getElementById('send-btn')?.addEventListener('click', async (e) => {
+                e.preventDefault();
+                let chatMessage = quill.root.innerHTML;
+                const ticketId = $('#chat-ticket-id').val();
+                const senderId = $('#chat-sender-id').val();
+
+                // Convert base64 images to File
+                const imageFiles = [];
+                quill.root.querySelectorAll('img').forEach(img => {
+                    if (img.src.startsWith("data:")) {
+                        const blob = dataURLtoBlob(img.src);
+                        const file = new File([blob], "image.png", {
+                            type: blob.type
+                        });
+                        imageFiles.push({
+                            file,
+                            element: img
+                        });
+                    }
+                });
+
+                for (let i = 0; i < imageFiles.length; i++) {
+                    const formData = new FormData();
+                    formData.append('image', imageFiles[i].file);
+                    formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+                    const res = await fetch("{{ route('ticket.chat.upload_image') }}", {
+                        method: "POST",
+                        body: formData
+                    });
+                    const data = await res.json();
+                    imageFiles[i].element.src = data.url;
+                }
+
+                chatMessage = quill.root.innerHTML;
 
 
-        $.ajax({
-            url: "{{ route('ticket.chat') }}",
-            method: "POST",
-            data: {
-                ticket_id: ticketId,
-                sender_id: senderId,
-                message: chatMessage,
-                _token: $('meta[name="csrf-token"]').attr('content')
-            },
-            success: () => {
-                quill.setContents([]);
-                loadTaskChats(ticketId);
-            },
-            error: xhr => console.error("Error sending chat:", xhr.responseText)
-        });
-    });
+                $.ajax({
+                    url: "{{ route('ticket.chat') }}",
+                    method: "POST",
+                    data: {
+                        ticket_id: ticketId,
+                        sender_id: senderId,
+                        message: chatMessage,
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: () => {
+                        quill.setContents([]);
+                        loadTaskChats(ticketId);
+                    },
+                    error: xhr => console.error("Error sending chat:", xhr.responseText)
+                });
+            });
 
-    function dataURLtoBlob(dataurl) {
-        const arr = dataurl.split(',');
-        const mime = arr[0].match(/:(.*?);/)[1];
-        const bstr = atob(arr[1]);
-        const n = bstr.length;
-        const u8arr = new Uint8Array(n);
-        for (let i = 0; i < n; i++) u8arr[i] = bstr.charCodeAt(i);
-        return new Blob([u8arr], { type: mime });
-    }
+            function dataURLtoBlob(dataurl) {
+                const arr = dataurl.split(',');
+                const mime = arr[0].match(/:(.*?);/)[1];
+                const bstr = atob(arr[1]);
+                const n = bstr.length;
+                const u8arr = new Uint8Array(n);
+                for (let i = 0; i < n; i++) u8arr[i] = bstr.charCodeAt(i);
+                return new Blob([u8arr], {
+                    type: mime
+                });
+            }
 
-    // ====== LOAD CHATS ======
-    function loadTaskChats(ticketId) {
-        $.ajax({
-            url: `/tickets/getTicketChats/${ticketId}`,
-            method: 'GET',
-            success: function(response) {
-                const chatContainer = $('#chatMessages');
-                chatContainer.html('');
-                response.chats.forEach(chat => {
-                    const chatDate = new Date(chat.created_at);
-                    chatContainer.append(`
+            // ====== LOAD CHATS ======
+            function loadTaskChats(ticketId) {
+                $.ajax({
+                    url: `/tickets/getTicketChats/${ticketId}`,
+                    method: 'GET',
+                    success: function(response) {
+                        const chatContainer = $('#chatMessages');
+                        chatContainer.html('');
+                        response.chats.forEach(chat => {
+                            const chatDate = new Date(chat.created_at);
+                            chatContainer.append(`
                         <div class="flex items-start space-x-3">
                             <img src="${chat.sender.image || '{{ asset('assets/default-prf.png') }}'}" class="w-10 h-10 rounded-md" alt="user" />
                             <div>
@@ -1722,195 +1771,214 @@ document.addEventListener('DOMContentLoaded', function() {
                             </div>
                         </div>
                     `);
+                        });
+                    },
+                    error: err => console.error("Error loading chats:", err)
                 });
-            },
-            error: err => console.error("Error loading chats:", err)
-        });
-    }
+            }
 
-    $(document).on('click', '.like-btn', function() {
-        const btn = $(this);
-        const chatId = btn.data('chat-id');
-        $.post(`/tickets/chat/${chatId}/like`, { _token: $('meta[name="csrf-token"]').attr('content') }, res => {
-            btn.find('.like-count').text(res.count);
-        });
-    });
+            $(document).on('click', '.like-btn', function() {
+                const btn = $(this);
+                const chatId = btn.data('chat-id');
+                $.post(`/tickets/chat/${chatId}/like`, {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                }, res => {
+                    btn.find('.like-count').text(res.count);
+                });
+            });
 
-    $(document).on('click', '.ticket-chat', function() {
-        const ticketId = $(this).data('ticket-id');
-        $('#chat-ticket-id').val(ticketId);
-        loadTaskChats(ticketId);
-    });
+            $(document).on('click', '.ticket-chat', function() {
+                const ticketId = $(this).data('ticket-id');
+                $('#chat-ticket-id').val(ticketId);
+                loadTaskChats(ticketId);
+            });
 
-    // ====== DARK MODE ======
-    const updateImageSources = () => {
-        const isDarkMode = body.classList.contains('dark-mode');
-        document.querySelectorAll('.theme-img').forEach(img => {
-            const lightSrc = img.dataset.lightSrc;
-            const darkSrc = img.dataset.darkSrc;
-            if (!lightSrc || !darkSrc) return;
-            img.src = isDarkMode ? darkSrc : lightSrc;
+            // ====== DARK MODE ======
+            const updateImageSources = () => {
+                const isDarkMode = body.classList.contains('dark-mode');
+                document.querySelectorAll('.theme-img').forEach(img => {
+                    const lightSrc = img.dataset.lightSrc;
+                    const darkSrc = img.dataset.darkSrc;
+                    if (!lightSrc || !darkSrc) return;
+                    img.src = isDarkMode ? darkSrc : lightSrc;
+                });
+            };
+            const updateDropdownColors = () => {
+                const isDarkMode = body.classList.contains('dark-mode');
+                if (filterDropdown) {
+                    filterDropdown.style.color = isDarkMode ? 'white' : 'black';
+                    filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
+                }
+            };
+            const toggleDarkMode = () => {
+                body.classList.toggle('dark-mode');
+                updateImageSources();
+                updateDropdownColors();
+                localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+            };
+            if (localStorage.getItem('theme') === 'dark') body.classList.add('dark-mode');
+            updateImageSources();
+            updateDropdownColors();
+            knowledgeButton?.addEventListener('click', e => {
+                e.preventDefault();
+                toggleDarkMode();
+            });
+
+            // ====== SIDEBAR ======
+            const toggleSidebar = () => {
+                const isOpen = sidebar.classList.contains('translate-x-0');
+                if (isOpen) {
+                    sidebar.classList.remove('translate-x-0');
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('hidden');
+                    body.classList.remove('overflow-hidden');
+                } else {
+                    sidebar.classList.remove('-translate-x-full');
+                    sidebar.classList.add('translate-x-0');
+                    overlay.classList.remove('hidden');
+                    body.classList.add('overflow-hidden');
+                }
+            };
+            hamburgerOpen?.addEventListener('click', toggleSidebar);
+            hamburgerClose?.addEventListener('click', toggleSidebar);
+            overlay?.addEventListener('click', toggleSidebar);
+
+            // ====== DROPDOWN ======
+            if (filterButton && filterDropdown) {
+                filterButton.addEventListener('click', e => {
+                    e.stopPropagation();
+                    filterDropdown.classList.toggle('hidden');
+                });
+                document.addEventListener('click', () => {
+                    filterDropdown.classList.add('hidden');
+                });
+            }
+
+            // ====== SEO CARDS ======
+            const seoCards = document.getElementById('seo-cards');
+            seoCards?.addEventListener('click', event => {
+                if (!event.target.classList.contains('toggle-btn')) return;
+                const card = event.target.closest('div[class*="p-10"]');
+                const content = card.querySelector('.card-content');
+                const textNode = event.target.childNodes[0];
+                if (!content.style.maxHeight || content.style.maxHeight === '0px') {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    textNode.textContent = 'View Less ';
+                } else {
+                    content.style.maxHeight = '0px';
+                    textNode.textContent = 'View More ';
+                }
+            });
+
+            // ====== CHAT MODAL ======
+            openChatButtons.forEach(btn => btn.addEventListener('click', () => {
+                ticketChatModal.classList.remove('hidden');
+                body.style.overflow = 'hidden';
+            }));
+            closeChatModal?.addEventListener('click', () => {
+                ticketChatModal.classList.add('hidden');
+                body.style.overflow = 'auto';
+            });
+            ticketChatModal?.addEventListener('click', e => {
+                if (e.target === ticketChatModal) {
+                    ticketChatModal.classList.add('hidden');
+                    body.style.overflow = 'auto';
+                }
+            });
+
         });
-    };
-    const updateDropdownColors = () => {
-        const isDarkMode = body.classList.contains('dark-mode');
-        if (filterDropdown) {
-            filterDropdown.style.color = isDarkMode ? 'white' : 'black';
-            filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
+
+        // ====== DARK/LIGHT MODE ======
+        const knowledgeButton = document.getElementById('knowledgeButton'); // dark mode toggle button
+        const filterDropdown = document.getElementById('filterDropdown');
+
+        // Apply theme from localStorage
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
         }
-    };
-    const toggleDarkMode = () => {
-        body.classList.toggle('dark-mode');
+
+        // Function to update images based on theme
+        function updateImageSources() {
+            const isDarkMode = body.classList.contains('dark-mode');
+            document.querySelectorAll('.theme-img').forEach(img => {
+                const lightSrc = img.dataset.lightSrc;
+                const darkSrc = img.dataset.darkSrc;
+                if (!lightSrc || !darkSrc) return;
+                img.src = isDarkMode ? darkSrc : lightSrc;
+            });
+        }
+
+        function updateImageSources() {
+            const isDarkMode = body.classList.contains('dark-mode');
+            document.querySelectorAll('.theme-img').forEach(img => {
+                const lightSrc = img.dataset.lightSrc;
+                const darkSrc = img.dataset.darkSrc;
+                if (!lightSrc || !darkSrc) return;
+                img.src = isDarkMode ? darkSrc : lightSrc;
+            });
+        }
+
+        function updateDropdownColors() {
+            const isDarkMode = body.classList.contains('dark-mode');
+            if (filterDropdown) {
+                filterDropdown.style.color = isDarkMode ? 'white' : 'black';
+                filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
+            }
+        }
+
+        // Preserve active button styles
+        function preserveActiveButton() {
+            const activeButton = document.querySelector('.nav-button.active'); // replace with your selector
+            if (activeButton) {
+                activeButton.classList.add('active'); // just make sure active stays
+            }
+        }
+
+        function toggleDarkMode() {
+            body.classList.toggle('dark-mode');
+            updateImageSources();
+            updateDropdownColors();
+            preserveActiveButton(); // <-- preserve active button
+            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+        }
+
+        if (knowledgeButton) {
+            knowledgeButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                toggleDarkMode();
+            });
+        }
+
+
+        // Function to update dropdown colors
+        function updateDropdownColors() {
+            const isDarkMode = body.classList.contains('dark-mode');
+            if (filterDropdown) {
+                filterDropdown.style.color = isDarkMode ? 'white' : 'black';
+                filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
+            }
+        }
+
+        // Toggle dark mode
+        function toggleDarkMode() {
+            body.classList.toggle('dark-mode');
+            updateImageSources();
+            updateDropdownColors();
+            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+        }
+
+        // Attach toggle button
+        if (knowledgeButton) {
+            knowledgeButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                toggleDarkMode();
+            });
+        }
+
+        // Initial update on page load
         updateImageSources();
         updateDropdownColors();
-        localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-    };
-    if (localStorage.getItem('theme') === 'dark') body.classList.add('dark-mode');
-    updateImageSources();
-    updateDropdownColors();
-    knowledgeButton?.addEventListener('click', e => { e.preventDefault(); toggleDarkMode(); });
-
-    // ====== SIDEBAR ======
-    const toggleSidebar = () => {
-        const isOpen = sidebar.classList.contains('translate-x-0');
-        if (isOpen) {
-            sidebar.classList.remove('translate-x-0'); sidebar.classList.add('-translate-x-full');
-            overlay.classList.add('hidden'); body.classList.remove('overflow-hidden');
-        } else {
-            sidebar.classList.remove('-translate-x-full'); sidebar.classList.add('translate-x-0');
-            overlay.classList.remove('hidden'); body.classList.add('overflow-hidden');
-        }
-    };
-    hamburgerOpen?.addEventListener('click', toggleSidebar);
-    hamburgerClose?.addEventListener('click', toggleSidebar);
-    overlay?.addEventListener('click', toggleSidebar);
-
-    // ====== DROPDOWN ======
-    if (filterButton && filterDropdown) {
-        filterButton.addEventListener('click', e => { e.stopPropagation(); filterDropdown.classList.toggle('hidden'); });
-        document.addEventListener('click', () => { filterDropdown.classList.add('hidden'); });
-    }
-
-    // ====== SEO CARDS ======
-    const seoCards = document.getElementById('seo-cards');
-    seoCards?.addEventListener('click', event => {
-        if (!event.target.classList.contains('toggle-btn')) return;
-        const card = event.target.closest('div[class*="p-10"]');
-        const content = card.querySelector('.card-content');
-        const textNode = event.target.childNodes[0];
-        if (!content.style.maxHeight || content.style.maxHeight === '0px') {
-            content.style.maxHeight = content.scrollHeight + 'px';
-            textNode.textContent = 'View Less ';
-        } else {
-            content.style.maxHeight = '0px';
-            textNode.textContent = 'View More ';
-        }
-    });
-
-    // ====== CHAT MODAL ======
-    openChatButtons.forEach(btn => btn.addEventListener('click', () => {
-        ticketChatModal.classList.remove('hidden');
-        body.style.overflow = 'hidden';
-    }));
-    closeChatModal?.addEventListener('click', () => { ticketChatModal.classList.add('hidden'); body.style.overflow = 'auto'; });
-    ticketChatModal?.addEventListener('click', e => {
-        if (e.target === ticketChatModal) { ticketChatModal.classList.add('hidden'); body.style.overflow = 'auto'; }
-    });
-
-});
-
-// ====== DARK/LIGHT MODE ======
-const knowledgeButton = document.getElementById('knowledgeButton'); // dark mode toggle button
-const filterDropdown = document.getElementById('filterDropdown');
-
-// Apply theme from localStorage
-if (localStorage.getItem('theme') === 'dark') {
-    body.classList.add('dark-mode');
-}
-
-// Function to update images based on theme
-function updateImageSources() {
-    const isDarkMode = body.classList.contains('dark-mode');
-    document.querySelectorAll('.theme-img').forEach(img => {
-        const lightSrc = img.dataset.lightSrc;
-        const darkSrc = img.dataset.darkSrc;
-        if (!lightSrc || !darkSrc) return;
-        img.src = isDarkMode ? darkSrc : lightSrc;
-    });
-}
-
-function updateImageSources() {
-    const isDarkMode = body.classList.contains('dark-mode');
-    document.querySelectorAll('.theme-img').forEach(img => {
-        const lightSrc = img.dataset.lightSrc;
-        const darkSrc = img.dataset.darkSrc;
-        if (!lightSrc || !darkSrc) return;
-        img.src = isDarkMode ? darkSrc : lightSrc;
-    });
-}
-
-function updateDropdownColors() {
-    const isDarkMode = body.classList.contains('dark-mode');
-    if (filterDropdown) {
-        filterDropdown.style.color = isDarkMode ? 'white' : 'black';
-        filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
-    }
-}
-
-// Preserve active button styles
-function preserveActiveButton() {
-    const activeButton = document.querySelector('.nav-button.active'); // replace with your selector
-    if (activeButton) {
-        activeButton.classList.add('active'); // just make sure active stays
-    }
-}
-
-function toggleDarkMode() {
-    body.classList.toggle('dark-mode');
-    updateImageSources();
-    updateDropdownColors();
-    preserveActiveButton(); // <-- preserve active button
-    localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-}
-
-if (knowledgeButton) {
-    knowledgeButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        toggleDarkMode();
-    });
-}
-
-
-// Function to update dropdown colors
-function updateDropdownColors() {
-    const isDarkMode = body.classList.contains('dark-mode');
-    if (filterDropdown) {
-        filterDropdown.style.color = isDarkMode ? 'white' : 'black';
-        filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
-    }
-}
-
-// Toggle dark mode
-function toggleDarkMode() {
-    body.classList.toggle('dark-mode');
-    updateImageSources();
-    updateDropdownColors();
-    localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-}
-
-// Attach toggle button
-if (knowledgeButton) {
-    knowledgeButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        toggleDarkMode();
-    });
-}
-
-// Initial update on page load
-updateImageSources();
-updateDropdownColors();
-
-</script>
+    </script>
 
 </body>
 
