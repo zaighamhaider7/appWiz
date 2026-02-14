@@ -9,6 +9,7 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.datatables.net/2.3.7/css/dataTables.dataTables.min.css">
     <style>
         :root {
             --btn-bg: #EA580C;
@@ -734,6 +735,15 @@
                 overflow: visible;
             }
         }
+
+        .dataTables_length {
+            display: none !important;
+        }
+
+        .dataTables_empty {
+            text-align: center;
+            padding: 1rem;
+        }
     </style>
 
 </head>
@@ -877,13 +887,13 @@
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
                     <!-- User's Projects List Table -->
-                    <div class="lg:col-span-2 light-bg-f5f5f5 light-bg-seo  rounded-xl shadow-sm">
+                    <div class="tableContainer lg:col-span-2 light-bg-f5f5f5 light-bg-seo  rounded-xl shadow-sm">
                         <div class="flex items-center justify-between mb-4 p-6 flex-wrap gap-3">
                             <h2 class="text-xl font-semibold light-text-gray-800">User's Projects List</h2>
                             <div class="flex items-center space-x-3">
                                 <div class="relative">
-                                    <input type="text" placeholder="Search here"
-                                        class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                    <input type="text" placeholder="Search here" id="memberSearch"
+                                        class="memberSearch pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <svg class="icon text-gray-400" viewBox="0 0 24 24">
                                             <circle cx="11" cy="11" r="8"></circle>
@@ -894,43 +904,20 @@
                                 </div>
                                 <div class="relative inline-block">
                                     <!-- Button -->
-                                    <button id="filterButton"
-                                        class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
-                                        <div class="flex">
-                                            <span>Filters</span>
-                                            <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                            </svg>
-                                        </div>
-                                    </button>
+                                    <select id="filterSelect"
+                                        class="filterSelect px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer">
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                    </select>
 
-                                    <!-- Dropdown Content -->
-                                    <div id="filterDropdown"
-                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
-                                        <div class="py-1" role="menu" aria-orientation="vertical">
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Filter Option 1</a>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Filter Option 2</a>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Filter Option 3</a>
-                                            <div class="border-t border-gray-100"></div>
-                                            <a href="#"
-                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem">Reset Filters</a>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="overflow-x-auto">
-                            <table class="min-w-full border-b light-border-gray-300">
+                            <table id="memberTable"
+                                class="memberTable  projectTable min-w-full border-b light-border-gray-300">
                                 <thead class="light-bg-d9d9d9">
                                     <tr>
                                         <th scope="col"
@@ -995,8 +982,9 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody class="light-bg-white light-bg-seo border-b light-border-gray-300" id="project-table-body">
-                                 
+                                <tbody class="light-bg-white light-bg-seo border-b light-border-gray-300"
+                                    id="project-table-body">
+
                                 </tbody>
                             </table>
                         </div>
@@ -1004,8 +992,10 @@
                         <!-- Table Pagination -->
                         <div
                             class="flex items-center justify-between mt-4 p-6 text-sm light-text-gray-600 flex-wrap gap-2">
-                            <span>Showing 1 to 3 of 100 entries</span>
-                            <div class="flex space-x-2">
+                            <div>
+                                <span class="tableInfo" id="tableInfo"></span>
+                            </div>
+                            <div id="customPagination" class="customPagination flex space-x-2">
                                 <button
                                     class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
                                 <button
@@ -1015,9 +1005,14 @@
                                 <button
                                     class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
                                 <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                                <button
                                     class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
                             </div>
                         </div>
+
                     </div>
 
                     <!-- Reports Section -->
@@ -1262,7 +1257,6 @@
         </div>
     </div>
 
-
     <div id="projectModal"
         class="fixed inset-0 bg-black light-bg-000000 bg-opacity-70 flex items-center justify-center z-50 hidden">
         <div
@@ -1437,13 +1431,13 @@
 
             </div>
 
-            <div id="notesContent" class="tab-content hidden">
+            <div id="notesContent" class="tableContainer tab-content hidden">
                 <div class="flex justify-between items-center px-8 mb-4 gap-4">
                     <h3 class="justify-start light-text-black text-2xl">WIZSPEED Team Notes</h3>
                     <div class="flex gap-2">
                         <div class="relative w-full max-w-xs">
                             <input type="text" placeholder="Search here"
-                                class="block w-full mr-10 px-4 py-2  
+                                class="memberSearch block w-full mr-10 px-4 py-2  
                                  bg-transparent border border-gray-200 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
                             <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1451,18 +1445,16 @@
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                         </div>
-                        <button
-                            class="flex items-center px-4 py-2 bg-transparent border border-gray-200 light-text-gray-700 dark:text-gray-300 rounded-lg hover:light-bg-gray-300 dark:hover:bg-gray-600">
-                            Filters
-                            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
+                        <select id="filterSelect"
+                            class="filterSelect px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                        </select>
                     </div>
                 </div>
                 <div class="overflow-x-auto ">
-                    <table class="min-w-full divide-y bg-transparent">
+                    <table class="memberTable milestoneTable min-w-full divide-y bg-transparent">
                         <thead class="bg-gray-500 border-2 light-border-gray-300">
                             <tr class="light-bg-d9d9d9">
                                 <th scope="col"
@@ -1535,39 +1527,29 @@
                     </table>
                 </div>
                 <div class="flex justify-between items-center px-8 mt-4">
-                    <div class="flex items-center">
-                        <span class="text-sm light-text-black">Showing 1 to 5 of 100 entries</span>
-                        <select
-                            class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
-                            <option>5</option>
-                            <option>10</option>
-                            <option>25</option>
-                        </select>
+                    <div>
+                        <span class="tableInfo" id="tableInfo"></span>
                     </div>
-                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-
-                        <div class="flex space-x-2 ">
-                            <button
-                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
-                            <button
-                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 bg-orange-600 text-white font-semibold">1</button>
-                            <button
-                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">2</button>
-                            <button
-                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">3</button>
-                            <button
-                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">4</button>
-                            <button
-                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">5</button>
-                            <button
-                                class="px-4 py-2 rounded-md border light-text-white border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
-                        </div>
-
-                    </nav>
+                    <div id="customPagination" class="customPagination flex space-x-2">
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                        <button
+                            class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                    </div>
                 </div>
             </div>
 
-            <div id="uploadedDocumentContent" class="tab-content hidden">
+            <div id="uploadedDocumentContent" class="tableContainer tab-content hidden">
                 <div class="flex justify-between items-center px-4 mb-4">
                     <div class="flex justify-between items-center p-4 mb-4">
                         <h3 class="text-2xl">Documents</h3>
@@ -1576,20 +1558,18 @@
                         </div>
                         <div class="flex space-x-2">
                             <input type="text" placeholder="Search here"
-                                class="block w-full px-4 py-2 border border-gray-200 light-text-gray-900 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
+                                class="memberSearch block w-full px-4 py-2 border border-gray-200 light-text-gray-900 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
                             <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
-                            <button
-                                class="flex items-center px-4 py-2 border border-gray-200 dark:text-gray-300 rounded-lg hover:light-bg-gray-300 dark:hover:bg-gray-600">
-                                Filters
-                                <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </button>
+                                <select id="filterSelect"
+                                        class="filterSelect px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer">
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                </select>
                             <button
                                 class="light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm open-upload-modal">
                                 Upload Documents
@@ -1598,7 +1578,7 @@
                     </div>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y light-divide-gray-200 dark:divide-gray-700">
+                    <table class="memberTable documentTable min-w-full divide-y light-divide-gray-200 dark:divide-gray-700">
                         <thead class="light-bg-gray-50 dark:bg-gray-700">
                             <tr class="light-bg-d9d9d9">
                                 <th scope="col"
@@ -1644,38 +1624,29 @@
                     </table>
                 </div>
                 <div class="flex justify-between items-center px-8 mt-4">
-                    <div class="flex items-center">
-                        <span class="text-sm light-text-gray-700 dark:text-gray-400">Showing 1 to 5 of 100
-                            entries</span>
-                        <select
-                            class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
-                            <option>5</option>
-                            <option>10</option>
-                            <option>25</option>
-                        </select>
-                    </div>
-                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                        <div class="flex space-x-2">
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
-                        </div>
-                    </nav>
+                <div>
+                                <span class="tableInfo" id="tableInfo"></span>
+                            </div>
+                            <div id="customPagination" class="customPagination flex space-x-2">
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                            </div>
                 </div>
             </div>
 
-            <div id="addCredentialsContent" class="tab-content hidden ">
+            <div id="addCredentialsContent" class="tableContainer tab-content hidden ">
                 <div class="p-4">
                     <div class="light-bg-d9d9d9 p-4 rounded-xl">
                         <h3 class="text-2xl  light-text-black  mb-4">Add Credentials</h3>
@@ -1721,28 +1692,26 @@
 
                     </div>
                 </div>
-                <div class="px-4">
-                    <div class="flex justify-between items-center p-4 mb-4">
+                <div class=" px-4">
+                    <div class=" flex justify-between items-center p-4 mb-4">
                         <h3 class="text-2xl">Credentials List</h3>
                         <div class="relative w-full max-w-xs pl-2">
 
                         </div>
                         <div class="flex space-x-2">
                             <input type="text" placeholder="Search here"
-                                class="block w-full px-4 py-2 border border-gray-200 light-text-black  rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
+                                class="memberSearch block w-full px-4 py-2 border border-gray-200 light-text-black  rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
                             <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
-                            <button
-                                class="flex items-center px-4 py-2 border-2 light-border-gray-300  dark:text-gray-300 rounded-lg hover:light-bg-gray-300 dark:hover:bg-gray-600">
-                                Filters
-                                <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </button>
+                                    <select id="filterSelect"
+                                        class="filterSelect px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer">
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                    </select>
                             {{-- <button
                                 class="light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
                                 Upload Documents
@@ -1752,7 +1721,7 @@
 
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y light-divide-gray-200 dark:divide-gray-700">
+                    <table class="memberTable credentialTable min-w-full divide-y light-divide-gray-200 dark:divide-gray-700">
                         <thead class="light-bg-gray-50 dark:bg-gray-700">
                             <tr class="light-bg-d9d9d9 border-2 light-border-gray-300 ">
                                 <th scope="col"
@@ -1834,34 +1803,25 @@
                     </table>
                 </div>
                 <div class="flex justify-between items-center mt-4 px-8">
-                    <div class="flex items-center">
-                        <span class="text-sm light-text-gray-700 dark:text-gray-400">Showing 1 to 5 of 100
-                            entries</span>
-                        <select
-                            class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
-                            <option>5</option>
-                            <option>10</option>
-                            <option>25</option>
-                        </select>
-                    </div>
-                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                        <div class="flex space-x-2">
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
-                        </div>
-                    </nav>
+                   <div>
+                                <span class="tableInfo" id="tableInfo"></span>
+                            </div>
+                            <div id="customPagination" class="customPagination flex space-x-2">
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                            </div>
                 </div>
             </div>
 
@@ -1960,11 +1920,9 @@
                                             xmlns="http://www.w3.org/2000/svg">
                                             <!-- Arrow down left side -->
                                             <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
 
                                             <!-- Document outline -->
                                             <path
@@ -1997,11 +1955,9 @@
                                             xmlns="http://www.w3.org/2000/svg">
                                             <!-- Arrow down left side -->
                                             <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
 
                                             <!-- Document outline -->
                                             <path
@@ -2034,11 +1990,9 @@
                                             xmlns="http://www.w3.org/2000/svg">
                                             <!-- Arrow down left side -->
                                             <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
 
                                             <!-- Document outline -->
                                             <path
@@ -2071,11 +2025,9 @@
                                             xmlns="http://www.w3.org/2000/svg">
                                             <!-- Arrow down left side -->
                                             <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
 
                                             <!-- Document outline -->
                                             <path
@@ -2108,11 +2060,9 @@
                                             xmlns="http://www.w3.org/2000/svg">
                                             <!-- Arrow down left side -->
                                             <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                                stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
+                                                stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
 
                                             <!-- Document outline -->
                                             <path
@@ -2303,9 +2253,333 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
 
     <script>
         $(document).ready(function() {
+
+            $('.memberTable').each(function(index, table) {
+                let $table = $(table);
+
+                let $container = $table.closest('.tableContainer');
+                let $search = $container.find('.memberSearch');
+                let $info = $container.find('.tableInfo');
+                let $pagination = $container.find('.customPagination');
+                let $filter = $container.find('.filterSelect');
+
+                let dataTable = $table.DataTable({
+                    paging: true,
+                    searching: true,
+                    ordering: true,
+                    lengthChange: true,
+                    pageLength: 5,
+                    destroy: true,
+                    columnDefs: [{
+                        orderable: false,
+                        targets: 3
+                    }],
+                    dom: `<"flex justify-between items-center mb-4"l>rt`
+                });
+
+                $table.data('tableInstance', dataTable);
+
+                // Search
+                $search.on('keyup', function() {
+                    dataTable.search(this.value).draw();
+                });
+
+                // Update info
+                function updateTableInfo() {
+                    let info = dataTable.page.info();
+                    $info.text(`Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`);
+                }
+
+                // Update custom pagination
+                function updatePagination() {
+                    let info = dataTable.page.info();
+                    $pagination.empty();
+
+                    // Previous button
+                    $pagination.append(`
+                    <button data-page="prev" class="px-4 py-2 rounded-md border border-gray-300
+                        ${info.page === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}">
+                        Previous
+                    </button>
+                `);
+
+                    // Page numbers
+                    for (let i = 0; i < info.pages; i++) {
+                        $pagination.append(`
+                        <button data-page="${i}" class="px-4 py-2 rounded-md border border-gray-300
+                            ${i === info.page ? 'bg-orange-600 text-white font-semibold' : 'hover:bg-gray-100'}">
+                            ${i + 1}
+                        </button>
+                    `);
+                    }
+
+                    // Next button
+                    $pagination.append(`
+                    <button data-page="next" class="px-4 py-2 rounded-md border border-gray-300
+                        ${info.page === info.pages - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}">
+                        Next
+                    </button>
+                `);
+                }
+
+                // Handle custom pagination click
+                $pagination.on('click', 'button', function() {
+                    let action = $(this).data('page');
+                    let info = dataTable.page.info();
+
+                    if (action === 'prev' && info.page > 0) {
+                        dataTable.page('previous').draw('page');
+                    } else if (action === 'next' && info.page < info.pages - 1) {
+                        dataTable.page('next').draw('page');
+                    } else if (!isNaN(action)) {
+                        dataTable.page(action).draw('page');
+                    }
+                });
+
+                // Update on draw
+                dataTable.on('draw', function() {
+                    updateTableInfo();
+                    updatePagination();
+                });
+
+                // Initial update
+                updateTableInfo();
+                updatePagination();
+
+                // Filter select change
+                $filter.on('change', function() {
+                    let val = parseInt(this.value);
+                    if (!isNaN(val)) {
+                        dataTable.page.len(val).draw();
+                    }
+                });
+            });
+
+
+            function projectData(tableInstance) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/project/list',
+                    success: function(response) {
+                        tableInstance.clear();
+                        if (response.success) {
+                            let count = 0;
+                            let index = 1;
+
+                            if (response.success.length > 0) {
+
+                                response.success.forEach(function(project) {
+                                    count++;
+                                    tableInstance.row.add([
+
+                                        `<div class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
+                                            ${index++}
+                                        </div>`,
+
+                                        `<div class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium light-text-gray-900">
+                                                ${project.project_name}
+                                            </div>
+                                            ${
+                                                project.is_high_priority == 1
+                                                ? `<div class="rounded-sm text-center w-20 light-bg-ea54547a mt-1">
+                                                            <div class="text-xs light-text-ff0000">
+                                                                High Priority
+                                                            </div>
+                                                    </div>`
+                                                : ''
+                                            }
+                                        </div>`,
+
+                                        `<div class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
+                                            <div class="flex items-center gap-1">
+                                                <p>$${project.price}</p>
+                                            </div>
+                                        </div>`,
+
+                                        `<div class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex flex-col justify-start gap-2">
+                                                <span class="ml-2 text-sm light-text-gray-700 align-middle">
+                                                    70%
+                                                </span>
+                                                <progress value="70" max="100"
+                                                    class="w-52 h-2.5 mb-4 rounded-full">
+                                                </progress>
+                                            </div>
+                                        </div>`,
+
+                                        `<div class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button data-project-id="${project.id}"
+                                                class="edit-project-modal light-text-orange-500 light-hover-text-orange-700"
+                                                data-action="view-project">
+                                                <svg class="icon w-5 h-5" viewBox="0 0 24 24">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                </svg>
+                                            </button>
+                                        </div>`
+
+                                    ]);
+                                });
+                            }
+                            tableInstance.draw();
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('Error fetching project data:', xhr.responseText);
+                    }
+                });
+            }
+
+            projectData();
+
+            function renderMilestones(tableInstance, milestoneData) {
+                tableInstance.clear();
+
+                if (milestoneData && milestoneData.length > 0) {
+                    milestoneData.forEach(ms => {
+                        tableInstance.row.add([
+                            `<div class="px-6 py-4 whitespace-nowrap text-sm light-text-black">
+                            ${new Date(ms.created_at).toLocaleDateString()}
+                        </div>`,
+                            `<div class="px-6 py-4 whitespace-nowrap text-sm light-text-black">
+                            ${ms.milestone_name}
+                        </div>`,
+                            `<div class="px-6 py-4 text-sm light-text-black">
+                            ${ms.description}
+                        </div>`,
+                            `<div class="px-6 py-4 text-sm light-text-black">
+                            ${getPriorityBadge(ms.priority)}
+                        </div>`,
+                            `<div class="px-6 py-4 text-sm light-text-black">
+                            ${ms.deadline}
+                        </div>`,
+                            `<div class="px-6 py-4 text-center">
+                            <input 
+                                type="checkbox"
+                                class="accent-orange-500 w-4 h-4 is-completed-checkbox"
+                                data-id="${ms.id}"
+                                ${ms.is_completed == 1 ? 'checked' : ''}
+                            />
+                        </div>`
+                        ]);
+                    });
+                } 
+
+                tableInstance.draw();
+            }
+
+            function renderDocuments(tableInstance, documents) {
+                tableInstance.clear();
+
+                if (documents && documents.length > 0) {
+                    documents.forEach((document, index) => {
+                        let createdDate = document.created_at.split("T")[0];
+
+                        tableInstance.row.add([
+                            `<div class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${index + 1}</div>`,
+
+                            `<div class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
+                                <a href="${document.document_name}" target="_blank"
+                                    class="flex items-center bg-gray-200 rounded-md w-36
+                                    p-2 light-text-gray-600 dark:text-gray-400 hover:underline">
+                                    View File
+                                    <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
+                                            stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
+                                            stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
+                                            stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                        <path d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
+                                            stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </a>
+                            </div>`,
+
+                            `<div class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${createdDate}</div>`,
+
+                            `<div class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                <button class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                    <div class="flex gap-2">
+                                        <img data-document-id="${document.id}" data-d_project-id="${document.project_id}" 
+                                            src="{{ asset('assets/trash.svg') }}" alt="eye" 
+                                            class="delete-document-btn bg-gray-200 p-1 rounded-full">
+                                    </div>
+                                </button>
+                            </div>`
+                        ]);
+                    });
+                } 
+                tableInstance.draw();
+            }
+
+            function renderCredentials(tableInstance, credentials) {
+                tableInstance.clear();
+
+                if (credentials && credentials.length > 0) {
+                    credentials.forEach((cred, index) => {
+                        tableInstance.row.add([
+                            `<div class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${index + 1}</div>`,
+
+                            `<div class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${cred.platform_name}</div>`,
+
+                            `<div class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${cred.account_name}</div>`,
+
+                            `<div class="px-6 py-4 whitespace-nowrap text-sm light-text-black">
+                                <span id="password-${index}" data-password="${cred.password}">********</span>
+                                <button onclick="togglePassword(${index})" class="ml-2 light-text-gray-500 hover:light-text-gray-700">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                </button>
+                            </div>`,
+
+                            `<div class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <button class="mr-2 open-credential-modal" data-credential-id="${cred.id}">
+                                    <img src="{{ asset('assets/edit.svg') }}" class="bg-gray-200 p-1 rounded-full">
+                                </button>
+                                <button class="delete-credentials-btn" data-credential-id="${cred.id}">
+                                    <img src="{{ asset('assets/trash.svg') }}" class="bg-gray-200 p-1 rounded-full">
+                                </button>
+                            </div>`
+                        ]);
+                    });
+                } 
+
+                tableInstance.draw();
+            }
+
+            $('.projectTable').each(function() {
+                let dataTable = $(this).data('tableInstance');
+                projectData(dataTable);
+            });
+
+            $('.milestoneTable').each(function() {
+                let dataTable = $(this).data('tableInstance');
+                renderMilestones(dataTable, []);
+            });
+
+            $('.documentTable').each(function() {
+                let dataTable = $(this).data('tableInstance'); 
+                renderDocuments(dataTable, []); 
+            });
+
+            $('.credentialTable').each(function() {
+                let dataTable = $(this).data('tableInstance'); 
+                renderCredentials(dataTable, []); 
+            });
 
             $.ajaxSetup({
                 headers: {
@@ -2327,50 +2601,7 @@
                 return '';
             }
 
-            //  milestone data fetch funtion start
-            function renderMilestones(milestoneData) {
-                const tableBody = document.getElementById('milestoneTableBody');
-                tableBody.innerHTML = '';
-
-                if (milestoneData.length === 0) {
-                    const noDataTr = document.createElement('tr');
-                    noDataTr.innerHTML = `
-                            <td colspan="6" class="px-6 py-4 text-center text-gray-500 italic">
-                            No milestones found.
-                            </td>
-                        `;
-                    tableBody.appendChild(noDataTr);
-                    return;
-                }
-
-                milestoneData.forEach((milestone, index) => {
-                    const tr = document.createElement('tr');
-                    tr.classList.add('border-2', 'light-border-gray-300');
-
-                    tr.innerHTML = `
-                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${new Date(milestone.created_at).toLocaleDateString()}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${milestone.milestone_name}</td>
-                            <td class="px-6 py-4 text-sm light-text-black">${milestone.description}</td>
-                            <td class="px-6 py-4 text-sm light-text-black">${getPriorityBadge(milestone.priority)}</td>
-                            <td class="px-6 py-4 text-sm light-text-black">${milestone.deadline}</td>
-                            <td class="px-6 py-4">
-                            <div class="flex justify-center">
-                                <input 
-                                    type="checkbox"
-                                    class="accent-orange-500 w-4 h-4 is-completed-checkbox"
-                                    data-id="${milestone.id}"
-                                    ${milestone.is_completed == 1 ? 'checked' : ''}
-                                />
-                            </div>
-                            </td>
-
-                        `;
-
-                    tableBody.appendChild(tr);
-                });
-
-            }
-
+        
             $(document).on('change', '.is-completed-checkbox', function() {
 
                 let milestoneId = $(this).data('id');
@@ -2399,91 +2630,12 @@
 
             });
 
-            // project data fetch using ajax start
-            function projectData() {
-                $.ajax({
-                    type: 'GET',
-                    url: '/project/list',
-                    success: function(response) {
-                        if (response.success) {
-                            let rows = '';
-                            let count = 0;
-                            let index = 1;
-
-                            if (response.success.length > 0) {
-                                response.success.forEach(function(project) {
-                                    count++;
-                                    rows += `
-                                        <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                                ${index++}
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-medium light-text-gray-900">
-                                                    ${project.project_name}
-                                                </div>
-                                                ${
-                                                    project.is_high_priority == 1
-                                                    ? `
-                                                                                                <div class="rounded-sm text-center w-20 light-bg-ea54547a mt-1">
-                                                                                                    <div class="text-xs light-text-ff0000">High Priority</div>
-                                                                                                </div>
-                                                                                                `
-                                                    : ''
-                                                }
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900">
-                                                <div class="flex items-center gap-1">
-                                                    <p>$${project.price}</p>
-                                                </div>
-                                            </td>
-            
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="flex flex-col justify-start gap-2">
-                                                    <span id="progressText" class="ml-2 text-sm light-text-gray-700 align-middle">24%</span>
-                                                    <progress id="myProgress" value="70" max="100" class="w-52 h-2.5 mb-4 rounded-full"></progress>                                                 
-                                                </div>
-                                            </td>
-                                
-                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                <button data-project-id="${project.id}" class="edit-project-modal light-text-orange-500 light-hover-text-orange-700"
-                                                    data-action="view-project">
-                                                    <svg class="icon w-5 h-5" viewBox="0 0 24 24">
-                                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                        <circle cx="12" cy="12" r="3"></circle>
-                                                    </svg>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    `;
-
-                                });
-                            } else {
-                                rows = `
-                                    <tr>
-                                        <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
-                                            No projects found.
-                                        </td>
-                                    </tr>
-                                `;
-                            }
-                            $('#project-table-body').html(rows);
-                        }
-                    },
-                    error: function(xhr) {
-                        console.error('Error fetching project data:', xhr.responseText);
-                    }
-                });
-            }
-
-            projectData();
-
+        
             $('#project-table-body').on('click', '.toggle-btn', function() {
                 const targetId = $(this).data('target');
                 $('#' + targetId).toggleClass('hidden');
             });
 
-            // project data fetch using ajax end
 
             function openSubscriptionModal(subscription_id) {
 
@@ -2547,8 +2699,11 @@
                     },
                     success: function(response) {
                         $('#upload-document-btn').attr('data-project-id', currentProjectId);
-                        renderDocuments(response.documentData)
-                        renderMilestones(response.milestoneData);
+                        const documentTable = $('.documentTable').DataTable();
+                        renderDocuments(documentTable, response.documentData)
+                        const milestoneTable = $('.milestoneTable').DataTable();
+                        renderMilestones(milestoneTable, response.milestoneData);
+
                         $('.p-name').text(response.data.project_name);
                         $('.p-price').text(response.data.price);
                         $('.p-status').text(response.data.status);
@@ -2566,64 +2721,6 @@
             });
 
             // document work start
-
-            function renderDocuments(documents) {
-                let tbody = $('#document-table');
-
-                tbody.empty();
-
-                if (documents.length === 0) {
-                    let row = `
-                        <tr class="border-2 light-border-gray-300">
-                            <td colspan="5" class="px-6 py-4 whitespace-nowrap text-center text-sm light-text-black">
-                                Documents not found
-                            </td>
-                        </tr>
-                    `;
-                    tbody.append(row);
-                } else {
-                    documents.forEach(function(document, index) {
-                        let createdDate = document.created_at.split("T")[0];
-                        let row = `
-                        <tr class="border-2 light-border-gray-300">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${index + 1}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-gray-900 dark:text-gray-300">
-                                <a href="${document.document_name}" target="_blank"
-                                    class="flex items-center bg-gray-200 rounded-md w-36
-                                    p-2 light-text-gray-600 dark:text-gray-400 hover:underline">
-                                    View File
-                                    <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                            stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                            stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
-                                            stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                        <path d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
-                                            stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                    </svg>
-                                </a>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${createdDate}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                <button class="light-text-red-600 hover:light-text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                    <div class="flex gap-2">
-                                        <img data-document-id="${document.id}" data-d_project-id="${document.project_id}" src="{{ asset('assets/trash.svg') }}" alt="eye" class="delete-document-btn bg-gray-200 p-1 rounded-full">
-                                    </div>
-                                </button>
-                            </td>
-                        </tr>
-                        `;
-                        tbody.append(row);
-                    });
-                }
-
-
-            }
-
 
             $(document).on('click', '.delete-document-btn', function() {
                 document_id = $(this).data('document-id');
@@ -2720,65 +2817,13 @@
                     url: '/credentials/list',
                     type: 'GET',
                     success: function(response) {
-                        renderCredentials(response.credentialsData);
+                        const credentialTable = $('.credentialTable').DataTable();
+                        renderCredentials(credentialTable, response.credentialsData);
                     },
                     error: function() {
                         console.log('Failed to load credentials');
                     }
                 });
-            }
-
-            function renderCredentials(credentials) {
-                let tbody = $('#credentials-table');
-
-                tbody.empty();
-
-                if (!credentials || credentials.length === 0) {
-
-                    let row = `
-                        <tr class="border-2 light-border-gray-300">
-                            <td colspan="5" class="px-6 py-4 text-center text-sm light-text-black">
-                                Credentials not found
-                            </td>
-                        </tr>
-                    `;
-                    tbody.append(row);
-                } else {
-                    credentials.forEach(function(cred, index) {
-                        let row = `
-                            <tr class="border-2 light-border-gray-300">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${index + 1}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${cred.platform_name}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">${cred.account_name}</td>
-
-                                <td class="px-6 py-4 whitespace-nowrap text-sm light-text-black">
-                                    <span id="password-${index}" data-password="${cred.password}">
-                                        ********
-                                    </span>
-
-                                    <button onclick="togglePassword(${index})"
-                                        class="ml-2 light-text-gray-500 hover:light-text-gray-700">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                        </svg>
-                                    </button>
-                                </td>
-
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <button class="mr-2 open-credential-modal" data-credential-id="${cred.id}">
-                                        <img src="{{ asset('assets/edit.svg') }}" class="bg-gray-200 p-1 rounded-full">
-                                    </button>
-                                    <button class="delete-credentials-btn" data-credential-id="${cred.id}">
-                                        <img src="{{ asset('assets/trash.svg') }}" class="bg-gray-200 p-1 rounded-full">
-                                    </button>
-                                </td>
-                            </tr>`;
-                        tbody.append(row);
-                    });
-                }
             }
 
             loadCredentials();
