@@ -1139,7 +1139,7 @@
                                 <h2 class="text-xl font-semibold light-text-gray-800">Tasks List</h2>
                                 <div class="flex items-center space-x-3">
                                     <div class="relative">
-                                        <input type="text" placeholder="Search here"
+                                        <input type="text" placeholder="Search here"  id="memberSearch"
                                             class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500">
                                         <div
                                             class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -1153,16 +1153,13 @@
 
                                     <div class="relative  flex  gap-3 inline-block">
                                         <!-- Button -->
-                                        <select
-                                            class="w-20 px-3 py-2 rounded-md text-sm
-                                bg-white text-gray-800 border border-gray-300
-                                dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600
-                                focus:outline-none focus:ring-2 focus:ring-orange-500">
-                                            <option value="Filter">Filter</option>
+                                            <select
+                                            id="filterSelect"
+                                            class="px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer">
+                                            <option value="5">5</option>
                                             <option value="10">10</option>
                                             <option value="25">25</option>
-                                            <option value="50">50</option>
-                                        </select>
+                                            </select>
                                         <button id="openTaskModalBtn"
                                             class="openTaskModal light-bg-d7d7d7 text-white w-40 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
                                             Add New Tasks
@@ -1174,7 +1171,7 @@
                             </div>
 
                             <div class="overflow-x-auto w-full max-h-[75vh]">
-                                <table class="table-fixed w-full border-collapse  ">
+                                <table id="memberTable" class="table-fixed w-full border-collapse">
                                     <thead class="light-bg-d9d9d9">
                                         <tr>
                                             <th scope="col"
@@ -1314,17 +1311,15 @@
                                                 </td>
                                                 <td class="">
                                                     <button
-                                                        class="light-text-orange-500 light-hover-text-orange-700 toggle-btn"
-                                                        data-target="expand-0{{ $loop->iteration }}" >
+                                                        class="light-text-orange-500 light-hover-text-orange-700 toggle-btn" >
                                                         <img class="icon w-full h-full"
                                                             src="{{ asset('assets/Frame 2147224370.svg') }}" />
                                                     </button>
                                                 </td>
                                             </tr>
                                             <!-- Expandable Row (Sub-Header + Sub-Row) -->
-                                            <tr id="expand-0{{ $loop->iteration }}" class="hidden text-black">
+                                            <!-- <tr id="expand-0{{ $loop->iteration }}" class="hidden text-black">
                                                 <td colspan="7" class="px-6 py-4 ">
-                                                    <!-- Sub-table Head -->
                                                     <div class="grid grid-cols-6  font-semibold light-text-black">
                                                         <div class="w-1/2">#</div>
                                                         <div class="flex items-center text-xs">
@@ -1349,7 +1344,6 @@
 
 
 
-                                                    <!-- Sub-table Row -->
                                                     <div class="grid grid-cols-6 pt-2 mt-2 light-text-black">
                                                         <div class="w-1/2"></div>
 
@@ -1396,14 +1390,14 @@
                                                     </div>
 
                                                 </td>
-                                            </tr>
+                                            </tr> -->
 
                                         @endforeach
                                         @else
-                                            <td colspan="7"
+                                            <!-- <td colspan="7"
                                                 class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900 text-left">
                                                 No Tasks found.
-                                            </td>
+                                            </td> -->
                                         @endif
 
                                     </tbody>
@@ -1498,43 +1492,62 @@
 
 
                             <!-- Table Pagination -->
-                            <div
-                                class="flex items-center justify-between mt-4 p-6 text-sm light-text-gray-600 flex-wrap gap-2">
-                                <div>
-                                    <span>Showing 1 to 3 of 100 entries</span>
-                                    <div class="relative inline-block">
-                                        <!-- Button -->
-                                        <select
-                                            class="w-20 px-3 py-2 rounded-md text-sm
-                                bg-white text-gray-800 border border-gray-300
-                                dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600
-                                focus:outline-none focus:ring-2 focus:ring-orange-500">
-                                            <option value="Filter">Filter</option>
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
-                                        </select>
+                        <div
+                            class="flex items-center p-6 justify-between mt-4 text-sm light-text-gray-600 flex-wrap gap-2">
+                            <div>
+                                <span id="tableInfo"></span>
+                                <div class="relative inline-block">
+                                    <!-- Button -->
+                                    <!-- <button id="filterButton2"
+                                    class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
+                                    <div class="flex">
+                                        <span>Filters</span>
+                                        <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                    <!-- </svg> -->
+                                    <!-- </div> -->
+                                    <!-- </button> -->
 
-
+                                    <!-- Dropdown Content -->
+                                    <div id="filterDropdown"
+                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
+                                        <div class="py-1" role="menu" aria-orientation="vertical">
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">1</a>
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">2</a>
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">3</a>
+                                            <div class="border-t border-gray-100"></div>
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">Reset Filters</a>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="flex space-x-2" id="custom-pagination">
-                                    <button
-                                        class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
-                                    <button
-                                        class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
-                                    <button
-                                        class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
-                                    <button
-                                        class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
-                                    <button
-                                        class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
-                                    <button
-                                        class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
-                                    <button
-                                        class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
-                                </div>
                             </div>
+                            <div id="customPagination" class="flex space-x-2">
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                            </div>
+                        </div>
                         </div>
 
                     </div>
@@ -1556,6 +1569,183 @@
                 display: none !important;
             }
         </style>
+
+        <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+     <script src="//cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
+
+
+     <script>
+        $(document).ready(function() {
+
+            let memberTable = $('#memberTable').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                lengthChange: false, // ❌ disable default length dropdown
+                pageLength: 5,
+                destroy: true,
+                columnDefs: [{
+                    orderable: false,
+                    targets: 6 // ACTION column index (0 based!)
+                }],
+                dom: 'rt' // ✅ remove l completely
+            });
+
+
+
+
+            $('#memberSearch').on('keyup', function() {
+                memberTable.search(this.value).draw();
+            });
+
+
+
+            // Update “Showing X to Y of Z entries”
+            function updateTableInfo(table) {
+                let info = table.page.info();
+                $('#tableInfo').text(`Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`);
+            }
+
+            // Build your custom pagination
+            function updatePagination(table) {
+                let info = table.page.info();
+                let pagination = $('#customPagination');
+                pagination.empty();
+
+                // Previous button
+                pagination.append(`
+        <button data-page="prev" class="px-4 py-2 rounded-md border border-gray-300
+            ${info.page === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}">
+            Previous
+        </button>
+                 `);
+
+                // Page numbers
+                for (let i = 0; i < info.pages; i++) {
+                    pagination.append(`
+            <button data-page="${i}" class="px-4 py-2 rounded-md border border-gray-300
+                ${i === info.page ? 'bg-orange-600 text-white font-semibold' : 'hover:bg-gray-100'}">
+                ${i + 1}
+            </button>
+        `);
+                }
+
+                // Next button
+                pagination.append(`
+        <button data-page="next" class="px-4 py-2 rounded-md border border-gray-300
+            ${info.page === info.pages - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}">
+            Next
+        </button>
+               `);
+            }
+
+            $('#customPagination').on('click', 'button', function() {
+
+                let action = $(this).attr('data-page'); // use attr instead of data()
+
+                if (action === 'prev') {
+                    memberTable.page('previous').draw('page');
+                } else if (action === 'next') {
+                    memberTable.page('next').draw('page');
+                } else {
+                    memberTable.page(parseInt(action)).draw('page'); // force number
+                }
+
+            });
+
+            memberTable.on('draw', function() {
+                updateTableInfo(memberTable);
+                updatePagination(memberTable);
+            });
+            updateTableInfo(memberTable);
+            updatePagination(memberTable);
+
+            // Listen for changes on your filter select
+            $('#filterSelect').on('change', function() {
+                let selectedValue = parseInt(this.value);
+                if (!isNaN(selectedValue)) {
+                    memberTable.page.len(selectedValue).draw();
+                }
+            });
+        });
+
+
+        let table = $('#memberTable').DataTable();
+
+$('#memberTable tbody').on('click', '.toggle-btn', function () {
+
+    let tr = $(this).closest('tr');
+    let row = table.row(tr);
+
+    if (row.child.isShown()) {
+        row.child.hide();
+        tr.removeClass('shown');
+    } else {
+
+        let dataId = tr.data('data-id'); // or use data-id if better
+
+        row.child(`
+    <div class="px-6 py-4  light-text-black border-t">
+        <!-- Sub-table Header -->
+        <div class="grid font-semibold light-text-black border-b-2 light-border-gray-300 items-center py-3 px-2 grid-cols-[6rem_10rem_14rem_14rem_15rem_6rem]">
+            <div>#</div>
+            <div class="flex items-center gap-1">
+                AMOUNT
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 8 L12 3 L17 8" />
+                    <path d="M7 16 L12 21 L17 16" />
+                </svg>
+            </div>
+            <div class="flex items-center gap-1">
+                LEAD SOURCE
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 8 L12 3 L17 8" />
+                    <path d="M7 16 L12 21 L17 16" />
+                </svg>
+            </div>
+            <div class="flex items-center gap-1">
+                CURRENT PROJECT
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 8 L12 3 L17 8" />
+                    <path d="M7 16 L12 21 L17 16" />
+                </svg>
+            </div>
+            <div class="flex items-center gap-1">
+                MEMBERSHIP
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 8 L12 3 L17 8" />
+                    <path d="M7 16 L12 21 L17 16" />
+                </svg>
+            </div>
+            <div class="text-right">ACTION</div>
+        </div>
+
+        <!-- Sub-table Row -->
+        <div class="grid pt-2 mt-2 light-text-black items-center grid-cols-[7rem_10rem_14rem_14rem_15rem_6rem]">
+            <div></div>
+            <div class="text-gray-400 text-sm">Dynamic Amount Here</div>
+            <div class="text-gray-400 text-sm">Dynamic Lead Here</div>
+            <div class="text-gray-400 text-sm">Dynamic Project Here</div>
+            <div class="text-gray-400 text-sm">Dynamic Membership Here</div>
+            <div class="flex items-center justify-end gap-2">
+                <a href="/clients/${clientId}" class="inline-block pt-[4px]">
+                    <img src="assets/eye-DARK.svg" alt="View" class="w-6 h-6 switchRight rounded-full p-1 bg-gray-500" />
+                </a>
+                <form action="/clients/softdelete/${clientId}" method="POST" style="display:inline; padding-top:7px;">
+                    <button type="submit" class="rounded-full">
+                        <img src="assets/trash.svg" alt="Delete" class="w-6 h-6 rounded-full p-1 bg-gray-500" />
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+`).show();
+
+        tr.addClass('shown');
+    }
+});
+
+    </script>
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {

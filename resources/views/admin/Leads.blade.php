@@ -961,8 +961,8 @@
                                 <h2 class="text-xl font-semibold light-text-gray-800">Leads Lists</h2>
                                 <div class="flex items-center space-x-3">
                                     <div class="relative">
-                                        <input type="search" placeholder="Search here"
-                                            class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500 dt-input" id="dt-search-0"  aria-controls="myTable">
+                                        <input type="search" placeholder="Search here" id="memberSearch"
+                                            class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500 dt-input" >
                                         <div
                                             class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <svg class="icon text-gray-400" viewBox="0 0 24 24">
@@ -975,15 +975,12 @@
                                     <div class="relative inline-block">
                                         <div class="flex gap-3">
                                             <!-- Button -->
-                                            <select aria-controls="myTable" id="dt-length-0" fdprocessedid="9gl4x"
-                                                class="dt-input w-20 px-3 py-2 rounded-md text-sm
-                                                bg-white text-gray-800 border border-gray-300
-                                                dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600
-                                                focus:outline-none focus:ring-2 focus:ring-orange-500">
-                                                <option value="Filter" selected hidden>Filter</option>
-                                                <option value="5">5</option>
-                                                <option value="25">25</option>
-                                                <option value="50">50</option>
+                                            <select
+                                            id="filterSelect"
+                                            class="px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer">
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
                                             </select>
                                             <button
                                                 class="px-4 py-2 rounded-lg light-bg-d7d7d7 text-white font-semibold hover:bg-orange-700 transition-colors openTrashModal">
@@ -1002,7 +999,7 @@
                             </div>
 
                             <div class="overflow-x-auto">
-                                <table class="min-w-full border-b-2 light-border-gray-300" id="myTable">
+                                <table class="min-w-full border-b-2 light-border-gray-300" id="memberTable">
                                     <thead class="light-bg-d9d9d9 border-b-2 light-border-gray-300">
                                         <tr>
                                         <th scope="col"
@@ -1018,8 +1015,7 @@
                                             </div>
                                         </th>
                                             <th scope="col"
-                                                class="px-9 py-3  text-left text-xs
-    font-medium light-text-gray-500 uppercase tracking-wider">
+                                                class="px-9 py-3  text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
                                                 <div class="flex items-center w-full justify-between">
                                                     <div style="width: 80%">LEADS</div>
                                                     <div style="width: 20%;">
@@ -1219,34 +1215,73 @@
                                         </tr>
                                         @endforeach
                                     @else
-                                        <tr>
+                                        <!-- <tr>
                                             <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-black text-left">
                                                 No leads found.
                                             </td>
-                                        </tr>
+                                        </tr> -->
                                     @endif
                                     </tbody>
                                 </table>
                             </div>
 
                             <!-- Table Pagination -->
-                            <div
-                                class="flex items-center justify-between mt-4 p-6 text-sm light-text-gray-600 flex-wrap gap-4">
-                                <div>
+                        <div
+                            class="flex items-center p-6 justify-between mt-4 text-sm light-text-gray-600 flex-wrap gap-2">
+                            <div>
+                                <span id="tableInfo"></span>
+                                <div class="relative inline-block">
+                                    <!-- Button -->
+                                    <!-- <button id="filterButton2"
+                                    class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
+                                    <div class="flex">
+                                        <span>Filters</span>
+                                        <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                    <!-- </svg> -->
+                                    <!-- </div> -->
+                                    <!-- </button> -->
 
-                                    {{-- <span>Showing 1 to 3 of 100 entries </span> --}}
-                                    <span class="dt-info" aria-live="polite" id="myTable_info" role="status" bis_skin_checked="1">Showing 1 to 2 of 2 entries</span>
-                                </div>
-                                <div id="custom-pagination" class="flex space-x-2 mt-4">
-                                    <button id="prev-btn" class="px-4 py-2 rounded-md border border-gray-300 text-white hover:bg-orange-600  transition-colors">Previous</button>
-                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">1</button>
-                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">2</button>
-                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">3</button>
-                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">4</button>
-                                    <button class="page-btn px-4 py-2 rounded-md border border-gray-300 text-white ">5</button>
-                                    <button id="next-btn" class="px-4 py-2 rounded-md border border-gray-300 text-white hover:bg-orange-600  transition-colors">Next</button>
+                                    <!-- Dropdown Content -->
+                                    <div id="filterDropdown"
+                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
+                                        <div class="py-1" role="menu" aria-orientation="vertical">
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">1</a>
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">2</a>
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">3</a>
+                                            <div class="border-t border-gray-100"></div>
+                                            <a href="#"
+                                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem">Reset Filters</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <div id="customPagination" class="flex space-x-2">
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                            </div>
+                        </div>
                         </div>
 
                     </div>
@@ -2331,7 +2366,7 @@
 
             <div>
                 <div class="overflow-x-auto">
-                    <table id="myTable" class="min-w-full divide-y divide-gray-200">
+                    <table  class="min-w-full divide-y divide-gray-200">
                         <thead class="light-bg-d9d9d9">
                             <tr>
                                 <th scope="col"
@@ -2730,6 +2765,101 @@
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
      <script src="//cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
 
+
+     <script>
+$(document).ready(function() {
+
+    // Initialize DataTable
+    let memberTable = $('#memberTable').DataTable({
+        paging: true,
+        searching: true,
+        ordering: true,
+        lengthChange: false,       // disable default length dropdown
+        pageLength: 5,
+        destroy: true,
+        columnDefs: [
+            { orderable: false, targets: 7 } // ACTION column is not sortable (0-based index)
+        ],
+        dom: 'rt'                  // remove default elements except the table
+    });
+
+    // Custom search
+    $('#memberSearch').on('keyup', function() {
+        memberTable.search(this.value).draw();
+    });
+
+    // Update "Showing X to Y of Z entries"
+    function updateTableInfo(table) {
+        let info = table.page.info();
+        $('#tableInfo').text(`Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`);
+    }
+
+    // Custom pagination
+    function updatePagination(table) {
+        let info = table.page.info();
+        let pagination = $('#customPagination');
+        pagination.empty();
+
+        // Previous button
+        pagination.append(`
+            <button data-page="prev" class="px-4 py-2 rounded-md border border-gray-300
+                ${info.page === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}">
+                Previous
+            </button>
+        `);
+
+        // Page numbers
+        for (let i = 0; i < info.pages; i++) {
+            pagination.append(`
+                <button data-page="${i}" class="px-4 py-2 rounded-md border border-gray-300
+                    ${i === info.page ? 'bg-orange-600 text-white font-semibold' : 'hover:bg-gray-100'}">
+                    ${i + 1}
+                </button>
+            `);
+        }
+
+        // Next button
+        pagination.append(`
+            <button data-page="next" class="px-4 py-2 rounded-md border border-gray-300
+                ${info.page === info.pages - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}">
+                Next
+            </button>
+        `);
+    }
+
+    // Pagination button click
+    $('#customPagination').on('click', 'button', function() {
+        let action = $(this).attr('data-page');
+
+        if (action === 'prev') {
+            memberTable.page('previous').draw('page');
+        } else if (action === 'next') {
+            memberTable.page('next').draw('page');
+        } else {
+            memberTable.page(parseInt(action)).draw('page');
+        }
+    });
+
+    // Trigger updates initially
+    memberTable.on('draw', function() {
+        updateTableInfo(memberTable);
+        updatePagination(memberTable);
+    });
+
+    updateTableInfo(memberTable);
+    updatePagination(memberTable);
+
+    // Custom page length filter
+    $('#filterSelect').on('change', function() {
+        let selectedValue = parseInt(this.value);
+        if (!isNaN(selectedValue)) {
+            memberTable.page.len(selectedValue).draw();
+        }
+    });
+
+});
+</script>
+
 <script>
 window.addEventListener("load", function () {
 
@@ -2738,84 +2868,84 @@ window.addEventListener("load", function () {
     /* =====================================================
        DATATABLE
     ===================================================== */
-    let table = null;
+    // let table = null;
 
-    if (document.querySelector('#myTable')) {
+    // if (document.querySelector('#myTable')) {
 
-        table = new DataTable('#myTable', {
-            dom: 't',
-            ordering: false,
-            pageLength: 5,
-            drawCallback: function () {
+    //     table = new DataTable('#myTable', {
+    //         dom: 't',
+    //         ordering: false,
+    //         pageLength: 5,
+    //         drawCallback: function () {
 
-                const api = this.api();
-                const pageInfo = api.page.info();
-                const currentPage = pageInfo.page;
-                const totalPages = pageInfo.pages;
+    //             const api = this.api();
+    //             const pageInfo = api.page.info();
+    //             const currentPage = pageInfo.page;
+    //             const totalPages = pageInfo.pages;
 
-                if (document.getElementById('prev-btn'))
-                    $('#prev-btn').prop('disabled', currentPage === 0);
+    //             if (document.getElementById('prev-btn'))
+    //                 $('#prev-btn').prop('disabled', currentPage === 0);
 
-                if (document.getElementById('next-btn'))
-                    $('#next-btn').prop('disabled', currentPage === totalPages - 1);
+    //             if (document.getElementById('next-btn'))
+    //                 $('#next-btn').prop('disabled', currentPage === totalPages - 1);
 
-                $('.page-btn').each(function (index) {
-                    if (index === currentPage) {
-                        $(this)
-                            .addClass('bg-orange-600 text-white font-semibold')
-                            .removeClass('hover:bg-orange-600 text-white');
-                    } else {
-                        $(this)
-                            .removeClass('bg-orange-600 text-white font-semibold')
-                            .addClass('hover:bg-orange-600 text-white');
-                    }
-                });
-            }
-        });
+    //             $('.page-btn').each(function (index) {
+    //                 if (index === currentPage) {
+    //                     $(this)
+    //                         .addClass('bg-orange-600 text-white font-semibold')
+    //                         .removeClass('hover:bg-orange-600 text-white');
+    //                 } else {
+    //                     $(this)
+    //                         .removeClass('bg-orange-600 text-white font-semibold')
+    //                         .addClass('hover:bg-orange-600 text-white');
+    //                 }
+    //             });
+    //         }
+    //     });
 
-        // Pagination
-        $('.page-btn').on('click', function () {
-            const pageNum = parseInt($(this).text()) - 1;
-            table.page(pageNum).draw('page');
-        });
+    //     // Pagination
+    //     $('.page-btn').on('click', function () {
+    //         const pageNum = parseInt($(this).text()) - 1;
+    //         table.page(pageNum).draw('page');
+    //     });
 
-        $('#prev-btn').on('click', function () {
-            table.page('previous').draw('page');
-        });
+    //     $('#prev-btn').on('click', function () {
+    //         table.page('previous').draw('page');
+    //     });
 
-        $('#next-btn').on('click', function () {
-            table.page('next').draw('page');
-        });
+    //     $('#next-btn').on('click', function () {
+    //         table.page('next').draw('page');
+    //     });
 
-        // Search
-        const customSearch = document.getElementById('dt-search-0');
-        if (customSearch) {
-            customSearch.addEventListener('input', function () {
-                table.search(this.value).draw();
-            });
-        }
+    //     // Search
+    //     const customSearch = document.getElementById('dt-search-0');
+    //     if (customSearch) {
+    //         customSearch.addEventListener('input', function () {
+    //             table.search(this.value).draw();
+    //         });
+    //     }
 
-        // Length selector
-        const customLength = document.getElementById('dt-length-0');
-        if (customLength) {
-            customLength.addEventListener('change', function () {
-                const val = parseInt(this.value);
-                if (!isNaN(val)) {
-                    table.page.len(val).draw();
-                }
-            });
-        }
+    //     // Length selector
+    //     const customLength = document.getElementById('dt-length-0');
+    //     if (customLength) {
+    //         customLength.addEventListener('change', function () {
+    //             const val = parseInt(this.value);
+    //             if (!isNaN(val)) {
+    //                 table.page.len(val).draw();
+    //             }
+    //         });
+    //     }
 
-        // Info text
-        table.on('draw', function () {
-            const info = table.page.info();
-            const infoEl = document.getElementById('myTable_info');
-            if (infoEl) {
-                infoEl.textContent =
-                    `Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`;
-            }
-        });
-    }
+    //     // Info text
+    //     table.on('draw', function () {
+    //         const info = table.page.info();
+    //         const infoEl = document.getElementById('myTable_info');
+    //         if (infoEl) {
+    //             infoEl.textContent =
+    //                 `Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`;
+    //         }
+    //     });
+    // }
 
     /* =====================================================
        COUNTRY SELECT + CHOICES

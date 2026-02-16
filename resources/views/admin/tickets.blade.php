@@ -784,22 +784,22 @@
                                 <div class="relative inline-block">
                                     <div class="flex gap-3">
                                         <!-- Button -->
-                                        <button id="filterButton"
+                                        <!-- <button id="filterButton"
                                             class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
                                             <div class="flex">
                                                 <span>Projects</span>
                                                 <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
                                                     stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                                     stroke-linejoin="round">
-                                                    <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                                    <path d="M7 16 L12 21 L17 16" /> 
                                                 </svg>
                                             </div>
-                                        </button>
+                                        </button> -->
 
                                     </div>
 
                                     <!-- Dropdown Content -->
-                                    <div id="filterDropdown"
+                                    <!-- <div id="filterDropdown"
                                         class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
                                         <div class="py-1" role="menu" aria-orientation="vertical">
                                             <a href="#"
@@ -816,11 +816,11 @@
                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                                 role="menuitem">Reset Filters</a>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                 </div>
                                 <div class="relative">
-                                    <input type="text" placeholder="Search here"
+                                    <input type="text" placeholder="Search here" id="memberSearch"
                                         class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <svg class="icon text-gray-400" viewBox="0 0 24 24">
@@ -832,22 +832,18 @@
                                 <div class="relative inline-block">
                                     <div class="flex gap-3">
                                         <!-- Button -->
-                                        <button id="filterButton"
-                                            class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
-                                            <div class="flex">
-                                                <span>Filters</span>
-                                                <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                                </svg>
-                                            </div>
-                                        </button>
+                                            <select
+                                            id="filterSelect"
+                                            class="px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer">
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            </select>
 
                                     </div>
 
                                     <!-- Dropdown Content -->
-                                    <div id="filterDropdown"
+                                    <!-- <div id="filterDropdown"
                                         class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
                                         <div class="py-1" role="menu" aria-orientation="vertical">
                                             <a href="#"
@@ -864,13 +860,13 @@
                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                                 role="menuitem">Reset Filters</a>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
 
                         <div class="overflow-x-auto">
-                            <table class="min-w-full border-b-2 light-border-gray-300">
+                            <table class="min-w-full border-b-2 light-border-gray-300" id="memberTable">
                                 <thead class="light-bg-d9d9d9 border-b-2 light-border-gray-300">
                                     <tr>
                                         <th scope="col"
@@ -1036,12 +1032,12 @@
                                             </tr>
                                         @endforeach
                                     @else
-                                        <tr>
+                                        <!-- <tr>
                                             <td colspan="7"
                                                 class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-400 text-left">
                                                 No tickets found.
                                             </td>
-                                        </tr>
+                                        </tr> -->
                                     @endif
                                 </tbody>
 
@@ -1049,28 +1045,28 @@
                         </div>
 
                         <!-- Table Pagination -->
+                        <!-- Table Pagination -->
                         <div
-                            class="flex items-center justify-between mt-4 p-6 text-sm light-text-gray-600 flex-wrap gap-4">
+                            class="flex items-center p-6 justify-between mt-4 text-sm light-text-gray-600 flex-wrap gap-2">
                             <div>
-
-                                <span>Showing 1 to 3 of 100 entries </span>
+                                <span id="tableInfo"></span>
                                 <div class="relative inline-block">
                                     <!-- Button -->
-                                    <button id="filterButton2"
-                                        class="flex items-center justify-center ml-2 px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
-                                        <div class="flex">
-                                            <span>Filters</span>
-                                            <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
-                                            </svg>
-                                        </div>
-                                    </button>
+                                    <!-- <button id="filterButton2"
+                                    class="flex items-center justify-center px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors">
+                                    <div class="flex">
+                                        <span>Filters</span>
+                                        <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                    <!-- </svg> -->
+                                    <!-- </div> -->
+                                    <!-- </button> -->
 
                                     <!-- Dropdown Content -->
                                     <div id="filterDropdown"
-                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9  light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
+                                        class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white light-bg-d9d9d9 light-text-gray-700 ring-1 ring-black text-gray-700 hover:bg-gray-200 transition-colors ring-opacity-5 z-50">
                                         <div class="py-1" role="menu" aria-orientation="vertical">
                                             <a href="#"
                                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -1089,22 +1085,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex space-x-2">
+                            <div id="customPagination" class="flex space-x-2">
                                 <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors light-bg-d9d9d9 light-text-gray-700">Previous</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
                                 <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200 bg-orange-600 light-bg-orange-600 text-white font-semibold light-bg-d9d9d9 light-text-gray-700">1</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
                                 <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">2</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
                                 <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">3</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
                                 <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">4</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
                                 <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">5</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
                                 <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-200  transition-colors light-bg-d9d9d9 light-text-gray-700">Next</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
                             </div>
+                        </div>
+                            
                         </div>
                     </div>
 
@@ -1326,6 +1324,104 @@
     <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/quill-emoji@0.2.0/dist/quill-emoji.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+     <script src="//cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
+
+
+
+     <script>
+$(document).ready(function() {
+
+    // Initialize DataTable
+    let memberTable = $('#memberTable').DataTable({
+        paging: true,
+        searching: true,
+        ordering: true,
+        lengthChange: false,       // disable default length dropdown
+        pageLength: 5,
+        destroy: true,
+        columnDefs: [
+            { orderable: false, targets: 7 } // ACTION column is not sortable (0-based index)
+        ],
+        dom: 'rt'                  // remove default elements except the table
+    });
+
+    // Custom search
+    $('#memberSearch').on('keyup', function() {
+        memberTable.search(this.value).draw();
+    });
+
+    // Update "Showing X to Y of Z entries"
+    function updateTableInfo(table) {
+        let info = table.page.info();
+        $('#tableInfo').text(`Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`);
+    }
+
+    // Custom pagination
+    function updatePagination(table) {
+        let info = table.page.info();
+        let pagination = $('#customPagination');
+        pagination.empty();
+
+        // Previous button
+        pagination.append(`
+            <button data-page="prev" class="px-4 py-2 rounded-md border border-gray-300
+                ${info.page === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}">
+                Previous
+            </button>
+        `);
+
+        // Page numbers
+        for (let i = 0; i < info.pages; i++) {
+            pagination.append(`
+                <button data-page="${i}" class="px-4 py-2 rounded-md border border-gray-300
+                    ${i === info.page ? 'bg-orange-600 text-white font-semibold' : 'hover:bg-gray-100'}">
+                    ${i + 1}
+                </button>
+            `);
+        }
+
+        // Next button
+        pagination.append(`
+            <button data-page="next" class="px-4 py-2 rounded-md border border-gray-300
+                ${info.page === info.pages - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}">
+                Next
+            </button>
+        `);
+    }
+
+    // Pagination button click
+    $('#customPagination').on('click', 'button', function() {
+        let action = $(this).attr('data-page');
+
+        if (action === 'prev') {
+            memberTable.page('previous').draw('page');
+        } else if (action === 'next') {
+            memberTable.page('next').draw('page');
+        } else {
+            memberTable.page(parseInt(action)).draw('page');
+        }
+    });
+
+    // Trigger updates initially
+    memberTable.on('draw', function() {
+        updateTableInfo(memberTable);
+        updatePagination(memberTable);
+    });
+
+    updateTableInfo(memberTable);
+    updatePagination(memberTable);
+
+    // Custom page length filter
+    $('#filterSelect').on('change', function() {
+        let selectedValue = parseInt(this.value);
+        if (!isNaN(selectedValue)) {
+            memberTable.page.len(selectedValue).draw();
+        }
+    });
+
+});
+</script>
 
     <script>
         // Initialize hidden Quill (no default toolbar)

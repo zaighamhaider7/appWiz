@@ -230,10 +230,10 @@
         <!-- Notification Button -->
         <div class="relative" id="notificationDropdown">
             <button id="notificationButton"
-                class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
-                <img src="{{ asset('assets/notification.svg') }}" alt="icon"
-                    class="w-6 h-6 light-text-gray-900 rounded-full light-mode-icon"
-                    data-dark-src="{{ asset('assets/notification-DARK.svg') }}">
+                class="p-2 border-2 rounded-full text-gray-900 light-hover-bg-gray-200 transition-colors light-border-gray-300">
+                <img src="{{ asset('assets/notification-DARK.svg') }}" alt="icon"
+                    class="w-6 h-6 light-text-gray-900 rounded-full "
+                    data-dark-src="{{ asset('assets/notification.svg') }}">
 
                 <span id="unreadBadge"  
                     class=" absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full"

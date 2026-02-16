@@ -2565,7 +2565,7 @@ $(document).ready(function() {
             ${info.page === info.pages - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}">
             Next
         </button>
-    `);
+               `);
             }
 
             $('#customPagination1').on('click', 'button', function() {
