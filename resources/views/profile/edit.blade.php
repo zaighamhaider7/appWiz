@@ -2249,12 +2249,12 @@
             updatePagination(memberTable);
 
             // Listen for changes on your filter select
-$('#filterSelect').on('change', function() {
-    let selectedValue = parseInt(this.value); // convert to number
-    if (!isNaN(selectedValue)) {
-        memberTable.page.len(selectedValue).draw(); // set page length
-    }
-});
+            $('#filterSelect').on('change', function() {
+                let selectedValue = parseInt(this.value); // convert to number
+                if (!isNaN(selectedValue)) {
+                    memberTable.page.len(selectedValue).draw(); // set page length
+                }
+            });
 
             $.ajaxSetup({
                 headers: {
