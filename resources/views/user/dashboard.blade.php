@@ -881,8 +881,7 @@
 
                             </div>
                         @endforeach
-                    @else
-                        <p>No subscriptions found.</p>
+                    
                     @endif
                 </div>
 
@@ -1018,14 +1017,26 @@
                     </div>
 
                     <!-- Reports Section -->
-                    <div class="lg:col-span-1 light-bg-f5f5f5 light-bg-seo  rounded-xl shadow-sm">
+                    <div class="tableContainer lg:col-span-1 light-bg-f5f5f5 light-bg-seo  rounded-xl shadow-sm">
                         <div class="p-6">
                             <h2 class="text-xl font-semibold light-text-gray-800 mb-4">Reports</h2>
                         </div>
                         <div class="overflow-x-auto">
-                            <table class="min-w-full border-b-4 light-border-gray-300">
+                            <table class="memberTable min-w-full border-b-4 light-border-gray-300">
                                 <thead class="light-bg-d9d9d9">
                                     <tr>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                            <div class="flex items-center">
+                                                ID
+                                                <svg class="w-4 h-4 ml-20" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path d="M7 8 L12 3 L17 8" /> <!-- Up chevron -->
+                                                    <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                                </svg>
+                                            </div>
+                                        </th>
                                         <th scope="col"
                                             class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
                                             <div class="flex items-center">
@@ -1050,6 +1061,18 @@
                                                 </svg>
                                             </div>
                                         </th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-left text-xs font-medium light-text-gray-500 uppercase tracking-wider">
+                                            <div class="flex ml-20 items-center">
+                                                DOCUMENT
+                                                <svg class="w-4 h-4 ml-20" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                    <path d="M7 8 L12 3 L17 8" /> <!-- Up chevron -->
+                                                    <path d="M7 16 L12 21 L17 16" /> <!-- Down chevron -->
+                                                </svg>
+                                            </div>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody class="light-bg-white light-bg-seo ">
@@ -1057,42 +1080,13 @@
                                     <tr class="border-b-4 light-border-gray-300">
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
+                                            1</td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
                                             Jan 2025</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
-                                            <a href="#"
-                                                class="inline-flex items-center light-text-gray-400 hover:underline p-2 rounded-md light-bg-e6e6e6">
-                                                Website SEO.pdf
-                                                <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <!-- Arrow down left side -->
-                                                    <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                                        stroke-width="1.25" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                    <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                                        stroke-width="1.25" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-
-                                                    <!-- Document outline -->
-                                                    <path
-                                                        d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
-                                                        stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-
-                                                    <!-- Folded corner -->
-                                                    <path
-                                                        d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
-                                                        stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                </svg>
-
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <!-- Report 2 -->
-                                    <tr class="border-b-4 light-border-gray-300">
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                            Feb 2025</td>
+                                            05-3-2024</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
                                             <a href="#"
                                                 class="inline-flex items-center light-text-gray-400 hover:underline p-2 rounded-md light-bg-e6e6e6">
@@ -1119,60 +1113,32 @@
                                                         stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
                                                         stroke-linejoin="round" />
                                                 </svg>
+
                                             </a>
                                         </td>
                                     </tr>
-                                    <!-- Report 3 -->
-                                    <tr class="border-b-4 light-border-gray-300">
-                                        <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
-                                            Feb 2025</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
-                                            <a href="#"
-                                                class="inline-flex items-center light-text-gray-400 hover:underline p-2 rounded-md light-bg-e6e6e6">
-                                                Website SEO.pdf
-                                                <svg class="icon ml-2 w-5 h-5" viewBox="0 0 20 20" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <!-- Arrow down left side -->
-                                                    <path d="M7.5 9.16667V14.1667L9.16667 12.5" stroke="#7D7D7D"
-                                                        stroke-width="1.25" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                    <path d="M7.49998 14.1667L5.83331 12.5" stroke="#7D7D7D"
-                                                        stroke-width="1.25" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-
-                                                    <!-- Document outline -->
-                                                    <path
-                                                        d="M18.3334 8.33334V12.5C18.3334 16.6667 16.6667 18.3333 12.5 18.3333H7.50002C3.33335 18.3333 1.66669 16.6667 1.66669 12.5V7.5C1.66669 3.33334 3.33335 1.66667 7.50002 1.66667H11.6667"
-                                                        stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-
-                                                    <!-- Folded corner -->
-                                                    <path
-                                                        d="M18.3334 8.33334H15C12.5 8.33334 11.6667 7.5 11.6667 5.00001V1.66667L18.3334 8.33334Z"
-                                                        stroke="#7D7D7D" stroke-width="1.25" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                </svg>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    
                                 </tbody>
                             </table>
                         </div>
                         <!-- Reports Pagination -->
                         <div
                             class="flex overflow-x-auto p-6 items-center justify-start mt-4 text-sm text-gray-600 gap-2 whitespace-nowrap">
-                            <div class="flex space-x-2">
+                            <div class="customPagination flex space-x-2">
                                 <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 hover:light-bg-orange-600 text-white transition-colors">Previous</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
                                 <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white hover:light-bg-orange-600 font-semibold">1</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
                                 <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 text-white hover:light-bg-orange-600 transition-colors">2</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
                                 <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 text-white hover:light-bg-orange-600 transition-colors">3</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
                                 <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 text-white hover:light-bg-orange-600 transition-colors">Next</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
                             </div>
                         </div>
                     </div>
@@ -1827,7 +1793,7 @@
                 </div>
             </div>
 
-            <div id="reportsContent" class="tab-content hidden ">
+            <div id="reportsContent" class="tableContainer tab-content hidden ">
                 <div class="flex justify-between items-center p-8 mb-4">
                     <h3 class="text-2xl">Reports</h3>
                     <div class="relative w-full max-w-xs pl-2">
@@ -1835,20 +1801,20 @@
                     </div>
                     <div class="flex space-x-2">
                         <input type="text" placeholder="Search here"
-                            class="block w-full px-4 py-2 border border-gray-200 light-text-gray-900 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
+                            class="memberSearch block w-full px-4 py-2 border border-gray-200 light-text-gray-900 dark:text-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:focus:ring-orange-400">
                         <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 light-text-gray-400 dark:text-gray-500"
                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
-                        <button
-                            class="flex items-center px-4 py-2 border border-gray-200 dark:text-gray-300 rounded-lg hover:light-bg-gray-300 dark:hover:bg-gray-600">
-                            Filters
-                            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
+                        
+                        <select id="filterSelect"
+                                        class="filterSelect px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer">
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                    </select>
+
                         <button
                             class="light-bg-orange-600 dark:bg-orange-700 text-white w-96 py-2 rounded-lg hover:light-bg-orange-700 dark:hover:bg-orange-600 transition-colors text-sm">
                             Upload Documents
@@ -1856,11 +1822,11 @@
                     </div>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y light-divide-gray-200 dark:divide-gray-700">
+                    <table class="memberTable min-w-full divide-y light-divide-gray-200 dark:divide-gray-700">
                         <thead class="light-bg-gray-50 dark:bg-gray-700">
                             <tr class="light-bg-d9d9d9 border-2 light-border-gray-300 ">
                                 <th scope="col"
-                                    class="flex items-center px-6 py-3 text-left text-xs font-medium light-text-black  uppercase tracking-wider">
+                                    class="flex items-center text-left text-xs font-medium light-text-black  uppercase tracking-wider">
                                     ID
                                     <svg class="inline-block w-3 h-3" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
@@ -2086,34 +2052,25 @@
                     </table>
                 </div>
                 <div class="flex justify-between items-center p-8 mt-4">
-                    <div class="flex items-center">
-                        <span class="text-sm light-text-gray-700 dark:text-gray-400">Showing 1 to 5 of 100
-                            entries</span>
-                        <select
-                            class="ml-2 border light-border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm light-text-gray-700 dark:text-gray-300 light-bg-white dark:bg-gray-700 focus:outline-none focus:ring-orange-500 focus:border-orange-500">
-                            <option>5</option>
-                            <option>10</option>
-                            <option>25</option>
-                        </select>
-                    </div>
-                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                        <div class="flex space-x-2">
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
-                            <button
-                                class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
-                        </div>
-                    </nav>
+                   <div>
+                     <span class="tableInfo"></span>
+                   </div>
+                   <div id="customPagination" class="customPagination flex space-x-2">
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">3</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">4</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">5</button>
+                                <button
+                                    class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Next</button>
+                   </div>
                 </div>
             </div>
 

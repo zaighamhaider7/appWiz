@@ -1005,7 +1005,7 @@
                                 <button
                                     class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
                                 <button
-                                    class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-white font-semibold">1</button>
+                                    class="px-4 py-2 rounded-md border border-gray-300 bg-orange-600 text-dark font-semibold">1</button>
                                 <button
                                     class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">2</button>
                                 <button

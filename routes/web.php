@@ -34,7 +34,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'nocache')->group(function () {
     Route::get('/setting', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/setting', [ProfileController::class, 'update'])->name('profile.update');
     
@@ -63,9 +63,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/projects/{id}/force-delete', [ProjectController::class, 'forceDelete']);
 
     // Route::post('/projects/{id}/restore', [ProjectController::class, 'restore'])->name('projects.restore');
-
-
-
 
     Route::post('/projects/milestone', [ProjectController::class, 'milestoneStore'])->name('milestone.store');
     Route::post('/milestone/status', [ProjectController::class, 'milestoneStatus']);
@@ -238,6 +235,10 @@ Route::middleware('auth')->group(function () {
     // billing routes
     Route::get('/billing', [billingController::class, 'billingView'])->name('billing');
 
+    Route::get('/view-project/{id}', [ProjectController::class, 'view_edit'])->name('project.view');
+
+    Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('project.delete');
+
 });
 
 
@@ -245,9 +246,7 @@ require __DIR__.'/auth.php';
 
 
 
-Route::get('/view-project/{id}', [ProjectController::class, 'view_edit'])->name('project.view');
 
-Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('project.delete');
 
 
 // // project start
