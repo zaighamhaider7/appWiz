@@ -17,6 +17,8 @@ use App\Models\User;
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="//cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css">
+    
+
     <style>
         :root {
             --btn-bg: #EA580C;
@@ -2601,74 +2603,74 @@ $(document).ready(function() {
 
         let table = $('#memberTable1').DataTable();
 
-$('#memberTable1 tbody').on('click', '.toggle-btn', function () {
+        $('#memberTable1 tbody').on('click', '.toggle-btn', function () {
 
-    let tr = $(this).closest('tr');
-    let row = table.row(tr);
+            let tr = $(this).closest('tr');
+            let row = table.row(tr);
 
-    if (row.child.isShown()) {
-        row.child.hide();
-        tr.removeClass('shown');
-    } else {
+            if (row.child.isShown()) {
+                row.child.hide();
+                tr.removeClass('shown');
+            } else {
 
-        let clientId = tr.data('client-id'); // or use data-id if better
+                let clientId = tr.data('client-id'); // or use data-id if better
 
-        row.child(`
-    <div class="px-6 py-4  light-text-black border-t">
-        <!-- Sub-table Header -->
-        <div class="grid font-semibold light-text-black border-b-2 light-border-gray-300 items-center py-3 px-2 grid-cols-[6rem_10rem_14rem_14rem_15rem_6rem]">
-            <div>#</div>
-            <div class="flex items-center gap-1">
-                AMOUNT
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M7 8 L12 3 L17 8" />
-                    <path d="M7 16 L12 21 L17 16" />
-                </svg>
-            </div>
-            <div class="flex items-center gap-1">
-                LEAD SOURCE
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M7 8 L12 3 L17 8" />
-                    <path d="M7 16 L12 21 L17 16" />
-                </svg>
-            </div>
-            <div class="flex items-center gap-1">
-                CURRENT PROJECT
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M7 8 L12 3 L17 8" />
-                    <path d="M7 16 L12 21 L17 16" />
-                </svg>
-            </div>
-            <div class="flex items-center gap-1">
-                MEMBERSHIP
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M7 8 L12 3 L17 8" />
-                    <path d="M7 16 L12 21 L17 16" />
-                </svg>
-            </div>
-            <div class="text-right">ACTION</div>
-        </div>
+                row.child(`
+            <div class="px-6 py-4  light-text-black border-t">
+                <!-- Sub-table Header -->
+                <div class="grid font-semibold light-text-black border-b-2 light-border-gray-300 items-center py-3 px-2 grid-cols-[6rem_10rem_14rem_14rem_15rem_6rem]">
+                    <div>#</div>
+                    <div class="flex items-center gap-1">
+                        AMOUNT
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 8 L12 3 L17 8" />
+                            <path d="M7 16 L12 21 L17 16" />
+                        </svg>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        LEAD SOURCE
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 8 L12 3 L17 8" />
+                            <path d="M7 16 L12 21 L17 16" />
+                        </svg>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        CURRENT PROJECT
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 8 L12 3 L17 8" />
+                            <path d="M7 16 L12 21 L17 16" />
+                        </svg>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        MEMBERSHIP
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 8 L12 3 L17 8" />
+                            <path d="M7 16 L12 21 L17 16" />
+                        </svg>
+                    </div>
+                    <div class="text-right">ACTION</div>
+                </div>
 
-        <!-- Sub-table Row -->
-        <div class="grid pt-2 mt-2 light-text-black items-center grid-cols-[7rem_10rem_14rem_14rem_15rem_6rem]">
-            <div></div>
-            <div class="text-gray-400 text-sm">Dynamic Amount Here</div>
-            <div class="text-gray-400 text-sm">Dynamic Lead Here</div>
-            <div class="text-gray-400 text-sm">Dynamic Project Here</div>
-            <div class="text-gray-400 text-sm">Dynamic Membership Here</div>
-            <div class="flex items-center justify-end gap-2">
-                <a href="/clients/${clientId}" class="inline-block pt-[4px]">
-                    <img src="assets/eye-DARK.svg" alt="View" class="w-6 h-6 switchRight rounded-full p-1 bg-gray-500" />
-                </a>
-                <form action="/clients/softdelete/${clientId}" method="POST" style="display:inline; padding-top:7px;">
-                    <button type="submit" class="rounded-full">
-                        <img src="assets/trash.svg" alt="Delete" class="w-6 h-6 rounded-full p-1 bg-gray-500" />
-                    </button>
-                </form>
+                <!-- Sub-table Row -->
+                <div class="grid pt-2 mt-2 light-text-black items-center grid-cols-[7rem_10rem_14rem_14rem_15rem_6rem]">
+                    <div></div>
+                    <div class="text-gray-400 text-sm">Dynamic Amount Here</div>
+                    <div class="text-gray-400 text-sm">Dynamic Lead Here</div>
+                    <div class="text-gray-400 text-sm">Dynamic Project Here</div>
+                    <div class="text-gray-400 text-sm">Dynamic Membership Here</div>
+                    <div class="flex items-center justify-end gap-2">
+                        <a href="/clients/${clientId}" class="inline-block pt-[4px]">
+                            <img src="assets/eye-DARK.svg" alt="View" class="w-6 h-6 switchRight rounded-full p-1 bg-gray-500" />
+                        </a>
+                        <form action="/clients/softdelete/${clientId}" method="POST" style="display:inline; padding-top:7px;">
+                            <button type="submit" class="rounded-full">
+                                <img src="assets/trash.svg" alt="Delete" class="w-6 h-6 rounded-full p-1 bg-gray-500" />
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-`).show();
+        `).show();
 
         tr.addClass('shown');
     }

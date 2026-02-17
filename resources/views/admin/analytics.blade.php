@@ -14,6 +14,8 @@
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet" />
     <!-- Emoji Plugin -->
     <link href="https://cdn.jsdelivr.net/npm/quill-emoji@0.2.0/dist/quill-emoji.css" rel="stylesheet" />
+    
+
     <style>
         :root {
             --btn-bg: #EA580C;
@@ -731,6 +733,7 @@
 </head>
 
 <body>
+    <!-- @include('layouts.loader') -->
     <div class="flex min-h-screen light-bg-white">
         <!-- Sidebar -->
         @include('layouts.sidebar')

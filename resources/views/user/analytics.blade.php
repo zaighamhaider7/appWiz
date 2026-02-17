@@ -10,6 +10,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+
     <style>
         :root {
             --btn-bg: #EA580C;
@@ -715,6 +717,7 @@
 </head>
 
 <body>
+    @include('layouts.loader')
     <div id="analyticserror" class="hidden fixed top-5 right-5 bg-red-500 text-white px-4 py-2 rounded shadow-lg"
         style="z-index: 9999 !important">
     </div>

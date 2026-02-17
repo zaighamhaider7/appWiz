@@ -744,6 +744,7 @@
 </head>
 
 <body>
+    @include('layouts.loader')
     <div class="flex min-h-screen light-bg-white">
         <!-- Sidebar -->
         @include('layouts.sidebar')
@@ -1684,215 +1685,230 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const body = document.body;
-            const knowledgeButton = document.getElementById('knowledgeButton');
-            const filterButton = document.getElementById('filterButton');
-            const filterDropdown = document.getElementById('filterDropdown');
+    /* =========================
+       APPLY THEME IMMEDIATELY
+       ========================= */
+    (function () {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    })();
 
-            // ✅ Dropdown toggle
-            const filterButtons = document.querySelectorAll('[id^="filterButton"]');
-            const filterDropdowns = document.querySelectorAll('[id^="filterDropdown"]');
 
-            filterButtons.forEach((button, index) => {
-                button.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    filterDropdowns[index].classList.toggle('hidden');
-                });
+    /* =========================
+       MAIN LOGIC
+       ========================= */
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const body = document.body;
+        const knowledgeButton = document.getElementById('knowledgeButton');
+        const filterDropdown = document.getElementById('filterDropdown');
+
+        /* ---------- DROPDOWN ---------- */
+        const filterButtons = document.querySelectorAll('[id^="filterButton"]');
+        const filterDropdowns = document.querySelectorAll('[id^="filterDropdown"]');
+
+        filterButtons.forEach((button, index) => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                filterDropdowns[index].classList.toggle('hidden');
             });
+        });
 
-            document.addEventListener('click', () => {
-                filterDropdowns.forEach(dropdown => {
-                    dropdown.classList.add('hidden');
-                });
+        document.addEventListener('click', () => {
+            filterDropdowns.forEach(dropdown => {
+                dropdown.classList.add('hidden');
             });
+        });
 
-            // ✅ Dropdown color update
-            const updateDropdownColors = () => {
-                const isDarkMode = body.classList.contains('dark-mode');
-                if (filterDropdown) {
-                    filterDropdown.style.color = isDarkMode ? 'white' : 'black';
-                    filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
-                }
-            };
-
-            // ✅ Dark mode toggle
-            const toggleDarkMode = () => {
-                body.classList.toggle('dark-mode');
-                updateImageSources(body.classList.contains('dark-mode'));
-                updateDropdownColors();
-                localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-            };
-
-            // ✅ Update images for dark/light
-            const updateImageSources = (isDarkMode) => {
-                const icons = document.querySelectorAll('.light-mode-icon');
-                icons.forEach(icon => {
-                    const darkSrc = icon.dataset.darkSrc;
-                    const originalSrc = icon.src.replace('-DARK.svg', '.svg');
-                    if (darkSrc) icon.src = isDarkMode ? darkSrc : originalSrc;
-                });
-
-                const images = document.querySelectorAll('.light-mode-img');
-                images.forEach(img => {
-                    const darkSrc = img.dataset.darkSrc;
-                    const originalSrc = img.src.replace('-DARK.png', '.png');
-                    if (darkSrc) img.src = isDarkMode ? darkSrc : originalSrc;
-                });
-
-                const logo = document.querySelector('.light-mode-logo');
-                if (logo) {
-                    const darkLogoSrc = logo.dataset.darkSrc;
-                    const lightLogoSrc = 'Frame 2147224409.png';
-                    logo.src = isDarkMode ? darkLogoSrc : lightLogoSrc;
-                }
-            };
-
-            // ✅ Apply theme from localStorage
-            if (localStorage.getItem('theme') === 'dark') {
-                body.classList.add('dark-mode');
+        const updateDropdownColors = () => {
+            const isDarkMode = body.classList.contains('dark-mode');
+            if (filterDropdown) {
+                filterDropdown.style.color = isDarkMode ? 'white' : 'black';
+                filterDropdown.style.backgroundColor = isDarkMode ? '#1a1a1a' : 'white';
             }
+        };
 
-            updateImageSources(body.classList.contains('dark-mode'));
+        /* ---------- IMAGE UPDATE ---------- */
+        const updateImageSources = (isDarkMode) => {
+            const icons = document.querySelectorAll('.light-mode-icon');
+            icons.forEach(icon => {
+                const darkSrc = icon.dataset.darkSrc;
+                const originalSrc = icon.src.replace('-DARK.svg', '.svg');
+                if (darkSrc) icon.src = isDarkMode ? darkSrc : originalSrc;
+            });
+
+            const images = document.querySelectorAll('.light-mode-img');
+            images.forEach(img => {
+                const darkSrc = img.dataset.darkSrc;
+                const originalSrc = img.src.replace('-DARK.png', '.png');
+                if (darkSrc) img.src = isDarkMode ? darkSrc : originalSrc;
+            });
+
+            const logo = document.querySelector('.light-mode-logo');
+            if (logo) {
+                const darkLogoSrc = logo.dataset.darkSrc;
+                const lightLogoSrc = 'Frame 2147224409.png';
+                logo.src = isDarkMode ? darkLogoSrc : lightLogoSrc;
+            }
+        };
+
+        /* ---------- SYNC UI (NO RE-ADDING CLASS) ---------- */
+        const isDark = body.classList.contains('dark-mode');
+        updateImageSources(isDark);
+        updateDropdownColors();
+
+        /* ---------- TOGGLE ---------- */
+        const toggleDarkMode = () => {
+            body.classList.toggle('dark-mode');
+            const isDarkNow = body.classList.contains('dark-mode');
+
+            updateImageSources(isDarkNow);
             updateDropdownColors();
+            localStorage.setItem('theme', isDarkNow ? 'dark' : 'light');
+        };
 
-            // ✅ Dark mode toggle button
-            if (knowledgeButton) {
-                knowledgeButton.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    toggleDarkMode();
-                });
-            }
-
-            // ✅ SEO card "View More" toggle
-            const seoCards = document.getElementById('seo-cards');
-
-            if (seoCards) {
-                seoCards.addEventListener('click', function(event) {
-                    if (event.target.classList.contains('toggle-btn')) {
-                        const card = event.target.closest('div[class*="p-10"]');
-                        const content = card.querySelector('.card-content');
-                        const icon = event.target.querySelector('img.toggle-icon'); // Get the icon
-                        const textNode = event.target.childNodes[
-                            0]; // Get the text node (assuming it's first)
-
-                        if (!content.style.maxHeight || content.style.maxHeight === '0px') {
-                            content.style.maxHeight = content.scrollHeight + 'px';
-                            textNode.textContent = 'View Less '; // Update text only
-                        } else {
-                            content.style.maxHeight = '0px';
-                            textNode.textContent = 'View More '; // Update text only
-                        }
-                    }
-                });
-            }
-        });
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize Ticket Modal
-            const ticketModal = document.getElementById('ticketModal');
-            const closeTicketModal = document.getElementById('closeTicketModal');
-            const cancelTicket = document.getElementById('cancelTicket');
-            const ticketForm = document.getElementById('ticketForm');
-            const openTicketButtons = document.querySelectorAll('.openTicketModal');
-
-            // Initialize Payment Modal
-            const paymentModal = document.getElementById('paymentModal');
-            const closePaymentModal = document.getElementById('closePaymentModal');
-            const cancelPayment = document.getElementById('cancelPayment');
-            const paymentForm = document.getElementById('paymentForm');
-            const openPaymentButtons = document.querySelectorAll('.openPaymentModal');
-
-            // Ticket Modal Handlers
-            openTicketButtons.forEach(btn => {
-                btn.addEventListener('click', () => ticketModal.classList.remove('hidden'));
-            });
-            closeTicketModal.addEventListener('click', () => ticketModal.classList.add('hidden'));
-            cancelTicket.addEventListener('click', () => ticketModal.classList.add('hidden'));
-            ticketForm.addEventListener('submit', (e) => {
+        if (knowledgeButton) {
+            knowledgeButton.addEventListener('click', (e) => {
                 e.preventDefault();
-                console.log('Ticket form submitted');
-                ticketModal.classList.add('hidden');
+                toggleDarkMode();
             });
+        }
 
-            // Payment Modal Handlers
-            openPaymentButtons.forEach(btn => {
-                btn.addEventListener('click', () => paymentModal.classList.remove('hidden'));
-            });
-            closePaymentModal.addEventListener('click', () => paymentModal.classList.add('hidden'));
-            cancelPayment.addEventListener('click', () => paymentModal.classList.add('hidden'));
-            paymentForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                console.log('Payment form submitted');
-                paymentModal.classList.add('hidden');
-            });
+        /* ---------- SEO CARD ---------- */
+        const seoCards = document.getElementById('seo-cards');
 
-            // Outside click handler for both modals
-            window.addEventListener('click', (e) => {
-                if (e.target === ticketModal) ticketModal.classList.add('hidden');
-                if (e.target === paymentModal) paymentModal.classList.add('hidden');
-            });
-        });
+        if (seoCards) {
+            seoCards.addEventListener('click', function(event) {
+                if (event.target.classList.contains('toggle-btn')) {
+                    const card = event.target.closest('div[class*="p-10"]');
+                    const content = card.querySelector('.card-content');
+                    const textNode = event.target.childNodes[0];
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
-            const tabWrappers = document.querySelectorAll('.tab-wrapper');
-
-            function activateTab(tabId) {
-                // Reset all tabs first
-                tabContents.forEach(content => content.classList.add('hidden'));
-                tabWrappers.forEach(wrapper => {
-                    wrapper.classList.remove(
-                        'active',
-                        'light-bg-gray-1',
-                        'light-bg-orange-500',
-                        'rounded-full'
-                    );
-                });
-                tabButtons.forEach(button => {
-                    button.classList.remove('text-black', 'dark:text-white');
-                    button.classList.add('light-text-gray-500', 'dark:text-gray-400');
-                });
-
-                // Activate the selected tab
-                const selectedTab = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
-                if (selectedTab) {
-                    const wrapper = selectedTab.closest('.tab-wrapper');
-                    const content = document.getElementById(`${tabId}Content`);
-
-                    if (wrapper) {
-                        wrapper.classList.add(
-                            'active',
-                            'light-bg-orange-500',
-                            'light-bg-gray-1',
-                            'rounded-full',
-                            'light-hover-bg-gray-300'
-                        );
-                    }
-
-                    selectedTab.classList.remove('light-text-gray-500', 'dark:text-gray-400');
-                    selectedTab.classList.add('text-black', 'dark:text-white');
-
-                    if (content) {
-                        content.classList.remove('hidden');
+                    if (!content.style.maxHeight || content.style.maxHeight === '0px') {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        textNode.textContent = 'View Less ';
+                    } else {
+                        content.style.maxHeight = '0px';
+                        textNode.textContent = 'View More ';
                     }
                 }
-            }
+            });
+        }
 
-            // Add click handlers
-            tabButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const tabId = this.getAttribute('data-tab');
-                    activateTab(tabId);
-                });
+    });
+
+
+    /* =========================
+       MODALS
+       ========================= */
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const ticketModal = document.getElementById('ticketModal');
+        const closeTicketModal = document.getElementById('closeTicketModal');
+        const cancelTicket = document.getElementById('cancelTicket');
+        const ticketForm = document.getElementById('ticketForm');
+        const openTicketButtons = document.querySelectorAll('.openTicketModal');
+
+        const paymentModal = document.getElementById('paymentModal');
+        const closePaymentModal = document.getElementById('closePaymentModal');
+        const cancelPayment = document.getElementById('cancelPayment');
+        const paymentForm = document.getElementById('paymentForm');
+        const openPaymentButtons = document.querySelectorAll('.openPaymentModal');
+
+        openTicketButtons.forEach(btn => {
+            btn.addEventListener('click', () => ticketModal.classList.remove('hidden'));
+        });
+
+        closeTicketModal?.addEventListener('click', () => ticketModal.classList.add('hidden'));
+        cancelTicket?.addEventListener('click', () => ticketModal.classList.add('hidden'));
+
+        ticketForm?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            ticketModal.classList.add('hidden');
+        });
+
+        openPaymentButtons.forEach(btn => {
+            btn.addEventListener('click', () => paymentModal.classList.remove('hidden'));
+        });
+
+        closePaymentModal?.addEventListener('click', () => paymentModal.classList.add('hidden'));
+        cancelPayment?.addEventListener('click', () => paymentModal.classList.add('hidden'));
+
+        paymentForm?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            paymentModal.classList.add('hidden');
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === ticketModal) ticketModal.classList.add('hidden');
+            if (e.target === paymentModal) paymentModal.classList.add('hidden');
+        });
+    });
+
+
+    /* =========================
+       TABS
+       ========================= */
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const tabWrappers = document.querySelectorAll('.tab-wrapper');
+
+        function activateTab(tabId) {
+
+            tabContents.forEach(content => content.classList.add('hidden'));
+
+            tabWrappers.forEach(wrapper => {
+                wrapper.classList.remove(
+                    'active',
+                    'light-bg-gray-1',
+                    'light-bg-orange-500',
+                    'rounded-full'
+                );
             });
 
-            // ✅ Set first tab as default
-            if (tabButtons.length > 0) {
-                activateTab(tabButtons[0].getAttribute('data-tab'));
+            tabButtons.forEach(button => {
+                button.classList.remove('text-black', 'dark:text-white');
+                button.classList.add('light-text-gray-500', 'dark:text-gray-400');
+            });
+
+            const selectedTab = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+
+            if (selectedTab) {
+                const wrapper = selectedTab.closest('.tab-wrapper');
+                const content = document.getElementById(`${tabId}Content`);
+
+                wrapper?.classList.add(
+                    'active',
+                    'light-bg-orange-500',
+                    'light-bg-gray-1',
+                    'rounded-full',
+                    'light-hover-bg-gray-300'
+                );
+
+                selectedTab.classList.remove('light-text-gray-500', 'dark:text-gray-400');
+                selectedTab.classList.add('text-black', 'dark:text-white');
+
+                content?.classList.remove('hidden');
             }
+        }
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                activateTab(this.getAttribute('data-tab'));
+            });
         });
-    </script>
+
+        if (tabButtons.length > 0) {
+            activateTab(tabButtons[0].getAttribute('data-tab'));
+        }
+    });
+
+</script>
+
 
 
     <!-- New Ticket Modal -->

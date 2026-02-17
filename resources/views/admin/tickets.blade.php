@@ -16,6 +16,17 @@
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet" />
     <!-- Emoji Plugin -->
     <link href="https://cdn.jsdelivr.net/npm/quill-emoji@0.2.0/dist/quill-emoji.css" rel="stylesheet" />
+    <script>
+    (function () {
+        try {
+            const savedTheme = localStorage.getItem("theme");
+            if (savedTheme === "dark") {
+                document.documentElement.classList.add("dark-mode");
+            }
+        } catch (e) {}
+    })();
+</script>
+
     <style>
         :root {
             --btn-bg: #EA580C;
@@ -760,6 +771,7 @@
 </head>
 
 <body>
+    @include('layouts.loader')
     <div class="flex min-h-screen light-bg-white">
         <!-- Sidebar -->
         @include('layouts.sidebar')
@@ -1341,7 +1353,7 @@ $(document).ready(function() {
         pageLength: 5,
         destroy: true,
         columnDefs: [
-            { orderable: false, targets: 7 } // ACTION column is not sortable (0-based index)
+            { orderable: false, targets: 6 } // ACTION column is not sortable (0-based index)
         ],
         dom: 'rt'                  // remove default elements except the table
     });

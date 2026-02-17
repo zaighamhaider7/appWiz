@@ -20,6 +20,17 @@
       href="https://cdn.quilljs.com/1.3.7/quill.snow.css"
       rel="stylesheet"
     />
+    <!-- <script>
+    (function () {
+        try {
+            const savedTheme = localStorage.getItem("theme");
+            if (savedTheme === "dark") {
+                document.documentElement.classList.add("dark-mode");
+            }
+        } catch (e) {}
+    })();
+</script> -->
+
     <!-- Emoji Plugin -->
     <link
       href="https://cdn.jsdelivr.net/npm/quill-emoji@0.2.0/dist/quill-emoji.css"
@@ -1139,7 +1150,7 @@
                                 <h2 class="text-xl font-semibold light-text-gray-800">Tasks List</h2>
                                 <div class="flex items-center space-x-3">
                                     <div class="relative">
-                                        <input type="text" placeholder="Search here"  id="memberSearch"
+                                        <input type="text" placeholder="Search here"  id="memberSearch1"
                                             class="pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-500">
                                         <div
                                             class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -1154,7 +1165,7 @@
                                     <div class="relative  flex  gap-3 inline-block">
                                         <!-- Button -->
                                             <select
-                                            id="filterSelect"
+                                            id="filterSelect1"
                                             class="px-4 py-2 rounded-lg bg-white light-bg-d9d9d9 light-text-gray-700 border border-gray-300 text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer">
                                             <option value="5">5</option>
                                             <option value="10">10</option>
@@ -1171,7 +1182,7 @@
                             </div>
 
                             <div class="overflow-x-auto w-full max-h-[75vh]">
-                                <table id="memberTable" class="table-fixed w-full border-collapse">
+                                <table id="memberTable1" class="table-fixed w-full border-collapse">
                                     <thead class="light-bg-d9d9d9">
                                         <tr>
                                             <th scope="col"
@@ -1269,7 +1280,7 @@
                                         @if(count($tasks) > 0)
                                         @foreach ($tasks as $task)
                                             <!-- Row 1 -->
-                                            <tr>
+                                            <tr data-task-id="{{ $task->id }}">
                                                 <td
                                                     class="px-6 py-4 whitespace-nowrap text-sm font-medium light-text-gray-900">
                                                     {{$count++}}</td>
@@ -1495,7 +1506,7 @@
                         <div
                             class="flex items-center p-6 justify-between mt-4 text-sm light-text-gray-600 flex-wrap gap-2">
                             <div>
-                                <span id="tableInfo"></span>
+                                <span id="tableInfo1"></span>
                                 <div class="relative inline-block">
                                     <!-- Button -->
                                     <!-- <button id="filterButton2"
@@ -1531,7 +1542,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="customPagination" class="flex space-x-2">
+                            <div id="customPagination1" class="flex space-x-2">
                                 <button
                                     class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition-colors">Previous</button>
                                 <button
@@ -1574,15 +1585,15 @@
      <script src="//cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
 
 
-     <script>
+    <script>
         $(document).ready(function() {
 
-            let memberTable = $('#memberTable').DataTable({
+            let memberTable1 = $('#memberTable1').DataTable({
                 paging: true,
                 searching: true,
                 ordering: true,
                 lengthChange: false, // ❌ disable default length dropdown
-                pageLength: 5,
+                pageLength: 6,
                 destroy: true,
                 columnDefs: [{
                     orderable: false,
@@ -1594,22 +1605,22 @@
 
 
 
-            $('#memberSearch').on('keyup', function() {
-                memberTable.search(this.value).draw();
+            $('#memberSearch1').on('keyup', function() {
+                memberTable1.search(this.value).draw();
             });
 
 
 
             // Update “Showing X to Y of Z entries”
-            function updateTableInfo(table) {
+            function updateTableInfo1(table) {
                 let info = table.page.info();
-                $('#tableInfo').text(`Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`);
+                $('#tableInfo1').text(`Showing ${info.start + 1} to ${info.end} of ${info.recordsTotal} entries`);
             }
 
             // Build your custom pagination
-            function updatePagination(table) {
+            function updatePagination1(table) {
                 let info = table.page.info();
-                let pagination = $('#customPagination');
+                let pagination = $('#customPagination1');
                 pagination.empty();
 
                 // Previous button
@@ -1639,40 +1650,40 @@
                `);
             }
 
-            $('#customPagination').on('click', 'button', function() {
+            $('#customPagination1').on('click', 'button', function() {
 
                 let action = $(this).attr('data-page'); // use attr instead of data()
 
                 if (action === 'prev') {
-                    memberTable.page('previous').draw('page');
+                    memberTable1.page('previous').draw('page');
                 } else if (action === 'next') {
-                    memberTable.page('next').draw('page');
+                    memberTable1.page('next').draw('page');
                 } else {
-                    memberTable.page(parseInt(action)).draw('page'); // force number
+                    memberTable1.page(parseInt(action)).draw('page'); // force number
                 }
 
             });
 
-            memberTable.on('draw', function() {
-                updateTableInfo(memberTable);
-                updatePagination(memberTable);
+            memberTable1.on('draw', function() {
+                updateTableInfo1(memberTable1);
+                updatePagination1(memberTable1);
             });
-            updateTableInfo(memberTable);
-            updatePagination(memberTable);
+            updateTableInfo1(memberTable1);
+            updatePagination1(memberTable1);
 
             // Listen for changes on your filter select
-            $('#filterSelect').on('change', function() {
+            $('#filterSelect1').on('change', function() {
                 let selectedValue = parseInt(this.value);
                 if (!isNaN(selectedValue)) {
-                    memberTable.page.len(selectedValue).draw();
+                    memberTable1.page.len(selectedValue).draw();
                 }
             });
         });
 
 
-        let table = $('#memberTable').DataTable();
+        let table = $('#memberTable1').DataTable();
 
-$('#memberTable tbody').on('click', '.toggle-btn', function () {
+$('#memberTable1 tbody').on('click', '.toggle-btn', function () {
 
     let tr = $(this).closest('tr');
     let row = table.row(tr);
@@ -1682,7 +1693,7 @@ $('#memberTable tbody').on('click', '.toggle-btn', function () {
         tr.removeClass('shown');
     } else {
 
-        let dataId = tr.data('data-id'); // or use data-id if better
+        let taskId = tr.data('task-id'); // or use data-id if better
 
         row.child(`
     <div class="px-6 py-4  light-text-black border-t">
@@ -1728,10 +1739,10 @@ $('#memberTable tbody').on('click', '.toggle-btn', function () {
             <div class="text-gray-400 text-sm">Dynamic Project Here</div>
             <div class="text-gray-400 text-sm">Dynamic Membership Here</div>
             <div class="flex items-center justify-end gap-2">
-                <a href="/clients/${clientId}" class="inline-block pt-[4px]">
+                <a href="/clients/${taskId}" class="inline-block pt-[4px]">
                     <img src="assets/eye-DARK.svg" alt="View" class="w-6 h-6 switchRight rounded-full p-1 bg-gray-500" />
                 </a>
-                <form action="/clients/softdelete/${clientId}" method="POST" style="display:inline; padding-top:7px;">
+                <form action="/clients/softdelete/${taskId}" method="POST" style="display:inline; padding-top:7px;">
                     <button type="submit" class="rounded-full">
                         <img src="assets/trash.svg" alt="Delete" class="w-6 h-6 rounded-full p-1 bg-gray-500" />
                     </button>

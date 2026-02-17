@@ -211,12 +211,33 @@
     <!-- Right Side Icons & User -->
     <div class="flex items-center space-x-4 ml-4">
 
+        <!-- Theme Toggle Button -->
+        <!-- Theme Toggle Button -->
+<div class="relative">
+
+    <button id="Knowledgebutton"
+        class=" p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
+
+        <img 
+            src="{{asset('assets/fi_2961545.svg')}}"
+            alt="icon"
+            class="w-6 h-6 light-text-gray-900 rounded-full light-mode-icon theme-img"
+            data-light-src="{{asset('assets/fi_2961545.svg')}}"
+            data-dark-src="{{ asset('assets/fi_2961545-DARK.svg') }}"
+        >
+
+    </button>
+
+</div>
+
+
         <!-- Message Button -->
         <div class="relative" id="notificationDropdown2">
             <button id="msgButton"
                 class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
                 <img src="{{ asset('assets/message.svg') }}" alt="icon"
-                    class="w-6 h-6 light-text-gray-900 rounded-full light-mode-icon"
+                    class="w-6 h-6 light-text-gray-900 rounded-full light-mode-icon theme-img"
+                    data-light-src="{{ asset('assets/message.svg') }}"
                     data-dark-src="{{ asset('assets/message-DARK.svg') }}">
 
                 <span id="MsgunreadBadge"
@@ -231,9 +252,13 @@
         <div class="relative" id="notificationDropdown">
             <button id="notificationButton"
                 class="p-2 border-2 rounded-full text-gray-900 light-hover-bg-gray-200 transition-colors light-border-gray-300">
-                <img src="{{ asset('assets/notification-DARK.svg') }}" alt="icon"
-                    class="w-6 h-6 light-text-gray-900 rounded-full "
-                    data-dark-src="{{ asset('assets/notification.svg') }}">
+                <img 
+            src="{{ asset('assets/notification-set.svg') }}"
+            alt="icon"
+            class="w-6 h-6 light-text-gray-900 rounded-full light-mode-icon theme-img"
+            data-light-src="{{ asset('assets/notification-set.svg') }}"
+            data-dark-src="{{ asset('assets/notification-DARK.svg') }}"
+        >
 
                 <span id="unreadBadge"  
                     class=" absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full"
@@ -258,6 +283,8 @@
                     @endforelse
                 </ul>
             </div>
+
+            
             
 
             <div id="dropdownMenu3"
@@ -276,6 +303,7 @@
                 </ul>
             </div>
         </div>
+        
 
 
         <script>
@@ -425,54 +453,65 @@
 
 
 <script>
-    document.querySelectorAll('.notification-item').forEach(item => {
-        item.addEventListener('click', function() {
-            const id = this.dataset.id;
-            const li = this;
+document.addEventListener("DOMContentLoaded", function () {
 
-            fetch(`/notifications/${id}/read`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        li.classList.remove('bg-gray-800');
-                        li.classList.add('bg-black');
+    const body = document.body;
+    const themeToggleBtn = document.getElementById("Knowledgebutton");
+    const filterDropdown = document.getElementById("filterDropdown");
 
-                        const unreadBadge = document.getElementById('unreadBadge');
-                        if (data.unreadCount > 0) {
-                            unreadBadge.textContent = data.unreadCount;
-                            unreadBadge.style.display = 'inline-flex';
-                        } else {
-                            unreadBadge.style.display = 'none';
-                        }
+    // Update images based on theme
+    function updateThemeImages() {
+        const isDark = body.classList.contains("dark-mode");
 
-                        const MsgunreadBadge = document.getElementById('MsgunreadBadge');
-                        if (data.MsgunreadCount > 0) {
-                            MsgunreadBadge.textContent = data.MsgunreadCount;
-                            MsgunreadBadge.style.display = 'inline-flex';
-                        } else {
-                            MsgunreadBadge.style.display = 'none';
-                        }
+        document.querySelectorAll(".theme-img").forEach(img => {
+            const lightSrc = img.getAttribute("data-light-src");
+            const darkSrc = img.getAttribute("data-dark-src");
 
+            if (!lightSrc || !darkSrc) return;
 
-                        // const badges = document.querySelectorAll('.unreadBadge');
-
-                        // badges.forEach(badge => {
-                        //     if (data.unreadCount > 0) {
-                        //         badge.textContent = data.unreadCount;
-                        //         badge.style.display = 'inline-flex';
-                        //     } else {
-                        //         badge.style.display = 'none';
-                        //     }
-                        // });
-
-                    }
-                });
+            img.src = isDark ? darkSrc : lightSrc;
         });
-    });
+    }
+
+    // Update dropdown styles
+    function updateDropdownStyles() {
+        if (!filterDropdown) return;
+
+        const isDark = body.classList.contains("dark-mode");
+
+        filterDropdown.style.color = isDark ? "#ffffff" : "#000000";
+        filterDropdown.style.backgroundColor = isDark ? "#000000" : "#ffffff";
+    }
+
+    // MAIN TOGGLE FUNCTION
+    function Knowledgebutton1() {
+        body.classList.toggle("dark-mode");
+
+        updateThemeImages();
+        updateDropdownStyles();
+
+        localStorage.setItem(
+            "theme",
+            body.classList.contains("dark-mode") ? "dark" : "light"
+        );
+    }
+
+    // Load saved theme
+    if (localStorage.getItem("theme") === "dark") {
+        body.classList.add("dark-mode");
+    }
+
+    // Initial sync
+    updateThemeImages();
+    updateDropdownStyles();
+
+    // Attach event
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            Knowledgebutton1();
+        });
+    }
+
+});
 </script>
