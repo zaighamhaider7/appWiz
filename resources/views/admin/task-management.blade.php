@@ -649,6 +649,7 @@
             /* Fixed width for mobile overlay */
             z-index: 50;
             transition: left 0.3s ease-in-out;
+            overflow: auto;
         }
 
         /* Sidebar when open */
@@ -981,7 +982,7 @@
         @include('layouts.sidebar')
 
         <!-- Main Content Area -->
-        <main class="flex-1 ml-80 overflow-y-auto">
+        <main class="flex-1 ml-80 ">
             <!-- Header -->
             @include('layouts.header')
 
@@ -1019,8 +1020,8 @@
                             <!-- Button -->
                             <select
                                 class="w-20 px-3 py-2 rounded-md text-sm
-                                border border-gray-300
-                          light-bg-black light-text-black
+                                border border-gray-300 
+                          light-bg-seo light-bg-f5f5f5 light-text-black
                                 focus:outline-none focus:ring-2 focus:ring-orange-500">
                                 <option value="Filter">Filter</option>
                                 <option value="10">10</option>
