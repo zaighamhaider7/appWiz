@@ -1045,7 +1045,7 @@
         @include('layouts.sidebar')
 
         <!-- Main Content Area -->
-        <main class="flex-1 light-bg-bill overflow-y-auto">
+        <main class="flex-1 ml-80 light-bg-bill overflow-y-auto">
             <!-- Header -->
             @include('layouts.header')
 
@@ -1086,8 +1086,7 @@
                                 <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3 w-full sm:w-auto">
                                     <select aria-controls="myTable" id="dt-length-0" fdprocessedid="9gl4x"
                                         class="dt-input w-20 px-3 py-2 rounded-md text-sm
-                                                bg-white text-gray-800 border border-gray-300
-                                                dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600
+                                                light-bg-black light-text-black text-gray-800 border border-gray-300
                                                 focus:outline-none focus:ring-2 focus:ring-orange-500">
                                         <option value="Filter" selected hidden>Filter</option>
                                         <option value="5">5</option>
@@ -1297,8 +1296,7 @@
                                     <!-- Button -->
                                     <select
                                         class="w-20 px-3 py-2 rounded-md text-sm
-                                bg-white text-gray-800 border border-gray-300
-                                dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600
+                              light-text-black light-bg-black text-gray-800 border border-gray-300
                                 focus:outline-none focus:ring-2 focus:ring-orange-500">
                                         <option value="Filter">Filter</option>
                                         <option value="10">10</option>

@@ -625,6 +625,7 @@
             /* Fixed width for mobile overlay */
             z-index: 50;
             transition: left 0.3s ease-in-out;
+            overflow:auto;
         }
 
         /* Sidebar when open */
@@ -750,7 +751,7 @@
         @include('layouts.sidebar')
 
         <!-- Main Content Area -->
-        <main class="flex-1  overflow-y-auto">
+        <main class="flex-1 ml-80  overflow-y-auto">
             <!-- Header -->
             @include('layouts.header')
 

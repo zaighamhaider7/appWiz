@@ -624,6 +624,7 @@
             /* Fixed width for mobile overlay */
             z-index: 100;
             transition: left 0.3s ease-in-out;
+            overflow: auto;
         }
 
         /* Sidebar when open */
@@ -757,7 +758,7 @@
         @include('layouts.sidebar')
 
         <!-- Main Content Area -->
-        <main class="flex-1 light-bg-bill overflow-y-auto">
+        <main class="flex-1 light-bg-bill ml-80 overflow-y-auto">
             <!-- Header -->
             @include('layouts.header')
 
@@ -1191,18 +1192,18 @@
     <div id="modal"
         class="hidden modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 overflow-y-auto max-h-screen">
         <div
-            class="light-bg-seo text-white rounded-lg w-[90%] md:w-[850px] relative p-6 md:flex max-h-[90vh] overflow-y-auto">
+            class="light-bg-seo light-bg-f5f5f5 text-white rounded-lg w-[90%] md:w-[850px] relative p-6 md:flex max-h-[90vh] overflow-y-auto">
 
             <!-- Left Section -->
             <div class="md:w-[40%] pr-6 border-r border-gray-700 mb-6 md:mb-0">
                 <span id="subscription_tag" class="bg-gray-700 text-sm px-3 py-1 rounded-full">Starter SEO</span>
-                <h2 id="subscription_price" class="text-3xl md:text-5xl font-medium mt-4">$19 <span
-                        class="text-xl font-normal">/ month</span></h2>
+                <h2 id="subscription_price" class="text-3xl light-text-black md:text-5xl font-medium mt-4">$19 <span
+                        class="text-xl light-text-black font-normal">/ month</span></h2>
 
-                <h3 class="font-semibold mt-6" id="subscription_name">Foundation & Fixes</h3>
-                <p class="text-gray-400 text-sm mt-2" id="subscription_tagline">All the basic features to boost your
+                <h3 class="font-semibold light-text-black mt-6" id="subscription_name">Foundation & Fixes</h3>
+                <p class="light-text-black text-sm mt-2" id="subscription_tagline">All the basic features to boost your
                     freelance career</p>
-                <ul class="text-sm mt-4 list-disc list-inside text-gray-300" id="best_for_list">
+                <ul class="text-sm mt-4 list-disc list-inside light-text-black" id="best_for_list">
                     <li>Best for new or small business websites</li>
                 </ul>
 
@@ -1213,8 +1214,8 @@
 
             <!-- Right Section -->
             <div class="md:w-[60%] pl-0 md:pl-6 mt-6 md:mt-0">
-                <h4 class="font-semibold mb-4">What's Included</h4>
-                <ul class="space-y-3 break-words" id="features_list">
+                <h4 class="font-semibold light-text-black mb-4">What's Included</h4>
+                <ul class="space-y-3 light-text-black break-words" id="features_list">
 
                 </ul>
             </div>

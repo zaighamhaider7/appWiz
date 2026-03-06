@@ -112,6 +112,7 @@
             font-size: 1rem;
             outline: none;
             transition: border-color 0.2s;
+            color:white;
         }
 
         .input-field:focus {

@@ -12,7 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        
+
 
     <style>
         :root {
@@ -830,53 +830,6 @@
         }
 
         /* =====================
-   SIDEBAR BASE STYLES
-   ===================== */
-        aside#sidebar {
-            background-color: #171717;
-            /* Theme dark color */
-            height: 100vh;
-            overflow-y: auto;
-            overflow-x: hidden;
-            width: 260px;
-            flex-shrink: 0;
-            margin: 0;
-            padding: 10;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        /* Custom scrollbar */
-        aside#sidebar::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        aside#sidebar::-webkit-scrollbar-track {
-            background: #1c1c1c;
-        }
-
-        aside#sidebar::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 4px;
-        }
-
-        /* =====================
-   DESKTOP VIEW
-   ===================== */
-        @media (min-width: 1024px) {
-            aside#sidebar {
-                position: sticky;
-                top: 0;
-                transform: none;
-                /* Always visible */
-            }
-
-            #overlay {
-                display: none !important;
-                /* No overlay on desktop */
-            }
-        }
-
-        /* =====================
    MOBILE VIEW
    ===================== */
         @media (max-width: 1023px) {
@@ -914,7 +867,6 @@
 
         main {
             flex-grow: 1;
-            background-color: #121212;
             min-height: 100vh;
             margin: 0;
             padding: 0;
@@ -929,61 +881,19 @@
 
         @include('layouts.sidebar')
 
-        <div id="overlay" class="sidebar-overlay fixed inset-0 bg-black bg-opacity-50 hidden z-40"></div>
+            <!-- <div id="overlay" class="sidebar-overlay fixed inset-0 bg-black bg-opacity-50 hidden z-40"></div> -->
 
         <!-- Main Content Area -->
-        <main class="flex-1  overflow-y-auto">
+        <main class="flex-1 ml-80 overflow-y-auto">
             <!-- Header -->
-            {{-- <header
-                class="flex items-center justify-between light-bg-f5f5f5 light-bg-seo p-5 rounded-xl shadow-sm mb-6 header">
-                <button class="hamburger-menu lg:hidden " id="hamburgerClose" aria-label="Toggle navigation">
-                    <svg class="hamburger-icon" viewBox="0 0 24 24" width="24" height="24">
-                        <path d="M3 12h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                        <path d="M3 6h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                        <path d="M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                    </svg>
-                </button>
-                <div class="relative w-full max-w-md">
-                    <input type="text" placeholder="Search here"
-                        class="w-full pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="icon text-gray-400" viewBox="0 0 24 24">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-4 ml-4">
-                    <button
-                        class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
-                        <img src="message.svg" alt="icon"
-                            class="w-6 h-6 light-text-gray-900 rounded-full  light-mode-icon"
-                            data-dark-src="message-DARK.svg">
-                    </button>
-                    <button
-                        class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
-                        <img src="notification.svg" alt="icon"
-                            class="w-6 h-6 light-text-gray-900 rounded-full   light-mode-icon"
-                            data-dark-src="notification-DARK.svg">
-                    </button>
-                    <div class="flex items-center p-1 space-x-3 rounded-full border-2 light-border-gray-300">
-                        <img src="Ellipse 3.png" alt="User Avatar" class="w-10 h-10 rounded-full ">
-                        <span class="font-semibold light-text-gray-500 hidden  sm:block">John Wick</span>
-                        <svg class="icon w-6 pr-2 h-6 text-gray-500 " viewBox="0 0 24 24">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
-                    </div>
-                </div>
-            </header> --}}
-
             @include('layouts.header')
 
-            <div class="p-6 light-bg-bill -mt-5 lg:p-8">
+            <div class="p-6 light-bg-bill  -mt-5 lg:p-8">
 
                 <!-- Projects Title -->
                 <div class="flex items-center gap-2 justify-between mb-6">
                     <!-- Title -->
-                    <h1 class="text-md sm:text-3xl md:text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200">
+                    <h1 class="text-md sm:text-3xl md:text-2xl lg:text-3xl font-bold light-text-black">
                         Marketplace
                     </h1>
 
@@ -995,98 +905,99 @@
                 <!-- Tabs -->
                 <div class="hidden md:flex border-b py-3 px-6 gap-2 light-border-gray-200 dark:border-gray-700 mb-10">
                     @if ($mainCategories->isNotEmpty())
-                        @foreach ($mainCategories as $index => $category)
-                            <div
-                                class="flex items-center {{ $index == 0 ? 'active' : '' }} px-2 py-1 justify-center border border-gray-200 rounded-lg hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
-                                <img class="w-4 h-4 mr-2"
-                                    src="{{ asset($category->category_icon ?? 'default-icon.svg') }}" alt="">
-                                <button class="tab-btn p-1" data-tab="tab-{{ $category->id }}">
-                                    {{ $category->category_name }}
-                                </button>
-                            </div>
-                        @endforeach
+                    @foreach ($mainCategories as $index => $category)
+                    <div
+                        class="flex items-center {{ $index == 0 ? 'active' : '' }} px-2 py-1 justify-center border border-gray-200 rounded-lg hover:rounded-md light-hover-bg-gray-300 tab-wrapper">
+                        <img class="w-4 h-4 mr-2"
+                            src="{{ asset($category->category_icon ?? 'default-icon.svg') }}" alt="">
+                        <button class="tab-btn p-1" data-tab="tab-{{ $category->id }}">
+                            {{ $category->category_name }}
+                        </button>
+                    </div>
+                    @endforeach
                     @else
-                        <p>No categories found.</p>
+                    <p>No categories found.</p>
                     @endif
                 </div>
 
                 @php
-                    $currentCategoryId = $currentCategoryId ?? ($mainCategories->first()->id ?? null);
+                $currentCategoryId = $currentCategoryId ?? ($mainCategories->first()->id ?? null);
                 @endphp
 
                 <!-- Tab Contents -->
                 @if ($mainCategories->isNotEmpty())
-                    <div class="tab-contents">
-                        @foreach ($mainCategories as $category)
-                            <div id="tab-{{ $category->id }}"
-                                class="tab-content {{ $category->id == $currentCategoryId ? '' : 'hidden' }} pl-6 pr-6">
+                <div class="tab-contents">
+                    @foreach ($mainCategories as $category)
+                    <div id="tab-{{ $category->id }}"
+                        class="tab-content {{ $category->id == $currentCategoryId ? '' : 'hidden' }} pl-6 pr-6">
 
-                                <div>
-                                    <h3 class="pb-3 font-semibold text-md light-text-black">
-                                        {{ $category->name }}
+                        <div>
+                            <h3 class="pb-3 font-semibold text-md light-text-black">
+                                {{ $category->name }}
+                            </h3>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            @if (isset($subscriptions[$category->id]) && count($subscriptions[$category->id]) > 0)
+                            @foreach ($subscriptions[$category->id] as $subscription)
+                            <div id="subscription-card-{{ $subscription->id }}"
+                                class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm flex flex-col relative overflow-hidden mb-8 subscription-card">
+
+                                <div class="flex items-center mb-10 justify-between">
+                                    <h3
+                                        class="subscription_tag cursor-pointer text-md font-normal text-black w-32 p-3 rounded-full text-center light-bg-d7d7d7 light-text-black">
+                                        {{ $subscription->subscription_tag }}
                                     </h3>
                                 </div>
 
-                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    @if (isset($subscriptions[$category->id]) && count($subscriptions[$category->id]) > 0)
-                                        @foreach ($subscriptions[$category->id] as $subscription)
-                                            <div id="subscription-card-{{ $subscription->id }}"
-                                                class="light-bg-f5f5f5 light-bg-seo p-6 rounded-xl shadow-sm flex flex-col relative overflow-hidden mb-8 subscription-card">
+                                <p class="text-5xl font-medium light-text-black mb-2 flex items-center">
+                                    $<span class="price text-5xl font-medium">
+                                        {{ number_format($subscription->price, 0) }}
+                                    </span>
+                                    <span class="ml-1 text-sm font-light" style="color:#AFAFAF;">
+                                        /month
+                                    </span>
+                                </p>
 
-                                                <div class="flex items-center mb-10 justify-between">
-                                                    <h3
-                                                        class="subscription_tag cursor-pointer text-md font-normal text-black w-32 p-3 rounded-full text-center light-bg-d7d7d7 light-text-black">
-                                                        {{ $subscription->subscription_tag }}
-                                                    </h3>
-                                                </div>
+                                <p class="subscription_name text-sm font-bold mb-2"
+                                    style="font-size:12px;font-weight:600;">
+                                    {{ $subscription->subscription_name }}
+                                </p>
 
-                                                <p class="text-5xl font-medium light-text-black mb-2 flex items-center">
-                                                    $<span class="price text-5xl font-medium">
-                                                        {{ number_format($subscription->price, 0) }}
-                                                    </span>
-                                                    <span class="ml-1 text-sm font-light" style="color:#AFAFAF;">
-                                                        /month
-                                                    </span>
-                                                </p>
+                                <p class="tagline text-xs text-gray-400 font-medium mb-6">
+                                    {{ $subscription->tagline }}
+                                </p>
 
-                                                <p class="subscription_name text-sm font-bold mb-2"
-                                                    style="font-size:12px;font-weight:600;">
-                                                    {{ $subscription->subscription_name }}
-                                                </p>
-
-                                                <p class="tagline text-xs text-gray-400 font-medium mb-6">
-                                                    {{ $subscription->tagline }}
-                                                </p>
-
-                                                <div
-                                                    class="flex items-center justify-between border-t dark-border-gray-500 pt-5">
-                                                    <div class="w-1/2 pr-2">
-                                                        <button data-sub-detail-id="{{ $subscription->id }}"
-                                                            class="px-5 py-1 light-text-black border border-gray-200 openModal dark:border-gray-500 rounded-md text-md">
-                                                            View Info
-                                                        </button>
-                                                    </div>
-                                                    <div class="w-1/2 pl-2">
-                                                        <button
-                                                            class="bg-orange-600 px-5 py-1 text-white rounded-md text-md"
-                                                            data-edit-id="{{ $subscription->id }}">
-                                                            Buy Now
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        @endforeach
-                                    @else
-                                        <p>No subscriptions found.</p>
-                                    @endif
+                                <div
+                                    class="flex items-center justify-between border-t dark-border-gray-500 pt-5">
+                                    <div class="w-1/2 pr-2">
+                                        <button data-sub-detail-id="{{ $subscription->id }}"
+                                            class="px-5 py-1 light-text-black border border-gray-200 openModal dark:border-gray-500 rounded-md text-md">
+                                            View Info
+                                        </button>
+                                    </div>
+                                    <div class="w-1/2 pl-2">
+                                        <button
+                                            class="bg-orange-600 px-5 py-1 text-white rounded-md text-md"
+                                            data-edit-id="{{ $subscription->id }}">
+                                            Buy Now
+                                        </button>
+                                    </div>
                                 </div>
 
                             </div>
-                        @endforeach
+                            @endforeach
+                            @else
+                            <p>No subscriptions found.</p>
+                            @endif
+                        </div>
+
                     </div>
+                    @endforeach
+                </div>
                 @endif
             </div>
+            
         </main>
 
     </div>
@@ -1096,18 +1007,18 @@
     <div id="modal"
         class="hidden modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 overflow-y-auto max-h-screen">
         <div
-            class="light-bg-seo text-white rounded-lg w-[90%] md:w-[850px] relative p-6 md:flex max-h-[90vh] overflow-y-auto">
+            class="light-bg-seo light-bg-f5f5f5 text-white rounded-lg w-[90%] md:w-[850px] relative p-6 md:flex max-h-[90vh] overflow-y-auto">
 
             <!-- Left Section -->
             <div class="md:w-[40%] pr-6 border-r border-gray-700 mb-6 md:mb-0">
                 <span id="subscription_tag" class="bg-gray-700 text-sm px-3 py-1 rounded-full">Starter SEO</span>
-                <h2 id="subscription_price" class="text-3xl md:text-5xl font-medium mt-4">$19 <span
-                        class="text-xl font-normal">/ month</span></h2>
+                <h2 id="subscription_price" class="text-3xl md:text-5xl light-text-black font-medium mt-4">$19 <span
+                        class="text-xl light-text-black font-normal">/ month</span></h2>
 
-                <h3 class="font-semibold mt-6" id="subscription_name">Foundation & Fixes</h3>
-                <p class="text-gray-400 text-sm mt-2" id="subscription_tagline">All the basic features to boost your
+                <h3 class="font-semibold light-text-black mt-6" id="subscription_name">Foundation & Fixes</h3>
+                <p class="light-text-black text-sm mt-2" id="subscription_tagline">All the basic features to boost your
                     freelance career</p>
-                <ul class="text-sm mt-4 list-disc list-inside text-gray-300" id="best_for_list">
+                <ul class="text-sm mt-4 list-disc list-inside light-text-black" id="best_for_list">
                     <li>Best for new or small business websites</li>
                 </ul>
 
@@ -1118,8 +1029,8 @@
 
             <!-- Right Section -->
             <div class="md:w-[60%] pl-0 md:pl-6 mt-6 md:mt-0">
-                <h4 class="font-semibold mb-4">What's Included</h4>
-                <ul class="space-y-3 break-words" id="features_list">
+                <h4 class="font-semibold light-text-black mb-4">What's Included</h4>
+                <ul class="space-y-3 light-text-black break-words" id="features_list">
 
                 </ul>
             </div>
@@ -1471,9 +1382,6 @@
     </script>
 
 
-
-
-
     <script>
         setTimeout(function() {
             const messages = document.querySelectorAll('.success-message');
@@ -1512,7 +1420,6 @@
     </script>
 
     {{-- ajax --}}
-
     <script>
         $(document).ready(function() {
 

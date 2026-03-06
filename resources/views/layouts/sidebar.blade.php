@@ -1,41 +1,43 @@
 <style>
-/* Dark mode active sidebar item */
-.sidebar-link-dark-active {
-    background-color: #2c1e17;
-    border-left: 2px solid #ff7a00;
-    border-right: 2px solid #ff7a00;
-    color: #ffffff;
-    border-radius: 0.5rem;
-}
+    /* Dark mode active sidebar item */
+    .sidebar-link-dark-active {
+        background-color: #2c1e17;
+        border-left: 2px solid #ff7a00;
+        border-right: 2px solid #ff7a00;
+        color: #ffffff;
+        border-radius: 0.5rem;
+    }
 
-/* Light mode active sidebar item */
-.sidebar-link-light-active {
-    background-color: #f97316; /* orange-500 */
-    color: #ffffff;
-    font-weight: 600;
-    box-shadow: 0 4px 10px rgba(0,0,0,.15);
-}
+    /* Light mode active sidebar item */
+    .sidebar-link-light-active {
+        background-color: #f97316;
+        /* orange-500 */
+        color: #ffffff;
+        font-weight: 600;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, .15);
+    }
 </style>
 
 
-<aside
-    class="fixed top-0 left-0 h-full w-full light-bg-f5f5f5 light-bg-seo p-10 z-50 transition-transform duration-300
-              transform -translate-x-full
-              md:relative md:transform-none md:h-auto md:translate-x-0 md:w-72"
-    id="sidebar">
+    <aside
+class="fixed top-0 left-0 h-screen w-80 light-bg-f5f5f5 light-bg-seo p-6 z-50
+transition-transform duration-300
+transform -translate-x-full
+md:translate-x-0
+flex flex-col"
+id="sidebar">
 
 
     <!-- Logo -->
 
     <div class="mb-8 pl-4 flex justify-between">
         <div>
-                    <img
-    src="{{ asset('assets/Frame-2147224409.png') }}"
-    alt="WIZSPEED Logo"
-    class="h-14 theme-img"
-    data-light-src="{{ asset('assets/Frame-2147224409.png') }}"
-    data-dark-src="{{ asset('assets/wizspeed-white2-2-1-1.png') }}"
->
+            <img
+                src="{{ asset('assets/Frame-2147224409.png') }}"
+                alt="WIZSPEED Logo"
+                class="h-14 theme-img"
+                data-light-src="{{ asset('assets/Frame-2147224409.png') }}"
+                data-dark-src="{{ asset('assets/wizspeed-white2-2-1-1.png') }}">
         </div>
 
         <div><button id="hamburgerOpen" class="hamburger-menu lg:hidden " aria-label="Toggle navigation">
@@ -48,8 +50,8 @@
     </div>
 
     <!-- Navigation -->
-    <div class="flex flex-col h-full">
-        <div>
+    <div class="flex flex-col flex-1 overflow-hidden">
+        <div class="flex-1 overflow-y-auto pr-2 min-h-0">
             <nav class="flex-grow">
                 <ul>
                     <li class="mb-2">
@@ -61,26 +63,26 @@
                         </a>
                     </li>
                     @if (auth()->user()->role_id == 1)
-                        <li class="mb-2">
-                            <a href="{{ route('clients') }}"
-                                class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
-                                <img src="{{ asset('assets/uni-01.svg') }}" alt="icon"
-                                    class="w-8 h-6 light-mode-icon"
-                                    data-dark-src="{{ asset('assets/uni-01-DARK.svg') }}">
-                                Clients
-                            </a>
-                        </li>
+                    <li class="mb-2">
+                        <a href="{{ route('clients') }}"
+                            class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
+                            <img src="{{ asset('assets/uni-01.svg') }}" alt="icon"
+                                class="w-8 h-6 light-mode-icon"
+                                data-dark-src="{{ asset('assets/uni-01-DARK.svg') }}">
+                            Clients
+                        </a>
+                    </li>
                     @endif
 
                     @if (auth()->user()->role_id == 1)
-                        <li class="mb-2">
-                            <a href="{{ route('task.view') }}"
-                                class="flex whitespace-nowrap items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
-                                <img src="{{ asset('assets/book.svg') }}" alt="icon" class="w-8 h-6 light-mode-icon"
-                                    data-dark-src="{{ asset('assets/archive-book-DARK.svg') }}">
-                                Task Management
-                            </a>
-                        </li>
+                    <li class="mb-2">
+                        <a href="{{ route('task.view') }}"
+                            class="flex whitespace-nowrap items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
+                            <img src="{{ asset('assets/book.svg') }}" alt="icon" class="w-8 h-6 light-mode-icon"
+                                data-dark-src="{{ asset('assets/archive-book-DARK.svg') }}">
+                            Task Management
+                        </a>
+                    </li>
                     @endif
                     <li class="mb-2">
                         <a href="{{ route('project.create') }}"
@@ -92,14 +94,14 @@
                         </a>
                     </li>
                     @if (auth()->user()->role_id == 1)
-                        <li class="mb-2 pl-2">
-                            <a href="{{ route('leads') }}"
-                                class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
-                                <img src="{{ asset('assets/20.svg') }}" alt="icon" class="w-5 h-6 light-mode-icon"
-                                    data-dark-src="{{ asset('assets/20-DARK.svg') }}">
-                                <span class="p-1">Leads</span>
-                            </a>
-                        </li>
+                    <li class="mb-2 pl-2">
+                        <a href="{{ route('leads') }}"
+                            class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
+                            <img src="{{ asset('assets/20.svg') }}" alt="icon" class="w-5 h-6 light-mode-icon"
+                                data-dark-src="{{ asset('assets/20-DARK.svg') }}">
+                            <span class="p-1">Leads</span>
+                        </a>
+                    </li>
                     @endif
                     <li class="mb-2">
                         <a href="{{ route('ticket.view') }}"
@@ -111,15 +113,15 @@
                         </a>
                     </li>
                     @if (auth()->user()->role_id == 2)
-                        <li class="mb-2">
-                            <a href="{{ route('billing') }}"
-                                class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
-                                <img src="{{ asset('assets/bill-DARK.svg') }}" alt="icon"
-                                    class="w-8 h-6 light-mode-icon"
-                                    data-dark-src="{{ asset('assets/bill-DARK.svg') }}">
-                                Billing
-                            </a>
-                        </li>
+                    <li class="mb-2">
+                        <a href="{{ route('billing') }}"
+                            class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
+                            <img src="{{ asset('assets/bill-DARK.svg') }}" alt="icon"
+                                class="w-8 h-6 light-mode-icon"
+                                data-dark-src="{{ asset('assets/bill-DARK.svg') }}">
+                            Billing
+                        </a>
+                    </li>
                     @endif
                     <li class="mb-2 ">
                         <a href="{{ route('analytics') }}"
@@ -162,12 +164,9 @@
 
                 </ul>
             </nav>
-        </div>
 
-
-
-        <!-- Logout -->
-        <div class="mt-auto pt-4">
+            <!-- Logout -->
+        <div class="mt-16 pt-4">
             <a href="#" id="knowledgeButton" onclick="toggleTheme()"
                 class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors sidebar-link">
                 <img src="{{asset('assets/fi_2961545.svg')}}" alt="icon" class="w-8 h-6 light-mode-icon"
@@ -186,114 +185,117 @@
                 </button>
             </form>
         </div>
+        </div>
+
+
+
+        
     </div>
 </aside>
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", () => {
 
-    const THEME_KEY = "theme"; // light | dark
-    const root = document.documentElement;
+        const THEME_KEY = "theme"; // light | dark
+        const root = document.documentElement;
 
-    function getTheme() {
-        return localStorage.getItem(THEME_KEY) || "light";
-    }
+        function getTheme() {
+            return localStorage.getItem(THEME_KEY) || "light";
+        }
 
-    function setTheme(theme) {
-        localStorage.setItem(THEME_KEY, theme);
-        root.setAttribute("data-theme", theme);
-        updateThemeImages(theme);
-    }
+        function setTheme(theme) {
+            localStorage.setItem(THEME_KEY, theme);
+            root.setAttribute("data-theme", theme);
+            updateThemeImages(theme);
+        }
 
-    function updateThemeImages(theme) {
-        document.querySelectorAll(".theme-img").forEach(img => {
-            const lightSrc = img.getAttribute("data-light-src");
-            const darkSrc  = img.getAttribute("data-dark-src");
+        function updateThemeImages(theme) {
+            document.querySelectorAll(".theme-img").forEach(img => {
+                const lightSrc = img.getAttribute("data-light-src");
+                const darkSrc = img.getAttribute("data-dark-src");
 
-            img.src = theme === "dark" ? darkSrc : lightSrc;
-        });
-    }
+                img.src = theme === "dark" ? darkSrc : lightSrc;
+            });
+        }
 
-    // 🔹 Init on page load
-    const currentTheme = getTheme();
-    root.setAttribute("data-theme", currentTheme);
-    updateThemeImages(currentTheme);
+        // 🔹 Init on page load
+        const currentTheme = getTheme();
+        root.setAttribute("data-theme", currentTheme);
+        updateThemeImages(currentTheme);
 
-    // 🔹 OPTIONAL: expose toggle function globally
-    window.toggleTheme = function () {
-        setTheme(getTheme() === "dark" ? "light" : "dark");
-    };
+        // 🔹 OPTIONAL: expose toggle function globally
+        window.toggleTheme = function() {
+            setTheme(getTheme() === "dark" ? "light" : "dark");
+        };
 
-});
+    });
 </script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const links = document.querySelectorAll(".sidebar-link");
-    const themeButton = document.getElementById("knowledgeButton"); // if any theme button
+    document.addEventListener("DOMContentLoaded", function() {
+        const links = document.querySelectorAll(".sidebar-link");
+        const themeButton = document.getElementById("knowledgeButton"); // if any theme button
 
-    // Detect dark mode from Tailwind 'dark' class or media query
-    const isDarkMode = () =>
-        document.documentElement.classList.contains("dark") ||
-        window.matchMedia("(prefers-color-scheme: dark)").matches;
+        // Detect dark mode from Tailwind 'dark' class or media query
+        const isDarkMode = () =>
+            document.documentElement.classList.contains("dark") ||
+            window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-    // Remove active classes from all links except the theme button
-    function resetActiveLinks() {
-        links.forEach(link => {
+        // Remove active classes from all links except the theme button
+        function resetActiveLinks() {
+            links.forEach(link => {
+                if (link === themeButton) return; // skip theme button
+                link.classList.remove(
+                    "bg-orange-500",
+                    "text-white",
+                    "font-semibold",
+                    "shadow-md",
+                    "sidebar-link-dark-active"
+                );
+                link.style.border = "";
+            });
+        }
+
+        // Apply correct active styles
+        function applyActiveStyles(link) {
             if (link === themeButton) return; // skip theme button
-            link.classList.remove(
-                "bg-orange-500",
-                "text-white",
-                "font-semibold",
-                "shadow-md",
-                "sidebar-link-dark-active"
-            );
-            link.style.border = "";
-        });
-    }
-
-    // Apply correct active styles
-    function applyActiveStyles(link) {
-        if (link === themeButton) return; // skip theme button
-        if (isDarkMode()) {
-            link.classList.add("sidebar-link-dark-active");
-        } else {
-            link.classList.add("bg-orange-500", "text-white", "font-semibold", "shadow-md");
+            if (isDarkMode()) {
+                link.classList.add("sidebar-link-dark-active");
+            } else {
+                link.classList.add("bg-orange-500", "text-white", "font-semibold", "shadow-md");
+            }
         }
-    }
 
-    // --- On load ---
-    // Try to restore from localStorage
-    let activeHref = localStorage.getItem("activeLink");
+        // --- On load ---
+        // Try to restore from localStorage
+        let activeHref = localStorage.getItem("activeLink");
 
-    // If nothing in localStorage, default to dashboard
-    if (!activeHref) {
-        const dashboardLink = Array.from(links).find(link => link.classList.contains("dashboard-link"));
-        if (dashboardLink) {
-            activeHref = dashboardLink.getAttribute("href");
+        // If nothing in localStorage, default to dashboard
+        if (!activeHref) {
+            const dashboardLink = Array.from(links).find(link => link.classList.contains("dashboard-link"));
+            if (dashboardLink) {
+                activeHref = dashboardLink.getAttribute("href");
+            }
         }
-    }
 
-    const activeLink = Array.from(links).find(link => link.getAttribute("href") === activeHref);
-    if (activeLink) applyActiveStyles(activeLink);
+        const activeLink = Array.from(links).find(link => link.getAttribute("href") === activeHref);
+        if (activeLink) applyActiveStyles(activeLink);
 
-    // --- On click ---
-    links.forEach(link => {
-        link.addEventListener("click", function () {
-            if (this === themeButton) return; // theme button never active
-            resetActiveLinks();
-            applyActiveStyles(this);
-            localStorage.setItem("activeLink", this.getAttribute("href"));
+        // --- On click ---
+        links.forEach(link => {
+            link.addEventListener("click", function() {
+                if (this === themeButton) return; // theme button never active
+                resetActiveLinks();
+                applyActiveStyles(this);
+                localStorage.setItem("activeLink", this.getAttribute("href"));
+            });
         });
+
+        // Optional: clear activeLink on logout
+        const logoutForm = document.querySelector("form[action*='logout']");
+        if (logoutForm) {
+            logoutForm.addEventListener("submit", function() {
+                localStorage.removeItem("activeLink");
+            });
+        }
     });
-
-    // Optional: clear activeLink on logout
-    const logoutForm = document.querySelector("form[action*='logout']");
-    if (logoutForm) {
-        logoutForm.addEventListener("submit", function () {
-            localStorage.removeItem("activeLink");
-        });
-    }
-});
 </script>
-
-

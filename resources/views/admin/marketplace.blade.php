@@ -827,79 +827,6 @@
             }
         }
 
-        /* =====================
-   SIDEBAR BASE STYLES
-   ===================== */
-        aside#sidebar {
-            background-color: #171717;
-            /* Theme dark color */
-            height: 100vh;
-            overflow-y: auto;
-            overflow-x: hidden;
-            width: 260px;
-            flex-shrink: 0;
-            margin: 0;
-            padding: 10;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        /* Custom scrollbar */
-        aside#sidebar::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        aside#sidebar::-webkit-scrollbar-track {
-            background: #1c1c1c;
-        }
-
-        aside#sidebar::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 4px;
-        }
-
-        /* =====================
-   DESKTOP VIEW
-   ===================== */
-        @media (min-width: 1024px) {
-            aside#sidebar {
-                position: sticky;
-                top: 0;
-                transform: none;
-                /* Always visible */
-            }
-
-            #overlay {
-                display: none !important;
-                /* No overlay on desktop */
-            }
-        }
-
-        /* =====================
-   MOBILE VIEW
-   ===================== */
-        @media (max-width: 1023px) {
-            aside#sidebar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100%;
-                width: 100%;
-                /* full width on mobile */
-                max-width: 320px;
-                /* optional: limit for tablets */
-                transform: translateX(-100%);
-                z-index: 50;
-                transition: transform 0.3s ease-in-out;
-            }
-
-            aside#sidebar.active {
-                transform: translateX(0);
-            }
-
-            #overlay.active {
-                display: block !important;
-            }
-        }
 
         /* =====================
    GENERAL RESET
@@ -912,7 +839,6 @@
 
         main {
             flex-grow: 1;
-            background-color: #121212;
             min-height: 100vh;
             margin: 0;
             padding: 0;
@@ -924,64 +850,19 @@
 <body>
     @include('layouts.loader')
     <div class="flex min-h-screen light-bg-white">
-
         @include('layouts.sidebar')
 
-        <div id="overlay" class="sidebar-overlay fixed inset-0 bg-black bg-opacity-50 hidden z-40"></div>
-
         <!-- Main Content Area -->
-        <main class="flex-1  overflow-y-auto">
+        <main class="flex-1 ml-80 light-bg-bill overflow-y-auto">
             <!-- Header -->
-            {{-- <header
-                class="flex items-center justify-between light-bg-f5f5f5 light-bg-seo p-5 rounded-xl shadow-sm mb-6 header">
-                <button class="hamburger-menu lg:hidden " id="hamburgerClose" aria-label="Toggle navigation">
-                    <svg class="hamburger-icon" viewBox="0 0 24 24" width="24" height="24">
-                        <path d="M3 12h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                        <path d="M3 6h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                        <path d="M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                    </svg>
-                </button>
-                <div class="relative w-full max-w-md">
-                    <input type="text" placeholder="Search here"
-                        class="w-full pl-10 pr-4 py-2 rounded-lg light-border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="icon text-gray-400" viewBox="0 0 24 24">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-4 ml-4">
-                    <button
-                        class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
-                        <img src="message.svg" alt="icon"
-                            class="w-6 h-6 light-text-gray-900 rounded-full  light-mode-icon"
-                            data-dark-src="message-DARK.svg">
-                    </button>
-                    <button
-                        class="p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
-                        <img src="notification.svg" alt="icon"
-                            class="w-6 h-6 light-text-gray-900 rounded-full   light-mode-icon"
-                            data-dark-src="notification-DARK.svg">
-                    </button>
-                    <div class="flex items-center p-1 space-x-3 rounded-full border-2 light-border-gray-300">
-                        <img src="Ellipse 3.png" alt="User Avatar" class="w-10 h-10 rounded-full ">
-                        <span class="font-semibold light-text-gray-500 hidden  sm:block">John Wick</span>
-                        <svg class="icon w-6 pr-2 h-6 text-gray-500 " viewBox="0 0 24 24">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
-                    </div>
-                </div>
-            </header> --}}
-
             @include('layouts.header')
 
-            <div class="p-6 light-bg-bill -mt-5 lg:p-8">
+            <div class="p-6 light-bg-bill lg:p-8">
 
                 <!-- Projects Title -->
                 <div class="flex items-center gap-2 justify-between mb-6">
                     <!-- Title -->
-                    <h1 class="text-md sm:text-3xl md:text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200">
+                    <h1 class="text-md sm:text-3xl md:text-2xl lg:text-3xl font-bold light-text-black">
                         Marketplace
                     </h1>
 
@@ -991,13 +872,13 @@
 
                         <!-- Add New Category -->
                         <button
-                            class="w-full sm:w-1/2 md:w-2/5 lg:w-2/4 px-3 sm:px-5 py-2.5 sm:py-3 open-category-modal text-gray-400 border border-gray-500 rounded-md text-xs sm:text-sm md:text-base bg-[#171717] hover:bg-[#1f1f1f] transition">
+                            class="w-full sm:w-1/2 md:w-2/5 lg:w-2/4 px-3 sm:px-5 py-2.5 sm:py-3 open-category-modal text-black border border-gray-500 rounded-md text-xs sm:text-sm md:text-base light-bg-black transition">
                             Add New Category
                         </button>
 
                         <!-- Add New Subscription -->
                         <button
-                            class="w-full sm:w-1/2 md:w-2/5 lg:w-1/2 px-3 sm:px-5 py-2.5 sm:py-3 open-subscription-modal text-orange-500 border border-gray-500 bg-[#171717] rounded-md text-xs sm:text-sm md:text-base hover:bg-[#1f1f1f] transition">
+                            class="w-full sm:w-1/2 md:w-2/5 lg:w-1/2 px-3 sm:px-5 py-2.5 sm:py-3 open-subscription-modal text-orange-500 border border-gray-500  rounded-md text-xs sm:text-sm md:text-base light-bg-black transition">
                             Add New Subscription
                         </button>
 
@@ -1064,7 +945,7 @@
                                         <div class="flex items-center justify-between border-t dark-border-gray-500 pt-5">
                                             <div class="w-1/2 pr-2">
 
-                                                <button data-sub-id="{{$subscription->id}}" class="w-full bg-[#E600020D] border border-orange-800 px-5 py-1 text-white rounded-md text-md delete-sub">Delete</button>
+                                                <button data-sub-id="{{$subscription->id}}" class="w-full bg-[#E600020D] border border-orange-800 px-5 py-1 light-text-black rounded-md text-md delete-sub">Delete</button>
                                                 
                                             </div>
                                             <div  class="w-1/2 pl-2">
@@ -1088,17 +969,17 @@
 
 
     <!-- Modal Background -->
-    <div id="modal" class="hidden modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 overflow-y-auto max-h-screen">
-        <div class="light-bg-seo text-white rounded-lg w-[90%] md:w-[850px] relative p-6 md:flex max-h-[90vh] overflow-y-auto">
+    <div id="modal" class="hidden modal fixed inset-0  bg-opacity-70 flex items-center justify-center z-50 overflow-y-auto max-h-screen">
+        <div class="light-bg-seo light-bg-f5f5f5 text-white rounded-lg w-[90%] md:w-[850px] relative p-6 md:flex max-h-[90vh] overflow-y-auto">
             
             <!-- Left Section -->
             <div class="md:w-[40%] pr-6 border-r border-gray-700 mb-6 md:mb-0">
-                <span id="subscription_tag" class="bg-gray-700 text-sm px-3 py-1 rounded-full">Starter SEO</span>
-                <h2 id="subscription_price" class="text-3xl md:text-5xl font-medium mt-4">$19 <span class="text-xl font-normal">/ month</span></h2>
+                <span id="subscription_tag" class="bg-gray-700 light-text-black light-text-black text-sm px-3 py-1 rounded-full">Starter SEO</span>
+                <h2 id="subscription_price" class="text-3xl light-text-black md:text-5xl font-medium mt-4">$19 <span class="text-xl font-normal">/ month</span></h2>
                 
-                <h3 class="font-semibold mt-6" id="subscription_name">Foundation & Fixes</h3>
-                <p class="text-gray-400 text-sm mt-2" id="subscription_tagline">All the basic features to boost your freelance career</p>
-                <ul class="text-sm mt-4 list-disc list-inside text-gray-300" id="best_for_list">
+                <h3 class="font-semibold light-text-black mt-6" id="subscription_name">Foundation & Fixes</h3>
+                <p class="text-gray-400 light-text-black text-sm mt-2" id="subscription_tagline">All the basic features to boost your freelance career</p>
+                <ul class="text-sm mt-4 light-text-black list-disc list-inside text-gray-300" id="best_for_list">
                     <li>Best for new or small business websites</li>
                 </ul>
 
@@ -1109,8 +990,8 @@
 
             <!-- Right Section -->
             <div class="md:w-[60%] pl-0 md:pl-6 mt-6 md:mt-0">
-                <h4 class="font-semibold mb-4">What's Included</h4>
-                <ul class="space-y-3 break-words" id="features_list">
+                <h4 class="font-semibold light-text-black mb-4">What's Included</h4>
+                <ul class="space-y-3 light-text-black break-words" id="features_list">
 
                 </ul>
             </div>

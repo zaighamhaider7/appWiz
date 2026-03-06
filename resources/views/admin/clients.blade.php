@@ -1105,11 +1105,11 @@ use App\Models\User;
         @include('layouts.sidebar')
 
         <!-- Main Content Area -->
-        <main class="flex-1  overflow-y-auto">
+        <main class="flex-1 ml-80 overflow-y-auto">
             <!-- Header -->
             @include('layouts.header')
 
-            <div class="p-6 light-bg-bill lg:p-8">
+            <div class="p-6 light-bg-bill h-full lg:p-8">
 
                 <!-- Projects Title -->
                 <h1 class="text-3xl font-bold light-text-gray-800 mb-10">Clients</h1>

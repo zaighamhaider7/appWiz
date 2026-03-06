@@ -790,7 +790,7 @@
         </main> -->
 
         <!-- Main Content Area -->
-        <main class="flex-1 overflow-y-auto">
+        <main class="flex-1 ml-80 overflow-y-auto">
             <!-- Header -->
             {{-- <header
                 class="flex items-center justify-between light-bg-f5f5f5 light-bg-seo p-5 rounded-xl shadow-sm mb-6 header">

@@ -777,7 +777,7 @@
         @include('layouts.sidebar')
 
         <!-- Main Content Area -->
-        <main class="flex-1 light-bg-bill ">
+        <main class="flex-1 ml-80 light-bg-bill ">
 
             @include('layouts.header')
 

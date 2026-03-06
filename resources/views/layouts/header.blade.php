@@ -50,6 +50,8 @@
     #myUL li a:hover:not(.header) {
         background-color: #191919;
     }
+
+
 </style>
 
 
@@ -215,7 +217,7 @@
         <!-- Theme Toggle Button -->
 <div class="relative">
 
-    <button id="Knowledgebutton"
+    <!-- <button id="Knowledgebutton"
         class=" p-2 border-2 rounded-full light-hover-bg-gray-200 transition-colors light-border-gray-300">
 
         <img 
@@ -226,7 +228,7 @@
             data-dark-src="{{ asset('assets/fi_2961545-DARK.svg') }}"
         >
 
-    </button>
+    </button> -->
 
 </div>
 
@@ -369,6 +371,22 @@
         </div>
     </div>
 </header>
+
+
+
+<div  class="fixed  bottom-10 right-5 z-50 bg-orange-500 rounded-full shadow-lg">
+        <button id="Knowledgebutton"
+        class=" p-2 border-2 rounded-full  transition-colors ">
+
+        <img 
+            src="{{asset('assets/fi_2961545-DARK.svg')}}"
+            alt="icon"
+            height="30"
+            width="30"
+        >
+
+    </button>
+</div>
 
 
 <script>

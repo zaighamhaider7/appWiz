@@ -981,11 +981,11 @@
         @include('layouts.sidebar')
 
         <!-- Main Content Area -->
-        <main class="flex-1  overflow-y-auto">
+        <main class="flex-1 ml-80 overflow-y-auto">
             <!-- Header -->
             @include('layouts.header')
 
-            <div class="p-6 light-bg-bill lg:p-8">
+            <div class="p-6 light-bg-bill h-full lg:p-8">
 
                 <!-- Connect Domain Section -->
 
@@ -1019,8 +1019,8 @@
                             <!-- Button -->
                             <select
                                 class="w-20 px-3 py-2 rounded-md text-sm
-                                bg-white text-gray-800 border border-gray-300
-                                dark:bg-[#121212] dark:text-gray-100 dark:border-gray-600
+                                border border-gray-300
+                          light-bg-black light-text-black
                                 focus:outline-none focus:ring-2 focus:ring-orange-500">
                                 <option value="Filter">Filter</option>
                                 <option value="10">10</option>

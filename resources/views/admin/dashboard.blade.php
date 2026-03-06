@@ -773,7 +773,7 @@
         <div id="overlay" class="sidebar-overlay fixed inset-0 bg-black bg-opacity-50 hidden z-40"></div>
 
         <!-- Main Content Area -->
-        <main class="flex-1  overflow-y-auto">
+        <main class="flex-1 ml-80 overflow-y-auto">
             <!-- Header -->
             @include('layouts.header')
 

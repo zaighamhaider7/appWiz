@@ -600,6 +600,7 @@
             /* Fixed width for mobile overlay */
             z-index: 50;
             transition: left 0.3s ease-in-out;
+            overflow:auto;
         }
 
         /* Sidebar when open */
@@ -727,7 +728,7 @@
         @include('layouts.sidebar')
 
         <!-- Main Content Area -->
-        <main class="flex-1 light-bg-f5f5f5 overflow-y-auto">
+        <main class="flex-1 light-bg-f5f5f5 ml-80 overflow-y-auto">
             <!-- Header -->
             @include('layouts.header')
             <div class="p-6 lg:p-8">
@@ -955,12 +956,12 @@
 
 
         <div id="analyticsModal" class="absolute inset-0 z-50 hidden overflow-x-auto">
-            <div class="fixed inset-0 transition-opacity bg-[#171717] opacity-75" aria-hidden="true"></div>
+            <div class="fixed inset-0 transition-opacity light-bg-seo light-bg-f5f5f5 opacity-75" aria-hidden="true"></div>
 
             <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
                 <div
-                    class="inline-block align-bottom bg-[#171717] rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full mx-auto">
-                    <div class="relative bg-[#171717] px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    class="inline-block align-bottom light-bg-seo light-bg-f5f5f5 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full mx-auto">
+                    <div class="relative light-bg-seo light-bg-f5f5f5 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <button type="button"
                             class="absolute top-4 right-4 text-gray-400 hover:text-gray-200 focus:outline-none"
                             id="closeModal">
@@ -970,10 +971,10 @@
                             </svg>
                         </button>
 
-                        <h3 class="text-lg leading-6 font-medium text-white mb-4">
+                        <h3 class="text-lg leading-6 font-medium light-text-black mb-4">
                             How to Connect Google Analytics
                         </h3>
-                        <ol class="list-decimal pl-5 space-y-2 text-gray-300">
+                        <ol class="list-decimal pl-5 space-y-2 light-text-black">
                             <li>Sign in to your Google Analytics account.</li>
                             <li>Click on the Admin section.</li>
                             <li>Select your website property.</li>
@@ -981,7 +982,7 @@
                             <li>Paste the tracking code into the WizSpeed Analytics settings.</li>
                         </ol>
                     </div>
-                    <div class="bg-[#171717] px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <div class="light-bg-seo light-bg-f5f5f5 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                         <button type="button" id="openPropertyModal"
                             class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-orange-500 text-base font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 sm:ml-3 sm:w-auto sm:text-sm">
                             Connect your Google Analytics
@@ -994,12 +995,12 @@
         <!-- Google Property ID Modal -->
         <div id="propertyIdModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
             <!-- Overlay -->
-            <div class="fixed inset-0 bg-[#171717] opacity-75"></div>
+            <div class="fixed inset-0 light-bg-seo light-bg-f5f5f5 opacity-75"></div>
 
             <!-- Modal Wrapper -->
             <div class="flex items-center justify-center min-h-screen px-4">
                 <div
-                    class="bg-[#171717] rounded-lg text-left shadow-xl transform transition-all sm:max-w-md w-full mx-auto">
+                    class="light-bg-seo light-bg-f5f5f5 rounded-lg text-left shadow-xl transform transition-all sm:max-w-md w-full mx-auto">
 
                     <!-- Modal Content -->
                     <div class="relative px-6 pt-6 pb-4">
@@ -1009,12 +1010,12 @@
                             ✕
                         </button>
 
-                        <h3 class="text-lg font-medium text-white mb-4">
+                        <h3 class="text-lg font-medium light-text-black mb-4">
                             Google Property ID Key
                         </h3>
 
                         <input id="gaPropertyInput" type="text" placeholder="Enter here"
-                            class="w-full rounded-md bg-[#1f1f1f] border border-gray-600 text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
+                            class="w-full rounded-md light-bg-seo light-bg-f5f5f5 border border-gray-600 text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
 
                         <p id="gaError" class="text-sm text-red-500 mt-2 hidden">
                             Invalid GA4 Property ID. Format: G-XXXXXXXX

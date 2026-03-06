@@ -696,6 +696,7 @@
             /* Fixed width for mobile overlay */
             z-index: 50;
             transition: left 0.3s ease-in-out;
+            overflow: auto;
         }
 
         /* Sidebar when open */
@@ -949,155 +950,15 @@
 
     <div class="flex min-h-screen light-bg-white">
         <!-- Sidebar -->
-        {{-- <aside
-            class="fixed top-0 left-0 h-screen w-full md:w-64 light-bg-f5f5f5 light-bg-seo p-10 z-50 
-              transition-transform duration-300 transform -translate-x-full 
-              overflow-y-auto
-              md:transform-none md:h-screen md:translate-x-0"
-            id="sidebar">
-
-            <!-- Logo -->
-            <div class="mb-8 pl-4">
-                <img src="Frame 2147224409.png" alt="WIZSPEED Logo" class="h-14 light-mode-logo"
-                    data-dark-src="wizspeed-white2-2-1 1.png">
-            </div>
-
-            <!-- Navigation -->
-            <nav class="flex-grow">
-                <ul>
-
-                    <li class="mb-2">
-                        <a href="index.html"
-                            class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
-                            <img src="home.svg" alt="icon" class="w-8 h-6 light-mode-icon"
-                                data-dark-src="home-DARK.svg">
-                            Dashboard
-                        </a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="clients.html"
-                            class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
-                            <img src="uni-01.svg" alt="icon" class="w-8 h-6 light-mode-icon"
-                                data-dark-src="uni-01-DARK.svg">
-                            Clients
-                        </a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="projects.html"
-                            class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
-                            <img src="task-square.svg" alt="icon" class="w-8 h-6 light-mode-icon"
-                                data-dark-src="task-square-DARK.svg">
-                            Projects
-                        </a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="analytics.html"
-                            class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
-                            <img src="chart-bar.svg" alt="icon" class="w-8 h-6 light-mode-icon"
-                                data-dark-src="chart-bar-DARK.svg">
-                            Analytics
-                        </a>
-                    </li>
-
-
-                    <li class="mb-2">
-                        <a href="tickets.html"
-                            class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
-                            <img src="ticket-svgrepo-com.svg" alt="icon" class="w-8 h-6 light-mode-icon"
-                                data-dark-src="ticket-svgrepo-com-DARK.svg">
-                            Tickets
-                        </a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="task-management.html"
-                            class="flex whitespace-nowrap items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
-                            <img src="book.svg" alt="icon" class="w-8 h-6 light-mode-icon"
-                                data-dark-src="archive-book-DARK.svg">
-                            Task Management
-                        </a>
-                    </li>
-                    <li class="mb-2 pl-2">
-                        <a href="Leads.html"
-                            class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
-                            <img src="20.svg" alt="icon" class="w-5 h-6 light-mode-icon"
-                                data-dark-src="20-DARK.svg">
-                            <span class="p-1">Leads</span>
-                        </a>
-                    </li>
-
-                    <li class="mb-2">
-                        <a href="marketplace.html"
-                            class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
-                            <img src="Frame.svg" alt="icon" class="w-8 h-6 light-mode-icon"
-                                data-dark-src="Frame-DARK.svg">
-                            Marketplace
-                        </a>
-                    </li>
-                    <li>
-                        <!-- Light Mode Version (hidden in dark mode) -->
-                        <div class="light-mode-item mr-1">
-                            <a href="#"
-                                class="flex items-center p-3 rounded-lg bg-orange-500 text-white font-semibold shadow-md">
-                                <img src="settings-DARK.svg" alt="icon" class="w-8 h-6 light-mode-icon">
-                                Settings
-                            </a>
-                        </div>
-
-                        <!-- Dark Mode Version (hidden in light mode) -->
-                        <div class="dark-mode-item hidden">
-                            <div class="w-fit rounded-md mr-12  px-0.5 bg-orange-500 shadow-md">
-                                <a href="#" class="bg-[#2c1e17]  rounded-md px-6 py-3 flex items-center gap-3">
-                                    <img src="settings-DARK.svg" alt="icon" class="w-8 h-6 light-mode-icon">
-                                    <span class="text-white font-semibold pr-2 text-lg">Settings</span>
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-
-                </ul>
-                <div class="my-4 border-t border-gray-200"></div>
-                <p class="text-xs text-gray-400 uppercase tracking-wider mb-2 pl-3">Misc</p>
-                <ul>
-                    <li class="mb-2">
-                        <a href="#"
-                            class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
-                            <img src="headphones.svg" alt="icon" class="w-8 h-6 light-mode-icon"
-                                data-dark-src="headphones-DARK.svg">
-                            Support
-                        </a>
-                    </li>
-
-                </ul>
-            </nav>
-
-            <div class="h-[400px]"></div>
-
-            <!-- Logout -->
-            <div class="mt-auto pt-4">
-                <a href="#" id="knowledgeButton"
-                    class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
-                    <img src="fi_2961545.svg" alt="icon" class="w-8 h-6 light-mode-icon"
-                        data-dark-src="fi_2961545-DARK.svg">
-                    Knowledge
-                </a>
-            </div>
-            <div class="pt-4">
-                <a href="#"
-                    class="flex items-center p-3 rounded-lg light-text-gray-700 light-hover-bg-gray-200 transition-colors">
-                    <img src="logout.svg" alt="icon" class="w-8 h-6 light-mode-icon"
-                        data-dark-src="logout-DARK.svg">
-                    Logout
-                </a>
-            </div>
-        </aside> --}}
+        
         @include('layouts.sidebar')
 
         <!-- Main Content Area -->
-        <main class="flex-1 light-bg-bill  overflow-y-auto">
+        <main class="flex-1  ml-80 overflow-y-auto">
             <!-- Header -->
             @include('layouts.header')
 
-            <div class="p-6 lg:p-8 -mt-5 light-bg-bill">
+            <div class="p-6 lg:p-8 -mt-5  light-bg-bill">
 
                 <!-- Projects Title -->
                 <h1 class="text-3xl font-bold light-text-gray-800 mb-10">Settings</h1>
