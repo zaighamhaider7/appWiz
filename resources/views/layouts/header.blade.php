@@ -533,3 +533,59 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
+
+
+
+
+<script>
+    document.querySelectorAll('.notification-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const id = this.dataset.id;
+            const li = this;
+
+            fetch(`/notifications/${id}/read`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        li.classList.remove('bg-gray-800');
+                        li.classList.add('bg-black');
+
+                        const unreadBadge = document.getElementById('unreadBadge');
+                        if (data.unreadCount > 0) {
+                            unreadBadge.textContent = data.unreadCount;
+                            unreadBadge.style.display = 'inline-flex';
+                        } else {
+                            unreadBadge.style.display = 'none';
+                        }
+
+                        const MsgunreadBadge = document.getElementById('MsgunreadBadge');
+                        if (data.MsgunreadCount > 0) {
+                            MsgunreadBadge.textContent = data.MsgunreadCount;
+                            MsgunreadBadge.style.display = 'inline-flex';
+                        } else {
+                            MsgunreadBadge.style.display = 'none';
+                        }
+
+
+                        // const badges = document.querySelectorAll('.unreadBadge');
+
+                        // badges.forEach(badge => {
+                        //     if (data.unreadCount > 0) {
+                        //         badge.textContent = data.unreadCount;
+                        //         badge.style.display = 'inline-flex';
+                        //     } else {
+                        //         badge.style.display = 'none';
+                        //     }
+                        // });
+
+                    }
+                });
+        });
+    });
+</script>
