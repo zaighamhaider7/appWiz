@@ -214,7 +214,9 @@
         .light-text-orange-500 {
             color: #F97316;
         }
-
+        .text-green-ls{
+            color: #ffffff;
+        }
         .light-hover-text-orange-700:hover {
             color: #C2410C;
         }
@@ -290,6 +292,10 @@
         .dark-mode .text-gray-400 {
             /* Specific override for Misc header and search icon */
             color: #9CA3AF !important;
+        }
+
+        .dark-mode .text-green-ls{
+            color: #22C372
         }
 
         /* DARK MODE BUTTON STYLES */
@@ -860,7 +866,7 @@
                             <!-- Light gray, subtle -->
                             <div
                                 class="bg-green-900 px-1 justify-center bg-opacity-50 hover:opacity-100 flex rounded-sm w-28">
-                                <p class="text-xs text-green-500"> +{{ $thisMonthClients }} This Month</p>
+                                <p class="text-xs text-green-ls"> +{{ $thisMonthClients }} This Month</p>
                             </div>
 
 
@@ -879,7 +885,7 @@
                             <p class="text-4xl font-medium mb-2 light-text-gray-800">{{ $projectCount }}</p>
                             <div
                                 class="bg-green-900 px-1 bg-opacity-50 hover:opacity-100 justify-center flex rounded-sm w-28">
-                                <p class="text-xs text-green-500"> +{{ $thisMonthProjects }} This Month</p>
+                                <p class="text-xs text-green-ls"> +{{ $thisMonthProjects }} This Month</p>
                             </div>
 
                         </div>
@@ -896,7 +902,7 @@
                             <p class="text-4xl font-medium mb-2 light-text-gray-800">{{ $ticketCount }}</p>
                             <div
                                 class="bg-green-900 bg-opacity-50 hover:opacity-100 px-1 justify-center flex rounded-sm w-28">
-                                <p class="text-xs  text-green-500"> +{{ $thisMonthTickets }} This Month</p>
+                                <p class="text-xs  text-green-ls"> +{{ $thisMonthTickets }} This Month</p>
                             </div>
 
                         </div>
@@ -913,7 +919,7 @@
                             <p class="text-4xl font-medium mb-2 light-text-gray-800">SEO</p>
                             <div
                                 class="bg-green-900 px-1 bg-opacity-50 hover:opacity-100 justify-center flex rounded-sm w-28">
-                                <p class="text-xs text-green-500">+605 This Month</p>
+                                <p class="text-xs text-green-ls">+605 This Month</p>
                             </div>
 
                         </div>
